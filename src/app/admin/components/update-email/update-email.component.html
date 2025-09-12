@@ -1,0 +1,17 @@
+<form [formGroup]="form" (ngSubmit)="send()" class="user-form">
+  <div class="form-group"
+       [ngClass]="{'error': (form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched))}">
+      <span *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
+            class="field-validation-error">
+        <span translate>account.creation.errors.email-invalid</span>
+      </span>
+    <div class="form-mandatory">
+      <input type="text" formControlName="email" id="update-email"
+             [placeholder]="'account.creation.credentials.email' | translate"
+             [ngClass]="{'error': form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)}" >
+    </div>
+  </div>
+  <!-- submit form -->
+  <p-button id="update-email-submit" type="submit" [label]="'account.creation.submit' | translate"
+            [disabled]="!(form.valid)" ngDefaultControl></p-button>
+</form>

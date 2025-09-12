@@ -1,0 +1,16 @@
+<div class="infosource">
+  <p-card [header]="'infosource.home.title' | translate" styleClass="p-card-shadow">
+    <div innerHTML="{{'infosource.home.description' | translate}}"></div>
+    <ng-template pTemplate="footer">
+      <div class="row">
+        <p-button styleClass="btn btn-with-right-space" [label]="'menu.infosource.my-contributions' | translate" routerLink="/infosource/tables"></p-button>
+        <p-button styleClass="btn" [label]="'menu.infosource.new-contribution' | translate" routerLink="/infosource/choice"></p-button>
+      </div>
+      <div class="row" *ngIf="enableSurveyModule">
+        <p-button styleClass="btn btn-with-right-space" [label]="'menu.survey.my-surveys' | translate" routerLink="/survey/tables"></p-button>
+        <p-button styleClass="btn btn-with-right-space" [label]="'menu.survey.new-test' | translate" routerLink="/survey/notdeposit"></p-button>
+        <p-button styleClass="btn" [label]="'menu.survey.new-deposit' | translate" routerLink="/survey/deposit"></p-button>
+      </div>
+    </ng-template>
+  </p-card>
+</div>

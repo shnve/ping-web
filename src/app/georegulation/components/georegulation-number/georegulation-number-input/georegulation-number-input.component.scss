@@ -1,0 +1,63 @@
+@import 'variables';
+
+* {
+  box-sizing: border-box;
+}
+
+input[type=text] {
+  padding: 9px;
+  resize: vertical;
+}
+
+.col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 80%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  color: black;
+}
+
+.row.number-preview {
+  margin-top: 6px;
+}
+
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+:host ::ng-deep {
+  .p-button-label {
+    font-weight: 500;
+  }
+
+  .p-multiselect {
+    padding: 0;
+    min-width: 200px;
+  }
+
+  .p-multiselect-label-container {
+    max-width: 250px;
+  }
+}

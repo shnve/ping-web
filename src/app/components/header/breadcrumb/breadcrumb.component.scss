@@ -1,0 +1,54 @@
+@import 'src/styling/variables';
+
+:host {
+  border-bottom: $headerSeparatorBorderSize solid var(--border-default-grey);
+
+  ::ng-deep .p-breadcrumb {
+    height: $breadcrumbHeight;
+    padding: 5px 1rem;
+    display: inline-table;
+    border: none;
+
+    a {
+      --underline-idle-width: 0;
+    }
+
+    .p-menuitem-link {
+      margin-bottom: 0.5rem;
+      border-radius: 0;
+
+      homeicon.p-element {
+        display: none;
+      }
+
+      .p-menuitem-text {
+        color: var(--text-mention-grey);
+        box-shadow: var(--link-underline);
+
+        &:hover {
+          box-shadow: none;
+        }
+      }
+    }
+
+    .p-breadcrumb-list li .p-menuitem-link:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    .p-breadcrumb-list li:last-child {
+      a {
+        --underline-idle-width: 0;
+        &[href]:hover,
+        &[href]:active {
+          --underline-hover-width: 0;
+        }
+      }
+
+      .p-menuitem-text {
+        color: var(--text-active-grey);
+        box-shadow: none;
+      }
+    }
+  }
+}

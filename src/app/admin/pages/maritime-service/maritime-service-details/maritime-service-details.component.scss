@@ -1,0 +1,15 @@
+.p-grid {
+  margin-left: 5%;
+  width: 90%;
+}
+
+:host {
+  ::ng-deep .p-card {
+    margin: 10px 20px;
+  }
+}
+
+li {
+  margin: 10px 20px;
+  list-style-type: circle;
+}

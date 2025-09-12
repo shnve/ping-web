@@ -1,0 +1,237 @@
+<shared-disclaimer [displayDisclaimer]="displayDeviceOrientationModeDisclaimer"
+                   position="top-left"
+                   [header]="'menu.infosource.disclaimer.title'"
+                   [content]="'menu.infosource.disclaimer.description'"
+                   (closeDialog)="onCloseDeviceOrientationModeDisclaimer($event)"
+>
+</shared-disclaimer>
+
+<!-- SI & ANs Map -->
+<h2 class="new-report-hazard" translate>
+    {{titleLabel}}
+</h2>
+<p-card class="section-header" *ngIf="infosSourceReport.nature === bathyNature">
+  <div [staticSectionDirective]="'infosource-bathy-new-report'"></div>
+</p-card>
+<p-panel [header]="'infosource.report-hazard.label-form.map' | translate">
+  <infosource-map #geometriesForm class="map-container-in-field" [infosourceId]="infosourceId" [surveyDetections]="infosSourceReport.surveyDetections" [isBathy]="isBathy" [featurePart]="selectedPartConverted" (eventOnFeature)="onGeometryFormFeatureChange($event)"></infosource-map>
+  <small *ngIf="isMissingLocalisation && submitted" class="p-error error-message-localization"
+         translate>infosource.report-hazard.errors.localization-invalid
+  </small>
+</p-panel>
+<p-panel [header]="'infosource.report-hazard.label-form.information' | translate">
+    <div [formGroup]="sharedReportForm">
+
+        <!-- Contributor service -->
+        <div class="row" *ngIf="hasRoleServiceUser">
+            <div class="col-25">
+                <label for="contributorServiceId" translate>infosource.report-hazard.contributor-service
+                </label>
+            </div>
+            <div class="col-75">
+                <p-dropdown *ngIf="proUserServices$ | async as proUserServices" [options]="proUserServices"
+                            [showClear]="true"
+                            [placeholder]="'infosource.report-hazard.contributor-service-placeholder' | translate" filter="true"
+                            [optionLabel]="'option-label-name' | translate" optionValue="id" formControlName="contributorServiceId" id="contributorServiceId"
+                            [disabled]="isNotDraftStatus()" ngDefaultControl
+                            (ngModelChange)="handleInput('contributorServiceId', $event)">
+                </p-dropdown>
+            </div>
+        </div>
+
+        <!-- Concerned maritime entities -->
+        <div *ngIf="hasRoleServiceUser">
+            <div class="row">
+                <div class="col-25">
+                    <label for="concernedMaritimeEntityIds" translate>infosource.report-hazard.concerned-maritime-entities</label>
+                </div>
+                <div class="col-75">
+                    <p-multiSelect class="p-col" *ngIf="availableMaritimeEntities"
+                                   formControlName="concernedMaritimeEntityIds"
+                                   id="concernedMaritimeEntityIds"
+                                   [options]="availableMaritimeEntities"
+                                   [placeholder]="'infosource.report-hazard.concerned-maritime-entities' | translate"
+                                   [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
+                                   [optionLabel]="'option-label-name' | translate"
+                                   optionValue="id"
+                                   (ngModelChange)="handleInput('concernedMaritimeEntityIds', $event)"
+                                   (onPanelShow)="refreshAvailableMaritimeEntitiesList()"
+                    >
+                    </p-multiSelect>
+                </div>
+            </div>
+        </div>
+
+        <!-- Observation date -->
+        <div class="row">
+            <div class="col-25">
+                <label for="observationDate" translate>infosource.report-hazard.observation-date
+                </label>
+            </div>
+            <div class="col-75">
+                <p-calendar [dateFormat]="dateFormat" [showTime]="true" dataType="string" formControlName="observationDate"
+                            id="observationDate" ngDefaultControl [appendTo]="'body'"
+                            (ngModelChange)="handleInput('observationDate', $event)">
+                </p-calendar>
+            </div>
+        </div>
+
+        <!-- timezone -->
+        <div class="row">
+            <div class="col-25">
+                <label for="timezone" translate>infosource.report-hazard.timezone
+                </label>
+            </div>
+            <div class="col-75">
+                <p-dropdown [options]="timezones" [placeholder]="'admin-warning.creation.labels.ph-timezone' | translate"
+                            filter="true" formControlName="timezone" id="timezone" ngDefaultControl
+                            optionValue="label" optionLabel="label"
+                            (ngModelChange)="handleInput('timezone', $event)">
+                </p-dropdown>
+            </div>
+        </div>
+
+        <ng-content></ng-content>
+
+          <!-- Anomaly description -->
+        <div class="row">
+            <div class="col-25">
+                <label for="anomalyDescription" translate>infosource.report-hazard.anomaly-description<span>*</span>
+                </label>
+            </div>
+            <div class="col-75">
+                <textarea cols="110" formControlName="anomalyDescription" id="anomalyDescription" pInputTextarea rows="10"
+                          (ngModelChange)="handleInput('anomalyDescription', $event)">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="row"
+             *ngIf="(anomalyDescription.invalid && submitted) || (anomalyDescription.dirty && anomalyDescription.invalid)">
+            <div class="col-25">
+            </div>
+            <div class="col-75">
+                <small class="p-error" translate>infosource.report-hazard.errors.anomaly-description-invalid</small>
+            </div>
+        </div>
+
+          <!-- Attachments -->
+        <div class="row">
+            <div class="col-25">
+                <label for="attachments" translate>infosource.report-hazard.attachments
+                </label>
+            </div>
+            <div class="col-75">
+                <app-attachments [manageManyAttachments]="true" id="attachments" [attachmentFiles]="infosSourceReport.attachmentFiles"
+                                 [attachmentIds]="infosSourceReport.attachmentIds" (onChange)="setAttachmentsIds($event)">
+                </app-attachments>
+            </div>
+        </div>
+
+          <!-- internal Comment -->
+        <div class="row" *ngIf="hasRoleServiceUser">
+            <div class="col-25">
+                <label for="internalComment" translate>infosource.report-hazard.internal-comment
+                </label>
+            </div>
+            <div class="col-75">
+                <textarea cols="110" formControlName="internalComment" id="internalComment" pInputTextarea rows="10"
+                          (ngModelChange)="handleInput('internalComment', $event)">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="row"
+             *ngIf="(internalComment.invalid && submitted) || (internalComment.dirty && internalComment.invalid)">
+            <div class="col-25">
+            </div>
+            <div class="col-75">
+                <small class="p-error" translate>infosource.report-hazard.errors.internal-comment-invalid
+                </small>
+            </div>
+        </div>
+
+          <!-- Tags -->
+        <div *ngIf="canAddAndLinkTag">
+            <div class="row">
+                <div class="col-25">
+                    <label for="maritime-service-tags" class="label p-col-fixed" translate>maritime-service.tags</label>
+                </div>
+            <div>
+                <p-multiSelect class="p-col" *ngIf="optionsMaritimeServiceTags.length"
+                               [style]="{width: '320px', 'margin-right': '0.5rem'}"
+                               formControlName="selectedTagsIds"
+                               [options]="optionsMaritimeServiceTags"
+                               [placeholder]="'infosource.details.update-service-status.link-tags' | translate"
+                               [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
+                               optionLabel="value"
+                               optionValue="key"
+                               [group]="true"
+                               (onChange)="updateMaritimeServiceTagsIds()"
+                >
+                    <ng-template let-group pTemplate="group">
+                    <div><span>{{group.label}}</span></div>
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        <div><span>{{item.value}}</span></div>
+                    </ng-template>
+                </p-multiSelect>
+                <button pButton type="button" class="save-button" icon="pi pi-plus-circle" iconPos="center" (click)="displayModal=true"></button>
+            </div>
+          </div>
+        </div>
+    </div>
+  </p-panel>
+
+<p-dialog [header]="'infosource.details.update-service-status.add-new-tag' | translate"
+          [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+          [draggable]="false" [resizable]="false">
+      <div>
+        <div class="line-form p-field p-grid">
+          <label class="label p-col-fixed margin" for="tag-name">{{ 'infosource.details.update-service-status.tag-name' | translate}} *</label>
+          <input id="tag-name" type="text"
+                 [(ngModel)]="tagName"
+                 [ngModelOptions]="{standalone: true}"
+                 pInputText>
+        </div>
+      </div>
+      <ng-template pTemplate="footer">
+        <div>
+          <button pButton type="button" class="p-button-sm p-button-secondary" (click)="displayModal=false" [label]="'cancel' | translate"></button>
+          <button pButton type="button" [disabled]="tagName.length === 0" class="p-button-sm" (click)="saveNewTag()" [label]="'save' | translate"></button>
+        </div>
+      </ng-template>
+</p-dialog>
+
+<h2 class="contribution-information-message" translate>
+    infosource.report-hazard.contribution-information-message
+</h2>
+<div class="p-grid p-nogutter p-justify-start">
+    <button [disabled]="isNotDraftStatus()" [label]="'infosource.report-hazard.buttons.save-draft' | translate"
+        class="p-button-outlined save-button" pButton type="submit">
+    </button>
+    <p-button [disabled]="!sharedReportForm.valid || isMissingLocalisation" (click)="submitContribution($event)" [label]="'infosource.report-hazard.buttons.send-contribution' | translate"
+        icon="pi pi-angle-right" iconPos="right" type="submit">
+    </p-button>
+</div>
+
+<p-confirmPopup></p-confirmPopup>
+<p-overlayPanel class="send-panel" [appendTo]="'body'" #sendPanel>
+    <ng-template pTemplate>
+        <div>
+            <div *ngIf="infosourceNature === 'BATHY'" class="send-panel-header" [innerHTML]="'detail.msg-send-confirm' | translate | replace:'{{nbGeomBathy}}':selectedPartConverted.geometries.length"></div>
+            <p-multiSelect  ngDefaultControl
+                            [options]="availableMaritimeServicesRecipients"
+                            [(ngModel)]="selectedMaritimeServicesRecipients"
+                            optionValue="id"
+                            [optionLabel]="'option-label-name' | translate"
+                            [placeholder]="'detail.select-recipients' | translate"
+                            [style]="{width: '250px'}"
+            ></p-multiSelect>
+        </div>
+        <div class="actions">
+            <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancelSend()" [label]="'detail.btn-send-cancel' | translate"></button>
+            <button pButton type="button" class="p-button-sm" (click)="send(infosourceId)" [label]="'detail.btn-send-confirm' | translate" [disabled]="!selectedMaritimeServicesRecipients?.length"></button>
+        </div>
+    </ng-template>
+</p-overlayPanel>

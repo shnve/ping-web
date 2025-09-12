@@ -1,0 +1,143 @@
+@import 'src/styling/variables';
+
+$filtersMenuZIndex: $menuZIndex + 11;
+$filtersBarZIndex: $filtersMenuZIndex + 1;
+$filtersPosition: relative;
+$filtersFontSize: 23px;
+
+
+.filter-content {
+  display: none;
+}
+
+.filter-bar {
+  display: none;
+}
+
+.filter-content-header-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+hr {
+  border-top: 0px solid $secondaryColor;
+  width: 95%;
+}
+
+:host ::ng-deep {
+  .p-overlaypanel-close {
+    background: $primaryColor;
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 2px;
+    position: absolute;
+    top: 0.2rem;
+    right: 0.2rem;
+  }
+
+  .p-badge {
+    padding: 0;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    line-height: 1.1rem;
+  }
+
+  .p-badge.p-badge-info {
+    background-color: white;
+    color: var(--sc-color-primary);
+  }
+
+  .p-component {
+    font-size: 0.9rem;
+  }
+
+  .p-selectbutton.p-buttonset.p-component {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .p-field-checkbox {
+    margin-left: 0.5rem;
+  }
+}
+
+@media all and (max-width: $screenSizeTablet) {
+  .filter-content {
+    position: fixed;
+    background: white;
+    width: 100%;
+    bottom: 0;
+    top: 0;
+    z-index: $filtersMenuZIndex;
+  }
+
+  .show-filter-content {
+    display: block;
+  }
+
+  .hide-filter-content {
+    display: none;
+  }
+
+  .filter-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    z-index: $filtersBarZIndex;
+    text-decoration: none;
+    font-size: 17px;
+    cursor: pointer;
+    height: 43px;
+
+    .filter-button {
+      text-align: center;
+      padding: 8px 13px;
+    }
+
+    .fa .fa-angle-double-up {
+      color: white;
+    }
+  }
+  .icon-left-position {
+    margin-left: 5px;
+    font-size: $filtersFontSize;
+  }
+
+  .icon-right-position {
+    margin-right: 5px;
+    font-size: 24px;
+  }
+}
+
+@media all and (max-width: $screenSizePhone) {
+  .icon-left-position {
+    margin-left: 5px;
+    font-size: $filtersFontSize;
+  }
+
+  .icon-right-position {
+    margin-right: 5px;
+    font-size: $filtersFontSize;
+  }
+
+  .p-field-checkbox {
+    margin: 0 0 0.5rem 2rem;
+  }
+}
+
+.position-badge {
+  position: relative;
+  top: -1px;
+}

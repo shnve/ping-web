@@ -1,0 +1,50 @@
+<div>
+  <div class="card">
+    <aw-stepper (moveStep)="jumpToStep($event)" [currentStep]="currentStep"
+                [warning]="anInformation"></aw-stepper>
+  </div>
+  <p-card class="step-p-card">
+    <form (ngSubmit)="save()" [formGroup]="anForm">
+      <div class="p-fluid p-grid p-formgrid">
+
+        <!-- estimated publication date -->
+        <div class="p-field p-col-12 p-md-4">
+          <label for="estimatedPublicationDate" translate>admin-warning.creation.labels.lbl-estimated-date</label>
+          <p-calendar [dateFormat]="currentDateFormat"
+                      dataType="string"
+                      formControlName="estimatedPublicationDate"
+                      id="estimatedPublicationDate"
+                      ngDefaultControl
+          ></p-calendar>
+        </div>
+
+        <!-- review date -->
+        <div class="p-field p-col-12 p-md-4">
+          <label for="reviewDate" translate>admin-warning.creation.labels.lbl-review-date</label>
+          <p-calendar [dateFormat]="currentDateFormat"
+                      dataType="string"
+                      formControlName="reviewDate"
+                      id="reviewDate"
+                      ngDefaultControl
+          ></p-calendar>
+        </div>
+
+        <!-- internal comment -->
+        <div class="p-field p-col-12 p-md-4">
+          <div class="p-grid p-nogutter">
+            <label class="lbl-internal-comment" for="internalComment" translate>admin-warning.creation.labels.lbl-internal-comment</label>
+            <textarea cols="170" formControlName="internalComment" id="internalComment" pInputTextarea
+                      rows="10"></textarea>
+          </div>
+        </div>
+      </div>
+      <aw-step-save-button (savePageButton)="quickSave()"></aw-step-save-button>
+      <aw-step-transition-button (nextPageButton)="nextPage()"
+                                 (prevPageButton)="prevPage()"
+                                 (savePageButton)="save()"
+                                 [anInformation]="anInformation"
+                                 [isFinalizationStep]="true">
+      </aw-step-transition-button>
+    </form>
+  </p-card>
+</div>

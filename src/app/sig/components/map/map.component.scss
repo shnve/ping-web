@@ -1,0 +1,216 @@
+@import 'variables';
+
+$control-btn-size: 32px;
+$top-first-control-right: 50px;
+$control-margin-right: 18px;
+
+.p-field-checkbox {
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+
+.ol-attribution {
+  left: 0;
+  width: fit-content;
+}
+
+.carto-map-container {
+  position: relative;
+
+  .map-container {
+    height: 600px;
+    width: 100%;
+
+    &.sc-carto-map-container {
+
+      .button-control {
+        position: absolute;
+        right: 16px;
+        background-color: $primaryColor;
+        border-radius: 6px;
+        padding: 0;
+
+        & > .ol-control-button {
+          margin: 0;
+          width: $control-btn-size;
+          height: $control-btn-size;
+          border-radius: 6px;
+          padding: 8px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $primaryColorLighten1;
+            transform: scale(1.05);
+          }
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        &.control-btn-kml-import {
+          top: $top-first-control-right + $control-btn-size * 3 + 20px;
+        }
+
+        &.control-btn-goto-legend-page {
+          top: $top-first-control-right + $control-btn-size * 4 + 25px;
+        }
+
+        &.control-btn-show-hide-labels {
+          top: $top-first-control-right + $control-btn-size * 5 + 30px;
+        }
+
+        &.control-btn-show-hide-labels.enabled {
+          background-color: red;
+        }
+
+        &.control-btn-show-hide-layers {
+          top: $top-first-control-right + $control-btn-size * 6 + 35px;
+        }
+
+        &.control-btn-display-drawing-tool {
+          top: 5px;
+        }
+      }
+
+      .ol-control-div {
+        color: white;
+        margin: 0 auto;
+        width: 100%;
+        line-height: 0.8em;
+      }
+
+      .sc-module-container.sc-measurement {
+        right: $control-margin-right;
+        top: $top-first-control-right;
+        height: 110px;
+
+        .sc-measurement {
+
+          &:hover {
+            background-color: $primaryColorLighten1;
+            transform: scale(1.05);
+          }
+
+          &:focus {
+            outline: none;
+          }
+
+          &.measurement-length,
+          &.measurement-surface,
+          &.measurement-azimuth,
+          &.measurement-radius {
+            border-radius: 6px;
+            transition: background-color 0.1s ease-in, transform 0.1s ease;
+            background-color: $primaryColor;
+            color: #fff;
+            cursor: pointer;
+            width: $control-btn-size;
+            height: $control-btn-size;
+          }
+
+          .fa-circle {
+            display: none;
+          }
+
+          .fa-stack {
+            width: $control-btn-size;
+            text-align: center;
+            line-height: 1.8em;
+          }
+        }
+      }
+
+      .sc-bcm-zoom-control {
+        color: green;
+        bottom: 106px;
+        right: 10px;
+
+
+        .pan-zoom-button {
+          border-radius: 0;
+          transition: background-color 0.1s ease-in, transform 0.1s ease;
+          background-color: $primaryColor;
+
+          &:hover {
+            background-color: $primaryColorLighten1;
+            transform: scale(1.05);
+          }
+
+          &.zoom-in {
+            border-top-right-radius: 6px;
+            border-top-left-radius: 6px;
+            border-bottom: solid 1px $primaryColorLighten1;
+            right: 0;
+          }
+
+          &.zoom-out {
+            border-bottom-right-radius: 6px;
+            border-bottom-left-radius: 6px;
+            border-top: solid 1px $primaryColorLighten1;
+            top: 32px;
+            right: 0;
+          }
+        }
+      }
+      .sc-mouse-position-module.sc-mouse-position-bottom-right {
+        bottom: 10px;
+        right: 0;
+        width: auto;
+        min-width: 190px;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+        color: black;
+
+        .sc-mouse-position {
+          background-color: #FFFFFFCC;
+          padding: 5px 5px;
+        }
+      }
+    }
+  }
+
+  .hidden-georegulations-message {
+    background-color: $primaryColor;
+    color: $textSecondaryColor;
+    position: absolute;
+    top: 0;
+    margin: 10px;
+    border-radius: 6px;
+    padding: 10px;
+    max-width: 30vw;
+
+    .p-button {
+      float: right;
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+sig-map > .carto-map-container {
+  .map-container {
+    height: 73vh !important;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .p-overlaypanel .p-overlaypanel-content {
+    max-width: 30vw;
+  }
+
+  .map-container-in-field sig-map > .carto-map-container {
+    .map-container {
+      height: 55vh !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  .map-container-in-field sig-map > .carto-map-container {
+    .map-container {
+      height: 70vh !important;
+    }
+  }
+}

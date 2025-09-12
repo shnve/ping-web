@@ -1,0 +1,35 @@
+<ng-container *ngIf="pageItem">
+  <p-confirmPopup></p-confirmPopup>
+  <h1 translate>static-file.list.title</h1>
+  <button pButton *ngIf="enableCreate" class="add-button p-button-sm" routerLink="./creation" [label]="'static-file.creation.title' | translate" icon="pi pi-plus"></button>
+  <table class="administration-table">
+    <thead>
+    <tr>
+      <th translate>static-file.list.description</th>
+      <th translate>static-file.list.path</th>
+      <th translate>static-file.list.filename</th>
+      <th translate>static-file.list.action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let staticFile of pageItem?.content">
+      <td>{{staticFile.description}}</td>
+      <td>
+        <static-file [path]="staticFile.path" [display]="staticFile.path"></static-file>
+      </td>
+      <td>{{staticFile.attachmentFile.filename}}</td>
+      <td>
+        <button pButton *ngIf="enablePreview" class="p-button-sm" routerLink="./{{staticFile.id}}/details" [label]="'static-file.list.show' | translate" icon="pi pi-eye"></button>
+        <button pButton *ngIf="enableEdit" class="p-button-sm" routerLink="./{{staticFile.id}}/edition" [label]="'static-file.list.edit' | translate" icon="pi pi-pencil"></button>
+        <button pButton *ngIf="enableEdit && !staticFile.locked" class="p-button-sm" (click)="confirmDelete($event, staticFile.id)" [title]="'static-file.list.delete' | translate" icon="pi pi-trash"></button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <app-ping-paginator
+    [page]="pageItem"
+    [currentSize]="this.currentSize"
+    [currentPage]="this.currentPage"
+    (changePage)="this.handlePageEvent($event)"
+  ></app-ping-paginator>
+</ng-container>

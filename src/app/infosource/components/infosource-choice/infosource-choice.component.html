@@ -1,0 +1,12 @@
+<div class="infosource">
+  <p-card [header]="'infosource.choice.title' | translate" styleClass="p-card-shadow">
+    <div innerHTML="{{'infosource.choice.description' | translate}}"></div>
+    <ng-template pTemplate="footer">
+      <p-button styleClass="btn btn-with-right-space" [label]="'infosource.choice.buttons.new-danger' | translate" (onClick)="confirmReport($event)"></p-button>
+      <p-button *ngIf="enableForecastBtn" styleClass="btn btn-with-right-space" [label]="'infosource.choice.buttons.forecast' | translate" (onClick)="reportActivityForecast()"></p-button>
+      <p-button styleClass="btn btn-with-right-space" [label]="'infosource.choice.buttons.update' | translate" (onClick)="updateMapOrPublication()"></p-button>
+      <p-button *ngIf="enableBathyDataBtn" styleClass="btn" [label]="'infosource.choice.buttons.bathy-data' | translate" (onClick)="reportBathyData()"></p-button>
+    </ng-template>
+  </p-card>
+</div>
+<p-confirmDialog></p-confirmDialog>

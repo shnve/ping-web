@@ -1,0 +1,9 @@
+<sig-map #map class="map"
+         [modulesOptions]="modulesOptions"
+         [parentLayers]="false"
+         [enableKmlImport]="enableKmlImport"
+         [kmlImportCallback]="onImportKmlClick.bind(this)"
+         [geometriesLayer]="geometriesLayer"
+
+></sig-map>
+<input type="file" id="kmlFile" [accept]="kmlImportAccept" style="display:none">

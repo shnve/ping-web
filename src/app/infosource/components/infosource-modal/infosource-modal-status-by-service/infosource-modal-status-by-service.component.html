@@ -1,0 +1,114 @@
+<p-accordionTab [header]="'infosource.details.update-service-status.title' | translate">
+  <p-table [value]="statusByService" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>{{'infosource.details.update-service-status.service' | translate}}</th>
+        <th>{{'infosource.details.update-service-status.status' | translate}}</th>
+        <th *ngIf="isServiceUser">{{'infosource.details.update-service-status.action' | translate}}</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-status>
+      <tr>
+        <td>{{status.serviceName}}</td>
+        <td>{{'enum.infosource-action-type.' + status.actionType | translate}}</td>
+        <td>
+            <button class="fr-btn pi pi-pencil fr-btn--tertiary" *ngIf="status.serviceId | canUpdateServiceStatus" (click)="updateServiceStatus($event, status.serviceId, status.actionType)"
+              [title]="'infosource.details.update-service-status.show-panel' | translate"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-accordionTab>
+
+<p-accordionTab *ngIf="canAddAndLinkTag" [header]="'maritime-service.tags' | translate">
+  <div class="line-form p-field p-grid">
+    <div class="p-grid">
+      <div class="p-dir-col">
+        <div class="p-col">
+          <p-multiSelect class="p-col" *ngIf="optionsMaritimeServiceTags.length"
+                        [appendTo]="'body'"
+                        [style]="{'max-width': '16vw'}"
+                        [(ngModel)]="selectedTagsIds"
+                        [options]="optionsMaritimeServiceTags"
+                        [placeholder]="'infosource.details.update-service-status.link-tags' | translate"
+                        [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
+                        optionLabel="value"
+                        optionValue="key"
+                        [group]="true"
+                        (onChange)="this.changedValue = true"
+                        (onPanelHide)="linkTagsToInfosource()"
+          >
+            <ng-template let-group pTemplate="group">
+              <div><span>{{group.label}}</span></div>
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                <div><span>{{item.value}}</span></div>
+            </ng-template>
+          </p-multiSelect>
+          <button class="fr-btn pi pi-plus-circle fr-btn--tertiary" type="button" [title]="'infosource.details.update-service-status.link-tags' | translate" (click)="displayModal=true"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-accordionTab>
+
+<p-dialog [header]="'infosource.details.update-service-status.add-new-tag' | translate"
+          [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+          [draggable]="false" [resizable]="false">
+      <div>
+        <div class="line-form p-field p-grid">
+          <label for="maritime-service" class="label p-col-fixed">{{ 'serie.maritimeService' | translate }}</label>
+          <p-dropdown id="maritime-service" *ngIf="maritimeServices$ | async as services"
+                      class="user-service"
+                      [options]="services"
+                      [optionLabel]="displayedMaritimeServiceLabel"
+                      optionValue="id"
+                      [placeholder]="'maritime-entity.select-service' | translate"
+                      [(ngModel)]="maritimeServiceId">
+          </p-dropdown>
+        </div>
+        <div class="line-form p-field p-grid">
+          <label class="label p-col-fixed margin" for="tag-name">{{ 'infosource.details.update-service-status.tag-name' | translate}} *</label>
+          <input id="tag-name" type="text"
+                 [(ngModel)]="tagName"
+                 [ngModelOptions]="{standalone: true}"
+                 pInputText>
+        </div>
+      </div>
+      <ng-template pTemplate="footer">
+        <div>
+          <button pButton type="button" class="p-button-sm p-button-secondary" (click)="displayModal=false" [label]="'cancel' | translate"></button>
+          <button pButton type="button" [disabled]="tagName.length === 0" class="p-button-sm" (click)="saveNewTag()" [label]="'save' | translate"></button>
+        </div>
+      </ng-template>
+</p-dialog>
+
+<p-overlayPanel class="update-status-panel" [appendTo]="'body'" #updateServiceStatusPanel>
+  <ng-template pTemplate>
+    <div class="p-fluid grid">
+      <div class="field col-12 md-col-4">
+        <span class="p-float-label">
+          <p-dropdown #actionTypes [options]="filteredActionTypes"
+            [placeholder]="'infosource.details.update-service-status.new-service-status' | translate"
+            ngDefaultControl>
+            <ng-template let-item pTemplate="item">
+              <span>{{'enum.infosource-action-type.' + item | translate}}</span>
+            </ng-template>
+            <ng-template let-item pTemplate="selectedItem">
+              <span>{{'enum.infosource-action-type.' + item | translate}}</span>
+            </ng-template>
+          </p-dropdown>
+        </span>
+      </div>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary"
+        (click)="cancelUpdateServiceStatus()"
+        [label]="'infosource.details.update-service-status.cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm"
+        (click)="confirmUpdateServiceStatus(actionTypes.value)"
+        [label]="'infosource.details.update-service-status.confirm' | translate"
+        [disabled]="!actionTypes.value"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>

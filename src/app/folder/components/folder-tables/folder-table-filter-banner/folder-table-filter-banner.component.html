@@ -1,0 +1,36 @@
+<div class="banner">
+  <p-dropdown [options]="areas"
+              [(ngModel)]="areaSelected"
+              (ngModelChange)="selectArea()"
+              [placeholder]="'filter.filter-bar.select-area' | translate">
+    <ng-template pTemplate="selectedItem">
+      {{areaSelected.name}}
+    </ng-template>
+    <ng-template let-area pTemplate="item">
+      {{area.name}}
+    </ng-template>
+  </p-dropdown>
+  <button pButton
+          class="other-filters-button"
+          [label]="'filter.filter-bar.other-filters' | translate"
+          (click)="op.toggle($event)"
+  ></button>
+  <div class="chips-container">
+    <p-chip *ngFor="let chipText of quickFilterAccessChips"
+            [label]="(chipText.translateParams?.count === 1 && chipText.translateKeyOne ? chipText.translateKeyOne : chipText.translateKey)
+                      | translate:chipText.translateParams"
+            (onRemove)="removeQuickFilterChip(chipText.key)"
+            [removable]="true"
+    ></p-chip>
+  </div>
+</div>
+
+<p-overlayPanel #op
+                class="overlay-panel"
+                [showCloseIcon]="true"
+                [autoZIndex]="true"
+                [dismissable]="false">
+  <ng-template pTemplate>
+    <ng-container *ngTemplateOutlet="advancedFilterComponent"></ng-container>
+  </ng-template>
+</p-overlayPanel>

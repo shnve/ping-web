@@ -1,0 +1,170 @@
+@import 'variables';
+
+:host ::ng-deep {
+  .p-error {
+    margin-left: 0rem;
+  }
+
+  .p-panel .p-panel-header {
+    margin-top: 0.5em;
+  }
+
+  p-multiselect {
+    padding: 0;
+
+    & > .p-multiselect {
+      max-width: 320px;
+    }
+  }
+
+  p-multiselect.readonly-mode {
+    & > .p-multiselect {
+      background: $accountCreationFormSubTitleColor;
+
+      .p-multiselect-label-container,
+      .p-multiselect-label,
+      .p-multiselect-trigger {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  p-dropdown.readonly-mode {
+    & > .p-dropdown {
+      background: $accountCreationFormSubTitleColor;
+
+      .p-dropdown-label,
+      .p-dropdown-clear-icon,
+      .p-dropdown-trigger {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  p-card {
+
+    &.p-element.header {
+      font-style: italic;
+    }
+
+    & > .p-component {
+      margin: 1rem;
+    }
+
+    div.p-card-content {
+      padding: 0;
+    }
+  }
+}
+
+.send-panel-header {
+  margin-bottom: 5px;
+}
+
+.actions {
+  margin-top: 10px;
+  text-align: left;
+
+  .p-button {
+    margin-right: 5px;
+  }
+}
+
+.section-header {
+  margin-bottom: 5px;
+  border: 1px;
+}
+
+.new-report-hazard {
+  font-weight: bold;
+  margin: 7px;
+}
+
+.contribution-information-message {
+  margin-top: 12px;
+  margin-bottom: 15px;
+}
+
+
+.attachments-label {
+  position: relative;
+  top: -9px;
+  padding-right: 110px;
+}
+
+
+.p-button.p-button-outlined {
+  color: $primaryColor;
+  border-color: $primaryColor;
+  margin-right: 18px;
+}
+
+
+.error-message-localization {
+  margin: 10px 0 0 ;
+  width: 100%;
+}
+
+textarea {
+  box-sizing: border-box;
+  max-width: 50%;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 80%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+@media screen and (min-width: 1760px) {
+
+  .attachments-label {
+    padding-right: 227px;
+  }
+}

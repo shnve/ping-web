@@ -1,0 +1,17 @@
+<h1 translate *ngIf="disabled; else editTitle">public-user-list.title.show</h1>
+<ng-template #editTitle>
+  <h1 translate>public-user-list.title.edit</h1>
+</ng-template>
+<app-edit-user-form *ngIf="user$ | async as user"
+  [userId]="userId" [user]="user" [disabled]="disabled"
+></app-edit-user-form>
+<app-control-user-enabled-status *ngIf="isFunctionalAdmin && user$ | async as user"
+  [userId]="userId" [enabled]="isEnabled" [disabled]="disabled" [isPublicUser]="true"
+></app-control-user-enabled-status>
+<ng-template *ngIf="!disabled">
+  <br/>
+  <hr/><br/>
+  <h3 translate>account.edition.security-title</h3>
+  <app-update-email [userId]="userId" ></app-update-email><br><br>
+  <app-reset-password [userId]="userId"></app-reset-password>
+</ng-template>

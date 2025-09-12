@@ -1,0 +1,55 @@
+<div class="p-grid p-nogutter settings">
+    <label class="locality-label" for="localities" translate>admin-warning.creation.labels.lbl-localities</label>
+    <div class="localities-elements multiSelect-width">
+      <p-dropdown id="localities"
+                  [options]="area?.subAreas | orderByImpure: ('option-label-name' | translate)"
+                  [optionLabel]="'option-label-name' | translate"
+                  [placeholder]="'admin-warning.creation.labels.ph-localities' | translate"
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="chosenLocality"
+                  [disabled]="isPublished"
+                  [filter]="true"
+                  [filterBy]="'option-label-name' | translate"
+                  (onChange)="onAddLocality(area.id)"
+                  ngDefaultControl
+      >
+      </p-dropdown>
+    </div>
+    <p-button type="button" class="btn-save-locality" icon="pi pi-plus-circle" iconPos="center"
+              (onClick)="showSaveLocalityModalDialog()"
+              [title]="'admin-warning.creation.labels.title-btn-save-locality' | translate"
+              [disabled]="isPublished"
+    ></p-button>
+    <p-dialog [header]="'admin-warning.creation.labels.title-btn-save-locality' | translate"
+              [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+              [draggable]="false" [resizable]="false">
+      <div class="p-fluid">
+        <label class="lbl-new-locality-name" for="new-locality-name">{{'admin-warning.creation.labels.header-add-locality' | translate}} (*)</label>
+        <input id="new-locality-name" type="text"
+               class="input-new-locality-name"
+               [(ngModel)]="newLocalityName"
+               [ngModelOptions]="{standalone: true}"
+               pInputText>
+        <label class="lbl-new-locality-name" for="new-locality-international-name" translate>admin-warning.creation.labels.header-add-locality-international</label>
+        <input id="new-locality-international-name" type="text"
+               class="input-new-locality-name"
+               [(ngModel)]="newLocalityInternationalName"
+               [ngModelOptions]="{standalone: true}"
+               pInputText>
+      </div>
+      <ng-template pTemplate="footer">
+        <p-button type="button" (click)="displayModal=false" [label]="'cancel' | translate" [title]="'cancel' | translate"></p-button>
+        <p-button type="button" (click)="onSaveLocality(area.id)" [label]="'save' | translate" [title]="'save' | translate"></p-button>
+      </ng-template>
+    </p-dialog>
+  </div>
+
+  <div class="area-grid-item-content center">
+    <ul *ngFor="let locality of checkedLocalities | orderByImpure: 'position'">
+      <li class="item-flex-display">
+        <span class="locality-name last-update-infos">{{locality.name}}</span>
+        <p-button type="button" class="btn-remove-locality" icon="pi pi-times" iconPos="center" [ngClass]="{'readonly-mode': isPublished}"
+                  (click)="onRemoveLocality(area.id, locality.name)" [disabled]="isPublished" [title]="'remove' | translate"></p-button>
+      </li>
+    </ul>
+  </div>

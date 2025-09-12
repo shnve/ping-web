@@ -1,0 +1,39 @@
+<div class="container">
+  <form #form (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)" [formGroup]="reportBathyDangerForm">
+    <infosource-shared-report-form #sharedReport
+                                   [infosourceId]="infosourceId"
+                                   [isBathy]="true"
+                                   [infosSourceReport]="infosourceDangerReport" formControlName="sharedReportForm" [submitted]="submitted"
+                                   [titleLabel]="'infosource.creation.bathy.report-danger.new-report-danger'"
+                                   [contributorLabel]="'infosource.creation.bathy.report-danger.producer-service'"
+                                   [locationMessage]="'infosource.creation.bathy.report-danger.danger-location'"
+                                   [contributorChoicePlaceholder]="'infosource.creation.bathy.report-danger.producer-service-choice'">
+
+      <!-- Survey period -->
+      <div class="row">
+        <div class="col-25">
+          <label for="surveyPeriod">{{'infosource.creation.bathy.report-danger.survey-period' | translate}} *</label>
+        </div>
+        <div class="col-75">
+          <shared-input-date-range #surveyPeriodComponent id="surveyPeriod"
+            formControlName="surveyPeriod" [(ngModel)]="infosourceDangerReport.surveyPeriod"
+            [showDateTimeToggleButton]="false" (dateTimeValidated)="dateValidated($event)"
+          ></shared-input-date-range>
+          <span *ngIf="submitted && invalidDate"class="field-validation-error">
+            <span translate>admin-warning.creation.errors.invalid-daterange</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Additional informations -->
+      <div class="row">
+        <div class="col-25">
+            <label for="confidentialityInformation" translate>infosource.creation.bathy.report-danger.additional-informations</label>
+        </div>
+        <div class="col-75">
+            <textarea cols="110" formControlName="confidentialityInformation" id="confidentialityInformation" pInputTextarea rows="10"></textarea>
+        </div>
+      </div>
+    </infosource-shared-report-form>
+  </form>
+</div>

@@ -1,0 +1,5 @@
+<h1 *ngIf="disabled; else editTitle">{{'sub-area-list.title.show' | translate}} ({{(!subArea?.parents?.length ? 'detail.general-area' : 'folder.details.locality') | translate}})</h1>
+<ng-template #editTitle>
+  <h1>{{'sub-area-list.title.edit' | translate}} ({{(!subArea?.parents?.length ? 'detail.general-area' : 'folder.details.locality') | translate}})</h1>
+</ng-template>
+<app-sub-area-form *ngIf="subArea" [subArea]="subArea" [disabled]="disabled"></app-sub-area-form>

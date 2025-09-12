@@ -1,0 +1,53 @@
+@import 'variables';
+
+
+:host ::ng-deep {
+  .p-dropdown {
+    border: none;
+    margin-left: auto;
+
+    &:not(p-disabled).p-focus {
+      box-shadow: none;
+    }
+
+    .p-dropdown-label.p-inputtext {
+      padding-left: 0;
+      padding-right: 0;
+      font-weight: bold;
+    }
+
+    .p-dropdown-trigger {
+      width: 2rem;
+      color: black;
+    }
+
+    .p-overlay {
+      left: unset !important;
+      right: 0;
+    }
+  }
+
+  .p-dropdown-panel {
+    color: black;
+    // To unset value direcly setted from ng-prime in html element
+    left: unset!important;
+    right: 0;
+
+    .p-dropdown-items .p-dropdown-item {
+      color: black;
+
+      &.p-highlight, &:not(.p-highlight):not(.p-disabled):hover {
+        color: black;
+        background-color: $quaternaryColorLighten3;
+      }
+    }
+  }
+}
+
+@media all and (max-width: $screenSizePhone) {
+  :host ::ng-deep {
+    .p-dropdown-label.p-inputtext {
+      display: none;
+    }
+  }
+}

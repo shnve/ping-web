@@ -1,0 +1,35 @@
+<div class="wrapper" *ngIf="data?.length">
+  <div class="popover-content">
+    <div *ngIf="data.length === 1;else datasContainer" class="warnings">
+      <div *ngIf="type === 'WARNING'">
+        <span class="title">{{data[0] | formatWarningNumber}}</span><br>
+          {{data[0]?.warningTypeDetails | formatTypeDetails}}
+      </div>
+      <div *ngIf="type === 'GEOREGULATION'">
+        <span class="title">{{data[0].mainNumber}}</span>
+      </div>
+      <div *ngIf="type === 'INFOSOURCE'">
+        <span class="title">{{data[0].number}}</span>
+      </div>
+      <div *ngIf="isSurveyFeatureData">
+        <span class="title">{{data[0] | formatSurveyFeatureData: featureType | capitalizeFirst}}</span>
+      </div>
+    </div>
+    <ng-template #datasContainer>
+      <div class="datas-container">
+        <div *ngFor="let elt of data" class="title">
+          <span *ngIf="type === 'WARNING'">{{elt | formatWarningNumber}}</span>
+          <span *ngIf="type === 'GEOREGULATION'">{{elt.mainNumber}}</span>
+          <span *ngIf="type === 'INFOSOURCE'">{{elt.number}}</span>
+          <span *ngIf="isSurveyFeatureData">{{elt | formatSurveyFeatureData: featureType }}</span>
+        </div>
+        <div class="more-message-container">
+          <span *ngIf="numberOfRemainingDatas"
+                translate
+                [translateParams]="{number: numberOfRemainingDatas}"
+          >carto.popover.and-more</span>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

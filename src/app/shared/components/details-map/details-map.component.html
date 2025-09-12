@@ -1,0 +1,78 @@
+<div class="carto-map-container">
+  <div id="simple-map" class="map-container" [ngStyle]="{height: height + 'px'}"></div>
+  <sig-popover *ngIf="popover" #popover></sig-popover>
+  <p-overlayPanel [dismissable]="!shouldMaintainCategoryPanelOpened" #categoryPanel [appendTo]="'body'">
+    <div *ngIf="noAvailableLayerToDisplay;else availableLayerToDisplay">{{'carto.layers.no-layer-available' | translate}}</div>
+    <ng-template #availableLayerToDisplay>
+      <div *ngIf="canShowRasterMarineLayer" class="p-col-12">
+        <p-checkbox
+          binary="true"
+          [label]="'carto.raster-marine' | translate"
+          [(ngModel)]="shouldShowRasterMarineLayer"
+          (onChange)="updateMapIfShouldShowRasterMarineLayer()"
+          inputId="shouldShowRasterMarineLayer">
+        </p-checkbox>
+      </div>
+      <div *ngIf="canShowOrthoIGNLayer" class="p-col-12">
+        <p-checkbox
+          binary="true"
+          [label]="'carto.ortho-ign' | translate"
+          [(ngModel)]="shouldShowOrthoGeoLittoralV2Layer"
+          (onChange)="updateMapIfshouldShowOrthoGeoLittoralV2Layer()"
+          inputId="shouldShowOrthoGeoLittoralV2Layer">
+        </p-checkbox>
+      </div>
+      <div *ngIf="showMaritimesEntitiesManagedOrObservedByService" class="p-col-12">
+        <p-checkbox
+          binary="true"
+          [label]="'carto.entities-maritimes-managed-or-observed-by-service' | translate"
+          [(ngModel)]="shouldShowMaritimesEntitiesManagedOrObservedByService"
+          (onChange)="updateMapIfShouldShowMaritimesEntitiesManagedOrObservedByService()"
+          inputId="showMaritimesEntitiesManagedOrObservedByService">
+        </p-checkbox>
+      </div>
+      <div *ngIf="showLayers" class="p-col-12">
+        <p-checkbox
+          binary="true"
+          [label]="'admin-warning.creation.labels.lbl-general-areas' | translate"
+          [(ngModel)]="shouldShowSubAreas"
+          (onChange)="updateMapIfShouldShowSubAreas()"
+          inputId="shouldShowSubAreas">
+        </p-checkbox>
+      </div>
+      <div *ngIf="showZoneX" class="p-col-12">
+        <p-checkbox
+          binary="true"
+          [label]="'admin-warning.creation.labels.lbl-zone-x' | translate"
+          [(ngModel)]="shouldShowZoneX"
+          (onChange)="updateMapIfShouldShowZoneX()"
+          inputId="shouldShowZoneX">
+        </p-checkbox>
+      </div>
+      <div *ngIf="showDangers" class="p-col-12">
+        <p-checkbox
+          binary="true"
+          [label]="'survey.details.layers.dangers-layer' | translate"
+          [(ngModel)]="shouldShowDangers"
+          (onChange)="updateMapIfShouldShowDangers()"
+          inputId="shouldShowDangers">
+        </p-checkbox>
+      </div>
+      <div *ngIf="showDetections" class="p-col-12">
+        <p-checkbox
+          binary="true"
+          [label]="'survey.details.layers.detections-layer' | translate"
+          [(ngModel)]="shouldShowDetections"
+          (onChange)="updateMapIfShouldShowDetections()"
+          inputId="shouldShowDetections">
+        </p-checkbox>
+      </div>
+    </ng-template>
+  </p-overlayPanel>
+
+  <p-overlayPanel [styleClass]="'legend-panel'" [dismissable]="false" #legendPanel [appendTo]="'body'">
+    <ng-template pTemplate>
+      <shared-survey-map-legend *ngIf="enableLegend"></shared-survey-map-legend>
+    </ng-template>
+  </p-overlayPanel>
+</div>

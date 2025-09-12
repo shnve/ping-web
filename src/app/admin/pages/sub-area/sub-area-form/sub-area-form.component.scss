@@ -1,0 +1,36 @@
+.label {
+  font-weight: bold;
+  margin-right: 10px;
+  width: 200px;
+}
+
+.line-form {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.input {
+  min-width: 140px;
+  max-width: 570px;
+}
+
+.ng-invalid.ng-touched {
+  border-color: red;
+}
+
+.save-button {
+  margin: 0 0.5rem;
+}
+
+:host ::ng-deep {
+  .p-multiselect-label {
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,55 @@
+@import 'variables';
+
+.banner {
+  display: flex;
+  min-width: 1200px;
+  padding: 1.3em 0.5em 0.5em 0.5em;
+  border-bottom: 1px solid $quaternaryColorLighten1;
+  font-size: 0.8em;
+
+  .row-right {
+    margin-left: auto;
+  }
+}
+
+:host ::ng-deep {
+  .p-overlaypanel {
+    z-index: $menuZIndex + 1;
+
+    .p-overlaypanel-close {
+      background: $primaryColor;
+      &:hover {
+        background: $quaternaryColor;
+      }
+    }
+  }
+
+  .banner {
+    .other-filters-button {
+      border-radius: 2px;
+      margin-left: 10px;
+    }
+
+    .p-button {
+      height: 100%;
+      padding: 0.2em 0.7em;
+      border-color: $quaternaryColorLighten1;
+    }
+  }
+
+  p-chip {
+    margin-left: 5px;
+
+    .p-chip {
+      background-color: $quaternaryColorLighten3;
+      color: black;
+      height: 100%;
+      border-radius: 6px;
+
+      .p-chip-text {
+        line-height: 1;
+        margin: 0;
+      }
+    }
+  }
+}

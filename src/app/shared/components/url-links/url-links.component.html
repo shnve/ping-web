@@ -1,0 +1,23 @@
+<div class="url-links-container">
+    <div *ngIf="!disabled" class="url-link-add">
+        <div class="row">
+            <input type="text" [(ngModel)]="url" pInputText [placeholder]="'georegulation.creation.links.url-placeholder' | translate">
+            <button pButton type="button" icon="pi pi-plus-circle" iconPos="center" (click)="addUrlLink()"
+                    [title]="'georegulation.creation.links.add-link' | translate">
+            </button>
+        </div>
+    </div>
+    <div class="url-link-list">
+        <ul *ngIf="links?.length">
+            <li *ngFor="let link of links; let i = index" class="line">
+                <div class="url-link-item">
+                    <a class="url-link-item-content" [href]="link" rel="noopener noreferrer" target="_blank">{{link}}</a>
+                    <button *ngIf="!disabled" pButton type="button" icon="pi pi-trash" iconPos="left" 
+                            [title]="'georegulation.creation.links.remove-link' | translate"
+                            (click)="removeUrlLink(i)" class="p-button-danger">
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

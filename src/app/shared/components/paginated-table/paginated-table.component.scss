@@ -1,0 +1,18 @@
+@import 'variables';
+
+.table-item:hover {
+  cursor: pointer;
+  background-color: #f3f2f1;
+}
+
+.btn-generate {
+  margin: 5px;
+  width: 48px;
+}
+
+@media only screen and (max-width: 960px) {
+
+  :host ::ng-deep .p-paginator .p-paginator-current {
+    width: 100%;
+  }
+}

@@ -1,0 +1,76 @@
+@import 'variables';
+
+.actions {
+  margin-top: 10px;
+  text-align: center;
+
+  .p-button {
+    margin-right: 5px;
+  }
+}
+
+.reject-optional-comment {
+  margin-top: 10px;
+}
+
+.choices-serie {
+  margin-bottom: 10px;
+}
+
+.textarea-style {
+  resize: none;
+  justify-items: center;
+  width: 100%;
+}
+
+.p-float-label {
+  margin-top: 30px;
+}
+
+:host ::ng-deep {
+  .p-tabview .p-tabview-panels {
+    max-height: 50vh;
+    overflow: hidden auto;
+  }
+
+  .p-multiselect {
+    margin-top: 5px;
+    margin-bottom: 3px;
+  }
+
+  .p-multiselect-label-container {
+    max-width: 300px;
+  }
+
+  .p-overlaypanel .p-overlaypanel-content {
+    width: 500px;
+    text-align: center;
+  }
+
+  .p-dialog .p-dialog-header-icons {
+    display: none;
+  }
+}
+
+.info-follower-service {
+  word-wrap: break-word;
+  display: flex;
+}
+
+.p-button.p-button-icon-only {
+  width: 1.5rem;
+  height: 1.4rem;
+  margin-right: 0.5rem;
+}
+
+.p-button.p-button-text {
+  color: #00489a;
+}
+
+.folder-modal-panel {
+  text-align: center;
+
+  .p-button {
+    margin: 5px;
+  }
+}

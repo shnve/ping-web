@@ -1,0 +1,18 @@
+<div>
+  <div class="card">
+    <aw-stepper (moveStep)="jumpToStep($event)" [currentStep]="currentStep" [warning]="anInformation">
+    </aw-stepper>
+  </div>
+  <p-card class="step-p-card">
+    <ng-template pTemplate="content">
+      <aw-links-step #linksStep></aw-links-step>
+      <aw-attachments-step #attachmentsStep></aw-attachments-step>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <aw-step-save-button (savePageButton)="quickSave()"></aw-step-save-button>
+      <aw-step-transition-button (nextPageButton)="nextPage()" (prevPageButton)="prevPage()" (savePageButton)="save()"
+        [anInformation]="anInformation">
+      </aw-step-transition-button>
+    </ng-template>
+  </p-card>
+</div>

@@ -1,0 +1,262 @@
+@import 'src/styling/variables';
+
+:host {
+  margin: 0 auto;
+
+  ::ng-deep {
+    p-password, ngx-intl-tel-input {
+      width: 100%;
+      max-width: $accountCreationFormInputWidth;
+    }
+
+    .p-password {
+      display: block;
+
+      input {
+        width: 100%;
+        max-width: $accountCreationFormInputWidth;
+        height: $accountCreationFormInputHeight;
+        border: 1px solid $accountCreationFormBorderColor;
+        padding: $accountCreationFormInputVerticalPadding $accountCreationFormInputHorizontalPadding;
+        font-size: $accountCreationFormInputFontSize;
+        border-radius: 0;
+      }
+
+      input.p-inputtext:enabled:hover {
+        border-color: $accountCreationFormBorderColor;
+      }
+
+      .p-password-panel {
+        font-size: $accountCreationFormInputFontSize;
+      }
+    }
+
+    .iti {
+      font-size: $accountCreationFormInputFontSize;
+      width: 100%;
+      max-width: $accountCreationFormWidth;
+      margin: 0 auto 20px;
+
+      input {
+        width: 100%;
+        max-width: $accountCreationFormInputWidth;
+        height: $accountCreationFormInputHeight;
+        border: 1px solid $accountCreationFormBorderColor;
+        padding: $accountCreationFormInputVerticalPadding $accountCreationFormInputHorizontalPadding;
+        border-radius: 0;
+      }
+    }
+
+    #captcha {
+      .captcha-container {
+        width: 100%;
+        max-width: $accountCreationFormInputWidth;
+        box-shadow: none;
+
+        & > canvas {
+          width: $accountCreationFormInputWidth;
+        }
+      }
+
+      .captcha-actions {
+        text-align: left;
+
+        input[type="text"] {
+          border-radius: 0;
+          width: $accountCreationFormCaptchaWidth;
+        }
+      }
+
+      input[type="button"] {
+        display: none;
+      }
+    }
+
+    .p-dialog {
+
+      p {
+        margin: 0;
+      }
+
+      .p-dialog-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .p-button {
+        min-width: 6rem;
+      }
+    }
+
+    .custom-spinner {
+      width: $accountCreationFormProgressSpinnerSize;
+      height: $accountCreationFormProgressSpinnerSize;
+    }
+
+    p-togglebutton.ng-invalid > .p-togglebutton.p-button {
+      color: $accountCreationFormErrorColor;
+      border-color: $accountCreationFormErrorColor;
+    }
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: $accountCreationFormSubTitleColor;
+    text-transform: uppercase;
+    line-height: 26px;
+    font-weight: 600;
+  }
+
+  h3 {
+    display: block;
+    text-align: center;
+    margin-top: 9px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: $accountCreationFormTitleColor;
+    text-transform: uppercase;
+    line-height: 22px;
+    font-weight: 400;
+  }
+
+  hr {
+    text-align: center;
+    margin: 20px auto;
+    width: 100%;
+    max-width: $accountCreationFormWidth;
+    border-color: $accountCreationFormBorderColor;
+  }
+
+  form {
+    text-align: center;
+    padding-bottom: 20px;
+
+    .form-optional {
+      text-align: left;
+    }
+
+    .form-group {
+      margin: 0 auto 20px;
+      width: 100%;
+      max-width: $accountCreationFormWidth;
+
+      .p-field-radiobutton {
+        position: relative;
+        display: inline-block;
+
+        & > label {
+          position: relative;
+          padding: 5px 20px 0 11px;
+          display: inline-block;
+          margin: 0 10px 0 0;
+          line-height: 20px;
+        }
+      }
+
+      .p-field-togglebutton {
+        text-align: left;
+        display: flex;
+        flex-direction: row;
+
+        & > label {
+          position: relative;
+          display: inline;
+          margin: 0 0 5px 24px;
+          line-height: 20px;
+          padding-top: 0;
+        }
+      }
+
+      input[type="text"], .p-dropdown {
+        width: 100%;
+        max-width: $accountCreationFormInputWidth;
+        height: $accountCreationFormInputHeight;
+        border: 1px solid $accountCreationFormBorderColor;
+        padding: $accountCreationFormInputVerticalPadding $accountCreationFormInputHorizontalPadding;
+        font-size: $accountCreationFormInputFontSize;
+        border-radius: 0;
+      }
+
+      button[type="submit"] {
+        margin: 0 auto;
+        display: inline-block;
+      }
+
+      .form-mandatory {
+        display: flex;
+        flex-direction: row;
+
+        .form-asterisk {
+          margin-left: 3px;
+        }
+      }
+
+      &.line-form {
+        display: flex;
+        align-items: center;
+
+        .label {
+          margin-right: 10px;
+          margin-bottom: 0;
+        }
+
+        .lbl-notification {
+          margin-left: -8px;
+          margin-bottom: 5px;
+          max-width: $accountCreationFormWidth;
+          text-align: left;
+        }
+      }
+    }
+
+    .form-group.phone-numbers {
+      margin: 0 auto;
+    }
+
+    .form-group.error span.field-validation-error {
+      color: $accountCreationFormErrorColor;
+      display: block;
+      margin-bottom: 10px;
+      text-align: left;
+      font-size: $accountCreationFormInputFontSize;
+      line-height: 16px;
+    }
+
+    .form-group.error input[type="text"].error,
+    .form-group.error input[type="tel"].error,
+    .form-group.error .p-field-togglebutton.error > label > a {
+      color: $accountCreationFormErrorColor;
+      border-color: $accountCreationFormErrorColor;
+    }
+  }
+
+  .phone-form-group {
+    max-width: 620px !important;
+    input, ngx-intl-tel-input {
+      margin: 0.25rem
+    }
+  }
+
+  .button-delete{
+    background-color: transparent;
+    color: red;
+    border-radius: 50%;
+    border: 2px solid;
+    height: 1rem;
+    width: 1rem;
+    padding: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  .reset-password-description {
+    margin-bottom: 10px;
+  }
+
+  .contributions-description {
+    margin-bottom: 10px;
+  }
+}

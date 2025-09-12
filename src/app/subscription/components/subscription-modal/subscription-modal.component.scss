@@ -1,0 +1,77 @@
+@import 'variables';
+
+.fr-callout {
+  margin-bottom: 0.5rem;
+}
+
+.subscription-detail {
+  padding-bottom: 2rem;
+
+  span:first-of-type {
+    font-weight: bold;
+  }
+
+  div {
+    margin: 6px;
+  }
+
+  .sending-mail {
+    color: green;
+  }
+
+  .not-sending-mail {
+    color: red;
+  }
+}
+
+:host ::ng-deep {
+  .map-selected-sub-areas {
+    margin-top: 6px;
+  }
+
+  p-accordion {
+    margin: 1rem;
+
+    p-accordiontab .p-accordion-tab {
+      margin-bottom: 0.5rem;
+    }
+
+    .p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
+      margin-left: auto;
+    }
+
+    .p-accordion-header .p-accordion-header-link {
+      padding: 1rem;
+      width: 100%;
+      display: inline-flex;
+    }
+
+    .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+      font-weight: bold;
+      color: $blue-sun;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      border: 1px solid $lightGreyColor;
+    }
+
+    .p-accordion p-accordiontab .p-accordion-header:not(.p-highlight) .p-accordion-header-link,
+    .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+      font-weight: unset;
+      color: $blue-sun;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      border: 1px solid $lightGreyColor;
+    }
+
+    .p-accordion-content {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin: 5px 20px;
+      list-style-type: circle;
+      word-wrap: break-word;
+    }
+  }
+}

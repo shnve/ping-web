@@ -1,0 +1,102 @@
+<form [formGroup]="staticLogoForm" class="form" (ngSubmit)="validate()">
+  <!-- key -->
+  <div class="line-form p-field p-grid">
+    <label for="static-logo-key" class="label p-col-fixed">{{'static-logo.list.table.key' | translate}} *</label>
+    <input id="static-logo-key" type="text" formControlName="key" [disabled]="disabled"
+      [class.valid]="key.valid && (key.dirty || key.touched)" [class.invalid]="key.invalid && (key.dirty || key.touched)"
+    >
+    <!-- message if invalid -->
+    <div *ngIf="key.invalid && (key.dirty || key.touched)" class="error-container">
+      <small class="p-error" *ngIf="key.hasError('required')" translate>static-logo.creation.errors.field-required</small>
+    </div>
+  </div>
+
+  <!-- description -->
+  <div class="line-form p-field p-grid">
+    <label for="static-logo-description" class="label p-col-fixed">{{'static-logo.list.table.description' | translate}} *</label>
+    <input id="static-logo-description" type="text" formControlName="description" [disabled]="disabled"
+      [class.valid]="description.valid && (description.dirty || description.touched)" [class.invalid]="description.invalid && (description.dirty || description.touched)"
+    >
+    <!-- message if invalid -->
+    <div *ngIf="description.invalid && (description.dirty || description.touched)" class="error-container">
+      <small class="p-error" *ngIf="description.hasError('required')" translate>static-logo.creation.errors.field-required</small>
+    </div>
+  </div>
+
+  <!-- content -->
+  <div class="line-form p-field p-grid">
+    <label for="static-logo-content" class="label p-col-fixed">{{'static-logo.creation.image' | translate}} *</label>
+    <input #fileUploader id="static-logo-content" type="file" (change)="onFileChange($event)" accept="image/*" [disabled]="disabled"/>
+    <button (click)="clear()" pButton type="button" [title]="'static-logo.creation.clear' | translate" icon="pi pi-trash" [disabled]="disabled"></button>
+    <!-- message if invalid -->
+    <div *ngIf="!staticLogo.content && submitted" class="error-container">
+      <small class="p-error" translate>static-logo.creation.errors.field-required</small>
+    </div>
+  </div>
+
+  <div class="line-form p-field p-grid">
+    <img *ngIf="imageSrc || staticLogo.content" [src]="imageSrc" alt="img-preview" class="img-preview"/>
+  </div>
+
+  <!-- height with unit -->
+  <div class="line-form p-field p-grid">
+    <label for="static-logo-height-with-unit" class="label p-col-fixed">{{'static-logo.creation.height-with-unit' | translate}} *</label>
+    <input id="static-logo-height-with-unit" type="text" formControlName="heightWithUnit" [disabled]="disabled" [placeholder]="'static-logo.creation.height-with-unit-placeholder' | translate"
+      [class.valid]="heightWithUnit.valid && (heightWithUnit.dirty || heightWithUnit.touched)" [class.invalid]="heightWithUnit.invalid && (heightWithUnit.dirty || heightWithUnit.touched)"
+    >
+    <!-- message if invalid -->
+    <div *ngIf="heightWithUnit.invalid && (heightWithUnit.dirty || heightWithUnit.touched)" class="error-container">
+      <small class="p-error" *ngIf="heightWithUnit.hasError('required') && !heightWithUnit.hasError('pattern')" translate>static-logo.creation.errors.field-required</small>
+      <small class="p-error" *ngIf="heightWithUnit.hasError('pattern')" translate>static-logo.creation.errors.height-wrong-pattern</small>
+      <small class="p-error" *ngIf="heightWithUnit.hasError('outOfRange') && !heightWithUnit.hasError('pattern')">
+        {{('static-logo.creation.errors.height-out-of-range' | translate:{minRange:heightMin, maxRange:heightMax})}}
+      </small>
+    </div>
+  </div>
+
+  <!-- alt text -->
+  <div class="line-form p-field p-grid">
+    <label for="static-logo-alt" class="label p-col-fixed">{{'static-logo.creation.alt' | translate}} *</label>
+    <input id="static-logo-alt" type="text" formControlName="altTxt" [disabled]="disabled"
+      [class.valid]="altTxt.valid && (altTxt.dirty || altTxt.touched)" [class.invalid]="altTxt.invalid && (altTxt.dirty || altTxt.touched)"
+    >
+    <!-- message if invalid -->
+    <div *ngIf="altTxt.invalid && (altTxt.dirty || altTxt.touched)" class="error-container">
+      <small class="p-error" *ngIf="altTxt.hasError('required')" translate>static-logo.creation.errors.field-required</small>
+    </div>
+  </div>
+
+  <!-- alt text international -->
+  <div class="line-form p-field p-grid">
+    <label for="static-logo-alt-international" class="label p-col-fixed">{{'static-logo.creation.alt-international' | translate}} *</label>
+    <input id="static-logo-alt-international" type="text" formControlName="altTxtInternational" [disabled]="disabled"
+      [class.valid]="altTxtInternational.valid && (altTxtInternational.dirty || altTxtInternational.touched)" [class.invalid]="altTxtInternational.invalid && (altTxtInternational.dirty || altTxtInternational.touched)"
+    >
+    <!-- message if invalid -->
+    <div *ngIf="altTxtInternational.invalid && (altTxtInternational.dirty || altTxtInternational.touched)" class="error-container">
+      <small class="p-error" *ngIf="altTxtInternational.hasError('required')" translate>static-logo.creation.errors.field-required</small>
+    </div>
+  </div>
+
+  <!-- title -->
+  <div class="line-form p-field p-grid">
+    <label for="static-logo-title" class="label p-col-fixed">{{'static-logo.creation.img-title' | translate}}</label>
+    <input id="static-logo-title" type="text" formControlName="title" [disabled]="disabled">
+  </div>
+
+  <!-- title international -->
+  <div class="line-form p-field p-grid">
+    <label for="static-logo-title-international" class="label p-col-fixed">{{'static-logo.creation.img-title-international' | translate}}</label>
+    <input id="static-logo-title-international" type="text" formControlName="titleInternational" [disabled]="disabled">
+  </div>
+
+  <!-- link -->
+  <div class="line-form p-field p-grid">
+    <label for="static-logo-link" class="label p-col-fixed">{{'static-logo.creation.img-link' | translate}}</label>
+    <input id="static-logo-link" type="text" formControlName="href" [disabled]="disabled">
+  </div>
+
+  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" [title]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="staticLogoForm.invalid || !staticLogo.content"></button>
+  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" [title]="'return-to-list' | translate" icon="pi pi-chevron-left" [routerLink]="staticLogoListPath"></button>
+  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" [title]="'cancel' | translate" icon="pi pi-times" [routerLink]="staticLogoListPath"></button>
+</form>

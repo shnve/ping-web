@@ -1,0 +1,16 @@
+<p-dropdown
+  [options]="areas$ | async"
+  class="area-dropdown"
+  [optionLabel]="displayedOptionLabel"
+  optionValue="id"
+  filter="true"
+  [filterLocale]="'lang' | translate"
+  resetFilterOnHide="true"
+  [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
+  [(ngModel)]="selectedArea"
+  (ngModelChange)="onSelectArea($event)"
+  [placeholder]="'menu.area.select-area' | translate"
+  [title]="'menu.area.select-area' | translate"
+  [appendTo]="'body'"
+>
+</p-dropdown>

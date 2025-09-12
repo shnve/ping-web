@@ -1,0 +1,41 @@
+
+<form [formGroup]="form">
+  <label>
+    <div class="formgroup-inline">
+      <div class="p-field div-details" [ngClass]="{'error': !validFeaturePart}">
+        <span translate>admin-warning.creation.labels.warning-type-details</span>
+        <p-multiSelect class="p-col"
+                    formControlName="typeDetails"
+                    [options]="optionsWarningTypeDetails"
+                    [placeholder]="'admin-warning.creation.labels.select-type-details' | translate"
+                    [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
+                    [emptyMessage]="'menu.area.dropdown.not-found' | translate"
+                    optionLabel="value"
+                    optionValue="key"
+                    [group]="grouped"
+        >
+          <ng-template *ngIf="grouped" let-group pTemplate="group">
+            <div><span>{{group.label}}</span></div>
+          </ng-template>
+          <ng-template let-item pTemplate="item">
+              <div><span>{{item.value}}</span></div>
+          </ng-template>
+        </p-multiSelect>
+        <span class="form-asterisk">(*)</span>
+      </div>
+    </div>
+  </label>
+  <div>
+    <div class="label">{{'admin-warning.creation.labels.date-ranges' | translate}}</div>
+    <shared-input-date-ranges [enableTimezone]="true" formControlName="dateRanges"></shared-input-date-ranges>
+  </div>
+  <br/>
+  <div class="input-information">
+    <span class="information-label" translate>admin-warning.creation.labels.information</span>
+    <aw-input-information [anInformation]="anInformation" [geometries]="geometries"
+                          [affectedAreas]="affectedAreas"
+                          [typeDetails]="featurePart?.typeDetails" [validFeaturePart]="validFeaturePart"
+                          [partIndex]="partIndex" [isBathy]="isBathy" formControlName="information">
+    </aw-input-information>
+  </div>
+</form>

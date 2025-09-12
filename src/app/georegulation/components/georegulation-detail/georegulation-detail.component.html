@@ -1,0 +1,130 @@
+<div class="georegulation-detail">
+  <ul class="content-list">
+    <p-accordion expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+      <p-accordionTab [header]="'detail.more-information' | translate">
+        <ng-container *ngIf="georegulation?.summary">
+          <h2>{{'georegulation.modal.summary' | translate}}</h2>
+          <div class="georegulation-summary" [innerText]="({name: georegulation.summary, internationalName: georegulation.internationalSummary} | translateName)"></div>
+        </ng-container>
+          <ul>
+            <li *ngIf="georegulation?.additionalNumbers?.length">
+              <label>{{'georegulation.modal.secondary-numbers' | translate}} : </label>
+              <span *ngFor="let additionalNumber of georegulation.additionalNumbers, let isLast = last">
+                {{(additionalNumber | georegulationFormatNumber) + (!isLast ? ', ' : '')}}
+              </span>
+            </li>
+            <li *ngIf="georegulation?.links?.length">
+              <label>{{'georegulation.modal.links-fieldset' | translate}} : </label>
+              <div *ngFor="let link of georegulation.links; let index = index">
+                <a rel="noopener noreferrer" [href]="link" target="_blank">
+                - {{ 'georegulation.modal.link-number' | translate:{number: index + 1} }}
+                </a>
+              </div>
+            </li>
+            <li>
+              <label>{{'detail.state' | translate}} : </label>
+              <span *ngIf="georegulation?.status === georegulationStatus.DRAFT">{{'enum.georegulation-status.draft' | translate}}</span>
+              <span *ngIf="georegulation?.status === georegulationStatus.PUBLISHED">{{'georegulation.modal.status-published' | translate}} {{georegulation.publicationDate | localizedDate}}</span>
+              <span *ngIf="georegulation?.status === georegulationStatus.REPEALED">{{'georegulation.modal.status-repealed' | translate}} {{georegulation.repealDate | localizedDate}}</span>
+            </li>
+            <ng-container *ngIf="proUser">
+              <ul>
+                <li>
+                  <label>{{'georegulation.modal.last-update' | translate}} : </label><span>{{georegulation?.lastUpdate | localizedDate}} </span>
+                  <span *ngIf="georegulation?.lastUpdateUser">({{georegulation.lastUpdateUser}})</span>
+                </li>
+                <li *ngIf="georegulation?.issuingService">
+                  <label>{{'georegulation.modal.issuing-service' | translate}} : </label><span>{{georegulation.issuingService | translateName}}</span>
+                </li>
+              </ul>
+              <span>{{'georegulation.modal.is-' + (georegulation?.isPublic ? 'public' : 'not-public') | translate}}</span>
+            </ng-container>
+          </ul>
+      </p-accordionTab>
+    </p-accordion>
+
+    <ng-container *ngIf="georegulation?.parts?.length">
+      <div class="fr-container--fluid">
+        <div class="fr-grid-row p-card-part-header p-card-part-header-title">
+          <h3 class="fr-col fr-col-3" translate>georegulation.modal.areas</h3>
+          <div class="fr-col visualisation-button-container">
+            <button class="fr-btn fr-btn--secondary visualize-all-button" (click)="this.allFeaturesVisualized.emit()" [title]="'detail.visualize-all-features' | translate">
+              <span class="visualize-all-label" translate>detail.visualize-all-features</span>
+              <img src="assets/images/icons/ic-visualiser-on.svg" [alt]="'detail.visualize-all-features' | translate">
+            </button>
+          </div>
+        </div>
+      </div>
+      <p-card *ngFor="let part of georegulation.parts; last as isLast">
+        <div [id]="'featurePart_' + (part | getNumberForSearchedPart : georegulation.parts : notionType.GEOREGULATION)" class="georegulation-feature-item">
+          <div class="fr-container--fluid">
+            <div class="fr-grid-row part-header">
+              <div class="fr-col fr-col-8 part-number">{{ 'admin-warning.creation.parts.part-number' | translate:{number: (part | getNumberForSearchedPart : georegulation.parts : notionType.GEOREGULATION)} }}</div>
+              <div class="fr-col visualisation-button-container">
+                <button class="fr-btn fr-btn--tertiary-no-outline" (click)="this.featurePartClicked.emit(part)" [title]="'detail.visualize-on-the-map' | translate">
+                  <img src="assets/images/icons/ic-visualiser-on.svg" [alt]="'detail.visualize-on-the-map' | translate">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div  class="p-d-flex content-list ">
+            <div class="p-mr-10">
+              <div>
+                <div *ngIf="!part.types?.length && !part.calendarPeriods?.length && !part.seasonalPeriods?.length && !part.information; else partInformation">
+                  <em translate>georegulation.modal.no-part-information</em>
+                </div>
+                <ng-template #partInformation>
+                  <div>
+                    <div *ngIf="part.types?.length">
+                      <span translate>georegulation.modal.part-types</span> :
+                      <span *ngFor="let type of part.types; let isLast = last">
+                      {{(('enum.georegulation-restrictions.' + (type | lowercase)) | translate) + (!isLast ? ', ' : '')}}
+                    </span>
+                    </div>
+                    <div *ngIf="georegulation.temporary">
+                      <span *ngIf="part.calendarPeriods?.length">
+                      <span translate>georegulation.modal.periods</span> :
+                      <ng-container *ngFor="let calendarPeriod of part.calendarPeriods; let isLast=last">
+                        <ng-container *ngIf="calendarPeriod.dateStart">
+                          {{(calendarPeriod.dateStart | localizedDate) + (calendarPeriod.dateEnd ? ' ' + ('georegulation.modal.seasonal-periods-end' | translate) : '')}}
+                        </ng-container>
+                        <ng-container *ngIf="calendarPeriod.dateEnd">
+                          {{(calendarPeriod.dateEnd | localizedDate) + (!isLast ? ', ' : '')}}
+                        </ng-container>
+                      </ng-container>
+                    </span>
+                    </div>
+                    <div *ngIf="part.seasonalPeriods?.length">
+                      <span translate>georegulation.modal.seasonal-periods</span> :
+                      <div *ngFor="let seasonalPeriod of part.seasonalPeriods">-
+                        <ng-container *ngIf="seasonalPeriod.dayStart">{{'georegulation.modal.seasonal-periods-start' | translate}} {{seasonalPeriod.dayStart}} {{seasonalPeriod.monthStart | formatMonth | translate | lowercase}} </ng-container>
+                        <ng-container *ngIf="seasonalPeriod.dayEnd">{{'georegulation.modal.seasonal-periods-end' | translate}} {{seasonalPeriod.dayEnd}} {{seasonalPeriod.monthEnd | formatMonth | translate | lowercase}}</ng-container>
+                      </div>
+                    </div>
+                    <div *ngIf="part.information">
+                      <div [innerText]="({name: part.information, internationalName: part.internationalInformation} | translateName)"></div>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </ng-container>
+
+    <p-accordion expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" multiple="true">
+      <p-accordionTab *ngIf="georegulation?.attachments?.length" [header]="'georegulation.modal.attachments-fieldset' | translate">
+        <ul>
+          <li *ngFor="let attachment of georegulation.attachments" class="p-fileupload-row">
+            <div class="p-fileupload-filename"><a rel="noopener noreferrer" (click)="open($event, attachment)" href="">{{attachment.filename}}</a></div>
+          </li>
+        </ul>
+      </p-accordionTab>
+
+      <p-accordionTab *ngIf="georegulation?.internalComment" [header]="'georegulation.modal.internal-comment-fieldset' | translate">
+        <div [innerText]="georegulation.internalComment"></div>
+      </p-accordionTab>
+    </p-accordion>
+  </ul>
+</div>

@@ -1,0 +1,44 @@
+@use 'sass:math';
+
+$arrow-size: 16px;
+
+:host {
+  pointer-events: none;
+}
+
+.wrapper {
+  position: relative;
+  background-color: white;
+  padding: 7px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+  min-width: 100px;
+  border-radius: 3px;
+  line-height: 1.1rem;
+  pointer-events: none;
+
+  &:before {
+    position: absolute;
+    top: 100%;
+    left: calc(50% - #{math.div($arrow-size, 2)});
+    content: " ";
+    height: 0;
+    width: 0;
+    pointer-events: none;
+    border: solid transparent;
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #ffffff;
+    border-width: math.div($arrow-size, 2);
+  }
+
+  .popover-content {
+    font-size: 0.9rem;
+
+    .title {
+      font-weight: bold;
+    }
+
+    .more-message-container {
+      text-align: center;
+    }
+  }
+}

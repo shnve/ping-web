@@ -1,0 +1,14 @@
+<div class="p-grid p-nogutter p-justify-end">
+  <ng-content></ng-content>
+  <p-button (onClick)="prevPage()" *ngIf="!isPrerequisitesStep"
+            [label]="'admin-warning.creation.labels.btn-back' | translate" class="prev-button"
+            icon="pi pi-angle-left"></p-button>
+  <aw-last-update-infos [anInformation]="anInformation" [displayInfos]="!isNotSaved() && anInformation.lastUpdateUser"></aw-last-update-infos>
+  <button (click)="save()" *ngIf="!isFinalizationStep" [label]="'admin-warning.creation.labels.btn-complete' | translate" [ngClass]="{'p-button-outlined btn-complete': !isFinalizationStep}"
+          pButton
+          type="button"></button>
+  <p-button *ngIf="isFinalizationStep" [label]="'admin-warning.creation.labels.btn-complete' | translate" class="p-button-outlined"
+            type="submit"></p-button>
+  <p-button (onClick)="nextPage()" *ngIf="!isFinalizationStep"
+            [label]="'admin-warning.creation.labels.btn-next' | translate" icon="pi pi-angle-right" iconPos="right"></p-button>
+</div>

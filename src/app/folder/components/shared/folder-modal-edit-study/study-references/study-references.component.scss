@@ -1,0 +1,59 @@
+.container {
+  border-radius: 5px;
+
+  button.add-reference-button {
+    margin-bottom: 0.5em;
+  }
+
+  .references-container {
+    width: 100%;
+
+    li {
+      display: flex;
+      flex-direction: column;
+
+      .line {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        gap: 0.5em;
+        margin-bottom: 0.3em;
+        width: 100%;
+        align-items: center;
+      }
+    }
+
+    .p-col-fixed {
+      padding: unset;
+    }
+
+    study-reference-item {
+
+      .p-button.p-button-danger {
+        margin-left: 0.5em;
+      }
+
+      div {
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 1000px) {
+  study-reference-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  study-reference-item {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5em;
+    width: 100%;
+  }
+}

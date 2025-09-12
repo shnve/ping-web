@@ -1,0 +1,33 @@
+.ping-paginator {
+  display: flex;
+  justify-content: flex-end;
+  height: 50px;
+  width: 90%;
+  margin: auto;
+
+  > div:first-of-type, .infos-page {
+    color: rgba(0,0,0,.54);
+    font-size: 12px;
+    margin: 0 4px;
+  }
+
+  .infos-page {
+    margin: 0 15px;
+  }
+
+  > div:not(.p-field) {
+    line-height: 32px;
+    margin: 0 5px;
+  }
+
+  > div:last-of-type {
+    display: flex;
+    justify-content: space-around;
+    height: 32px;
+    align-items: center;
+
+    > i {
+      cursor: pointer;
+    }
+  }
+}

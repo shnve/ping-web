@@ -1,0 +1,197 @@
+@import 'variables';
+
+:host ::ng-deep {
+
+  p-card {
+
+    & > .p-component {
+      margin: 1rem;
+    }
+
+    div.p-card-content {
+      padding: 0;
+    }
+  }
+
+  p-panel {
+    & > .p-component {
+      margin: 1rem;
+    }
+  }
+
+  p-multiselect {
+    & > .p-multiselect {
+      max-width: 800px;
+    }
+  }
+
+  p-radiobutton {
+    margin-right: 0.5rem;
+  }
+
+  p-card.p-element.section-header div.p-card.p-component {
+    margin: 0 0 10px 0;
+  }
+
+  /* CSS related to static section rich content */
+  .p-card {
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      margin-top: 0;
+      margin-left: 0;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    ol {
+      list-style: decimal;
+      margin-left: 15px;
+    }
+
+    ul {
+      list-style: disc;
+      margin-left: 15px;
+    }
+
+    strong, b {    
+      font-weight: bold;
+    }
+
+    em, i {
+      font-style: italic;
+    }
+  }
+  /**********************/
+}
+
+ul.form-checkbox {
+  li:first-child.field-checkbox {
+    margin-top: unset;
+  }
+
+  > li {
+    margin: 1rem 0;
+  }
+}
+
+.field-checkbox li {
+  margin: 1rem 2rem;
+  display: flex;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+  padding: 9px;
+  resize: vertical;
+}
+
+.long-input {
+  width: 500px;
+}
+
+label {
+  padding: 12px 7px 12px 0;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.form-mandatory {
+  display: flex;
+  flex-direction: row;
+
+  .form-asterisk {
+    margin-left: 3px;
+  }
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+
+  &.form-checkbox {
+    margin-top: 17px;
+  }
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.p-button.p-button-outlined {
+  color: $primaryColor;
+  border-color: $primaryColor;
+  margin-right: 18px;
+}
+
+.p-button.p-button-danger {
+  margin-left: 18px;
+}
+
+.container {
+  padding: 16px;
+}
+
+.error-message-vertical-ref {
+  margin: 10px 10px 0;
+  width: 100%;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.section-header {
+  margin-bottom: 5px;
+  border: 1px;
+}
+
+.p-field-checkbox {
+  padding-top: 2rem;
+
+  .p-field-checkbox-label {
+    margin-left: 15px;
+  }
+}
+
+i {
+  &.fa-check-circle {
+    color: $surveyTestSuccessColor;
+  }
+
+  &.fa-exclamation-triangle {
+    color: $errorColor;
+  }
+}
+
+.transmission-information-message {
+  margin-bottom: 15px;
+}
+
+.survey-transmission-confidentiality {
+  margin-right: 20px;
+}

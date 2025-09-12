@@ -1,0 +1,54 @@
+<footer class="fr-footer" role="contentinfo">
+  <div class="fr-container">
+    <div class="fr-footer__body">
+      <div class="fr-footer__brand">
+        <p class="fr-logo">
+          <span [staticLogoDirective]="'logo-mer'"></span>
+        </p>
+        <span [staticLogoDirective]="'logo-shom'"></span>
+      </div>
+      <div class="fr-footer__content">
+        <ul class="fr-footer__content-list">
+          <li class="fr-footer__content-item">
+            <a class="fr-footer__content-link" target="_blank" rel="noopener external"
+              href="https://www.legifrance.gouv.fr"
+              [title]="'footer.external-link-title' | translate:{site: 'legifrance.gouv.fr'}">legifrance.gouv.fr</a>
+          </li>
+          <li class="fr-footer__content-item">
+            <a class="fr-footer__content-link" target="_blank" rel="noopener external"
+              href="https://www.service-public.fr"
+              [title]="'footer.external-link-title' | translate:{site: 'service-public.fr'}">service-public.fr</a>
+          </li>
+          <li class="fr-footer__content-item">
+            <a class="fr-footer__content-link" target="_blank" rel="noopener external"
+              href="https://www.gouvernement.fr"
+              [title]="'footer.external-link-title' | translate:{site: 'gouvernement.fr'}">gouvernement.fr</a>
+          </li>
+          <li class="fr-footer__content-item">
+            <a class="fr-footer__content-link" target="_blank" rel="noopener external" href="https://www.france.fr"
+              [title]="'footer.external-link-title' | translate:{site: 'france.fr'}">france.fr</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="fr-footer__bottom">
+      <ul class="fr-footer__bottom-list">
+        <li class="fr-footer__bottom-item">
+          <a class="fr-footer__bottom-link" href="#" [routerLink]="[baseStaticPath, 'accessibilite']"
+            translate>footer.accessibility</a>
+        </li>
+        <li class="fr-footer__bottom-item">
+          <a class="fr-footer__bottom-link" href="#" [routerLink]="[baseStaticPath, 'mentions-legales']"
+            translate>footer.legal-notice</a>
+        </li>
+        <li class="fr-footer__bottom-item">
+          <a class="fr-footer__bottom-link" href="#" [routerLink]="[baseStaticPath, 'cgu']" translate>footer.cgu</a>
+        </li>
+        <li class="fr-footer__bottom-item">
+          <a class="fr-footer__bottom-link" href="#" [routerLink]="[baseStaticPath, 'contact']"
+            translate>footer.contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>

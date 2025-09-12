@@ -1,0 +1,57 @@
+<div class="container">
+    <form #form (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)" [formGroup]="reportMapAnoForm">
+        <infosource-shared-report-form #sharedReport [infosourceId]="infosourceId"
+            [infosSourceReport]="infosourceHazardReport" formControlName="sharedReportForm" [submitted]="submitted"
+            (hasAttachmentsIdsChanged)="hasAttachmentsIdsChangedValues($event)" [locationMessage]="'infosource.report-hazard.anomaly-location'"
+            [titleLabel]="'infosource.report-hazard.new-report-hazard'">
+            <!-- Markup type list -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="markupType" translate>infosource.report-hazard.markup-type.title<span>*</span>
+                    </label>
+                </div>
+                <div class="col-75">
+                    <p-dropdown
+                        [ngClass]="{'ng-dirty': (markupType.invalid && submitted) || (markupType.dirty && markupType.invalid)}"
+                        [options]="markupTypes" [showClear]="true"
+                        [placeholder]="'infosource.report-hazard.markup-type.placeholder' | translate" filter="true"
+                        formControlName="markupType" id="markupType" ngDefaultControl>
+                        <ng-template let-item pTemplate="item">
+                            <span class="p-button-label">{{'infosource.report-hazard.markup-type.' + item
+                                | translate}}
+                            </span>
+                        </ng-template>
+                        <ng-template let-item pTemplate="selectedItem">
+                            <span class="p-button-label">{{'infosource.report-hazard.markup-type.' + item
+                                | translate}}
+                            </span>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="(markupType.invalid && submitted) || (markupType.dirty && markupType.invalid)">
+                <div class="col-25">
+                </div>
+                <div class="col-75">
+                    <small class="p-error" translate>infosource.report-hazard.errors.markupType-invalid
+                    </small>
+                </div>
+            </div>
+
+            <!-- Object name -->
+            <div class="row" *ngIf="reportMapAnoForm.get('markupType').value || infosourceHazardReport.objectName">
+                <div class="col-25">
+                    <label for="objectName">
+                        {{ 'infosource.report-hazard.object-name' | translate:
+                        { 'objectName' : 'infosource.report-hazard.markup-type.inputName.'
+                        + reportMapAnoForm.get('markupType').value | translate } }}
+                    </label>
+                </div>
+                <div class="col-75">
+                    <input type="text" formControlName="objectName" id="objectName" pInputText>
+                </div>
+            </div>
+        </infosource-shared-report-form>
+    </form>
+</div>

@@ -1,0 +1,47 @@
+:host ::ng-deep {
+  .infosources-list-p-card {
+    .p-card {
+      box-shadow: none;
+      margin: 2px;
+      width: 100%;
+      border: 1px solid #a19f9d;
+      background: #ffffff;
+      color: #323130;
+      padding: 0;
+
+      .p-card-body {
+        padding: 0.4rem;
+      }
+
+      .p-card-title {
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+      }
+
+      .p-card-content {
+        padding: 0;
+        height: fit-content;
+      }
+    }
+
+    .p-accordion {
+      p-accordiontab .p-accordion-tab {
+        margin-bottom: 0;
+      }
+
+      .p-accordion-header .p-accordion-header-link {
+        padding: 0.2rem;
+
+        .p-accordion-header-text {
+          font-size: 0.9rem;
+          word-break: break-all;
+        }
+      }
+
+      .p-accordion-content {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

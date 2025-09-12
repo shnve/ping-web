@@ -1,0 +1,103 @@
+<form [formGroup]="filterForm">
+
+  <div class="p-fluid p-grid">
+    <div class="p-field p-col-12 p-md-3">
+      <label translate>filter.georegulation-filter-form.main-number</label>
+      <p-dropdown formControlName="mainNumberYear" [options]="availableYears" [autoDisplayFirst]="false" [filter]="true"
+        [showClear]="true" [placeholder]="'filter.georegulation-filter-form.main-number-year-placeholder' | translate"
+        ngDefaultControl></p-dropdown>
+    </div>
+    <div class="p-field p-col-12 p-md-2">
+      <label>&nbsp;</label>
+      <input type="text" pInputText formControlName="mainNumberText"
+        [placeholder]="'filter.georegulation-filter-form.main-number-text-placeholder' | translate" ngDefaultControl>
+    </div>
+    <div class="p-field p-col-12 p-md-4">
+      <label>&nbsp;</label>
+      <p-multiSelect formControlName="mainNumberAuthorities" [options]="availableAuthorities" [filter]="true"
+        [placeholder]="'filter.georegulation-filter-form.main-number-authorities-placeholder' | translate" ngDefaultControl>
+          <ng-template let-authority pTemplate="item">
+            <span>{{authority | translateName}}</span>
+          </ng-template>
+          <ng-template let-authorities pTemplate="selectedItems">
+            <span *ngFor="let authority of authorities">
+                {{authority | translateName}}
+            </span>
+            <span *ngIf="authorities?.length === 0">
+              {{'filter.georegulation-filter-form.main-number-authorities-placeholder' | translate}}
+            </span>
+          </ng-template>
+      </p-multiSelect>
+    </div>
+    <div class="p-field p-col-12 p-md-3">
+      <label>&nbsp;</label>
+      <p-calendar [showOnFocus]="false" formControlName="mainNumberDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  ngDefaultControl
+                  appendTo="body"
+      ></p-calendar>
+    </div>
+    <div class="p-field p-col-12">
+      <label translate>filter.georegulation-filter-form.type</label>
+      <p-dropdown formControlName="type" [options]="availableTypes" [autoDisplayFirst]="false" [filter]="true"
+        [showClear]="true" [placeholder]="'filter.georegulation-filter-form.type-placeholder' | translate" ngDefaultControl>
+        <ng-template let-type pTemplate="item">
+          <span>{{type.label | translate}}</span>
+        </ng-template>
+        <ng-template let-type pTemplate="selectedItem">
+          <span>{{type.label | translate}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="p-field p-col-12">
+      <label translate>filter.georegulation-filter-form.activities</label>
+      <p-multiSelect formControlName="activities" [options]="availableActivities" [filter]="true"
+        [placeholder]="'filter.georegulation-filter-form.activities-placeholder' | translate" ngDefaultControl>
+        <ng-template let-activity pTemplate="item">
+          <span>{{activity.label | translate}}</span>
+        </ng-template>
+        <ng-template let-activities pTemplate="selectedItems">
+          <span *ngFor="let activity of activities">
+            {{'enum.georegulation-activities.' + (activity | lowercase) | translate}}
+          </span>
+          <span *ngIf="activities?.length === 0">
+            {{'filter.georegulation-filter-form.activities-placeholder' | translate}}
+          </span>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+    <div class="p-field p-col-12">
+      <label translate>filter.filter-form.entities</label>
+      <p-multiSelect formControlName="entities" [options]="availableEntities" [filter]="true"
+        [placeholder]="'filter.filter-form.entities-placeholder' | translate" ngDefaultControl>
+        <ng-template let-entity pTemplate="item">
+          <span>{{entity | translateName}}</span>
+        </ng-template>
+        <ng-template let-entities pTemplate="selectedItems">
+          <span *ngFor="let entity of entities">
+              {{entity | translateName}}
+          </span>
+          <span *ngIf="entities?.length === 0">
+            {{'filter.filter-form.entities-placeholder' | translate}}
+          </span>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+    <ng-container *ngIf="selectedStatus === 'PUBLISHED'">
+      <div class="p-field p-col-12">
+        <p-triStateCheckbox formControlName="isPublic" [label]="'filter.georegulation-filter-form.is-public' | translate"></p-triStateCheckbox>
+      </div>
+      <div class="p-field p-col-12">
+        <p-triStateCheckbox formControlName="isNew" [label]="'filter.georegulation-filter-form.is-new' | translate"></p-triStateCheckbox>
+      </div>
+      <div class="p-field p-col-12">
+        <p-triStateCheckbox formControlName="isExpired" [label]="'filter.georegulation-filter-form.is-expired' | translate"></p-triStateCheckbox>
+      </div>
+    </ng-container>
+  </div>
+</form>

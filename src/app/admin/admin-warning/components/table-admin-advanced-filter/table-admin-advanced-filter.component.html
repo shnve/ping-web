@@ -1,0 +1,143 @@
+<form [formGroup]="filterForm">
+
+  <div class="line-form" *ngIf="selectedStatus !== 'CANCELLED'">
+    <span class="label" translate>filter.filter-form.to-do</span>
+    <label>
+      <p-checkbox formControlName="todo" [binary]="true"></p-checkbox>
+    </label>
+  </div>
+
+  <div class="line-form" *ngIf="selectedStatus !== 'MODEL'">
+    <span class="label" translate>filter.filter-form.usual-number</span>
+    <label>
+      <input type="text" pInputText formControlName="warningNumber" [placeholder]="'filter.filter-form.warning-number' | translate">
+    </label>
+  </div>
+
+  <div class="line-form" *ngIf="selectedStatus === 'MODEL'">
+    <span class="label" translate>filter.filter-form.model</span>
+    <label>
+      <input type="text" pInputText formControlName="modelName">
+    </label>
+  </div>
+
+  <div class="line-form">
+    <span class="label" translate>filter.filter-form.locality-or-information</span>
+    <label>
+      <input type="text" pInputText formControlName="localityOrInformation">
+    </label>
+  </div>
+
+  <div class="line-form">
+    <span class="label" translate>filter.filter-form.sub-areas</span>
+    <p-multiSelect formControlName="subAreaIds"
+                   [options]="availableSubAreas | orderBy: sectorOptionLabel"
+                   [optionLabel]="sectorOptionLabel"
+                   [filter]="false"
+                   optionValue="id"
+                   [placeholder]="'filter.filter-form.all-areas' | translate"
+                   class="multiselect sub-areas-select"
+    ></p-multiSelect>
+  </div>
+  <div class="line-form">
+    <span class="label" translate>filter.filter-form.category-global-danger</span>
+    <p-dropdown formControlName="generalCategory"
+                   [options]="availableGeneralCategories | orderBy: 'value'"
+                   [autoDisplayFirst]="false"
+                   [filter]="true"
+                   [placeholder]="'filter.filter-form.all-categories' | translate"
+                   [showClear]="true"
+                   optionLabel="value"
+                   optionValue="key"
+                   class="multiselect categories-select"
+    ></p-dropdown>
+  </div>
+  <div class="line-form">
+    <span class="label" translate>filter.filter-form.categories-details-danger</span>
+    <p-multiSelect formControlName="detailsCategories"
+                   [options]="availableDetailsCategories | orderBy: 'value'"
+                   optionLabel="value"
+                   optionValue="key"
+                   [placeholder]="'filter.filter-form.all-categories' | translate"
+                   class="multiselect categories-select"
+    ></p-multiSelect>
+  </div>
+
+  <div class="line-form">
+    <span class="label" translate>filter.filter-form.number-canceled-or-replaced</span>
+    <label>
+      <input type="text" pInputText formControlName="referenceNumber" placeholder="nnnn/yy">
+    </label>
+  </div>
+
+  <!-- concerned maritime entities -->
+  <div class="line-form">
+    <span class="label" translate>filter.filter-form.entities</span>
+    <p-multiSelect formControlName="concernedMaritimeEntityIds"
+                    [options]="availableEntities | orderBy: ('option-label-name' | translate)"
+                    [filter]="true"
+                    [placeholder]="'filter.filter-form.all-entities' | translate"
+                    class="multiselect entities-select"
+                    optionValue="id"
+                    [optionLabel]="'option-label-name' | translate"
+                    ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+  <!-- entity cover -->
+  <div class="line-form">
+    <span class="label" translate>filter.filter-form.entity-cover</span>
+    <p-multiSelect formControlName="entityCoverIds"
+                    [options]="availableLinkedEntities | orderBy: ('option-label-name' | translate)"
+                    [filter]="true"
+                    [placeholder]="'filter.filter-form.all-entities' | translate"
+                    class="multiselect entities-select"
+                    optionValue="id"
+                    [optionLabel]="'option-label-name' | translate"
+                    ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+  <!-- folders -->
+  <div class="line-form">
+    <span class="label" translate>filter.filter-form.folders</span>
+    <p-multiSelect formControlName="folderIds"
+                    [options]="availableFolders | orderBy: 'number'"
+                    [filter]="true"
+                    [placeholder]="'filter.filter-form.all-folders' | translate"
+                    class="multiselect folders-select"
+                    optionValue="id"
+                    optionLabel="number"
+                    ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+  <div class="line-form"  formGroupName="period">
+    <span class="label" translate>filter.filter-form.event-period</span>
+    <label class="date-period" for="start-date-filter-intput">
+      <span class="label" translate>filter.filter-form.start</span>
+      <p-calendar [showOnFocus]="false" id="start-date-filter-intput"  formControlName="startDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+      ></p-calendar>
+    </label>
+
+    <label class="date-period" for="end-date-filter-intput">
+      <span class="label" translate>filter.filter-form.end</span>
+      <p-calendar [showOnFocus]="false" id="end-date-filter-intput" formControlName="endDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+      ></p-calendar>
+    </label>
+  </div>
+</form>

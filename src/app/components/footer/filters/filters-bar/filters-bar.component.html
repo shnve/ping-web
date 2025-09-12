@@ -1,0 +1,31 @@
+<div class="filter-content"
+     [ngClass]="{'show-filter-content': isShowFilters, 'hide-filter-content': !isShowFilters}">
+  <button type="button" class="p-overlaypanel-close p-link p-rippl"
+          (click)="toggleFilterContent($event)">
+    <span class="p-overlaypanel-close-icon pi pi-times"></span>
+  </button>
+  <div class="filter-content-header-title">
+    <span>{{('filter.filter-bar.bottom.collapsed' | translate)}}</span>
+  </div>
+  <hr/>
+  <div *ngFor="let warningTypeOption of warningTypeOptions" class="p-field-checkbox">
+    <p-checkbox (onChange)="onWarningTypeOptionClick($event)"
+      name="warningTypeOption-group"
+      [value]="warningTypeOption"
+      [(ngModel)]="selectedWarningType"
+      [inputId]="warningTypeOption.code">
+    </p-checkbox>
+    <label [for]="warningTypeOption.code">{{warningTypeOption.text}}</label>
+  </div>
+  <app-map-advanced-filter [filterState]="_filterState"></app-map-advanced-filter>
+</div>
+<div class="filter-bar" (click)="applyFilterContent($event)">
+  <div class="arrow-up-left icon-left-position"><i class="fa" [ngClass]="{'fa-angle-double-down': isShowFilters, 'fa-angle-double-up': !isShowFilters}"></i></div>
+  <div class="filter-button">
+    <span *ngIf="isShowFilters; else displayFilterText">{{('filter.filter-bar.bottom.expanded' | translate)}}</span>
+    <ng-template #displayFilterText>
+      <span>{{('filter.filter-bar.bottom.collapsed' | translate)}}&nbsp;<p-badge [value]="nbFilters" severity="info" styleClass="p-mr-4 position-badge"></p-badge></span>
+    </ng-template>
+  </div>
+  <div class="arrow-up-right icon-right-position"><i class="fa" [ngClass]="{'fa-angle-double-down': isShowFilters, 'fa-angle-double-up': !isShowFilters}"></i></div>
+</div>

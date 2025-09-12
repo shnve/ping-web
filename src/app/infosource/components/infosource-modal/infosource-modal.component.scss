@@ -1,0 +1,62 @@
+@import 'variables';
+
+p-radiobutton {
+  margin: 0 0.5rem 0.5rem 0;
+}
+
+.p-field-checkbox {
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+.p-button.p-button-icon-only {
+  width: 1.5rem;
+  height: 1.4rem;
+  margin-right: 0.5rem;
+}
+
+.p-button.p-button-text {
+  color: #00489a;
+}
+
+:host ::ng-deep {
+  .p-dialog .p-dialog-header-icons {
+    display: none;
+  }
+}
+
+h3 {
+  margin-bottom: 1rem;
+}
+
+.reject-panel-content {
+  width: 274px;
+
+  .p-float-label {
+    text-align: center;
+    display: table-caption;
+    padding: 0 0.5rem;
+  }
+
+  label.final-reject-label {
+    padding-bottom: 0.5rem;
+    display: inline-flex;
+  }
+}
+
+.p-float-label {
+  margin-top: 1rem;
+}
+
+.send-panel-header {
+  margin-bottom: 5px;
+}
+
+.actions {
+  margin-top: 10px;
+  text-align: left;
+
+  .p-button {
+    margin-right: 5px;
+  }
+}

@@ -1,0 +1,41 @@
+@import 'src/styling/variables';
+
+header {
+  height: $headerHeight;
+
+  a {
+    --underline-idle-width: 0;
+    &[href]:hover,
+    &[href]:active {
+      --underline-hover-width: 0;
+    }
+  }
+}
+
+.top-banner-container {
+  background-color: white;
+
+  .header-service-container {
+    flex-wrap: wrap;
+  }
+}
+
+.logo-container {
+  z-index: $menuZIndex + 10;
+  background-color: white;
+  height: $logoHeight;
+}
+
+@media only screen and (max-width: $screenSizeTablet) {
+  header {
+    height: $mobileHeaderHeight;
+  }
+
+  .logo-container {
+    margin: auto;
+
+    .logo {
+      padding: 4px;
+    }
+  }
+}

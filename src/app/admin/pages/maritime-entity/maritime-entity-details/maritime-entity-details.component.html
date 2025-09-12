@@ -1,0 +1,5 @@
+<h1 translate *ngIf="disabled; else editTitle">maritime-entity-list.title.show</h1>
+<ng-template #editTitle>
+ <h1 translate>maritime-entity-list.title.edit</h1>
+</ng-template>
+<app-maritime-entity-form *ngIf="maritimeEntity" [maritimeEntity]="maritimeEntity" [disabled]="disabled"></app-maritime-entity-form>

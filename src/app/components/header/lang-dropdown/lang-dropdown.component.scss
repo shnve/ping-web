@@ -1,0 +1,129 @@
+@import "src/styling/variables";
+
+::ng-deep .lang-dropdown {
+  position: absolute;
+  top: -4px;
+
+  .pi-chevron-down, .p-dropdown-trigger {
+    color: #000091;
+  }
+
+  .p-dropdown {
+    vertical-align: middle;
+    height: 40px;
+    width: 90px;
+    background-color: white;
+    border: none;
+
+    &:not(.p-disabled).p-focus {
+      box-shadow: none;
+    }
+
+    &:not(.p-disabled):hover,
+    &.p-dropdown-open {
+      background-color: var(--background-open-blue-france);
+    }
+  }
+
+  .p-dropdown-label {
+    visibility: hidden;
+  }
+
+  .p-dropdown-panel {
+    // 'Important' is required because this element is directly stylized in html
+    left: initial !important;
+    right: 0;
+    position: absolute;
+  }
+
+  .p-dropdown-items {
+    color: var(--text-action-high-grey);
+
+    .p-dropdown-item {
+      color: var(--text-action-high-grey);
+      padding-top: 0;
+      padding-bottom: 0;
+
+      &.p-highlight {
+        background: none;
+        color: var(--text-active-blue-france);
+
+        &:hover {
+          background-color: var(--hover);
+        }
+
+        &::before {
+          --idle: transparent;
+          --hover: var(--background-active-blue-france-hover);
+          --active: var(--background-active-blue-france-active);
+          background-color: #000091;
+          background-color: var(--background-active-blue-france);
+          content: "";
+          display: block;
+          height: 1.5rem;
+          left: 0;
+          margin-top: -0.75rem;
+          position: absolute;
+          top: 50%;
+          width: 2px;
+        }
+      }
+
+      &:not(.p-highlight):not(.p-disabled):hover {
+        background-color: var(--hover);
+        color: var(--text-action-high-grey);
+      }
+    }
+  }
+
+  .language-item {
+    line-height: 30px;
+
+    .text-item {
+      padding-left: 5px;
+    }
+
+    .flag-item {
+      width: 25px;
+      vertical-align: middle;
+    }
+  }
+}
+
+.lang-choice-button {
+  position: absolute;
+  pointer-events: none;
+  color: #fff;
+  text-transform: uppercase;
+  padding: 0.45em;
+  background: transparent;
+  font-weight: bolder;
+  font-size: 0.85em;
+  width: 50px;
+
+  height: 50px;
+
+  .flag {
+    width: 25px;
+    position: absolute;
+
+    &.selected-lang-flag {
+      right: 11px;
+      top: 21px;
+    }
+
+    &.second-lang-flag {
+      right: 0;
+      top: 12px;
+    }
+  }
+}
+
+@media (max-width: 63rem) {
+  ::ng-deep .lang-dropdown {
+
+    .p-dropdown {
+      height: auto;
+    }
+  }
+}

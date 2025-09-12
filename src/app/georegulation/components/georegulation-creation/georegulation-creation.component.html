@@ -1,0 +1,451 @@
+<div class="container">
+    <form (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)" [formGroup]="form">
+        <h2 class="georegulation-title">
+            <span *ngIf="!georegulationId; else editTitle">{{'georegulation.creation.title' | translate}}</span>
+            <ng-template #editTitle>
+                <span>{{'georegulation.edition.title' | translate}} ({{('enum.georegulation-status.' + (georegulation.status | lowercase) | translate) | lowercase}})</span>
+            </ng-template>
+        </h2>
+
+        <div class="common">
+            <!-- Issuing service -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="issuingServiceId" translate>georegulation.issuing-service<span> *</span></label>
+                </div>
+                <div class="col-75">
+                    <p-dropdown *ngIf="issuingServices$ | async as issuingServices"
+                        [ngClass]="{'ng-dirty': issuingServiceId.invalid || issuingServiceId.dirty}"
+                        [options]="issuingServices" [showClear]="!readonly" [disabled]="disabled"
+                        [placeholder]="'georegulation.issuing-service-placeholder' | translate" resetFilterOnHide="true"
+                        filter="true" [optionLabel]="'option-label-name' | translate" optionValue="id" formControlName="issuingServiceId"
+                        id="issuingServiceId" ngDefaultControl>
+                    </p-dropdown>
+                </div>
+            </div>
+
+            <!-- message if invalid issuing service -->
+            <div class="row" *ngIf="issuingServiceId.invalid && (submitted || issuingServiceId.dirty)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.issuing-service-invalid</small>
+                </div>
+            </div>
+
+            <!-- Georegulation type -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="type" translate>georegulation.type.title<span> *</span></label>
+                </div>
+                <div class="col-75">
+                    <p-dropdown
+                        [ngClass]="{'ng-dirty': type.invalid && (submitted || type.dirty)}"
+                        [options]="availableTypes" [placeholder]="'georegulation.type.placeholder' | translate"
+                        formControlName="type" id="type" [disabled]="disabled" ngDefaultControl>
+                        <ng-template let-item pTemplate="item">
+                            <span class="p-button-label">{{'georegulation.type.' + item | translate}}</span>
+                        </ng-template>
+                        <ng-template let-item pTemplate="selectedItem">
+                            <span class="p-button-label">{{'georegulation.type.' + item | translate}}</span>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
+
+            <!-- message if invalid GR type -->
+            <div class="row" *ngIf="type.invalid && (submitted || type.dirty)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.type-invalid</small>
+                </div>
+            </div>
+
+            <!-- timezone -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="timezone" translate>georegulation.timezone<span> *</span></label>
+                </div>
+                <div class="col-75">
+                    <p-dropdown [ngClass]="{'ng-dirty': timezone.invalid || timezone.dirty}" optionValue="label" optionLabel="label"
+                        [options]="timezones" [placeholder]="'admin-warning.creation.labels.ph-timezone' | translate"
+                        filter="true" formControlName="timezone" id="timezone" [disabled]="disabled" ngDefaultControl>
+                    </p-dropdown>
+                </div>
+            </div>
+
+            <!-- message if invalid timezone -->
+            <div class="row" *ngIf="timezone.invalid && (submitted || timezone.dirty)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.timezone-invalid</small>
+                </div>
+            </div>
+
+            <!-- Number -->
+            <div class="row">
+                <div class="col-25" translate>georegulation.number<span> *</span></div>
+                <div class="col-75">
+                    <georegulation-number-input [(ngModel)]="georegulation.mainNumber"
+                        [availableYears]="availableYears"
+                        [availableAuthorities]="availableAuthorities"
+                        [yearRange]="yearRange"
+                        [ngModelOptions]="{standalone: true}"
+                        (numberValidated)="mainNumberValidated($event)"
+                        [disabled]="disabled">
+                    </georegulation-number-input>
+                </div>
+            </div>
+
+            <!-- message if invalid number -->
+            <div class="row" *ngIf="(isMainNumberInvalid && submitted) || (mainNumber.dirty && isMainNumberInvalid)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.missing-main-number</small>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="(isMainNumberUnavailable && submitted) || (mainNumber.dirty && isMainNumberUnavailable)">
+              <div class="col-25"></div>
+              <div class="col-75">
+                  <small class="p-error" translate>georegulation.creation.errors.main-number-unavailable</small>
+              </div>
+          </div>
+
+            <!-- Additional numbers -->
+            <div class="row">
+                <div class="col-25 lbl-additional-numbers" translate>georegulation.additional-numbers</div>
+                <div class="col-75">
+                    <georegulation-number-list [(ngModel)]="georegulation.additionalNumbers"
+                        [availableYears]="availableYears"
+                        [availableAuthorities]="availableAuthorities"
+                        [yearRange]="yearRange"
+                        [ngModelOptions]="{standalone: true}"
+                        (allNumbersValidated)="additionalNumbersValidated($event)"
+                        [disabled]="disabled">
+                    </georegulation-number-list>
+                </div>
+            </div>
+
+            <!-- message if invalid additional numbers -->
+            <div class="row" *ngIf="areAdditionalNumbersInvalid && submitted">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.invalid-additional-number</small>
+                </div>
+            </div>
+
+
+            <!-- Activities -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="activities" translate>georegulation.activities</label>
+                </div>
+                <div class="col-75">
+                    <ul *ngIf="disabled; else activitiesSelect">
+                        <li *ngFor="let activity of georegulation.activities">
+                            {{ ('enum.georegulation-activities.' + (activity | lowercase)) | translate }}
+                        </li>
+                    </ul>
+                    <ng-template #activitiesSelect>
+                        <p-multiSelect class="p-col" *ngIf="availableActivities"
+                            formControlName="activities"
+                            resetFilterOnHide="true"
+                            [options]="availableActivities"
+                            [placeholder]="'georegulation.activities-placeholder' | translate"
+                            [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
+                            [disabled]="disabled"
+                            optionLabel="value"
+                            optionValue="key"
+                            [ngClass]="{'ng-dirty': activities.invalid || activities.dirty}"
+                        >
+                        </p-multiSelect>
+                    </ng-template>
+                </div>
+            </div>
+
+            <!-- message if invalid activities -->
+            <div class="row" *ngIf="activities.invalid && (submitted || activities.dirty)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>infosource.report-hazard.errors.concerned-maritime-entities-invalid</small>
+                </div>
+            </div>
+
+            <!-- Object -->
+            <div class="row">
+                <div class="col-25 lbl-top">
+                    <label for="object-id" translate>georegulation.object</label>
+                </div>
+                <div class="col-75 textareas" id="object-id">
+                    <div class="div-textareas">
+                        <label>
+                            <span class="lang-label">FR</span>
+                            <textarea pInputTextarea rows="10" [readonly]="disabled" formControlName="title"></textarea>
+                        </label>
+                    </div>
+                    <div class="div-textareas">
+                        <label>
+                            <span class="lang-label">EN</span>
+                            <textarea pInputTextarea rows="10" [readonly]="disabled" formControlName="internationalTitle"></textarea>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concerned maritime entities -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="concernedMaritimeEntityIds" translate>infosource.report-hazard.concerned-maritime-entities</label>
+                </div>
+                <div class="col-75">
+                    <ul *ngIf="disabled; else entitiesSelect">
+                        <li *ngFor="let entity of availableMaritimeEntities">
+                            {{ entity | translateName }}
+                        </li>
+                    </ul>
+                    <ng-template #entitiesSelect>
+                        <p-multiSelect class="p-col" *ngIf="availableMaritimeEntities; else showEmptyAvailableMaritimeEntities"
+                            formControlName="concernedMaritimeEntityIds"
+                            id="concernedMaritimeEntityIds"
+                            [options]="availableMaritimeEntities"
+                            resetFilterOnHide="true"
+                            [placeholder]="'infosource.report-hazard.concerned-maritime-entities' | translate"
+                            [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
+                            [disabled]="disabled"
+                            [optionLabel]="'option-label-name' | translate"
+                            optionValue="id"
+                        >
+                        </p-multiSelect>
+                        <ng-template #showEmptyAvailableMaritimeEntities>
+                            <span class="p-error" translate>georegulation.empty-available-maritime-entities</span>
+                        </ng-template>
+                    </ng-template>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="row">
+                <div class="col-25 lbl-top">
+                    <label for="summary-id" translate>georegulation.summary</label>
+                </div>
+                <div class="col-75 textareas" id="summary-id">
+                    <div class="div-textareas">
+                        <label>
+                            <span class="lang-label">FR</span>
+                            <textarea pInputTextarea [rows]="10" formControlName="summary"></textarea>
+                        </label>
+                    </div>
+                    <div class="div-textareas">
+                        <label>
+                            <span class="lang-label">EN</span>
+                            <textarea pInputTextarea [rows]="10" formControlName="internationalSummary"></textarea>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Is temporary -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="isTemporary" translate>georegulation.is-temporary<span> *</span></label>
+                </div>
+                <div class="col-75 p-field-checkbox">
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="isTemporary" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="isTemporary" [disabled]="disabled"></p-radioButton>
+                </div>
+            </div>
+
+            <!-- message if invalid temporary selection -->
+            <div class="row" *ngIf="isTemporary.invalid && (submitted || isTemporary.dirty)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.is-temporary-invalid</small>
+                </div>
+            </div>
+
+            <!-- Calendar periods (if temporary)-->
+            <div class="row" *ngIf="temporary">
+                <div class="col-25 lbl-top">
+                    <label for="calendar-periods">
+                        {{'georegulation.calendar-periods' | translate}} ({{ 'admin-warning.creation.labels.date-range-timezone' | translate}} : {{timezone.value}})
+                    </label>
+                </div>
+                <div class="col-75">
+                    <shared-input-date-ranges id="calendar-periods" formControlName="calendarPeriods"
+                        [showDateTimeToggleButton]="false" [disabled]="disabled"
+                    ></shared-input-date-ranges>
+                </div>
+            </div>
+
+            <!-- Seasonal periods -->
+            <div class="row">
+              <div class="col-25 lbl-top">
+                  <label for="seasonal-periods">{{'georegulation.seasonal-periods' | translate}}</label>
+              </div>
+              <div class="col-75">
+                  <georegulation-seasonal-periods id="seasonal-periods" formControlName="seasonalPeriods" [disabled]="disabled"></georegulation-seasonal-periods>
+              </div>
+            </div>
+
+            <!-- Coastline limit 300m -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="hasCoastlineLimit" translate>georegulation.coastline-limit<span> *</span></label>
+                </div>
+                <div class="col-75 p-field-checkbox">
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="hasCoastlineLimit" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="hasCoastlineLimit" [disabled]="disabled"></p-radioButton>
+                </div>
+            </div>
+
+            <!-- All Territorial Sea -->
+             <div class="row">
+                <div class="col-25">
+                    <label for="isAllTerritorialSea" translate>georegulation.is-all-territorial-sea<span> *</span></label>
+                </div>
+                <div class="col-75 p-field-checkbox">
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="isAllTerritorialSea" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="isAllTerritorialSea" [disabled]="disabled"></p-radioButton>
+                </div>
+            </div>
+
+            <!-- message if invalid isAllTerritorialSea selection -->
+            <div class="row" *ngIf="isAllTerritorialSea.invalid && (submitted || isAllTerritorialSea.dirty)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.is-all-territorial-sea-invalid</small>
+                </div>
+            </div>
+
+            <!-- Announced by avurnav avirade -->
+             <div class="row">
+                <div class="col-25">
+                    <label for="isAnnouncedByAvurnavAvirade" translate>georegulation.is-announcement-by-avurnav-avirade<span> *</span></label>
+                </div>
+                <div class="col-75 p-field-checkbox">
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="isAnnouncedByAvurnavAvirade" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="isAnnouncedByAvurnavAvirade" [disabled]="disabled"></p-radioButton>
+                </div>
+            </div>
+
+            <!-- message if invalid isAnnouncedByAvurnavAvirade selection -->
+            <div class="row" *ngIf="isAnnouncedByAvurnavAvirade.invalid && (submitted || isAnnouncedByAvurnavAvirade.dirty)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.is-announced-by-avurnav-avirade-invalid</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parts -->
+        <georegulation-parts #georegulationParts
+                             [featureParts]="featurePartsConverted"
+                             [timezone]="timezone.value"
+                             [showRestrictionCategories]="showRestrictionCategories"
+                             [showCalendarPeriods]="temporary"
+                             formControlName="parts"
+                             [disabled]="disabled"
+                             [submitted]="submitted"
+                             [issuingServiceId]="issuingServiceId.value">
+        </georegulation-parts>
+
+        <div class="common">
+
+            <!-- message if missing part -->
+            <div>
+                <small *ngIf="isSavedWithoutPart && !form.get('parts').value.length"
+                    class="p-error error-message-localization"
+                    translate>georegulation.creation.errors.missing-part
+                </small>
+            </div>
+
+            <!-- message if at least on invalid part -->
+            <div>
+                <small *ngIf="hasAtLeastOnePartWithoutGeometry"
+                    class="p-error error-message-localization"
+                    translate>georegulation.creation.errors.at-least-one-missing-geometry
+                </small>
+            </div>
+
+            <!-- Links -->
+            <div class="row">
+                <div class="col-25 lbl-top">
+                    <label for="links" translate>georegulation.links</label>
+                </div>
+                <div class="col-75">
+                    <shared-url-links id="links" formControlName="links" [disabled]="disabled"></shared-url-links>
+                </div>
+            </div>
+
+            <!-- Attachments -->
+            <div class="row">
+                <div class="col-25 lbl-top">
+                    <label for="attachments" translate>infosource.report-hazard.attachments</label>
+                </div>
+                <div class="col-75">
+                    <app-attachments id="attachments" [manageManyAttachments]="true" [attachmentFiles]="georegulation.attachmentFiles"
+                        [attachmentIds]="georegulation.attachmentIds" [inputId]="'georegulation-attachments'" [disabled]="disabled" (onChange)="setAttachmentsIds($event)">
+                    </app-attachments>
+                </div>
+            </div>
+
+            <!-- Public or not -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="isPublic" translate>georegulation.is-public<span> *</span></label>
+                </div>
+                <div class="col-75 p-field-checkbox">
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="isPublic" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="isPublic" [disabled]="disabled"></p-radioButton>
+                </div>
+            </div>
+
+            <!-- message if invalid public selection -->
+            <div class="row" *ngIf="isPublic.invalid && (submitted || isPublic.dirty)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.is-public-invalid</small>
+                </div>
+            </div>
+
+            <!-- Marked as new -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="markAsNewInMonths" translate>georegulation.mark-new-during</label>
+                </div>
+                <div class="col-75">
+                    <p-dropdown [options]="availableMonths" formControlName="markAsNewInMonths" id="markAsNewInMonths" [disabled]="disabled" ngDefaultControl>
+                    </p-dropdown>
+                </div>
+            </div>
+
+            <!-- Internal comment -->
+            <div class="row">
+                <div class="col-25 lbl-top">
+                    <label for="internalComment" translate>infosource.report-hazard.internal-comment</label>
+                </div>
+                <div class="col-75">
+                    <textarea cols="100" formControlName="internalComment" id="internalComment" pInputTextarea rows="10" [readonly]="disabled">
+                    </textarea>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="p-grid p-nogutter p-justify-start">
+            <p-confirmPopup></p-confirmPopup>
+            <button class="p-button-outlined save-button" pButton type="submit" [label]="georegulationId ?
+            (georegulation.status === 'PUBLISHED' ?
+            ('georegulation.edition.save' | translate) :
+            ('georegulation.edition.save-draft' | translate)) :
+            ('georegulation.creation.save-draft' | translate)"
+            ></button>
+            <button pButton type="button" class="p-button-danger" [title]="'detail.cancel' | translate" [label]="'detail.cancel' | translate"
+                (click)="confirmCancel($event)"
+            >
+            </button>
+        </div>
+      <shared-warning-modal *ngIf="submitted" #modal
+      ></shared-warning-modal>
+    </form>
+</div>

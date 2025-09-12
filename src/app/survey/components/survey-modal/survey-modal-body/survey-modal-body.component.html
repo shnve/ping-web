@@ -1,0 +1,293 @@
+<div *ngIf="survey" class="survey-detail">
+  <ul class="content-list">
+    <p-accordion expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" multiple="true">
+      <p-accordionTab [selected]="true" [header]="'survey.bathy-files.detect-results' | translate">
+        <div *ngIf="survey.surveyExternalAnalysisResults; else noAnalysisResultsAvailable">
+          <h3>{{survey.nameAndLocation}} - {{'survey.detect-analysis' | translate | capitalizeFirst}} - {{survey.surveyExternalAnalysisResults.receptionDate | formatDatetime:'UTC'}} :
+            <span id="bathymetric-data-external-analysis-processing-status" [ngClass]="{'test-failed': processingStatus === 'FAILURE', 'test-succeeded': processingStatus === 'FINISHED', 'test-succeeded-with-errors': processingStatus === 'SUCCESS_WITH_ERRORS'}">
+              {{processingStatus | surveyProcessingStatusI18nValue | translate}} <i class="fa" [ngClass]="{'fa-check-circle': processingStatus === 'FINISHED' || processingStatus === 'SUCCESS_WITH_ERRORS', ' fa-exclamation-triangle': processingStatus === 'FAILURE'}"></i>
+            </span>
+          </h3>
+          <div class="shouldBeReported" *ngIf="survey.surveyExternalAnalysisResults.shouldBeReported">
+            <i class="pi pi-exclamation-triangle"></i>&nbsp;
+            <span [staticSectionDirective]="'survey-analysis-result-alert'"></span>
+          </div>
+          <div class="report-button" *ngIf="survey.canBeReported">
+            <button pButton type="button"
+                    (click)="confirmReporting($event)"
+                    class="p-button-danger"
+                    [label]="'survey.details.report.button-label-report-dangerous-depths' | translate">
+              <p-confirmPopup [key]="confirmReport"></p-confirmPopup>
+            </button>
+          </div>
+          <div class="results-errors" *ngIf="survey.surveyExternalAnalysisResults.globalErrorMessage; else noGlobalError">
+            <span>
+              <span class="error-category">{{'survey.bathy-files.global-errors-label' | translate | capitalizeFirst}} :</span> {{('survey.bathy-files.global-errors.' + (survey.surveyExternalAnalysisResults.globalErrorMessage | lowercase | replace:'_':'-' )) | translate}}
+            </span>
+          </div>
+          <ng-template #noGlobalError>
+            <div class="results-errors" *ngIf="survey.surveyExternalAnalysisResults.processingResultErrors.length;else noProcessingResultErrors">
+              <span class="error-category">{{'survey.bathy-files.processing-result-errors-label' | translate | capitalizeFirst}} :</span>
+              <ul class="bathymetric-files-external-analysis-results">
+                <li *ngFor="let error of survey.surveyExternalAnalysisResults.processingResultErrors">
+                  {{('survey.bathy-files.processing-result-errors.' + (error | lowercase | replace:'_':'-' )) | translate}}
+                </li>
+              </ul>
+            </div>
+            <ng-template #noProcessingResultErrors>
+              <p-accordion *ngIf="canShowDataProcessed" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" multiple="true">
+                <p-accordionTab *ngIf="survey.surveyExternalAnalysisResults.resultFiles.length" [header]="'survey.bathy-files.result-files' | translate">
+                  <ul>
+                    <li *ngFor="let attachment of survey.surveyExternalAnalysisResults.resultFiles" class="p-fileupload-filename">
+                      {{attachment.analyzedFileName}} : <a rel="noopener noreferrer" (click)="open($event, attachment)" href="">{{attachment.resultFileName}}</a>
+                    </li>
+                  </ul>
+                </p-accordionTab>
+                <p-accordionTab *ngIf="survey.surveyExternalAnalysisResults.surveyFilesExternalAnalysisResults.length" [header]="'survey.bathy-files.files-with-errors-list' | translate">
+                  <ul class="bathymetric-files-external-analysis-results">
+                    <li *ngFor="let result of survey.surveyExternalAnalysisResults.surveyFilesExternalAnalysisResults">
+                      {{result.filename}} :
+                      <ul>
+                        <li *ngFor="let error of result.errors">{{('survey.bathy-files.file-errors.' + (error | lowercase | replace:'_':'-' )) | translate}} </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </p-accordionTab>
+                <p-accordionTab [header]="'survey.bathy-files.enc-processed.label-list' | translate">
+                  <div *ngFor="let encProcessed of survey.surveyExternalAnalysisResults.enc">
+                    <ul>
+                      <li>
+                        {{encProcessed.name}} :
+                        <ul>
+                          <li>{{'survey.bathy-files.enc-processed.update-date' | translate}} : {{encProcessed.updateDate | date:'yyyyMMdd'}}</li>
+                          <li>{{'survey.bathy-files.enc-processed.update-number' | translate}} : {{encProcessed.updateNumber}}</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </ng-template>
+          </ng-template>
+        </div>
+        <ng-template #noAnalysisResultsAvailable>
+          <div translate class="no-danger-available">detail.no-analysis-result-available</div>
+        </ng-template>
+      </p-accordionTab>
+
+      <p-accordionTab *ngIf="canShowFieldForDraftAndTransmittedSurvey || survey.startDate || survey.endDate" id="general-informations" [header]="'survey.form.sections.general-metadata-description' | translate" [selected]="true">
+        <li *ngIf="canShowFieldForDraftAndTransmittedSurvey">
+          {{'survey.form.fields.goal' | translate}} : {{survey.goal | capitalizeFirst}}
+        </li>
+        <li *ngIf="survey.startDate">{{'survey.form.fields.start-date' | translate}} : {{survey.startDate | localizedDate}}</li>
+        <li *ngIf="survey.endDate">{{'survey.form.fields.end-date' | translate}} : {{survey.endDate | localizedDate}}</li>
+        <div *ngIf="canShowFieldForDraftAndTransmittedSurvey">
+          <li *ngIf="survey.ownerOrganization">{{'survey.form.fields.owner-organization' | translate}} : {{survey.ownerOrganization | capitalizeFirst}}</li>
+          <li *ngIf="!(survey.surveyIssuerTypes.includes(enumIssuerType.OWNER) && survey.surveyIssuerTypes.includes(enumIssuerType.PRODUCER))">
+            {{'survey.form.fields.producer-organization' | translate}} : {{survey.producerOrganization | capitalizeFirst}}
+          </li>
+          <li *ngIf="survey.ownerEmail">
+            <span>{{'survey.form.fields.owner-email' | translate}} : </span>
+            <a href="mailto:{{survey.ownerEmail}}">{{survey.ownerEmail}}</a>
+          </li>
+          <li *ngIf="survey.technicalManagerEmail">
+            <span>{{'survey.form.fields.technical-manager-email' | translate}} : </span>
+            <a href="mailto:{{survey.technicalManagerEmail}}">{{survey.technicalManagerEmail}}</a>
+          </li>
+        </div>
+      </p-accordionTab>
+
+      <p-accordionTab *ngIf="canShowFieldForDraftAndTransmittedSurvey" [header]="'survey.form.sections.personal-data-privacy' | translate">
+        <li>{{'survey.form.fields.selected-activity' | translate}} : {{listSurveyActivity[survey.activityChoice] | translate | capitalizeFirst}}</li>
+        <li>{{'survey.form.fields.broadcast-restriction' | translate}} : {{listSurveyBroadcastRestriction[survey.broadcastRestriction] | translate | capitalizeFirst}}</li>
+        <li *ngIf="survey.confidentialityInformation">
+          {{'survey.form.fields.additional-information' | translate}} : {{survey.confidentialityInformation | capitalizeFirst}}
+        </li>
+      </p-accordionTab>
+
+      <p-accordionTab *ngIf="survey.bathyAttachmentFiles" [header]="'survey.form.sections.bathy-data-description' | translate">
+        <li>{{'survey.form.fields.' + (survey.geographicFormat ? "geographic-format-choice" : "projection-choice") | translate}} : {{survey.epsg | capitalizeFirst}}</li>
+        <li>{{'survey.form.fields.bathymetry-data-format' | translate}} :</li>
+        <ul class="chip">
+          <li>{{'survey.form.fields.coordinates-order' | translate | capitalizeFirst}} : {{survey.coordinatesOrder | surveyTranslateWithList: 'coordinatesOrder'| translate | capitalizeFirst}}</li>
+          <li>{{'survey.form.fields.z-direction' | translate | capitalizeFirst}} : {{survey.directionZ | surveyTranslateWithList: 'directionZ'| translate | capitalizeFirst}}</li>
+          <li>{{'survey.form.fields.file-separator' | translate | capitalizeFirst}} : {{survey.fileSeparator | surveyTranslateWithList: 'fileSeparator'| translate | capitalizeFirst}}</li>
+          <li>{{'survey.form.fields.vertical-reference' | translate | capitalizeFirst}} : {{survey.verticalRef | surveyTranslateWithList: 'verticalRef'| translate | capitalizeFirst}}</li>
+          <li *ngIf="canShowFieldForDraftAndTransmittedSurvey">{{'survey.form.fields.to-analyze-by-cartonaut' | translate}} {{'filter.filter-bar.choice.' + (survey.externalAnalysisEnabled ? 'yes' : 'no') | translate}}</li>
+        </ul>
+        </p-accordionTab>
+
+        <p-accordionTab *ngIf="survey.technicalMetadataFile" [header]="'survey.form.sections.technical-metadata' | translate">
+          <li class="attachments">
+            <a (click)="open($event, survey.technicalMetadataFile)" href="">{{survey.technicalMetadataFile.filename}}</a>
+            <span class="file-size">{{survey.technicalMetadataFile.totalSize | formatAttachmentFileSize}}</span>
+          </li>
+        </p-accordionTab>
+
+        <p-accordionTab *ngIf="survey.bathyAttachmentFiles?.length" [header]="'survey.form.sections.your-bathy-data' | translate">
+          <div class="p-d-flex content-list">
+            <div class="p-mr-10 sub-fieldset">
+              <ul class="content-list">
+                <p-fieldset class="without-legend" id="bathymetric-data-details">
+                  <li>{{'survey.files.controls' | translate | capitalizeFirst}} : </li>
+                  <ul class="content-list chip">
+                    <li>
+                      <span>{{'survey.files.data-consistency' | translate | capitalizeFirst}} : </span>
+                      <span class="item-centered"><i [class]="survey.compliant | surveyCompliantStatus" [title]="survey.compliant | surveyCompliantStatusTxt | translate"></i></span>
+                    </li>
+                  </ul>
+                  <div *ngIf="hasAtLeastOneValidSurveyFile">
+                    <li>{{'survey.form.fields.global-statistics' | translate | capitalizeFirst}} :</li>
+                    <ul class="chip">
+                      <li>{{'survey.form.fields.global-stats.probes-qty' | translate}} : {{ survey.statistics[SurveyFileStatisticFields.NUMBER_OF_PROBES] }}</li>
+                      <li>{{'survey.form.fields.global-stats.bounds' | translate}} :</li>
+                      <ul class="chip">
+                        <li>{{'survey.form.fields.global-stats.upper-corner' | translate}} : {{ survey.statistics[SurveyFileStatisticFields.NW_CORNER] }}</li>
+                        <li>{{'survey.form.fields.global-stats.lower-corner' | translate}} : {{ survey.statistics[SurveyFileStatisticFields.SE_CORNER] }}</li>
+                        <li>{{'survey.form.fields.global-stats.shortest-probe' | translate}} : {{ survey.statistics[SurveyFileStatisticFields.SHORTEST_PROBE] }}</li>
+                        <li>{{'survey.form.fields.global-stats.deepest-probe' | translate}} : {{ survey.statistics[SurveyFileStatisticFields.DEEPEST_PROBE] }}</li>
+                      </ul>
+                    </ul>
+                  </div>
+                </p-fieldset>
+                <p-accordion class="bathymetric-data">
+                  <p-accordionTab *ngFor="let file of survey.bathyAttachmentFiles">
+                    <ng-template pTemplate="header">
+                      <div class="tool-header">
+                        <span>{{file.attachment.filename}}</span>
+                        <i [class]="file.compliant | surveyCompliantStatus" [title]="file.compliant | surveyCompliantStatusTxt | translate"></i>
+                        <a (click)="open($event, file.attachment)" class="pi pi-download"></a>
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="content">
+                      <li>
+                        <span>{{'survey.files.size' | translate | capitalizeFirst}} : </span>
+                        <span>{{file.attachment.totalSize | formatAttachmentFileSize}}</span>
+                      </li>
+                      <!-- display statistics only if not archive file is COMPLIANT or if file is archive -->
+                      <div *ngIf="!file.archive && file.compliant === SurveyFileComplianceAnalysisState.COMPLIANT">
+                        <li>{{'survey.files.statistics' | translate | capitalizeFirst}} :</li>
+                        <ul class="content-list chip">
+                          <li>{{'survey.form.fields.global-stats.probes-qty' | translate}} : {{ file.statistics[SurveyFileStatisticFields.NUMBER_OF_PROBES] }}</li>
+                          <li>{{'survey.form.fields.global-stats.bounds' | translate}} :</li>
+                          <ul class="chip">
+                            <li>{{'survey.form.fields.global-stats.upper-corner' | translate}} : {{ file.statistics[SurveyFileStatisticFields.NW_CORNER] }}</li>
+                            <li>{{'survey.form.fields.global-stats.lower-corner' | translate}} : {{ file.statistics[SurveyFileStatisticFields.SE_CORNER] }}</li>
+                            <li>{{'survey.form.fields.global-stats.shortest-probe' | translate}} : {{ file.statistics[SurveyFileStatisticFields.SHORTEST_PROBE] }}</li>
+                            <li>{{'survey.form.fields.global-stats.deepest-probe' | translate}} : {{ file.statistics[SurveyFileStatisticFields.DEEPEST_PROBE] }}</li>
+                          </ul>
+                        </ul>
+                      </div>
+
+                      <div *ngIf="!file.archive && file.compliant === SurveyFileComplianceAnalysisState.NOT_COMPLIANT">
+                        <li>{{'survey.files.errors.label' | translate}} :</li>
+                        <ul class="content-list chip">
+                          <li *ngFor="let error of file.compliantAnalysisResults | keyvalue">
+                            {{('survey.files.errors.' + (error.key | lowercase | replace:'_':'-' )) | translate}} <i class="fas fa-info-circle" [pTooltip]="error.value"></i>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div *ngIf="file.archive && file.filesInArchive.length">
+                        <li>{{'survey.files.archive-content' | translate | capitalizeFirst}} :</li>
+                        <ul class="content-list chip">
+                          <div *ngFor="let fileInArchive of file.filesInArchive">
+                            <li>{{ fileInArchive.filename }} <i [class]="fileInArchive.compliant | surveyCompliantStatus" [title]="fileInArchive.compliant | surveyCompliantStatusTxt | translate"></i></li>
+                            <ul class="content-list chip">
+                              <div *ngIf="fileInArchive.compliant === SurveyFileComplianceAnalysisState.NOT_COMPLIANT">
+                                <li *ngFor="let error of fileInArchive.compliantAnalysisResults | keyvalue">
+                                  {{('survey.files.errors.' + (error.key | lowercase | replace:'_':'-' )) | translate}} <i class="fas fa-info-circle" [pTooltip]="error.value"></i>
+                                </li>
+                              </div>
+                              <div *ngIf="fileInArchive.compliant === SurveyFileComplianceAnalysisState.COMPLIANT">
+                                <li>{{'survey.files.statistics' | translate | capitalizeFirst}} :</li>
+                                <ul class="content-list chip">
+                                  <li>{{'survey.form.fields.global-stats.probes-qty' | translate}} : {{ fileInArchive.statistics[SurveyFileStatisticFields.NUMBER_OF_PROBES] }}</li>
+                                  <li>{{'survey.form.fields.global-stats.bounds' | translate}} :</li>
+                                  <ul class="chip">
+                                    <li>{{'survey.form.fields.global-stats.upper-corner' | translate}} : {{ fileInArchive.statistics[SurveyFileStatisticFields.NW_CORNER] }}</li>
+                                    <li>{{'survey.form.fields.global-stats.lower-corner' | translate}} : {{ fileInArchive.statistics[SurveyFileStatisticFields.SE_CORNER] }}</li>
+                                    <li>{{'survey.form.fields.global-stats.shortest-probe' | translate}} : {{ fileInArchive.statistics[SurveyFileStatisticFields.SHORTEST_PROBE] }}</li>
+                                    <li>{{'survey.form.fields.global-stats.deepest-probe' | translate}} : {{ fileInArchive.statistics[SurveyFileStatisticFields.DEEPEST_PROBE] }}</li>
+                                  </ul>
+                                </ul>
+                              </div>
+                            </ul>
+                          </div>
+                        </ul>
+                      </div>
+                      <li>{{'survey.files.controls' | translate | capitalizeFirst}} : </li>
+                      <ul class="content-list chip">
+                        <li>
+                          <span>{{'survey.files.data-consistency' | translate | capitalizeFirst}} : </span>
+                          <span class="item-centered"><i [class]="file.compliant | surveyCompliantStatus" [title]="file.compliant | surveyCompliantStatusTxt | translate"></i></span>
+                        </li>
+                        <li>
+                          <span>{{'survey.files.requested-separator' | translate }} : {{survey.fileSeparator | surveyTranslateWithList: 'fileSeparator' | translate | capitalizeFirst}}</span>
+                        </li>
+                      </ul>
+                      <li>
+                        <span>{{'survey.files.cartonaut' | translate | capitalizeFirst}}</span>
+                        <span class="item-centered">
+                          <i [class]="file.compliant | surveyCompliantStatus"></i>
+                        </span>
+                      </li>
+                    </ng-template>
+                  </p-accordionTab>
+                </p-accordion>
+              </ul>
+            </div>
+          </div>
+        </p-accordionTab>
+
+        <p-accordionTab *ngIf="survey.miscAttachmentFiles?.length" [header]="'survey.form.sections.misc-attachments' | translate">
+          <li *ngFor="let file of survey.miscAttachmentFiles" class="attachments">
+            <a (click)="open($event, file)" href="">{{file.filename}}</a>
+            <span class="file-size">{{file.totalSize | formatAttachmentFileSize}}</span>
+          </li>
+        </p-accordionTab>
+
+        <p-accordionTab *ngIf="canUpdateComment || survey.briInternalComment" [header]="'infosource.details.comment' | translate">
+          <ng-container *ngIf="canUpdateComment">
+            <form class="new-survey-comment" [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+              <div class="p-mr-10">
+                <textarea pInputTextarea id="new-survey-comment" type="text" class="textarea-new-survey-comment" formControlName="comment" [rows]="2"></textarea>
+                <div class="row" *ngIf="(comment.invalid && submitted) || (comment.dirty && comment.invalid)">
+                  <div class="col-25">
+                  </div>
+                  <div class="col-75">
+                      <small class="p-error" translate>infosource.report-hazard.errors.internal-comment-invalid
+                      </small>
+                  </div>
+                </div>
+                <div class="p-as-center edit-button-container">
+                  <button type="button" [disabled]="commentForm.enabled" class="fr-btn pi pi-pencil fr-btn--tertiary"
+                            (click)="commentForm.enabled ? commentForm.disable() : commentForm.enable()"
+                            [title]="'detail.edit' | translate"></button>
+                  <ng-container *ngIf="commentForm.enabled">
+                    <div class="validation-button-container">
+                      <p-button icon="pi pi-check" class="validation-button" type="submit" [title]="'detail.btn-send-confirm' | translate" [disabled]="(comment.invalid && submitted) || (comment.dirty && comment.invalid)">
+                      </p-button>
+                      <p-button icon="pi pi-times" class="validation-button" (click)="cancel()" [title]="'detail.btn-send-cancel' | translate">
+                      </p-button>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </form>
+          </ng-container>
+
+          <ng-container *ngIf="!canUpdateComment && survey.briInternalComment">
+            <p-fieldset legend="{{'infosource.details.comment' | translate}}" [toggleable]="true">
+              <li>{{ survey.briInternalComment }}</li>
+            </p-fieldset>
+          </ng-container>
+        </p-accordionTab>
+
+        <p-accordionTab [header]="'survey.form.fields.state' | translate">
+          <li>{{'survey.details.state.'+ survey.state | lowercase | translate | capitalizeFirst}}</li>
+          <li>{{'survey.form.fields.last-modified-date' | lowercase | translate | capitalizeFirst}} : {{survey.lastUpdate | localizedDate}}{{survey.issuingUserFirstName ? ' - ( ' + survey.issuingUserFirstName : '' }} {{survey.issuingUserLastName ? survey.issuingUserLastName + ' )' : ''}}</li>
+        </p-accordionTab>
+    </p-accordion>
+  </ul>
+</div>

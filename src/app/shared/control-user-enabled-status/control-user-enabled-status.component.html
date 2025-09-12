@@ -1,0 +1,18 @@
+<form [formGroup]="form" *ngIf="form" class="form">
+  <div class="form-group">
+    <label for="user-status" class="label p-col-fixed" translate>account.creation.information.user-status</label>
+    <p-selectButton id="user-status"
+                    [options]="booleanOptions"
+                    ngDefaultControl
+                    [unselectable]="true"
+                    formControlName="userStatus">
+      <ng-template let-item pTemplate>
+        <span class="p-selectButton-label">{{'account.creation.information.user-status.' + item | translate}}</span>
+      </ng-template>
+    </p-selectButton>
+  </div>
+  <div>
+    <p-confirmPopup></p-confirmPopup>
+    <p-button type="button" (onClick)="confirmSave($event)" [label]="'save' | translate" [disabled]="userStatus.value === this.enabled" ngDefaultControl></p-button>
+  </div>
+</form>

@@ -1,0 +1,42 @@
+label, .label {
+  display: block;
+  margin: 15px 2px 15px 0;
+}
+
+.div-details {
+  display: flex;
+
+  & > span {
+    align-self: center;
+  }
+
+  & > span.form-asterisk {
+    align-self: baseline;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+}
+
+.information-label {
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.div-details.error {
+  color: red;
+}
+
+:host ::ng-deep {
+  .p-multiselect {
+    width: 300px;
+  }
+
+  .p-multiselect-panel .p-multiselect-items .p-multiselect-item{
+    padding-right: 20px;
+  }
+  
+  p-multiSelect.p-col {
+    flex-grow: 0;
+  }
+}

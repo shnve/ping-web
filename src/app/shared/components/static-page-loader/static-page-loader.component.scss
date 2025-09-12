@@ -1,0 +1,61 @@
+.static-page {
+  display: flex;
+  flex-direction: column;
+
+  .static-page-item {
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .main-title {
+    align-self: center;
+    font-size: 2rem;
+  }
+}
+
+:host ::ng-deep {
+  .p-card {
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      margin-top: 0;
+      margin-left: 0;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    ol {
+      list-style: decimal;
+      margin-left: 15px;
+    }
+
+    ul {
+      list-style: disc;
+      margin-left: 15px;
+    }
+
+    strong, b {    
+      font-weight: bold;
+    }
+
+    em, i {
+      font-style: italic;
+    }
+  }
+}

@@ -1,0 +1,60 @@
+<label class="date-period">
+  <span class="label" translate>filter.filter-form.start</span>
+  <p-calendar monthNavigator="true" #pCalendarDateStart
+              yearNavigator="true"
+              hourFormat="24"
+              [yearRange]="yearRange"
+              [showTime]="timeForStartDateEnabled"
+              dateFormat="dd/mm/yy"
+              [placeholder]="('admin-warning.creation.parts.inputs.date-placeholder' | translate) + (timeForStartDateEnabled ? ' '
+                  + ('admin-warning.creation.parts.inputs.time-placeholder' | translate) : '')"
+              [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+              [(ngModel)]="dateStart"
+              (ngModelChange)="dateRangeChanged()"
+              [ngClass]="{'error': invalidDateTime}"
+              (onShow)="resetDefaultTimeForStartDateIfNeeded()"
+              dataType="string"
+              [disabled]="disabled"
+  ></p-calendar>
+  <p-toggleButton *ngIf="showDateTimeToggleButton" class="pButton" name="btnToggleTimeForStartDate" [(ngModel)]="timeForStartDateEnabled" onIcon="pi pi-clock" offIcon="pi pi-calendar" (ngModelChange)="timeForStartDateChanged()"
+              [pTooltip]="timeForStartDateEnabled ? ('admin-warning.creation.parts.inputs.hide-time' | translate) : ('admin-warning.creation.parts.inputs.show-time' | translate)"
+              [disabled]="disabled"
+              ngDefaultControl
+  ></p-toggleButton>
+</label>
+
+<label class="date-period">
+  <span class="label" translate>filter.filter-form.end</span>
+  <p-calendar monthNavigator="true" #pCalendarDateEnd
+              yearNavigator="true"
+              hourFormat="24"
+              [yearRange]="yearRange"
+              [showTime]="timeForEndDateEnabled"
+              dateFormat="dd/mm/yy"
+              [placeholder]="('admin-warning.creation.parts.inputs.date-placeholder' | translate) + (timeForEndDateEnabled ? ' '
+                  + ('admin-warning.creation.parts.inputs.time-placeholder' | translate) : '')"
+              [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+              [(ngModel)]="dateEnd"
+              (ngModelChange)="dateRangeChanged()"
+              [ngClass]="{'error': invalidDateTime}"
+              (onShow)="resetDefaultTimeForEndDateIfNeeded()"
+              dataType="string"
+              [disabled]="disabled"
+  ></p-calendar>
+  <p-toggleButton *ngIf="showDateTimeToggleButton" class="pButton" name="btnToggleTimeForEndDate" [(ngModel)]="timeForEndDateEnabled" onIcon="pi pi-clock" offIcon="pi pi-calendar" (ngModelChange)="timeForEndDateChanged()"
+              [pTooltip]="timeForEndDateEnabled ? ('admin-warning.creation.parts.inputs.hide-time' | translate) : ('admin-warning.creation.parts.inputs.show-time' | translate)"
+              [disabled]="disabled"
+              ngDefaultControl
+></p-toggleButton>
+</label>
+
+<label class="date-period" *ngIf="enableTimezone && !disabled">
+  <span class="label" translate>admin-warning.creation.labels.lbl-timezone</span>
+  <p-dropdown [options]="timezones"
+              [placeholder]="'admin-warning.creation.labels.ph-timezone' | translate"
+              [readonly]="timezoneReadonly"
+              filter="true" id="timezone" optionValue="label" optionLabel="label"
+              [(ngModel)]="periodTimezone" (ngModelChange)="onSelectTimezone($event)"
+              ngDefaultControl>
+    </p-dropdown>
+</label>

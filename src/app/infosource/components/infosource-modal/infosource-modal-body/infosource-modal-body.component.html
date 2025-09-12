@@ -1,0 +1,162 @@
+<div class="infosource-detail">
+  <ul class="content-list">
+    <ng-container *ngIf="!['SURVEY_TRANSMISSION', 'BATHY'].includes(infosource?.nature)">
+      <p-accordion expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up">
+        <p-accordionTab *ngIf="infosource?.object | mapHasContent" [header]="'object.title' | translate">
+          <ul *ngFor="let infosourceObject of infosource.object | keyValueNoSort" class="content-list">
+            <li [innerHtml]="infosourceObject | infosourcePartFormatDetailsModalObject:infosource.object:true:infosource.timezone"></li>
+          </ul>
+        </p-accordionTab>
+      </p-accordion>
+    </ng-container>
+
+    <ng-container *ngIf="infosource?.featureParts?.length">
+      <div class="fr-container--fluid">
+        <div class="fr-grid-row p-card-part-header p-card-part-header-title">
+          <span class="fr-col fr-col-3 parts-section" translate>detail.parts</span>
+          <div class="fr-col visualisation-button-container">
+            <button class="fr-btn fr-btn--secondary visualize-all-button" (click)="this.allFeaturesVisualized.emit()">
+              <span class="visualize-all-label" translate>detail.visualize-all-features</span>
+              <img src="assets/images/icons/ic-visualiser-on.svg" [alt]="'detail.visualize-all-features' | translate">
+            </button>
+          </div>
+        </div>
+      </div>
+      <p-card class="modal-body-p-card" *ngFor="let featurePart of infosource?.featureParts">
+        <div [id]="'featurePart_' + (featurePart | getNumberForSearchedPart:infosource.featureParts:notionType.INFOSOURCE)" class="infosource-feature-item">
+          <div class="fr-container--fluid">
+            <div class="fr-grid-row part-header">
+              <div class="fr-col fr-col-8 part-number">{{ 'admin-warning.creation.parts.part-number' | translate:{number: (featurePart | getNumberForSearchedPart:infosource.featureParts:notionType.INFOSOURCE)} }}</div>
+              <div class="fr-col visualisation-button-container" *ngIf="(featurePart | hasGeometries:notionType.INFOSOURCE)">
+                <button class="fr-btn fr-btn--tertiary-no-outline" (click)="this.featurePartClicked.emit(featurePart)" [title]="'detail.visualize-on-the-map' | translate">
+                  <img src="assets/images/icons/ic-visualiser-on.svg" [alt]="'detail.visualize-on-the-map' | translate">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div  class="p-d-flex content-list">
+            <div class="p-mr-10">
+              <div *ngIf="featurePart.object | mapHasContent">
+                <ul class="content-list{{isNatureGeoregulation ? ' georegulation-details' : ''}}">
+                  <ng-container *ngFor="let featurePartObject of featurePart.object | infosourcePartFormatDetailsModalObjectSort">
+                    <li [innerHtml]="featurePartObject | infosourcePartFormatDetailsModalObject:featurePart.object:isNatureGeoregulation:infosource.timezone"></li>
+                  </ng-container>
+                </ul>
+              </div>
+              <div *ngIf="!isForecast">
+                <div *ngIf="featurePart.description && !isNatureGeoregulation">{{featurePart.description}}</div>
+                <div *ngIf="featurePart.internationalDescription">{{featurePart.internationalDescription}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </ng-container>
+
+    <p-accordion expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" multiple="true">
+      <p-accordionTab *ngIf="displayAdminParts && infosource?.attachments?.length" [header]="'detail.attachments' | translate">
+        <ul class="infosource-status">
+          <li *ngFor="let attachment of infosource.attachments" class="p-fileupload-row">
+            <div class="p-fileupload-filename"><a rel="noopener noreferrer" (click)="open($event, attachment)" href="">{{attachment.filename}}</a></div>
+          </li>
+        </ul>
+      </p-accordionTab>
+
+      <p-accordionTab *ngIf="infosource?.issuingServiceUserId || this.infosource?.issuingPublicUserId" [header]="'infosource.details.contributor.title' | translate">
+        <ul>
+          <li *ngIf="infosource.issuingUserFirstname">{{'infosource.details.contributor.firstname' | translate}} : {{infosource.issuingUserFirstname}}</li>
+          <li *ngIf="infosource.issuingUserLastname">{{'infosource.details.contributor.lastname' | translate}} : {{infosource.issuingUserLastname}}</li>
+          <li *ngIf="infosource.issuingUserEmail">{{'infosource.details.contributor.email' | translate}} : {{infosource.issuingUserEmail}}</li>
+          <li *ngIf="infosource.issuingUserMobilePhoneNumber">{{'infosource.details.contributor.mobilePhoneNumber' | translate}} : {{infosource.issuingUserMobilePhoneNumber}}</li>
+          <li *ngIf="infosource.issuingUserPhoneNumber">{{'infosource.details.contributor.phoneNumbers' | translate}} : {{infosource.issuingUserPhoneNumber}}</li>
+          <li *ngIf="infosource.issuingUserPhoneNumbers?.length">{{'infosource.details.contributor.mixedPhoneNumbers' | translate}} :
+            <ul>
+              <li *ngFor="let phoneNumber of infosource.issuingUserPhoneNumbers">{{phoneNumber.description}} : {{phoneNumber.number}}</li>
+            </ul>
+          </li>
+        </ul>
+      </p-accordionTab>
+
+      <p-accordionTab *ngIf="infosource?.producedNauticalInformations?.length || folderReferences.length" [header]="'info-table.columns.nauticalInformationsProduced' | translate">
+        <div *ngIf="infosource?.producedNauticalInformations?.length">
+          <span for="warning-reference">{{'admin-warning.creation.labels.references.warnings' | translate}} :</span>
+          <ul id="warning-reference">
+            <li *ngFor="let producedNauticalInformation of infosource.producedNauticalInformations" class="line recipient">
+              {{producedNauticalInformation}}
+            </li>
+          </ul>
+        </div>
+
+        <br/>
+
+        <div *ngIf="folderReferences.length">
+          <span for="folder-reference">{{'detail.folder-references' | translate}} :</span>
+          <ul id="folder-reference">
+            <li *ngFor="let reference of folderReferences">
+              {{reference}}
+            </li>
+          </ul>
+        </div>
+      </p-accordionTab>
+
+      <!--<p-accordionTab id="accordion-comment" *ngIf="canUpdateComment || infosource?.comment" [header]="'infosource.details.comment' | translate">
+        <ng-container *ngIf="canUpdateComment">
+          <form class="new-infosource-comment" [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+            <div class="p-mr-10">
+              <textarea aria-labelledby="accordion-comment" pInputTextarea id="new-infosource-comment" class="textarea-new-infosource-comment" formControlName="comment" [rows]="2"></textarea>
+              <div class="row" *ngIf="(comment.invalid && submitted) || (comment.dirty && comment.invalid)">
+                <div class="col-25">
+                </div>
+                <div class="col-75">
+                    <small class="p-error" translate>infosource.report-hazard.errors.internal-comment-invalid
+                    </small>
+                </div>
+              </div>
+              <div class="p-as-center edit-button-container">
+                <button type="button" [disabled]="commentForm.enabled" class="fr-btn pi pi-pencil fr-btn--tertiary"
+                          (click)="commentForm.enabled ? commentForm.disable() : commentForm.enable()"
+                          [title]="'detail.edit' | translate"></button>
+                <ng-container *ngIf="commentForm.enabled">
+                  <div class="validation-button-container">
+                    <p-button icon="pi pi-check" type="submit" [title]="'detail.btn-send-confirm' | translate" [disabled]="(comment.invalid && submitted) || (comment.dirty && comment.invalid)">
+                    </p-button>
+                    <p-button icon="pi pi-times" (click)="cancel()" [title]="'detail.btn-send-cancel' | translate">
+                    </p-button>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </form>
+        </ng-container>
+
+        <ng-container *ngIf="!canUpdateComment && infosource?.comment">
+          <p-fieldset legend="{{'infosource.details.comment' | translate}}" [toggleable]="true">
+            <li>{{ infosource.comment }}</li>
+          </p-fieldset>
+        </ng-container>
+      </p-accordionTab>-->
+
+      <p-accordionTab [header]="'detail.state' | translate" *ngIf="displayAdminParts">
+        <ul>
+          <li *ngIf="infosource?.status">
+            {{'infosource.details.status' | translate}} : {{infosourceStatus | translate}} {{infosourceRejectComment}}
+          </li>
+          <li *ngIf="infosource?.validationTime">
+            {{'infosource.details.status-sent' | translate | capitalizeFirst}} : {{infosource.validationTime | localizedDate}}
+          </li>
+          <li *ngIf="infosource?.creationDate">{{'infosource.details.creationDate' | translate}} :
+            {{ infosourceCreationDate | localizedDate}}
+          </li>
+          <li *ngIf="infosource?.lastUpdate">{{'infosource.details.lastUpdate' | translate}} : {{infosourceLastUpdate | localizedDate}} {{infosourceUserName}}</li>
+        </ul>
+      </p-accordionTab>
+
+      <infosource-modal-status-by-service *ngIf="shouldDisplayStatusByService" #infosourceModalStatus
+                                          [infosourceId]="infosource?.id"
+                                          [serviceSelectedId]="serviceSelectedId"
+                                          [issuingServiceId]="infosource?.issuingServiceId"
+                                          [transferred]="transferred"
+      ></infosource-modal-status-by-service>
+    </p-accordion>
+  </ul>
+</div>

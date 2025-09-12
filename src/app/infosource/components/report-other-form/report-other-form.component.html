@@ -1,0 +1,11 @@
+<div class="p-col step-container">
+    <div class="p-col map-container">
+        <form #form (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)" [formGroup]="reportMapAnoForm">
+            <infosource-shared-report-form #sharedReport [infosourceId]="infosourceId"
+                [infosSourceReport]="infosSourceOtherReport" formControlName="sharedReportForm" [submitted]="submitted"
+                (hasAttachmentsIdsChanged)="hasAttachmentsIdsChangedValues($event)" [locationMessage]="'infosource.report-hazard.hazard-location'"
+                [titleLabel]="'infosource.report-other-title'">
+            </infosource-shared-report-form>
+        </form>
+    </div>
+</div>

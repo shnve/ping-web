@@ -1,0 +1,16 @@
+<div class="content">
+  <p-card>
+    <p-confirmPopup></p-confirmPopup>
+    <p>{{'subscription.modal.service' | translate}} :</p>
+    <br/>
+    <h2>{{maritimeService | translateName}}</h2>
+    <br/>
+    <p>{{subscriptionType | translate}}</p>
+    <br/>
+    <h2>{{subscriptionTitle}}</h2>
+    <br/>
+    <p translate>subscription.delete-from-link.message</p>
+    <br/>
+    <button pButton [title]="'detail.delete' | translate" (click)="confirmDelete($event)" [label]="'detail.delete' | translate" class="p-button-outlined" [disabled]="!subscriptionId"></button>
+  </p-card>
+</div>

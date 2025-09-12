@@ -1,0 +1,86 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.div-info {
+  width: 100%;
+  padding-right: 15px;
+  flex: 50%;
+  padding-bottom: 15px;
+
+  .btn-toolbar {
+    margin-top: 35px;
+    & > button {
+      font-size: 0.9rem;
+      margin-right: 5px;
+    }
+  }
+}
+
+.div-info.error {
+  color: red;
+}
+
+label {
+  display: block;
+
+  &.margin-label {
+    margin: 2px;
+  }
+
+  &.no-margin {
+    margin: 0;
+  }
+
+  & > span.form-asterisk {
+    vertical-align: top;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+
+  &[readonly=""] {
+    background-color: $brightGray;
+  }
+}
+
+.lang-label {
+  text-transform: uppercase;
+  margin-right: 7px;
+  vertical-align: top;
+  display: flex;
+  align-items: center;
+
+  .btn-copy-to-clipboard {
+    margin-left: auto;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.p-col-fixed {
+  padding-left: 0;
+}
+
+.line-form {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0.5em 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

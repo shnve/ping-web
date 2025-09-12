@@ -1,0 +1,30 @@
+<div class="folder-detail">
+  <ul class="content-list">
+    <div class="folder-detail-header">
+      <ul class="folder-detail-header-info">
+        <li *ngIf="folder?.locality">{{'folder.details.locality' | translate}} : {{ folder.locality | capitalizeFirst}}</li>
+        <ng-container *ngIf="folder?.concernedMaritimeEntities?.length">
+          <li>
+            {{'folder.details.concernedMaritimeEntities' | translate}} :
+            <span *ngFor="let entity of folder.concernedMaritimeEntities; last as isLast">
+              {{ entity + (isLast ? '' : ', ')}}
+            </span>
+          </li>
+          </ng-container>
+        <li *ngIf="folder?.object">{{'folder.details.object' | translate}} : {{ folder.object | capitalizeFirst}}</li>
+      </ul>
+    </div>
+    <li *ngIf="folder?.status">{{'folder.details.status' | translate}} : {{folderStatus | translate}}
+    </li>
+    <li *ngIf="folder?.lastUpdate">{{'folder.details.lastUpdate' | translate}} : {{folderLastUpdate |
+      localizedDate}}</li>
+    <ng-container *ngIf="folder?.sharedMaritimeServices.length">
+      <li>
+        {{'folder.details.sharedMaritimeServices' | translate}} :
+        <span *ngFor="let service of folder.sharedMaritimeServices; last as isLast">
+          {{ service + (isLast ? '' : ', ')}}
+        </span>
+      </li>
+    </ng-container>
+  </ul>
+</div>

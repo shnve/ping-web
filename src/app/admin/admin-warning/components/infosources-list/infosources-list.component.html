@@ -1,0 +1,10 @@
+<p-card class="infosources-list-p-card" [header]="'admin-warning.creation.parts.infosources.title' | translate">
+    <p-accordion>
+        <p-accordionTab *ngFor="let infosource of uniqInfosources; let isFirst = first;" header="{{infosource.number}}" [selected]="isFirst">
+            <aw-infosources-list-item [infosource]="infosource"
+                (showInfosourceModal)="displayInfosourceModal([$event])"></aw-infosources-list-item>
+        </p-accordionTab>
+    </p-accordion>
+</p-card>
+<infosource-modal *ngIf="showInfosourceModal" #infosourceModal (onClose)="showModal = false"
+    [mainInfosourcesParts]="selectedInfosources"></infosource-modal>

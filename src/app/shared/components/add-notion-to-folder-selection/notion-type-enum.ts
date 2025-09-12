@@ -1,0 +1,5 @@
+export enum NotionTypeEnum {
+  INFOSOURCE = 'INFOSOURCE',
+  WARNING = 'WARNING',
+  GEOREGULATION = 'GEOREGULATION'
+}

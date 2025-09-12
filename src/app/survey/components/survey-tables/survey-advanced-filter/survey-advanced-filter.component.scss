@@ -1,0 +1,23 @@
+@import 'src/styling/variables';
+
+.label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.date-period {
+  margin-left: 15px;
+}
+
+.line-form {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

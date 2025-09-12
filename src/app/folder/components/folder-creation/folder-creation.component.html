@@ -1,0 +1,134 @@
+<div class="container">
+    <form #form (ngSubmit)="validate()" [formGroup]="folderForm">
+        <h2 *ngIf="!folderId" class="folder-title" translate>folder-creation.title</h2>
+        <h2 *ngIf="folderId" class="folder-title" translate>folder-modification.title</h2>
+        <div class="row">
+            <div class="col-25">
+                <label for="maritime-service-areas" translate>folder-creation.area<span>*</span></label>
+            </div>
+            <div class="col-75">
+                <p-dropdown *ngIf="areas$ | async as areas" id="maritime-service-areas" formControlName="areas"
+                    [options]="areas" [optionLabel]="displayedAreaLabel" optionValue="id"
+                    [placeholder]="'folder-creation.ph-area' | translate"
+                    [placeholder]="'maritime-service.all-areas' | translate" display="chip" [showClear]="true"
+                    (ngModelChange)="changeSelectedArea($event)">
+                </p-dropdown>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="(areas.invalid && submitted) || (areas.dirty && areas.invalid)">
+            <div class="col-25"></div>
+            <div class="col-75">
+                <small class="p-error" translate>folder-creation.errors.areas-invalid</small>
+            </div>
+        </div>
+
+        <!-- Concerned maritime entities -->
+
+        <div class="row">
+            <div class="col-25">
+                <label for="comment" translate>infosource.report-hazard.concerned-maritime-entities</label>
+            </div>
+            <div class="col-75">
+                <p-multiSelect *ngIf="availableMaritimeEntities" formControlName="concernedMaritimeEntityIds"
+                    [options]="availableMaritimeEntities"
+                    [placeholder]="'infosource.report-hazard.concerned-maritime-entities' | translate"
+                    [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate" [optionLabel]="'option-label-name' | translate"
+                    optionValue="id">
+                </p-multiSelect>
+            </div>
+        </div>
+
+        <!-- Localities -->
+
+        <div class="row">
+            <div class="col-25">
+                <label class="label-select locality-label" for="localities" translate>folder-creation.locality</label>
+            </div>
+            <div class="col-75">
+                <p-dropdown id="localities" *ngIf="subArea$ | async as subArea"
+                    formControlName="locality"
+                    [options]="subArea"
+                    [optionLabel]="displayedAreaLabel"
+                    optionValue="id"
+                    [showClear]="locality.value?.length"
+                    [placeholder]="'folder-creation.ph-locality' | translate"
+                    [filterBy]="displayedAreaLabel"
+                    [filter]="true">
+                </p-dropdown>
+            </div>
+        </div>
+
+
+        <!-- Object name -->
+
+        <div class="row">
+            <div class="col-25">
+                <label for="object" translate>folder-creation.object<span>*</span></label>
+            </div>
+            <div class="col-75">
+                <input type="text" formControlName="object" id="object" pInputText>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="(object.invalid && submitted) || (object.dirty && object.invalid)">
+            <div class="col-25">
+            </div>
+            <div class="col-75">
+                <small class="p-error" translate>folder-creation.errors.object-invalid</small>
+            </div>
+        </div>
+
+        <!-- review date -->
+
+        <div class="row">
+            <div class="col-25">
+                <label for="reviewDate" translate>folder-creation.review-date</label>
+            </div>
+            <div class="col-75">
+                <p-calendar [dateFormat]="dateFormat" dataType="string" formControlName="reviewDate"
+                    id="reviewDate" ngDefaultControl>
+                </p-calendar>
+            </div>
+        </div>
+
+        <!-- Comment -->
+
+        <div class="row">
+            <div class="col-25">
+                <label for="comment" translate>folder-creation.comment</label>
+            </div>
+            <div class="col-75">
+                <textarea cols="110" formControlName="comment" id="comment" pInputTextarea rows="10">
+                </textarea>
+            </div>
+        </div>
+
+        <!--   Status   -->
+
+        <div class="row" *ngIf="folderId">
+            <div class="col-25">
+              <label for="status" translate>folder-creation.status</label>
+            </div>
+            <div class="col-75">
+                <p-dropdown id="status"
+                            formControlName="status"
+                            [options]="availableStatus"
+                            optionLabel="value"
+                            optionValue="key"
+                            [placeholder]="'folder-creation.ph-status' | translate">
+                </p-dropdown>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <div class="p-grid p-justify-start">
+                    <p-confirmPopup></p-confirmPopup>
+                    <button class="p-button-outlined" pButton [label]="(folderId ? 'folder-creation.update-folder': 'folder-creation.create-folder') | translate" type="submit"></button>
+                    <button pButton type="button" class="p-button-danger" [title]="'detail.cancel' | translate" [label]="'detail.cancel' | translate"(click)="confirmCancelActionOnFolder($event)"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

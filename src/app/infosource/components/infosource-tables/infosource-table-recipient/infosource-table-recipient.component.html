@@ -1,0 +1,3 @@
+<span class="recipient" [pTooltip]="recipientInformation" tooltipPosition="top">{{recipient.name}}</span>
+<span>&nbsp;<i class="far fa-{{statusIcon}}" title="{{('enum.infosource-service-status.' + (recipient.actionType | lowercase)) | translate}}"></i></span>
+<span *ngIf="recipient.transferredBy" [title]="('info-table.tooltip.transferred-by' | translate: { serviceName: recipient.transferredBy })">&nbsp;<i class="far fa-share-square"></i></span>

@@ -1,0 +1,26 @@
+:host ::ng-deep {
+  .add-part-button > button {
+    width: calc(100% - 4.357rem);
+  }
+  .add-part-star {
+    position: absolute;
+    padding: 5px 0 0 5px;
+  }
+}
+
+.parts-container {
+  margin-top: 25px;
+
+  .parts-list-container {
+    width: 260px;
+  }
+
+  .part-map-container {
+    padding: 0 0.5rem;
+  }
+}
+
+.error-message-geometry {
+  margin: 10px 0 0 ;
+  width: 100%;
+}

@@ -1,0 +1,68 @@
+:host ::ng-deep {
+  .p-element.p-multiselect-label-container {
+    min-width: 275px;
+  }
+}
+
+div.settings {
+  grid-gap: 5px;
+  margin-top: 15px;
+}
+
+div.settings label {
+  text-align: right;
+}
+
+.center {
+  margin-left: 21px;
+  margin-top: 25px;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+span {
+  display: inline-block;
+}
+
+span :first-child {
+  margin-right: 6px;
+  margin-bottom: 5px;
+}
+
+li :first-child {
+  margin-bottom: 5px;
+}
+
+.locality-label {
+  margin-top: 8px;
+  margin-left: 10px;
+}
+
+span :last-child {
+  margin-left: 20px;
+}
+
+.multiSelect-width {
+  width: 315px;
+}
+
+li {
+  margin: 10px 0;
+}
+
+.last-update-infos {
+  margin-right: 5px;
+}
+
+.lbl-new-locality-name {
+  margin-right: 0.5rem;
+}
+
+.input-new-locality-name {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

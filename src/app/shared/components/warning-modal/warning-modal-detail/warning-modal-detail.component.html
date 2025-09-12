@@ -1,0 +1,154 @@
+<div class="warning-modal-detail">
+  <ul class="content-list">
+    <ng-container *ngIf="warning?.featureParts?.length">
+      <div class="fr-container--fluid">
+        <div class="fr-grid-row p-card-part-header p-card-part-header-title">
+          <h3 class="fr-col fr-col-3" translate>detail.parts</h3>
+          <div class="fr-col visualisation-button-container">
+            <button class="fr-btn fr-btn--secondary visualize-all-button" (click)="this.allFeaturesVisualized.emit()" [title]="'detail.visualize-all-features' | translate">
+              <span class="visualize-all-label" translate>detail.visualize-all-features</span>
+              <img src="assets/images/icons/ic-visualiser-on.svg" [alt]="'detail.visualize-all-features' | translate">
+            </button>
+          </div>
+        </div>
+      </div>
+      <p-card *ngFor="let featurePart of warning?.featureParts; last as isLast">
+        <div [id]="'featurePart_' + (featurePart | getNumberForSearchedPart : warning.featureParts : notionType.WARNING)" class="warning-feature-item">
+          <div class="fr-container--fluid">
+            <div class="fr-grid-row part-header">
+              <div class="fr-col fr-col-8 part-number">{{ 'admin-warning.creation.parts.part-number' | translate:{number: (featurePart | getNumberForSearchedPart : warning.featureParts : notionType.WARNING)} }}</div>
+              <div class="fr-col visualisation-button-container" *ngIf="(featurePart | hasGeometries : notionType.WARNING)">
+                <button class="fr-btn fr-btn--tertiary-no-outline" (click)="this.featurePartClicked.emit(featurePart)" [title]="'detail.visualize-on-the-map' | translate">
+                  <img src="assets/images/icons/ic-visualiser-on.svg" [alt]="'detail.visualize-on-the-map' | translate">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div  class="p-d-flex content-list ">
+            <div class="p-mr-10">
+              <div *ngIf="featurePart.typeDetails?.length">{{'detail.category' | translate}} : {{featurePart.typeDetails | formatFeaturePartDetails}}</div>
+              <div *ngIf="featurePart.dateRanges.length">
+                <span *ngIf="featurePart.dateRanges.length === 1;else dateRanges">{{'detail.range' | translate}} : {{featurePart.dateRanges[0] | formatDateRange}}</span>
+                <ng-template #dateRanges>
+                  {{'detail.ranges' | translate}} : <ul *ngFor="let dateRange of featurePart.dateRanges" class="content-list">
+                  <li>{{dateRange | formatDateRange}}</li>
+                </ul>
+                </ng-template>
+              </div>
+              <div *ngIf="featurePart.information">{{featurePart.information | formatLocalizedText}}</div>
+            </div>
+            <div><hr class="warning-feature-hr" *ngIf="!isLast"></div>
+          </div>
+        </div>
+      </p-card>
+    </ng-container>
+
+    <p-accordion expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" multiple="true">
+      <p-accordionTab *ngIf="displayWarningPublicsReferences" [header]="'detail.publics-references' | translate">
+        <p-fieldset *ngIf="warning.warningReferencesAsPublicsReferences?.length" [legend]="warningPublicReferenceType.WARNING | formatReferenceHeader: warning.warningReferencesAsPublicsReferences?.length" [toggleable]="true" [collapsed]="true">
+          <ul *ngFor="let category of availableWarningReferencesAsPublicsReferencesCategories">
+            {{category | translate}}
+            <li *ngFor="let warningReference of warningsReferencesByEntityCategory(category)">
+              <a [href]="accessLinkToReference(warningPublicReferenceType.WARNING, warningReference.warningId)" rel="noopener noreferrer" target="_blank">{{warningReference | formatWarningNumber}}</a>
+            </li>
+          </ul>
+        </p-fieldset>
+        <p-fieldset *ngIf="warning?.attachmentsPublicsReferences?.length" [legend]="warningPublicReferenceType.ATTACHMENT | formatReferenceHeader: warning.attachmentsPublicsReferences?.length" [toggleable]="true" [collapsed]="true">
+          <ul>
+            <li *ngFor="let attachmentReference of warning?.attachmentsPublicsReferences">
+              <a (click)="open($event, attachmentReference.id)">{{attachmentReference.filename}}</a>
+            </li>
+          </ul>
+        </p-fieldset>
+        <p-fieldset *ngIf="warning?.warningLinksPublicsReferences?.length" [legend]="warningPublicReferenceType.LINK | formatReferenceHeader: warning.warningLinksPublicsReferences?.length" [toggleable]="true" [collapsed]="true">
+          <ul>
+            <li *ngFor="let link of warning?.warningLinksPublicsReferences">
+              <a [href]="link.url" rel="noopener noreferrer" target="_blank">{{link.title}}</a>
+            </li>
+          </ul>
+        </p-fieldset>
+        <p-fieldset *ngIf="warning.georegulationPublicsReferences?.length" [legend]="warningPublicReferenceType.GEOREGULATION | formatReferenceHeader: warning.georegulationPublicsReferences?.length" [toggleable]="true" [collapsed]="true">
+          <ul>
+            <li *ngFor="let georegulationReference of warning.georegulationPublicsReferences">
+              <a [href]="accessLinkToReference(warningPublicReferenceType.GEOREGULATION, georegulationReference.id)" rel="noopener noreferrer" target="_blank">{{georegulationReference.number}}</a>
+            </li>
+          </ul>
+        </p-fieldset>
+        <p-fieldset *ngIf="warning.entitiesReferencesPublicsReferences?.length" [legend]="warningPublicReferenceType.ENTITY_REFERENCE | formatReferenceHeader: warning.entitiesReferencesPublicsReferences?.length" [toggleable]="true" [collapsed]="true">
+          <ul *ngFor="let maritimeEntityName of availableMaritimeEntityNames">
+            {{maritimeEntityName}}
+            <li *ngFor="let entityReference of entitiesReferencesByEntityName(maritimeEntityName)">
+              <a (click)="openAttachmentOrUrl($event, entityReference.id)">{{entityReference.title}}</a>
+            </li>
+          </ul>
+        </p-fieldset>
+      </p-accordionTab>
+
+      <p-accordionTab *ngIf="displayAllWarningLinks" [header]="'detail.warning-links' | translate" [selected]="true">
+        <p-fieldset *ngIf="displayFolders" legend="{{'detail.linked-folders' | translate}}" [toggleable]="true" [collapsed]="true">
+          <ul>
+            <li *ngFor="let folder of warning?.folders"><a [href]="accessLinkToFolder(folder)" rel="noopener noreferrer" target="_blank">{{folder.number}}</a></li>
+          </ul>
+        </p-fieldset>
+        <p-fieldset *ngIf="displayMaritimeEntities" legend="{{'admin-warning.creation.labels.linked-entities' | translate}}" [toggleable]="true" [collapsed]="true">
+          <ul>
+            <li *ngFor="let maritimeEntity of warning.maritimeEntities">{{maritimeEntity.name}}</li>
+          </ul>
+        </p-fieldset>
+        <p-fieldset *ngIf="displayReferencedWarnings" legend="{{'detail.referenced-warnings' | translate}}" [toggleable]="true" [collapsed]="true">
+          <ul>
+            <li *ngIf="warning?.cancelledWarnings.length">{{'detail.cancelled-warnings' | translate}} :
+              <ul>
+                <li *ngFor="let reference of warning?.cancelledWarnings">{{reference | formatWarningNumber}}</li>
+              </ul>
+            </li>
+            <li *ngIf="warning?.replacedWarnings.length">{{'detail.replaced-warnings' | translate}} :
+              <ul>
+                <li *ngFor="let reference of warning?.replacedWarnings">{{reference | formatWarningNumber}}</li>
+              </ul>
+            </li>
+            <li *ngIf="warning?.inforcedWarnings.length">{{'detail.inforced-warnings' | translate}} :
+              <ul>
+                <li *ngFor="let reference of warning?.inforcedWarnings">{{reference | formatWarningNumber}}</li>
+              </ul>
+            </li>
+            <li *ngIf="warning?.parentWarnings.length">{{'detail.parent-warnings' | translate}} :
+              <ul>
+                <li *ngFor="let reference of warning?.parentWarnings">{{reference | formatWarningNumber}}</li>
+              </ul>
+            </li>
+          </ul>
+        </p-fieldset>
+        <p-fieldset *ngIf="displayCancelledWarnings" legend="{{'detail.cancelled-warnings' | translate}}" [toggleable]="true" [collapsed]="true">
+          <ul>
+            <li *ngFor="let reference of warning?.cancelledWarnings">{{reference | formatWarningNumber}}</li>
+          </ul>
+        </p-fieldset>
+      </p-accordionTab>
+
+      <p-accordionTab *ngIf="displayAttachments" [header]="'detail.attachments' | translate" [selected]="true">
+        <ul>
+          <li *ngFor="let attachment of warning?.attachments"><a (click)="open($event,attachment.id,attachment.filename)">{{attachment.filename}}</a></li>
+        </ul>
+      </p-accordionTab>
+
+      <p-accordionTab *ngIf="displayInternalComment" [header]="'detail.internal-comment' | translate">
+        {{warning.internalComment}}
+      </p-accordionTab>
+
+      <p-accordionTab [header]="'detail.state' | translate" [selected]="true">
+        <ul>
+          <ng-container *ngIf="isProUser()">
+            <li>{{'detail.creation-date' | translate}} : {{warning?.creationDate | formatDatetime:'UTC'}}</li>
+            <li *ngIf="warning?.lastUpdate">{{'detail.modified' | translate}} : {{warning.lastUpdate | formatDatetime:'UTC'}} ({{lastUpdateUser}})</li>
+            <li *ngIf="warning?.estimatedPublicationDate">{{'detail.estimated-publication-date' | translate}} : {{warning.estimatedPublicationDate | formatDate}}</li>
+            <li *ngIf="warning?.reviewDate">{{'detail.review-date' | translate}} : {{warning.reviewDate | formatDate}}</li>
+            <li *ngIf="warning?.endOfBroadcastDate">{{'detail.end-of-broadcast-date' | translate}} : {{warning.endOfBroadcastDate | formatDate}}</li>
+          </ng-container>
+          <li *ngIf="warning?.cancellationDate && warning?.status === 'CANCELLED'">{{'detail.cancelled' | translate}} : {{warning.cancellationDate | formatDatetime:'UTC'}}</li>
+          <li>{{'infosource.details.status' | translate}} : <span *ngIf="warning?.status">{{'enum.warning-status' | translateStatus : warning.status.toLowerCase()}}</span></li>
+        </ul>
+      </p-accordionTab>
+    </p-accordion>
+  </ul>
+</div>

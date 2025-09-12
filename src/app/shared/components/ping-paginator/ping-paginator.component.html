@@ -1,0 +1,21 @@
+<div class="ping-paginator">
+  <div>Item par page</div>
+  <div class="p-field">
+    <p-dropdown [options]="sizeAvailable"
+                [(ngModel)]="currentSize"
+                (onChange)="changePageSize($event)"></p-dropdown>
+  </div>
+  <div class="infos-page">
+    {{firstElement}} - {{lastElement}} of {{page?.totalElements}}
+  </div>
+  <div>
+    <button [disabled]="isFirstPage()" (click)="previous()" class="shom-button-icon previous-button">
+      <i class="pi pi-chevron-circle-left" translate></i>
+      <span class="sr-only" translate>paginator.next-page</span>
+    </button>
+    <button [disabled]="isLastPage()" (click)="next()" class="shom-button-icon next-button">
+      <i class="pi pi-chevron-circle-right" translate></i>
+      <span class="sr-only" translate>paginator.previous-page</span>
+    </button>
+  </div>
+</div>

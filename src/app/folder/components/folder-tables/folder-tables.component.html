@@ -1,0 +1,88 @@
+<shared-select-button
+  class="table-tabs-selector"
+  [ngClass]="tabsClass"
+  [options]="tabs"
+  [(ngModel)]="selectedState"
+  (ngModelChange)="selectedStateChanged()"
+>
+</shared-select-button>
+<folder-table-filter-banner *ngIf="displayFilters"
+  [areaSelected]="areaSelected"
+  [filterState]="filterState"
+  [areas]="areas"
+  (onFilterChange)="filterChange()"
+  [chipGenerator]="generateFilterChipsText.bind(this)"
+>
+  <ng-template #advancedFilter>
+    <folder-advanced-filter
+      [filterState]="filterState"
+      [selectedState]="selectedState"
+      [maritimeEntities]="maritimeEntities"
+      [selectedState]="selectedState"
+      [canShowFilterByStudyId]="true"
+      [studies]="studies"
+    ></folder-advanced-filter>
+  </ng-template>
+</folder-table-filter-banner>
+<folder-paginated-table #FolderTable
+    [items]="folders"
+    [totalRecords]="totalFolders"
+    [loading]="tableLoading"
+    [pageInfo]="tableState.pageInfo$ | async"
+    [columns]="columns[selectedState]"
+    (onPageChange)="pageChange($event)"
+    (onSort)="sortChange($event)"
+    (onModelItemSelect)="displayFolderModal([$event])"
+    class="table-screen-media"
+>
+  <ng-template id="reviewStatus" let-folder="modelItem">
+    <p-tag value="{{'table.folder-review-status.' + folder.reviewStatus | translate}}"
+           severity="{{folder.reviewStatus | folderReviewStatusSeverity}}"
+    ></p-tag>
+  </ng-template>
+  <ng-template id="number" let-folder="modelItem">
+    {{folder | folderFormatNumber}}
+  </ng-template>
+  <ng-template id="locality" let-folder="modelItem">
+    {{folder.locality}}
+  </ng-template>
+  <ng-template id="concernedMaritimeEntities" let-folder="modelItem">
+    <ul *ngIf="folder.concernedMaritimeEntities.length" class="dates-container">
+      <li *ngFor="let entity of folder.concernedMaritimeEntities" class="line recipient">
+        {{entity.name}}
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template id="object" let-folder="modelItem">
+    {{folder.object}}
+  </ng-template>
+  <ng-template id="sharedMaritimeServices" let-folder="modelItem">
+    <ul *ngIf="folder.sharedMaritimeServices.length" class="dates-container">
+      <li *ngFor="let entity of folder.sharedMaritimeServices" class="line recipient">
+        {{entity.name}}
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template id="reviewDate" let-folder="modelItem">
+    {{folder.reviewDate}}
+  </ng-template>
+  <ng-template id="comment" let-folder="modelItem">
+    {{folder.comment}}
+  </ng-template>
+  <ng-template id="lastUpdate" let-folder="modelItem">
+    {{folder.lastUpdate}}
+  </ng-template>
+  <ng-template id="studies" let-folder="modelItem">
+    <ul *ngIf="folder.studies.length" class="dates-container">
+      <li *ngFor="let study of folder.studies" class="line recipient">
+        {{study.number}}
+      </li>
+    </ul>
+  </ng-template>
+</folder-paginated-table>
+<folder-modal *ngIf="showModal" #modal
+  (onStatusChangeAction)="onStatusChangeAction()"
+  (onClose)="closeModal()"
+  (onFolderAreaSet)="onFolderAreaSet($event)"
+  [mainFolders]="selectedFolders"
+></folder-modal>

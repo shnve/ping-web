@@ -1,0 +1,41 @@
+<div class="main-container">
+  <p-button
+            (onClick)="addFeaturePart()"
+            *ngIf="!featureParts?.length"
+            [label]="'admin-warning.creation.parts.add-part' | translate"
+  ></p-button>
+  <div *ngIf="featureParts?.length" class="parts-container">
+    <div *ngIf="featureParts?.length" class="p-col-fixed parts-list-container">
+      <p-button (onClick)="addFeaturePart()"
+                [disabled]="disabled"
+                [label]="'admin-warning.creation.parts.add-part' | translate"
+                class="add-part-button"
+      ></p-button>
+      <infosource-feature-parts-list (onRemove)="removePart($event)"
+                             (onSelect)="selectPart($event)"
+                             [featureParts]="featureParts"
+                             [readonly]="disabled"
+                             [selectedParts]="[selectedPart]"
+                             [validFeaturePart]="areFeaturePartsValid()"
+      ></infosource-feature-parts-list>
+    </div>
+    <div *ngIf="featureParts?.length" class="p-col part-map-container">
+      <div *ngIf="selectedPart">
+        <infosource-parts-map #geometriesForm [featurePart]="selectedPart" [featureParts]="featureParts"
+                              (eventOnFeature)="onGeometryFormFeatureChange($event)">
+        </infosource-parts-map>
+        <small *ngIf="isMissingLocalisation && submitted" class="p-error error-message-localization"
+          translate>infosource.report-hazard.errors.localization-invalid
+        </small>
+      </div>
+      <infosource-feature-part-form *ngIf="selectedPart"
+                            (onChange)="changeSelectedPart($event)"
+                            [featurePart]="selectedPart"
+                            [timezone]="timezone"
+                            [geometries]="getGeometries()"
+                            [validFeaturePart]="hasValidInformation(selectedPart)"
+                            [partIndex]="getNumberForSearchedPart(selectedPart)"
+      ></infosource-feature-part-form>
+    </div>
+  </div>
+</div>

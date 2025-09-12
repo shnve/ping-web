@@ -1,0 +1,236 @@
+<div>
+  <div class="card">
+    <aw-stepper (moveStep)="jumpToStep($event)" [currentStep]="currentStep" [warning]="anInformation"></aw-stepper>
+  </div>
+  <p-card class="step-p-card">
+    <form #form (ngSubmit)="jumpToStep()" [formGroup]="anForm">
+      <p-fieldset legend="{{'admin-warning.creation.labels.header-prerequisites' | translate}}" [toggleable]="false" class="panel-prerequisites">
+
+        <!-- use as model or not -->
+        <div class="p-field" *ngIf="isNotSavedStatus">
+          <div class="p-grid p-nogutter item-flex-display">
+            <label for="isModel" class="label-model" translate>admin-warning.creation.labels.lbl-use-as-model</label>
+            <div class="col-75 p-field-checkbox">
+              <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate"
+                ngDefaultControl formControlName="useAsModel"></p-radioButton>
+              <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate"
+                ngDefaultControl formControlName="useAsModel"></p-radioButton>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-field" *ngIf="useAsModel.value || modelNameRequired">
+          <div class="p-grid p-nogutter item-flex-display">
+            <label for="isModel" class="label-model" translate>admin-warning.creation.labels.lbl-model-name
+              <span>*</span></label>
+            <input class="model-name" id="model-name" type="text" pInputText formControlName="modelName">
+            <small
+              *ngIf="(useAsModel.value && submitted && !modelName.value.length) || (modelName.invalid && submitted) || (modelName.dirty && modelName.invalid)"
+              class="p-error" translate>admin-warning.creation.errors.model-name-invalid</small>
+          </div>
+        </div>
+
+        <div class="serie-warningNumber-fields">
+          <!-- serie -->
+          <div class="p-field first-field">
+            <div class="p-grid p-nogutter">
+              <label class="label-select-serie" for="serie" translate>admin-warning.creation.labels.lbl-serie
+                <span>*</span></label>
+              <div class="serie-elements item-flex-display">
+                <p-dropdown (ngModelChange)="onSelectSerie($event)"
+                  [ngClass]="{'ng-dirty': (serie.invalid && submitted) || (serie.dirty && serie.invalid), 'readonly-mode': serieReadonly}"
+                  [options]="series | orderBy: ('option-label-name' | translate)"
+                  [placeholder]="'admin-warning.creation.labels.ph-serie' | translate" [readonly]="serieReadonly"
+                  [showClear]="!serieReadonly" formControlName="serie" id="serie" ngDefaultControl
+                  [optionLabel]="'option-label-name' | translate" optionValue="id" required></p-dropdown>
+                <small *ngIf="(serie.invalid && submitted) || (serie.dirty && serie.invalid)" class="p-error"
+                  translate>admin-warning.creation.errors.serie-invalid</small>
+              </div>
+              <p-confirmPopup></p-confirmPopup>
+              <p-button (onClick)="confirmReset($event)" [disabled]="!serieReadonly || !serieEditable"
+                [title]="'admin-warning.creation.labels.title-btn-reset-serie' | translate" class="btn-reset-serie"
+                icon="pi pi-unlock" iconPos="center"></p-button>
+            </div>
+          </div>
+
+          <!-- warning number -->
+          <div class="p-field">
+            <div class="p-grid p-nogutter item-flex-display">
+              <label class="label-number-reservation" for="numberReservation"translate>admin-warning.creation.labels.lbl-number</label>
+              <input
+                [ngClass]="{'ng-invalid': (numberReservation.invalid && submitted) || (numberReservation.dirty && numberReservation.invalid) || !validWarningNumber}"
+                formControlName="numberReservation" id="numberReservation" pInputText type="text"
+                class="input-number-reservation">
+              <label class="label-separator-number-reservation" for="selectedYear">/</label>
+              <div class="year-elements">
+                <p-dropdown (ngModelChange)="onSelectYear($event)" [(ngModel)]="selectedYear"
+                  [disabled]="!serieReadonly || isPublished()" [ngModelOptions]="{standalone: true}"
+                  [options]="yearList | orderBy" id="selectedYear" ngDefaultControl required></p-dropdown>
+              </div>
+              <span *ngIf="this.availableWarningNumber" class="next-available-number">
+                ({{('admin-warning.creation.labels.lbl-available-warning-number' | translate:{availableWarningNumber:
+                this.availableWarningNumber})}})
+              </span>
+              <small
+                *ngIf="(numberReservation.invalid && submitted) || (numberReservation.dirty && numberReservation.invalid) || !validWarningNumber"
+                class="p-error" translate>admin-warning.creation.errors.number-reservation-invalid</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- warning general type -->
+        <div class="p-field">
+          <div class="p-grid p-nogutter item-flex-display">
+            <label class="label-select-type-general" for="typeGeneral" translate>admin-warning.creation.labels.lbl-type-general
+              <span>*</span></label>
+            <p-dropdown
+              [ngClass]="{'ng-dirty': (typeGeneral.invalid && submitted) || (typeGeneral.dirty && typeGeneral.invalid), 'readonly-mode': generalTypeReadonly}"
+              [options]="availableCategories | orderByImpure: 'value'"
+              [placeholder]="'admin-warning.creation.labels.ph-type-general' | translate"
+              [readonly]="generalTypeReadonly" [required]="generalTypeRequired" [showClear]="true"
+              [showClear]="!generalTypeReadonly" formControlName="typeGeneral" id="typeGeneral" ngDefaultControl
+              optionLabel="value" optionValue="key" (ngModelChange)="onSelectTypeGeneral($event)"></p-dropdown>
+            <small *ngIf="(typeGeneral.invalid && submitted) || (typeGeneral.dirty && (typeGeneral.invalid || typeGeneral.value === null))"
+              class="p-error" translate>admin-warning.creation.errors.type-general-invalid</small>
+            <p-confirmPopup></p-confirmPopup>
+            <p-button (onClick)="confirmResetTypeGeneral($event)" [disabled]="!generalTypeReadonly"
+              [title]="'admin-warning.creation.labels.title-btn-reset-type-general' | translate" class="btn-reset-type-general"
+              icon="pi pi-unlock" iconPos="center"></p-button>
+          </div>
+        </div>
+
+        <!-- cancelled warnings -->
+        <div class="p-field">
+          <div class="p-grid p-nogutter">
+          <label class="label-cancelled-warnings" for="cancelledWarnings" translate>admin-warning.creation.labels.cancelled-warnings</label>
+          <p-multiSelect formControlName="selectedCancellableWarnings" [disabled]="isPublishedWarning || isWarningModel"
+            [options]="cancellableWarnings | orderBy: 'warningNumber'" [showToggleAll]="false" id="selectedCancellableWarnings" optionLabel="warningNumber"
+            optionValue="id" class="cancelled-warnings" [placeholder]="'admin-warning.creation.labels.ph-cancelled-warnings' | translate" ngDefaultControl></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="serie-warningNumber-fields">
+          <!-- cancellation date/time -->
+          <div class="p-field first-field">
+            <div class="p-grid p-nogutter">
+              <label class="label-cancellationTime" for="cancellationTime"
+                translate>admin-warning.creation.labels.lbl-cancellation-datetime</label>
+              <p-calendar (onShow)="resetDefaultTimeIfNeeded()" #pCalendar [dateFormat]="currentDateFormat" [showTime]="true" dataType="string" [appendTo]="'body'"
+                formControlName="cancellationTime" id="cancellationTime" ngDefaultControl></p-calendar>
+            </div>
+          </div>
+
+          <!-- show cancellation date/time -->
+          <div *ngIf="enableAutoCancellationChoice && !!cancellationTime.value" class="p-field datetime-field">
+            <div class="p-grid p-nogutter">
+              <label class="label-cancellationTime" translate>admin-warning.creation.labels.lbl-add-cancellation-date-to-telex</label>
+              <div class="datetime-field">
+                <p-radioButton [value]="true" [label]="'boolean.true' | translate" formControlName="addCancellationTimeToTelex" ngDefaultControl></p-radioButton>
+                <p-radioButton [value]="false" [label]="'admin-warning.creation.labels.lbl-rb-not-display-cancellation-date' | translate" formControlName="addCancellationTimeToTelex" ngDefaultControl></p-radioButton>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- available areas list (from selected serie) -->
+        <div class="areas-localities-fields">
+          <div class="p-field first-field">
+            <div class="p-grid p-nogutter item-flex-display">
+              <label class="label-select-areas" for="generalAreas" translate>admin-warning.creation.labels.lbl-general-areas<span>*</span></label>
+              <div class="areas-elements">
+                <p-multiSelect (ngModelChange)="onSelectArea($event)"
+                  [ngClass]="{'readonly-mode': !serieReadonly || isPublished()}"
+                  [options]="areasList | orderBy: ('option-label-name' | translate)"
+                  [placeholder]="'admin-warning.creation.labels.ph-areas' | translate"
+                  [readonly]="!serieReadonly || isPublished()" formControlName="selectedAreaControl" id="generalAreas"
+                  ngDefaultControl [optionLabel]="'option-label-name' | translate"></p-multiSelect>
+                <small
+                  *ngIf="(selectedAreaControl.invalid && submitted) || (selectedAreaControl.dirty && selectedAreaControl.invalid)"
+                  class="p-error" translate>admin-warning.creation.errors.invalid-sectors</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- selected areas/localities -->
+        <p-panel [collapsed]="(!selectedAreas || !selectedAreas.length) && !missingSector" [toggleable]="true"
+          class="selected-areas-localities"
+          header="{{'admin-warning.creation.labels.lbl-areas-localities' | translate}}">
+          <div *ngIf="selectedAreas" class="card">
+            <p-dataView [value]="selectedAreas | orderBy: 'position'" layout="grid">
+              <ng-template let-areas pTemplate="gridItem">
+                <div *ngFor="let area of areas" class="p-col-12 p-md-6 area-grid-container">
+                  <div class="area-grid-item card">
+                    <div class="area-grid-item-top">
+                      <span class="area-name">{{area.name}}</span>
+                      <p-button (click)="onRemoveArea(area.id)" [disabled]="isPublished()" [title]="'remove' | translate"
+                        [ngClass]="{'readonly-mode': isPublished()}" icon="pi pi-trash" iconPos="center"></p-button>
+                    </div>
+                    <div class="area-grid-item-content">
+                      <aw-locality [area]="area" [areasList]="areasList" [isPublished]="isPublished()" (localityUpdated)="needRefreshTelexForLocalities()"
+                        [localitiesList]="localitiesList" [prerequisites]="prerequisites" [selectedArea]="selectedArea"
+                        [selectedAreas]="selectedAreas" [selectedLocalities]="selectedLocalities"></aw-locality>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </p-dataView>
+            <small *ngIf="missingSector && !this.checkedLocalities" class="p-error"
+              translate>admin-warning.creation.errors.general-areas-invalid</small>
+          </div>
+        </p-panel>
+      </p-fieldset>
+      <br/>
+      <p-fieldset [toggleable]="false" class="panel-parts" legend="{{'admin-warning.creation.labels.header-parts' | translate}}">
+        <p-card *ngIf="!serieName || !anInformation.prerequisites.typeGeneral">{{'admin-warning.creation.labels.serie-and-type-required' | translate}}</p-card>
+        <br/>
+        <p-button (onClick)="addFeaturePart()" *ngIf="!featureParts.length" [disabled]="!serieName || !anInformation.prerequisites.typeGeneral"
+          [label]="'admin-warning.creation.parts.add-part' | translate"></p-button>
+        <div class="step-container">
+          <div class="p-grid">
+            <div *ngIf="featureParts.length" class="p-col-fixed parts-list-container">
+              <p-button (onClick)="addFeaturePart()" [disabled]="!serieName || !anInformation.prerequisites.typeGeneral || isPublished()"
+                [label]="'admin-warning.creation.parts.add-part' | translate" class="add-part-button"></p-button>
+              <aw-feature-parts-list (onRemove)="removePart($event)" (onSelect)="selectPart($event)"
+                [featureParts]="featureParts" [readonly]="isPublished()" [selectedParts]="[selectedPart]"
+                [validFeaturePart]="areFeaturePartsValid()"></aw-feature-parts-list>
+              <aw-infosources-list [infosources]="anInformation.links.infosources"></aw-infosources-list>
+            </div>
+            <div class="p-col part-map-container">
+              <div *ngIf="selectedPart">
+                <aw-geometries-form
+                  #geometriesForm
+                  [featurePart]="selectedPart"
+                  [featureParts]="featureParts"
+                  [isBathy]="anInformation.prerequisites.isBathy"
+                  [serieId]="serieId"
+                  [serieName]="serieName">
+                </aw-geometries-form>
+              </div>
+              <aw-feature-part-form (onChange)="changeSelectedPart($event)" *ngIf="selectedPart"
+                [affectedAreas]="getAffectedAreas()" [anInformation]="anInformation" [featurePart]="selectedPart" [typeGeneral]="anInformation.prerequisites.typeGeneral"
+                [geometries]="getGeometries()" [validFeaturePart]="hasValidInformationOrDetails(selectedPart)"
+                [partIndex]="getSelectedPartIndex(selectedPart)" [isBathy]="anInformation.prerequisites.isBathy"></aw-feature-part-form>
+            </div>
+          </div>
+        </div>
+      </p-fieldset>
+      <br/>
+    </form>
+    <p-fieldset *ngIf="featureParts.length"
+                [toggleable]="false" class="panel-parts"
+                legend="{{'admin-warning.creation.labels.header-telex' | translate}}">
+      <aw-diffusion-telex #viewTelex
+                          [warning]="anInformation"
+                          [isPrerequisitesStep]="currentStep === '/prerequisites'"
+                          (telexRefreshed)="refreshTelex()"
+      ></aw-diffusion-telex>
+    </p-fieldset>
+    <br/>
+    <aw-step-save-button (savePageButton)="quickSave()"></aw-step-save-button>
+    <aw-step-transition-button (nextPageButton)="nextPage()" (prevPageButton)="prevPage()" (savePageButton)="save()"
+      [anInformation]="anInformation"
+      [isPrerequisitesStep]="true">
+    </aw-step-transition-button>
+  </p-card>
+</div>

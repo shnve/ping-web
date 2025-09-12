@@ -1,0 +1,63 @@
+<form #form [formGroup]="surveyForm" (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)">
+  <p-card class="header">
+    <!-- DPC_RG_13091 -->
+    <div [staticSectionDirective]="'survey-analysis-general-instructions'"></div>
+  </p-card>
+
+  <shared-survey-description #surveyDescription
+    formControlName="surveyDescription"
+    [submitted]="submitted"
+    [achievementPeriodRequired]="false"
+    (dateTimeValidated)="dateValidated($event)"
+  ></shared-survey-description>
+
+  <shared-survey-bathy-metadata-description #bathyMetadata
+    formControlName="surveyBathyData"
+    [submitted]="submitted"
+  ></shared-survey-bathy-metadata-description>
+
+  <p-panel [header]="'survey.form.sections.your-bathy-data' | translate">
+    <!-- Bathy attachments (is_bathy = true) -->
+    <p-card class="section-header">
+      <div [staticSectionDirective]="'survey-bathy-data'"></div>
+    </p-card>
+    <div class="row">
+      <div class="col-25 lbl-top">
+        <label for="bathyAttachments">{{'survey.form.fields.bathy-attachments' | translate}} *</label>
+      </div>
+      <div class="col-75">
+        <app-attachments id="bathyAttachments"
+                        [manageManyAttachments]="true"
+                        [attachmentFiles]="survey.bathyAttachmentFiles"
+                        [attachmentIds]="survey.bathyAttachmentIds"
+                        [filteredExtensions]="bathyFileTypes"
+                        [maxFileSize]="maxFileSize"
+                        [isBathy]="true"
+                        [isSurvey]="true"
+                        [inputId]="'bathy-attachments'"
+                        (uploadError)="handleUploadError('bathyAttachments', $event)"
+                        (onChange)="setBathyAttachmentIds($event)">
+        </app-attachments>
+        <div class="error-message" *ngIf="!survey.bathyAttachmentIds?.length && submitted">
+          <small class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+        <div class="error-message" *ngIf="attachmentFields['bathyAttachments']">
+          <small class="p-error" translate>survey.form.errors.file-size-exceed</small>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+
+  <!-- buttons -->
+  <div class="container">
+    <p-confirmPopup></p-confirmPopup>
+    <div class="p-grid p-nogutter p-justify-start">
+      <button [label]="'survey.form.buttons.save-test' | translate" class="p-button-outlined"
+          pButton type="submit">
+      </button>
+      <button pButton type="button" class="p-button-danger" [title]="'detail.cancel' | translate" [label]="'detail.cancel' | translate"
+          (click)="confirmCancel($event)">
+      </button>
+    </div>
+  </div>
+</form>

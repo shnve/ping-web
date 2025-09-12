@@ -1,0 +1,80 @@
+@import 'variables';
+
+:host::ng-deep {
+  .grp-btn-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: start;
+    width: 100%;
+
+    p-button{
+      .p-button.p-component{
+        padding: 0.7rem;
+      }
+    }
+  }
+
+  p-messages.telex-message {
+
+    .p-message-wrapper {
+      padding: unset;
+      border: 0.1em solid $colorMessageInfo;
+      max-width: 50vw;
+    }
+
+    .text-message-container {
+      padding: 0.7rem;
+    }
+
+    .p-message {
+      margin: 0;
+    }
+
+    .message-container {
+      display: flex;
+
+      .icon-message-container {
+        background-color: $colorMessageInfo;
+        display: flex;
+        justify-content: center;
+        padding: 0.6rem;
+
+        .icon {
+          background-color: white;
+          color: $colorMessageInfo;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          width: 1.2rem;
+          height: 1.2rem;
+
+          padding: 0em 0.4em;
+          border-radius: 0.15rem;
+        }
+      }
+    }
+  }
+
+  p-messages.telex-message.alert {
+
+    .p-message-wrapper {
+      border: 0.1em solid $colorMessageWarning;
+    }
+
+    .message-container .icon-message-container {
+      background-color: $colorMessageWarning;
+
+      .icon {
+        color: $colorMessageWarning;
+        padding: unset;
+      }
+    }
+  }
+}
+
+textarea {
+  min-height: 400px;
+}

@@ -1,0 +1,250 @@
+@import 'variables';
+
+:host ::ng-deep {
+  .lang-dropdown {
+    position: unset;
+
+    .p-dropdown-items-wrapper {
+      max-width: 110px;
+    }
+
+    .p-dropdown-items {
+      padding: 0;
+      margin: 0;
+    }
+
+    .p-dropdown-panel {
+      .p-dropdown-items .p-dropdown-item {
+        &.p-highlight,
+        &:not(.p-highlight):not(.p-disabled):hover {
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+
+    .p-dropdown:hover {
+      background-color: unset;
+    }
+
+    .p-dropdown {
+      background-color: white;
+      border: 1px solid $lightGreyColor;
+      height: 2.5rem;
+    }
+
+    .pi-chevron-down {
+      color: $blue-sun;
+    }
+  }
+
+  h3 {
+    font-weight: bold;
+  }
+
+  p-dialog {
+    .p-dialog .p-dialog-header-icons {
+      display: none;
+    }
+
+    .p-dialog .p-dialog-header {
+      padding: 0 0 0 1.5rem;
+      border-bottom: black solid 1px;
+
+      .p-dialog-title {
+        font-size: 1.2rem;
+        width: 100%;
+
+        .header-content {
+          display: flex;
+          justify-content: space-between;
+
+          .header-content-title {
+            justify-content: flex-start;
+            align-self: center;
+          }
+
+          .header-content-buttons {
+            margin: 0.5rem;
+            justify-content: flex-end;
+
+            a {
+              margin-right: 10px;
+
+              .img-lang {
+                width: 21px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .p-dialog .p-dialog-content {
+      padding: 0;
+      overflow-y: initial;
+    }
+
+    .p-dialog .p-dialog-footer {
+      border-top: black solid 1px;
+      padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+
+      .p-button.p-button-icon-only {
+        width: 2.357rem;
+        height: 100%;
+      }
+
+      .p-button.p-button-outlined {
+        color: $primaryColor;
+        border-color: $primaryColor;
+      }
+    }
+  }
+
+  h1 {
+    margin: 0 1rem 0.5rem;
+  }
+
+  .lang-choice-button {
+    .flag-container {
+      .flag.second-lang-flag {
+        top: 8px;
+      }
+
+      .flag.selected-lang-flag {
+        top: 15px;
+      }
+    }
+  }
+}
+
+.fr-btns-group:not(.fr-btns-group--sm):not(.fr-btns-group--lg)
+  .fr-btn:not([class^="fr-icon-"]):not([class*=" fr-icon-"]):not([class^="fr-fi-"]):not([class*=" fr-fi-"]) {
+  &.no-padding {
+    padding: 0;
+  }
+}
+
+.fr-modal__header {
+  .close-modal-button {
+    display: flex;
+    margin-left: auto;
+    padding: 0;
+  }
+}
+
+.fr-modal__content {
+  margin-bottom: 0;
+}
+
+.fr-callout {
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  padding-left: 0.5rem;
+
+  li {
+    margin: 5px 20px;
+    list-style-type: circle;
+    word-wrap: break-word;
+  }
+}
+
+.img-lang {
+  width: 100%;
+}
+
+.lang-choice-container {
+  height: 50px;
+  width: 90px;
+  display: flex;
+}
+
+.header-content-title {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
+.pi-times:after {
+  margin-left: 0.5rem;
+  content: "\e90b";
+}
+
+.pi-times:before {
+  content: "";
+}
+
+button:disabled {
+  cursor: initial;
+}
+
+h3 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 63rem) {
+  .fr-col-md-4,
+  .fr-col-md-8 {
+    width: auto;
+    max-width: none;
+  }
+
+  .fr-container-md {
+    padding: 0;
+  }
+}
+
+@media (min-width: 62em) {
+  .fr-container,
+  .fr-container-lg,
+  .fr-container-md,
+  .fr-container-sm {
+    padding: 0;
+  }
+
+  .fr-header__body-row {
+    padding: 0 0 1rem 0;
+  }
+}
+
+@media (min-width: 78em) {
+  .fr-container,
+  .fr-container-lg,
+  .fr-container-md,
+  .fr-container-sm {
+    max-width: 80vw;
+  }
+}
+
+@media (min-width: 48em) {
+  .fr-modal__header {
+    padding: 0.5rem 2rem;
+  }
+
+  .fr-modal__body {
+    max-height: 98vh !important;
+    overflow-x: hidden;
+  }
+}
+
+.separator {
+  width: 1px;
+  height: 40px;
+  margin: 0 10px;
+  background: $lightGreyColor;
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+@media (max-width: 600px) {
+  .separator {
+    display: none;
+  }
+  ul.fr-btns-group > li:last-child {
+    display: flex;
+    justify-content: center;
+  }
+}

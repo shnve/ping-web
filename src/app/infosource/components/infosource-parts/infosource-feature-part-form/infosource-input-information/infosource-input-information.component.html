@@ -1,0 +1,40 @@
+<div *ngFor="let lang of langs; let index = index" class="div-info">
+  <div class="btn-toolbar">
+    <label>
+      <div class="line-form">
+          <label for="circle-distance-unit" class="p-col-fixed no-margin">{{ 'admin-warning.creation.parts.information.radiusDistanceUnit' | translate }}</label>
+          <p-dropdown [options]="availableDistanceUnits" 
+                      [(ngModel)]="selectedDistanceUnitsByLang[index].selectedDistanceUnit" 
+                      ngDefaultControl>
+                      <ng-template pTemplate="item" let-item>
+                      {{item.name | translate}}
+                      </ng-template>
+                      <ng-template pTemplate="selectedItem" let-item>
+                      {{item.name | translate}}
+                      </ng-template>
+          </p-dropdown>
+      </div>
+    </label>
+    <label>
+      <div class="line-form">
+          <label for="decimal-minute-precision" class="p-col-fixed no-margin">{{ 'admin-warning.creation.parts.information.decimal-minute-precision' | translate }}</label>
+          <p-dropdown [options]="availablePrecision" 
+                      [(ngModel)]="selectedPrecisionByLang[index].selectedPrecision" 
+                      ngDefaultControl>
+          </p-dropdown>
+      </div>
+    </label>
+    <!-- insérer géométries -->
+    <button pButton type="button" [icon]="wasClicked('geometry', lang)" iconPos="right"
+            (click)="addGeometry(lang)" translate [label]="'admin-warning.creation.parts.information.add-geometry' | translate"
+    ></button>
+    <!-- insérer périodes -->
+    <button pButton type="button" [icon]="wasClicked('periods', lang)" iconPos="right"
+            (click)="addPeriods(lang)" translate [label]="'admin-warning.creation.parts.information.add-periods' | translate"
+    ></button>
+  </div>
+  <label  [ngClass]="{'error': !validFeaturePart[lang]}">
+      <span class="lang-label">{{lang | uppercase}}</span><span *ngIf="isMandatoryLanguage(lang)" class="form-asterisk">(*)</span>
+      <textarea pInputTextarea [rows]="10" [(ngModel)]="information[lang]" (ngModelChange)="informationChanged()"></textarea>
+  </label>
+</div>

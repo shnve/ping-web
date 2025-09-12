@@ -1,0 +1,41 @@
+<form [formGroup]="staticSectionForm" class="form" (ngSubmit)="saveStaticSection()">
+  <!-- key -->
+  <div class="line-form p-field p-grid">
+    <label for="static-section-key" class="label p-col-fixed">{{'static-section-list.table.key' | translate }}</label>
+    <input id="static-section-key" type="text" formControlName="key" [disabled]="true">
+  </div>
+
+  <!-- location -->
+  <div class="line-form p-field p-grid">
+    <label for="static-section-location" class="label p-col-fixed">{{'static-section-list.table.location' | translate }}</label>
+    <input id="static-section-location" type="text" formControlName="location" [disabled]="true">
+  </div>
+
+  <!-- name -->
+  <div class="line-form p-field p-grid">
+    <label for="static-section-name" class="label p-col-fixed">{{'static-section-list.table.name' | translate }}</label>
+    <input id="static-section-name" type="text" formControlName="name" [disabled]="true">
+  </div>
+
+  <!-- path -->
+  <div class="line-form p-field p-grid">
+    <label for="static-page-path" class="label p-col-fixed">{{'static-section-list.table.path' | translate }}</label>
+    <input id="static-page-path" type="text" formControlName="path" [disabled]="true">
+  </div>
+
+  <!-- content -->
+  <div class="line-form p-field p-grid">
+    <h5 class="label" translate>static-section.content</h5>
+    <p-editor formControlName="content" [style]="{'height': '320px'}" [readonly]="disabled" ngDefaultControl></p-editor>
+  </div>
+
+  <!-- international content -->
+  <div class="line-form p-field p-grid">
+    <h5 class="label" translate>static-section.internationalContent</h5>
+    <p-editor formControlName="internationalContent" [style]="{'height': '320px'}" [readonly]="disabled" ngDefaultControl></p-editor>
+  </div>
+
+  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="!staticSectionForm.valid"></button>
+  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left" [routerLink]="staticSectionListPath"></button>
+  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times" [routerLink]="staticSectionListPath"></button>
+</form>

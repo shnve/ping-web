@@ -1,0 +1,93 @@
+<ng-container *ngIf="pageItem">
+  <p-confirmPopup></p-confirmPopup>
+  <h1 translate>sub-area-list.title.list</h1>
+  <button pButton *ngIf="canCreateModel" class="add-button p-button-sm" routerLink="/administration/sous-zones/ajouter" [label]="'sub-area-list.add' | translate" icon="pi pi-plus"></button>
+  <table class="administration-table" [attr.aria-label]="('sub-area-list.title.list' | translate)" [attr.aria-describedby]="('sub-area-list.title.list' | translate)">
+    <thead class="wrapper">
+      <tr>
+        <th class="sr-only" translate>sub-area-list.table.action</th>
+        <th translate>sub-area-list.table.urn</th>
+        <th class="with-search-input">
+          <label for="filteredTechnicalIdentifier" translate>sub-area-list.table.technical-identifier</label>
+          <input pInputText id="filteredTechnicalIdentifier" class="text-filter" [(ngModel)]="filteredTechnicalIdentifier" (ngModelChange)="onFilteredTableChange()"
+                 [placeholder]="'sub-area-list.table.filter.technical-Identifier' | translate"
+                 type="text" />
+        </th>
+        <th class="with-search-input" translate>
+          <label for="filteredName" translate>sub-area-list.table.name</label>
+          <input pInputText id="filteredName" class="text-filter" [(ngModel)]="filteredName" (ngModelChange)="onFilteredTableChange()"
+                 [placeholder]="'sub-area-list.table.filter.name' | translate"
+                 type="text" />
+        </th>
+        <th class="with-search-input">
+          <label for="filteredSeriesName" translate>sub-area-list.table.series-use-subArea</label>
+          <input pInputText id="filteredSeriesName" class="text-filter" [(ngModel)]="filteredSeriesName" (ngModelChange)="onFilteredTableChange()"
+                 [placeholder]="'sub-area-list.table.filter.serie-name' | translate"
+                 type="text" />
+        </th>
+        <th class="with-search-input">
+          <label for="filteredParentName" translate>sub-area-list.table.parents-subAreas</label>
+          <input pInputText id="filteredParentName" class="text-filter" [(ngModel)]="filteredParentName" (ngModelChange)="onFilteredTableChange()"
+                 [placeholder]="'sub-area-list.table.filter.parent-name' | translate"
+                 type="text" />
+        </th>
+        <th translate>sub-area-list.table.children-subAreas</th>
+        <th translate>sub-area-list.table.actions</th>
+      </tr>
+    </thead>
+    <tbody class="wrapper sub-area-list">
+        <tr class="subArea" *ngFor="let subArea of pageItem?.content" (click)="detailsSubArea.open = !detailsSubArea.open">
+          <td>
+            <details #detailsSubArea><summary></summary></details>
+            <button *ngIf="subArea.subAreasName?.length > 3" class="none-style" [attr.aria-label]="detailsSubArea.open ? ('sub-area-list.table.show-less' | translate) : ('sub-area-list.table.show-more' | translate)"
+                    [title]="detailsSubArea.open ? ('sub-area-list.table.show-less' | translate) : ('sub-area-list.table.show-more' | translate)">
+              <i class="pi" [ngClass]="detailsSubArea.open ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+            </button>
+          </td>
+          <td>{{subArea.urn}}</td>
+          <td>{{subArea.technicalIdentifier}}</td>
+          <td>{{subArea.name}}</td>
+          <!-- séries concernées -->
+          <td><ul><li *ngFor="let serie of subArea.series">{{ serie.name ?? serie.internationalName }}</li></ul></td>
+          <!-- sous-zone parent -->
+          <td><ul><li *ngFor="let parent of subArea?.parents">{{ parent.technicalIdentifier ?? parent.name ?? parent.internationalName }}</li></ul></td>
+          <!-- sous-zone enfant -->
+          <td class="child-subArea-link">
+            <ul *ngIf="!detailsSubArea.open">
+              <li *ngFor="let name of subArea.subAreasName | slice:0:3;">
+                {{ name }}
+              </li>
+              <li *ngIf="subArea.subAreasName?.length > 3" [title]="'sub-area-list.table.show-more' | translate" class="show-more-less" translate>
+                sub-area-list.table.show-more
+              </li>
+            </ul>
+            <ul *ngIf="detailsSubArea.open">
+              <li *ngFor="let name of subArea.subAreasName;">
+                {{ name }}
+              </li>
+              <li *ngIf="subArea.subAreasName?.length > 3" [title]="'sub-area-list.table.show-less' | translate" class="show-more-less" translate>
+                sub-area-list.table.show-less
+              </li>
+            </ul>
+          </td>
+          <td>
+            <button pButton *ngIf="canPreviewModel" class="p-button-sm preview-button" routerLink="/administration/sous-zones/{{subArea.id}}/details" [label]="'sub-area-list.table.show' | translate" icon="pi pi-eye">
+              <span class="sr-only" translate>sub-area-list.table.show</span>
+            </button>
+            <button pButton *ngIf="checkWritableAccess(subArea.maritimeServiceIds, subArea.series?.length)" class="p-button-sm edit-button" routerLink="/administration/sous-zones/{{subArea.id}}/edition" [label]="'sub-area-list.table.edit' | translate" icon="pi pi-pencil">
+              <span class="sr-only" translate>sub-area-list.table.edit</span>
+            </button>
+            <button pButton *ngIf="checkWritableAccess(subArea.maritimeServiceIds, subArea.series?.length) && subArea?.parents?.length" class="p-button-sm" (click)="confirmDelete($event, subArea.id)" icon="pi pi-trash">
+              <span class="sr-only" translate>sub-area-list.table.delete</span>
+            </button>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  <app-ping-paginator
+    [page]="pageItem"
+    [currentSize]="this.currentSize"
+    [currentPage]="this.currentPage"
+    (changePage)="this.handlePageEvent($event)"
+  ></app-ping-paginator>
+</ng-container>

@@ -1,0 +1,49 @@
+@import 'variables';
+
+$border: 1px solid $quaternaryColorLighten1;
+
+.recipient {
+  margin-bottom: 0.4rem;
+}
+
+@mixin tabs-style($tabWidth) {
+  .p-buttonset .p-button {
+    width: $tabWidth;
+    border-bottom: $border;
+    border-top: $border;
+    border-radius: 0;
+    padding: 0.4rem 1rem;
+
+    &.p-highlight {
+      background: $quaternaryColorLighten3;
+      color: black;
+    }
+
+    &:first-child {
+      border-left: 0;
+    }
+    &:last-child {
+      border-left: $border;
+      border-right: 0;
+    }
+
+    .p-button-label {
+      font-weight: 500;
+    }
+  }
+}
+
+:host ::ng-deep {
+  .table-screen-media {
+    .p-datatable .p-datatable-thead > tr > th {
+      word-wrap: break-word;
+    }
+    .p-datatable .p-datatable-tbody > tr > td {
+      word-wrap: break-word;
+    }
+  }
+
+  .new-subscription {
+    margin: 1rem 0.4rem;
+  }
+}

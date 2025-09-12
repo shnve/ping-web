@@ -1,0 +1,31 @@
+<div class="filter-content"
+     [ngClass]="{'show-filter-content': isShowFilters, 'hide-filter-content': !isShowFilters}">
+  <button type="button" class="p-overlaypanel-close p-link p-rippl"
+          (click)="toggleFilterContent($event)">
+    <span class="p-overlaypanel-close-icon pi pi-times"></span>
+  </button>
+  <div class="filter-content-header-title">
+    <span>{{('filter.filter-bar.bottom.collapsed' | translate)}}</span>
+  </div>
+  <hr/>
+  <div *ngFor="let georegulationDisplayTypeOption of georegulationDisplayTypeOptions" class="p-field-checkbox">
+    <p-checkbox (onChange)="displayTypeOptionClicked($event)"
+      name="georegulationDisplayTypeOption-group"
+      [value]="georegulationDisplayTypeOption"
+      [(ngModel)]="selectedGeoregulationDisplayTypes"
+      [inputId]="georegulationDisplayTypeOption.code">
+    </p-checkbox>
+    <label [for]="georegulationDisplayTypeOption.code">{{georegulationDisplayTypeOption.text}}</label>
+  </div>
+  <georegulation-map-advanced-filter [filterState]="_filterState"></georegulation-map-advanced-filter>
+</div>
+<div class="filter-bar" (click)="applyFilterContent($event)">
+  <div class="arrow-up-left icon-left-position"><i class="fa" [ngClass]="{'fa-angle-double-down': isShowFilters, 'fa-angle-double-up': !isShowFilters}"></i></div>
+  <div class="filter-button">
+    <span *ngIf="isShowFilters; else displayFilterText">{{('filter.filter-bar.bottom.expanded' | translate)}}</span>
+    <ng-template #displayFilterText>
+      <span>{{('filter.filter-bar.bottom.collapsed' | translate)}}&nbsp;<p-badge [value]="nbFilters" severity="info" styleClass="p-mr-4 position-badge"></p-badge></span>
+    </ng-template>
+  </div>
+  <div class="arrow-up-right icon-right-position"><i class="fa" [ngClass]="{'fa-angle-double-down': isShowFilters, 'fa-angle-double-up': !isShowFilters}"></i></div>
+</div>

@@ -1,0 +1,36 @@
+.label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.date-period {
+  margin-left: 15px;
+}
+
+.line-form {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+:host ::ng-deep {
+  .p-calendar {
+    .p-inputtext {
+      width: 130px;
+    }
+  }
+
+  .multiselect {
+    .p-multiselect-label-container {
+      min-width: 140px;
+      max-width: 570px;
+    }
+  }
+}

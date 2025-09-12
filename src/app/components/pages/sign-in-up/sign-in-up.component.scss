@@ -1,0 +1,23 @@
+.sign-in-up-page {
+  display: flex;
+  flex-direction: column;
+
+
+  h2.sign-in-up-page-item {
+    margin: 30px;
+  }
+
+  .sign-in-up-page-item {
+    text-align: center;
+  }
+
+  .main-title {
+    align-self: center;
+  }
+}
+
+button {
+  margin-top: 20px;
+  margin-right: 20px;
+  font-size: 25px;
+}

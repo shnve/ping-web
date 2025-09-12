@@ -1,0 +1,31 @@
+<ng-container *ngIf="pageItem">
+  <p-confirmPopup></p-confirmPopup>
+  <h1 translate>static-page-list.title.list</h1>
+  <button pButton *ngIf="enableCreate" class="add-button p-button-sm" routerLink="./ajouter" [label]="'static-page-list.add' | translate" icon="pi pi-plus"></button>
+  <table class="administration-table">
+    <thead>
+    <tr>
+      <th>{{('static-page-list.table.' + (translate.currentLang === 'fr' ? 'title' : 'international-title')) | translate}}</th>
+      <th translate>static-page-list.table.path</th>
+      <th translate>static-page-list.table.action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let staticPage of pageItem?.content">
+      <td>{{staticPage | formatStaticPageTitle}}</td>
+      <td><a [routerLink]="[baseStaticPath, staticPage.path]" target="_blank" rel="noopener noreferrer">{{staticPage.path}}</a></td>
+      <td>
+        <button pButton *ngIf="enablePreview" class="p-button-sm" routerLink="./{{staticPage.id}}/details" [label]="'static-page-list.table.show' | translate" icon="pi pi-eye"></button>
+        <button pButton *ngIf="enableEdit" class="p-button-sm" routerLink="./{{staticPage.id}}/edition" [label]="'static-page-list.table.edit' | translate" icon="pi pi-pencil"></button>
+        <button pButton *ngIf="enableEdit && !staticPage.locked" class="p-button-sm" (click)="confirmDelete($event, staticPage.id)" [title]="'static-page-list.table.delete' | translate" icon="pi pi-trash"></button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <app-ping-paginator
+    [page]="pageItem"
+    [currentSize]="this.currentSize"
+    [currentPage]="this.currentPage"
+    (changePage)="this.handlePageEvent($event)"
+  ></app-ping-paginator>
+</ng-container>

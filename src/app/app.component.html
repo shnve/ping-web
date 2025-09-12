@@ -1,0 +1,9 @@
+
+<ng-container *ngIf="isAppLoaded">
+  <app-header></app-header>
+  <app-toaster></app-toaster>
+  <div class="main-content" role="main">
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer></app-footer>
+</ng-container>

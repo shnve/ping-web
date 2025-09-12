@@ -1,0 +1,162 @@
+<p-accordion #attachmentsAccordion>
+  <p-accordionTab>
+    <p-header>
+      <div class="p-d-flex p-justify-between p-align-center">
+        <span>
+          {{ folder.attachments.length > 1 ?
+          ('folder-modal-attachments.title-many-attachments' | translate:{number: folder.attachments.length}) :
+          ('folder-modal-attachments.title-max-one-attachment' | translate:{number: folder.attachments.length}) }}
+        </span>
+        <button *ngIf="canEditOrDelete"
+                [disabled]="editMode"
+                pButton type="button"
+                icon="pi pi-plus"
+                [label]="'folder-modal-attachments.add-attachment' | translate"
+                pAddRow
+                [table]="folderAttachmentsTable"
+                [newRow]="newAttachmentRow()"
+                (click)="setEditMode($event)"
+        ></button>
+      </div>
+    </p-header>
+    <div class="table-container">
+      <p-table #folderAttachmentsTable
+               selectionMode="multiple"
+               [(selection)]="selectedAttachmentsIdsForCreatingStudy"
+               dataKey="id"
+               (onRowSelect)="selectAttachment()"
+               (onRowUnselect)="selectAttachment()"
+               (onHeaderCheckboxToggle)="selectAttachment()"
+               [columns]="columns"
+               [value]="this.tableFolderAttachments"
+               dataKey="id"
+               editMode="row">
+        <ng-template pTemplate="header" let-columns>
+          <tr *ngIf="tableFolderAttachments.length; else noData">
+            <th class="checkbox-width" *ngIf="canSelectAttachment">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns">
+              {{col.translateKey | translate}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-folderAttachment let-editing="editing" let-index="rowIndex">
+          <tr [pEditableRow]="folderAttachment">
+            <td *ngIf="canSelectAttachment">
+              <p-tableCheckbox [value]="folderAttachment"></p-tableCheckbox>
+            </td>
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <app-attachments id="attachments" [manageManyAttachments]="false"
+                                   [attachmentFiles]="folderAttachment.attachmentFile"
+                                   [attachmentIds]="folderAttachment.attachmentId"
+                                   [showChooseFile]="!folderAttachment.attachmentId" [showSuccessMessage]="false"
+                                   [inputId]="'folder-modal-attachments'"
+                                   (onChange)="setAttachmentsIds($event, folderAttachment)">
+                  </app-attachments>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  <div class="file" *ngIf="folderAttachment.attachmentFile">
+                    <a class="filename"
+                       (click)="open($event, folderAttachment)">{{folderAttachment.attachmentFile.filename}}</a>
+                    <span class="filesize"
+                          *ngIf="formatFileSize(folderAttachment.attachmentFile.totalSize)">{{formatFileSize(folderAttachment.attachmentFile.totalSize)}}</span>
+                  </div>
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="folderAttachment.comment"
+                         [placeholder]="'folder-modal-attachments.columns.comment' | translate">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{folderAttachment.comment}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <p-calendar [showTime]="true"
+                              [dateFormat]="dateFormat"
+                              [(ngModel)]="folderAttachment.receptionDate"
+                              [appendTo]="'body'"
+                              [placeholder]="'folder-modal-attachments.columns.receptionDate' | translate"
+                              [maxDate]="now"></p-calendar>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  <div>{{formatReceptionDate(folderAttachment.receptionDate)}}</div>
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <p-dropdown *ngIf="maritimeServices$ | async as services"
+                              [(ngModel)]="folderAttachment.maritimeServiceId"
+                              [options]="services"
+                              [group]="true"
+                              optionGroupLabel="name"
+                              optionGroupChildren="maritimeServices"
+                              [optionLabel]="displayedLabel"
+                              optionValue="id"
+                              class="user-service"
+                              [appendTo]="'body'"
+                              [placeholder]="'folder-modal-attachments.columns.maritimeService' | translate">
+                  </p-dropdown>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  <div
+                    *ngIf="folderAttachment.maritimeService">{{folderAttachment.maritimeService[displayedLabel]}}</div>
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td *ngIf="canEditOrDelete">
+              <button *ngIf="!editing"
+                      [disabled]="editMode"
+                      pButton
+                      type="button"
+                      pInitEditableRow
+                      icon="pi pi-pencil"
+                      class="p-button-text p-button-rounded p-button-primary"
+                      (click)="onRowEditInit(folderAttachment)">
+              </button>
+              <button *ngIf="!editing"
+                      [disabled]="editMode"
+                      pButton
+                      type="button"
+                      icon="pi pi-trash"
+                      class="p-button-text p-button-rounded p-button-danger"
+                      (click)="confirmDelete($event, folderAttachment)">
+              </button>
+              <button *ngIf="editing"
+                      [disabled]="!folderAttachment.attachmentId"
+                      pButton
+                      type="button"
+                      pSaveEditableRow
+                      icon="pi pi-check"
+                      class="p-button-text p-button-rounded p-button-success"
+                      (click)="onRowEditSave(folderAttachment, index)">
+              </button>
+              <button *ngIf="editing"
+                      pButton
+                      type="button"
+                      pCancelEditableRow
+                      icon="pi pi-times"
+                      class="p-button-text p-button-rounded p-button-danger"
+                      (click)="onRowEditCancel(folderAttachment, index)">
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <ng-template #noData>
+        <div translate>folder.graph.no-data</div>
+      </ng-template>
+    </div>
+  </p-accordionTab>
+</p-accordion>

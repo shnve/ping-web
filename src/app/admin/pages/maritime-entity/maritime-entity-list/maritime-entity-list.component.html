@@ -1,0 +1,76 @@
+<ng-container>
+  <h1 translate>maritime-entity-list.title.list</h1>
+  <button pButton *ngIf="canCreateModel" class="add-button p-button-sm" routerLink="./ajouter"
+    [label]="'maritime-entity-list.add' | translate" icon="pi pi-plus"></button>
+  <table class="administration-table">
+    <thead>
+      <tr>
+        <th>
+          <label translate>maritime-entity-list.table.urn</label>
+        </th>
+        <th>
+          <label translate>maritime-services-list.table.name</label>
+          <br/>
+          <input pInputText class="text-filter" [placeholder]="'maritime-entity.filter-name' | translate" [(ngModel)]="filteredName"
+            (ngModelChange)="onFilteredNameChange()" type="text" />
+        </th>
+        <th>
+          <label translate>maritime-services-list.table.type</label>
+          <br/>
+          <app-maritime-entity-filter [options]="maritimeEntityTypeEnum" [displayedLabel]="'value'"
+            [id]="'id'" (filterSelected)="fetchFilterValues($event)"
+            [placeholder]="'maritime-entity.filter-type' | translate"
+            [filterType]="FilterType.TYPE">
+          </app-maritime-entity-filter>
+        </th>
+        <th>
+          <label translate>maritime-services-list.table.area</label>
+          <br/>
+          <app-maritime-entity-filter *ngIf="areas$ | async as areas" [options]="areas"
+            [displayedLabel]="displayedLabel" [id]="'id'" (filterSelected)="fetchFilterValues($event)"
+            [placeholder]="'maritime-entity.filter-areas' | translate"
+            [filterType]="FilterType.AREAS">
+          </app-maritime-entity-filter>
+        </th>
+        <th>
+          <label translate>maritime-entity-list.table.main-service</label>
+          <br/>
+          <app-maritime-entity-filter *ngIf="maritimeServices$ | async as maritimeServices" [options]="maritimeServices"
+            [displayedLabel]="displayedLabel" [id]="'id'" (filterSelected)="fetchFilterValues($event)"
+            [placeholder]="'maritime-entity.filter-main-service' | translate"
+            [filterType]="FilterType.MAIN_SERVICE" [multiSelectMode]="false">
+          </app-maritime-entity-filter>
+        </th>
+        <th>
+          <label translate>maritime-entity-list.table.additional-services</label>
+          <br/>
+          <app-maritime-entity-filter *ngIf="maritimeServices$ | async as maritimeServices" [options]="maritimeServices"
+            [displayedLabel]="displayedLabel" [id]="'id'" (filterSelected)="fetchFilterValues($event)"
+            [placeholder]="'maritime-entity.filter-additional-services' | translate"
+            [filterType]="FilterType.ADDITIONAL_SERVICES">
+          </app-maritime-entity-filter>
+        </th>
+        <th translate>maritime-entity-list.table.action</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="pageItem">
+      <tr *ngFor="let entity of pageItem?.content">
+        <td>{{entity.urn}}</td>
+        <td>{{entity.name}}</td>
+        <td>{{'maritime-entity-type.'+entity.type | translate}}</td>
+        <td>{{entity.areas?.map(getDisplayedLabel.bind(this)).join(',')}}</td>
+        <td>{{entity.maritimeService?.name}}</td>
+        <td>{{entity.additionalServices?.map(getMaritimeServiceName.bind(this)).join(',')}}</td>
+        <td>
+          <button pButton *ngIf="canPreviewModel" class="p-button-sm preview-button"
+            routerLink="./{{entity.id}}/details" [title]="'maritime-entity-list.table.show' | translate"
+            icon="pi pi-eye"></button>
+          <button pButton *ngIf="canEditModel" class="p-button-sm edit-button" routerLink="./{{entity.id}}/edition"
+            [title]="'maritime-entity-list.table.edit' | translate" icon="pi pi-pencil"></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-ping-paginator *ngIf="pageItem" [page]="pageItem" [currentSize]="this.currentSize"
+    [currentPage]="this.currentPage" (changePage)="this.handlePageEvent($event)"></app-ping-paginator>
+</ng-container>

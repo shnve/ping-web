@@ -1,0 +1,29 @@
+<div class="table-container">
+    <p-table [columns]="columns" [value]="referenceTable" *ngIf="referenceTable.length; else noData">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th scope="col" *ngFor="let col of columns">
+            {{col.translateKey | translate}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-reference let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            <ng-container *ngIf="col.key === 'type'">
+              {{reference['type']}}
+            </ng-container>
+            <ng-container *ngIf="col.key === 'value'">
+              {{reference['value']}}
+            </ng-container>
+            <ng-container *ngIf="col.key === 'study'">
+              {{reference['studyNumber']}}
+            </ng-container>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <ng-template #noData>
+      <div translate>folder.graph.no-data</div>
+    </ng-template>
+</div>

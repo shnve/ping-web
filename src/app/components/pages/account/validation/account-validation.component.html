@@ -1,0 +1,29 @@
+<div class="account">
+  <h3 translate>account.validation.title</h3>
+
+  <!-- Progress spinner displayed while submitting form (i.e. creating user server-side) -->
+  <div class="form-group" *ngIf="submitting">
+    <p-progressSpinner styleClass="custom-spinner" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+  </div>
+
+  <div class="form-group" [ngClass]="{'error': errors}" *ngIf="errors">
+    <span *ngIf="errors" class="account-validation-error">
+      <span id="validation-error" translate>{{ errors }}</span>
+    </span>
+    <a routerLink="/account-creation" translate>account.validation.retry</a>
+  </div>
+
+  <!-- Modal dialog used to show account validation confirmation before redirect to another page -->
+  <p-dialog [(visible)]="displayConfirmModal" [modal]="true" [closable]="false"
+            [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
+            [style]="{width: '50vw'}" [baseZIndex]="10000"
+            [draggable]="false" [resizable]="false" (onHide)="hideModalDialog()">
+    <ng-template pTemplate="header">
+      <span class="p-dialog-title" translate>account.validation.modal.title</span>
+    </ng-template>
+    <p translate>account.validation.modal.content</p>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="displayConfirmModal=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>

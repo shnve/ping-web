@@ -1,0 +1,133 @@
+<form [formGroup]="form">
+  <div *ngIf="showCalendarPeriods">
+    <div class="label">
+      {{ 'georegulation.calendar-periods' | translate }} ({{ 'admin-warning.creation.labels.date-range-timezone' | translate}} : {{timezone}})
+    </div>
+    <shared-input-date-ranges id="calendar-periods" formControlName="calendarPeriods" [showDateTimeToggleButton]="false" [disabled]="disabled"></shared-input-date-ranges>
+  </div>
+  <div class="row">
+    <div class="label">
+      {{'georegulation.seasonal-periods' | translate}}
+    </div>
+    <georegulation-seasonal-periods id="seasonal-periods" formControlName="seasonalPeriods" [disabled]="disabled"></georegulation-seasonal-periods>
+  </div>
+  <label>
+    <div class="formgroup-inline" *ngIf="showRestrictionCategories">
+      <div class="p-field div-details">
+        <span translate>georegulation.restriction-categories</span>
+        <p-multiSelect class="p-col"
+          formControlName="types"
+          [options]="availableRestrictionCategories"
+          [placeholder]="'georegulation.restriction-categories-placeholder' | translate"
+          [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
+          optionLabel="value"
+          optionValue="key">
+        </p-multiSelect>
+      </div>
+    </div>
+  </label>
+  <span class="title-label" translate>
+    <span translate>georegulation.concerned-by-restriction-vessel</span>
+    <u><span translate>georegulation.concerned-by-restriction-exclusively</span></u>
+    <span translate>georegulation.concerned-by-restriction</span>
+  </span>
+  <label>
+    <div class="formgroup-inline">
+      <span translate>georegulation.restriction-length-vessel</span>
+      <div class="p-col-75 input-vessel-restriction">
+        <p-dropdown id="choiceLengthVessel"
+          formControlName="choiceLengthVessel"
+          [placeholder]="'georegulation.restriction-length-vessel-placholder' | translate"
+          [options]="listGeoregulationRestrictionVessel"
+          optionLabel="label"
+          optionValue="value"
+          resetFilterOnHide="true"
+          [showClear]="true"
+          [disabled]="disabled">
+        </p-dropdown>
+        <input formControlName="lengthVessel" id="lengthVessel" pInputText type="number" min="0"  (change)="choiceRestrictionUpdate($event)"
+               (keyup)="choiceRestrictionUpdate($event)" [placeholder]="'georegulation.length-vessel-placholder' | translate"/>
+        <p translate>georegulation.unit-restriction-length-vessel</p>
+        <!-- message if length vessel are invalid -->
+        <div class="row" *ngIf="choiceLengthVessel.errors?.restrictionVessel">
+          <div class="col-75">
+            <small class="p-error" translate>georegulation.creation.errors.missing-choice-restriction-vessel</small>
+          </div>
+        </div>
+        <!-- message if choice restriction vessel are invalid -->
+        <div class="row" *ngIf="lengthVessel.errors?.restrictionVessel">
+          <div class="col-75">
+            <small class="p-error" translate>georegulation.creation.errors.missing-length-restriction-vessel</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </label>
+  <label>
+    <div class="formgroup-inline">
+        <span translate>georegulation.restriction-gross-tonnage-vessel</span>
+      <div class="input-vessel-restriction">
+        <p-dropdown
+          id="choiceGrossTonnageVessel"
+          formControlName="choiceGrossTonnageVessel"
+          [placeholder]="'georegulation.restriction-gross-tonnage-vessel-placholder' | translate"
+          [options]="listGeoregulationRestrictionVessel"
+          [optionLabel]="'label' | translate"
+          optionValue="value"
+          resetFilterOnHide="true"
+          [showClear]="true"
+          [disabled]="disabled">
+        </p-dropdown>
+        <input formControlName="grossTonnageVessel" id="grossTonnageVessel" pInputText type="number" min="0" (change)="choiceRestrictionUpdate($event)"
+               (keyup)="choiceRestrictionUpdate($event)" [placeholder]="'georegulation.gross-tonnage-vessel-placholder' | translate"/>
+        <p-dropdown
+          id="unitsGrossTonnageVessel"
+          formControlName="unitsGrossTonnageVessel"
+          [placeholder]="'georegulation.unit-gross-tonnage-vessel' | translate"
+          [options]="listGeoregulationPartVesselUnitGrossTonnage"
+          [optionLabel]="'label' | translate"
+          optionValue="value"
+          resetFilterOnHide="true"
+          [showClear]="true"
+          [disabled]="disabled">
+        </p-dropdown>
+        <!-- message if choice restriction gross tonnage vessel is invalid -->
+        <div class="row" *ngIf="choiceGrossTonnageVessel.errors?.restrictionVessel">
+          <div class="col-75">
+            <small class="p-error" translate>georegulation.creation.errors.missing-choice-restriction-vessel</small>
+          </div>
+        </div>
+        <!-- message if gross tonnage vessel is invalid-->
+        <div class="row" *ngIf="grossTonnageVessel.errors?.restrictionVessel">
+          <div class="col-75">
+            <small class="p-error" translate>georegulation.creation.errors.missing-gross-tonnage-restriction-vessel</small>
+          </div>
+        </div>
+        <!-- message if unit gross tonnage vessel is invalid-->
+        <div class="row" *ngIf="unitsGrossTonnageVessel.errors?.restrictionVessel">
+          <div class="col-75">
+            <small class="p-error" translate>georegulation.creation.errors.missing-unit-gross-tonnage-restriction-vessel</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </label>
+  <label class="label-checkbox">
+    <div class="formgroup-inline">
+      <div class="row">
+        <div class="col-25">
+          <label for="isCommercialShip" translate>georegulation.commercial-ship</label>
+        </div>
+        <div class="col-75 p-field-checkbox">
+            <p-checkbox formControlName="isCommercialShip" [binary]="true"></p-checkbox>
+        </div>
+      </div>
+    </div>
+  </label>
+  <label>
+    <span class="title-label" translate>admin-warning.creation.labels.information</span>
+    <georegulation-input-informations [geometries]="geometries" [validFeaturePart]="validFeaturePart" [partIndex]="partIndex"
+      formControlName="informations">
+    </georegulation-input-informations>
+  </label>
+</form>

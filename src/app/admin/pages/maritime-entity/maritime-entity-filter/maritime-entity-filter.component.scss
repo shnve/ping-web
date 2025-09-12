@@ -1,0 +1,11 @@
+:host ::ng-deep {
+  .p-multiselect,
+  .p-dropdown {
+    margin-top: 5px;
+    margin-bottom: 3px;
+  }
+
+  .p-multiselect-label-container {
+    max-width: 250px;
+  }
+}

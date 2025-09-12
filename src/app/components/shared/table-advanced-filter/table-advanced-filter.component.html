@@ -1,0 +1,110 @@
+<form [formGroup]="filterForm">
+
+  <div class="line-form">
+    <label>
+      <span class="label" translate>filter.filter-form.usual-number</span>
+      <input type="text" pInputText formControlName="reservationNumberAndYear" [placeholder]="'filter.filter-form.reservation-number-and-year' | translate">
+    </label>
+  </div>
+
+  <div class="line-form filter-zones">
+    <span class="label" translate>filter.filter-form.sub-areas</span>
+    <p-multiSelect formControlName="subAreaIds"
+                   [options]="availableSubAreas | orderBy: sectorOptionLabel"
+                   [optionLabel]="sectorOptionLabel"
+                   [filter]="false"
+                   optionValue="id"
+                   [placeholder]="'filter.filter-form.all-areas' | translate"
+                   class="multiselect sub-areas-select"
+    ></p-multiSelect>
+  </div>
+
+  <div class="line-form filter-categories">
+    <span class="label" translate>filter.filter-form.categories</span>
+    <p-multiSelect formControlName="categories"
+                   [options]="availableCategories | orderBy: 'value'"
+                   optionLabel="value"
+                   optionValue="key"
+                   [placeholder]="'filter.filter-form.all-categories' | translate"
+                   class="multiselect categories-select"
+    ></p-multiSelect>
+  </div>
+
+  <div *ngIf="isProUser">
+    <!-- concerned maritime entities -->
+    <div class="line-form">
+      <span class="label" translate>filter.filter-form.entities</span>
+      <p-multiSelect formControlName="concernedMaritimeEntityIds"
+                      [options]="availableEntities | orderBy: ('option-label-name' | translate)"
+                      [filter]="true"
+                      [placeholder]="'filter.filter-form.all-entities' | translate"
+                      class="multiselect entities-select"
+                      optionValue="id"
+                      [optionLabel]="'option-label-name' | translate"
+                      ngDefaultControl
+      ></p-multiSelect>
+    </div>
+
+      <!-- entity cover -->
+    <div class="line-form">
+      <span class="label" translate>filter.filter-form.entity-cover</span>
+      <p-multiSelect formControlName="entityCoverIds"
+                      [options]="availableLinkedEntities | orderBy: ('option-label-name' | translate)"
+                      [filter]="true"
+                      [placeholder]="'filter.filter-form.all-entities' | translate"
+                      class="multiselect entities-select"
+                      optionValue="id"
+                      [optionLabel]="'option-label-name' | translate"
+                      ngDefaultControl
+      ></p-multiSelect>
+    </div>
+  </div>
+
+  <div class="line-form"  formGroupName="period">
+    <span class="label" translate>filter.filter-form.event-period</span>
+    <label class="date-period" for="start-date-filter-intput">
+      <span class="label" translate>filter.filter-form.start</span>
+      <p-calendar [showOnFocus]="false" id="start-date-filter-intput"  formControlName="startDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+
+    <label class="date-period" for="end-date-filter-intput">
+      <span class="label" translate>filter.filter-form.end</span>
+      <p-calendar [showOnFocus]="false" id="end-date-filter-intput" formControlName="endDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+  </div>
+
+  <div class="line-form">
+    <label for="publish-date-filter-intput">
+      <span class="label publish-label" translate>filter.filter-form.published-since</span>
+      <p-calendar [showOnFocus]="false" id="publish-date-filter-intput" formControlName="publishDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+  </div>
+
+</form>

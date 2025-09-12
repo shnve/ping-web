@@ -1,0 +1,242 @@
+@import "variables";
+
+$widthLogoAndMargin: $logoWidth + $logoMarginLeftRight * 2;
+
+:host {
+  position: absolute;
+  top: $bannerHeight;
+  width: 100%;
+  z-index: $menuZIndex;
+
+  &.fixed {
+    top: 0;
+    position: fixed;
+  }
+}
+
+.data-services {
+  display: flex;
+  align-items: center;
+
+  span {
+    padding-bottom: 0.02rem;
+  }
+}
+
+.pi-question-circle.icon-data-services {
+  padding-right: 0.2em;
+}
+
+.breadcrumb {
+  position: absolute;
+  width: 100%;
+  top: $navmenuHeight + $headerSeparatorBorderSize;
+  background-color: var(--background-raised-grey);
+}
+
+.navigation-menu {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: $navmenuHeight + $headerSeparatorBorderSize;
+  background-color: var(--background-raised-grey);
+}
+
+a {
+  --underline-idle-width: 0;
+  &[href]:hover,
+  &[href]:active {
+    --underline-hover-width: 0;
+  }
+}
+
+:host ::ng-deep p-menubar {
+  display: inline-block;
+  width: 100%;
+
+  a {
+    --underline-idle-width: 0;
+    > span.p-menuitem-text {
+      min-width: fit-content;
+    }
+  }
+
+  a.data-services::after {
+    display: none;
+  }
+
+  .p-menubar {
+    height: $navmenuHeight;
+    border: none;
+    border-radius: 0;
+    padding: 0 0 0 0.5rem;
+    background-color: var(--background-raised-grey);
+    border-bottom: 1px solid var(--border-default-grey);
+    box-shadow: inset 0 1px 0 0 var(--border-default-grey);
+
+    ul.p-menubar-root-list {
+      flex-wrap: nowrap;
+    }
+
+    .p-menubar-root-list > li.p-menuitem > .p-menuitem-content > a.p-menuitem-link {
+      padding: 0.75rem 0.5rem;
+
+      &:hover {
+        --underline-hover-width: 0;
+      }
+
+      &.p-menuitem-link-active {
+        height: $navmenuHeight;
+        border-radius: 0;
+        background: none;
+        padding: 0 0.5rem;
+
+        &:focus {
+          box-shadow: none;
+          outline: none;
+        }
+
+        .p-menuitem-text {
+          color: var(--text-active-blue-france);
+
+          &:hover {
+            color: var(--text-active-blue-france);
+          }
+
+          &::before {
+            bottom: 0;
+            height: 2px;
+            left: 0;
+            margin-top: 0;
+            position: absolute;
+            top: auto;
+            width: 100%;
+            --idle: transparent;
+            --hover: var(--background-active-blue-france-hover);
+            --active: var(--background-active-blue-france-active);
+            background-color: var(--background-active-blue-france);
+            content: "";
+            display: block;
+          }
+        }
+      }
+    }
+
+    // menu deroulant like "My Contributions"
+    .p-menubar-root-list > li.p-menuitem {
+      &.p-menuitem-active.with-submenu
+        > p-menubarsub
+        > ul.p-submenu-list
+        > li.p-menuitem
+        > .p-menuitem-content
+        > a.p-menuitem-link {
+        &:hover {
+          background-color: var(--hover);
+          --underline-hover-width: 0;
+        }
+
+        &.p-menuitem-link-active > .p-menuitem-text {
+          color: var(--text-active-blue-france);
+
+          &::before {
+            --idle: transparent;
+            --hover: var(--background-active-blue-france-hover);
+            --active: var(--background-active-blue-france-active);
+            background-color: #000091;
+            background-color: var(--background-active-blue-france);
+            content: "";
+            display: block;
+            height: 1.5rem;
+            left: 0;
+            margin-top: -0.75rem;
+            position: absolute;
+            top: 50%;
+            width: 2px;
+          }
+        }
+      }
+
+      &:has(.p-menuitem-link-active).with-submenu > .p-menuitem-content > a.p-menuitem-link {
+        .p-menuitem-text {
+          color: var(--text-active-blue-france);
+
+          :hover {
+            color: var(--text-active-blue-france);
+          }
+
+          &::before {
+            bottom: 0;
+            height: 2px;
+            left: 0;
+            margin-top: 0;
+            position: absolute;
+            top: auto;
+            width: 100%;
+            --idle: transparent;
+            --hover: var(--background-active-blue-france-hover);
+            --active: var(--background-active-blue-france-active);
+            background-color: var(--background-active-blue-france);
+            content: "";
+            display: block;
+          }
+        }
+      }
+    }
+
+    .p-menubar-end {
+      padding-right: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    .pi-bars {
+      font-size: 2rem;
+    }
+  }
+
+  .label {
+    margin-right: 5px;
+  }
+}
+
+.link-before {
+  display: inline-block;
+}
+
+.link-after {
+  display: none;
+}
+
+@media only screen and (max-width: 960px) {
+  .link-before {
+    display: none;
+  }
+
+  .link-after {
+    display: inline-block;
+  }
+
+  .label {
+    display: none;
+  }
+
+  :host {
+    top: $mobileBannerHeight;
+
+    ::ng-deep p-menubar {
+      .p-menubar {
+        .p-menubar-button {
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+
+        .p-menubar-end {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+}

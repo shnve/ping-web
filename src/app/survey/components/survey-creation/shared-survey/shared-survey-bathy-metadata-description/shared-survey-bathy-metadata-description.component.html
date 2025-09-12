@@ -1,0 +1,131 @@
+<div [formGroup]="form">
+  <p-panel [header]="'survey.form.sections.bathy-data-description' | translate">
+    <!-- geographic format or projection -->
+    <div class="row">
+      <div class="col-25">
+        <label for="geographicFormat">{{'survey.form.fields.geographic-format' | translate}} *</label>
+      </div>
+      <div class="col-75 form-checkbox">
+        <p-radioButton [value]="true" [label]="'survey.form.fields.geographic-format-choice' | translate" ngDefaultControl formControlName="geographicFormat" [(ngModel)]="survey.geographicFormat" (onClick)="changeGraphicFormat($event)"></p-radioButton>
+        <p-radioButton [value]="false" [label]="'survey.form.fields.projection-choice' | translate" ngDefaultControl formControlName="geographicFormat" [(ngModel)]="survey.geographicFormat" (onClick)="changeGraphicFormat($event)"></p-radioButton>
+      </div>
+    </div>
+
+    <!-- message if missing geographicFormat -->
+    <div class="row" *ngIf="geographicFormat.invalid && (submitted || geographicFormat.dirty)">
+      <div class="col-25"></div>
+      <div class="col-75">
+        <small *ngIf="geographicFormat?.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+      </div>
+    </div>
+
+    <!-- EPSG -->
+    <div class="row">
+      <div class="col-25">
+        <label for="epsg">{{'survey.form.fields.epsg' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <p-dropdown id="epsg"
+                    formControlName="epsg"
+                    [(ngModel)]="survey.epsg"
+                    [options]="epsgItems"
+                    [filter]="true"
+                    optionLabel="label"
+                    optionValue="value"
+                    filterBy="label"
+                    [showClear]="epsgItems.length"
+                    [placeholder]="'survey.form.placeholders.epsg' | translate">
+        </p-dropdown>
+        <div class="error-message" *ngIf="epsg.invalid && (submitted || epsg.dirty)">
+          <small *ngIf="epsg.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- coordinates order -->
+    <div class="row">
+      <div class="col-25">
+        <label for="coordinatesOrder">{{'survey.form.fields.coordinates-order' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <p-dropdown id="coordinatesOrder"
+                    formControlName="coordinatesOrder"
+                    [(ngModel)]="survey.coordinatesOrder"
+                    [options]="availableCoordinatesOrder"
+                    [showClear]="availableCoordinatesOrder.length"
+                    optionLabel="value"
+                    optionValue="key"
+                    [placeholder]="'survey.form.placeholders.coordinates-order' | translate">
+        </p-dropdown>
+        <div class="error-message" *ngIf="coordinatesOrder.invalid && (submitted || coordinatesOrder.dirty)">
+          <small *ngIf="coordinatesOrder.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- z direction -->
+    <div class="row">
+      <div class="col-25">
+        <label for="directionZ">{{'survey.form.fields.z-direction' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <p-dropdown id="directionZ"
+                    formControlName="directionZ"
+                    [(ngModel)]="survey.directionZ"
+                    [options]="availableZDirection"
+                    [showClear]="availableZDirection.length"
+                    optionLabel="value"
+                    optionValue="key"
+                    [placeholder]="'survey.form.placeholders.z-direction' | translate">
+        </p-dropdown>
+        <div class="error-message" *ngIf="directionZ.invalid && (submitted || directionZ.dirty)">
+          <small *ngIf="directionZ.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- vertical ref -->
+    <div class="row">
+      <div class="col-25">
+        <label for="verticalRef">{{'survey.form.fields.vertical-reference' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <p-dropdown id="verticalRef"
+                    formControlName="verticalRef"
+                    [(ngModel)]="survey.verticalRef"
+                    [options]="availableVerticalRef"
+                    [showClear]="availableVerticalRef.length"
+                    optionLabel="value"
+                    optionValue="key"
+                    [placeholder]="'survey.form.placeholders.vertical-reference' | translate">
+        </p-dropdown>
+        <small *ngIf="verticalRef.value && verticalRef.value !== ZERO_HYDRO" class="p-error error-message-vertical-ref" translate>survey.form.errors.vertical-ref-warning-message</small>
+        <div class="error-message" *ngIf="verticalRef.invalid && (submitted || verticalRef.dirty)">
+          <small *ngIf="verticalRef.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- file separator -->
+    <div class="row">
+      <div class="col-25">
+        <label for="fileSeparator">{{'survey.form.fields.file-separator' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <p-dropdown id="fileSeparator"
+                    formControlName="fileSeparator"
+                    [(ngModel)]="survey.fileSeparator"
+                    [editable]="true"
+                    [options]="availableSeparator"
+                    [showClear]="availableSeparator.length"
+                    optionLabel="value"
+                    optionValue="key"
+                    [placeholder]="'survey.form.placeholders.file-separator' | translate">
+        </p-dropdown>
+        <div class="error-message" *ngIf="fileSeparator.invalid && (submitted || fileSeparator.dirty)">
+          <small *ngIf="fileSeparator.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+</div>

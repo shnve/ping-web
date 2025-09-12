@@ -1,0 +1,71 @@
+.line-form {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.input {
+  min-width: 140px;
+  max-width: 570px;
+}
+
+.save-button {
+  margin: 0 0.5rem;
+
+  &.no-margin {
+    margin: unset;
+  }
+}
+
+.p-fieldset-edit-study {
+  margin: 1rem;
+}
+
+.references-parts {
+
+  .p-grid {
+    width: 100%;
+
+    .p-dir-col {
+      width: 100%;
+
+      .p-col {
+        width: 100%;
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  p-dialog {
+    .p-dialog {
+      max-height: unset;
+
+      .p-dialog-content {
+        overflow-y: inherit;
+      }
+
+      .p-dialog-header {
+        border-bottom: none;
+        padding: 1.5rem;
+
+        .p-dialog-title {
+          font-weight: 600;
+          font-size: 1.5rem;
+        }
+      }
+
+      .p-dialog-footer {
+        border-top: none;
+        padding: 0 1.5rem 1.5rem 1.5rem;
+      }
+    }
+  }
+}

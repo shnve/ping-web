@@ -1,0 +1,6 @@
+<form *ngIf="this.identifier" (ngSubmit)="goToContributions()" class="form">
+  <div class="contributions-description" [innerHTML]="'account.contributions.description' | translate:{identifier: this.identifier}"></div>
+  <div>
+    <p-button type="submit" [label]="'account.contributions.submit' | translate" ngDefaultControl></p-button>
+  </div>
+</form>

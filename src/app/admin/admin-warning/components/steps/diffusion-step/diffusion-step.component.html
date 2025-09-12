@@ -1,0 +1,30 @@
+<div>
+  <div class="card">
+    <aw-stepper (moveStep)="jumpToStep($event)" [currentStep]="currentStep"
+                [warning]="anInformation"></aw-stepper>
+  </div>
+  <p-card class="step-p-card">
+    <ng-template pTemplate="content">
+      <p-tabView>
+        <p-tabPanel *ngIf="shouldHaveNavtex" header="NAVTEX">
+          <div class="p-fluid navtex-container">
+            <aw-diffusion-navtex-configuration #navtexConfiguration [warning]="anInformation"
+                                               [disabled]="isPublished()"></aw-diffusion-navtex-configuration>
+            <aw-diffusion-navtex [warning]="anInformation"></aw-diffusion-navtex>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="TELEX">
+          <aw-diffusion-telex [warning]="anInformation"></aw-diffusion-telex>
+        </p-tabPanel>
+      </p-tabView>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <aw-step-save-button (savePageButton)="quickSave()"></aw-step-save-button>
+      <aw-step-transition-button (nextPageButton)="nextPage()"
+                                 (prevPageButton)="prevPage()"
+                                 (savePageButton)="save()"
+                                 [anInformation]="anInformation"
+      ></aw-step-transition-button>
+    </ng-template>
+  </p-card>
+</div>

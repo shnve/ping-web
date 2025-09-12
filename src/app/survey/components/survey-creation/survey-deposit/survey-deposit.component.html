@@ -1,0 +1,383 @@
+<form #form [formGroup]="surveyForm" (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)">
+
+  <p-card class="header">
+    <!-- DPC_RG_13072 -->
+    <div [staticSectionDirective]="'survey-transmission-general-instructions'"></div>
+  </p-card>
+
+  <shared-survey-description #surveyDescription
+    formControlName="surveyDescription"
+    [submitted]="submitted"
+    [achievementPeriodRequired]="false"
+    [achievementPeriodAsterisk]="true"
+    (dateTimeValidated)="dateValidated($event)"
+  ></shared-survey-description>
+
+  <p-panel [header]="'survey.form.sections.general-metadata-description' | translate">
+    <!-- survey issuer type -->
+    <div class="row">
+      <div class="col-25">
+        <label for="surveyIssuerTypes">{{'survey.form.fields.issuer-types' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <p-multiSelect id="surveyIssuerTypes"
+                    formControlName="surveyIssuerTypes"
+                    [options]="availableSurveyIssuerType"
+                    [showClear]="availableSurveyIssuerType.length"
+                    optionLabel="value"
+                    optionValue="key"
+                    [placeholder]="'survey.form.placeholders.issuer-types' | translate">
+        </p-multiSelect>
+        <div class="error-message" *ngIf="surveyIssuerTypes.invalid && (submitted || surveyIssuerTypes.dirty)">
+          <small *ngIf="surveyIssuerTypes.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Organization (same for owner and producer if both selected)-->
+    <div *ngIf="surveyIssuerTypes.value?.length === 2; else oneIssuer">
+      <div class="row">
+        <div class="col-25">
+          <label for="organization">{{'survey.form.fields.organization-name' | translate}} *</label>
+        </div>
+        <div class="col-75 form-mandatory">
+          <input class="long-input" type="text" formControlName="ownerOrganization" id="ownerOrganization"
+                [placeholder]="'survey.form.fields.organization-name' | translate"
+                [title]="'survey.form.fields.organization-name' | translate"
+                pInputText
+                required />
+          <div class="error-message" *ngIf="ownerOrganization.invalid && (submitted || ownerOrganization.dirty)">
+            <small *ngIf="ownerOrganization.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+            <small *ngIf="ownerOrganization.errors?.whitespace" class="p-error" translate>survey.form.errors.not-empty</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #oneIssuer>
+      <!-- issuer type: owner -->
+      <div *ngIf="surveyIssuerTypes.value?.length === 1 && surveyIssuerTypes.value[0] === OWNER">
+        <!-- Owner organization -->
+        <div class="row">
+          <div class="col-25">
+            <label for="ownerOrganization">{{'survey.form.fields.owner-organization' | translate}} *</label>
+          </div>
+          <div class="col-75 form-mandatory">
+            <input class="long-input" type="text" formControlName="ownerOrganization" id="ownerOrganization"
+                  [placeholder]="'survey.form.fields.owner-organization' | translate"
+                  [title]="'survey.form.fields.owner-organization' | translate"
+                  pInputText
+                  required />
+            <div class="error-message" *ngIf="ownerOrganization.invalid && (submitted || ownerOrganization.dirty)">
+              <small *ngIf="ownerOrganization.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+              <small *ngIf="ownerOrganization.errors?.whitespace" class="p-error" translate>survey.form.errors.not-empty</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producer organization -->
+        <div class="row">
+          <div class="col-25">
+            <label for="producerOrganization">{{'survey.form.fields.producer-organization' | translate}} *</label>
+          </div>
+          <div class="col-75 form-mandatory">
+            <input class="long-input" type="text" formControlName="producerOrganization" id="producerOrganization"
+                  [placeholder]="'survey.form.fields.producer-organization' | translate"
+                  [title]="'survey.form.fields.producer-organization' | translate"
+                  pInputText
+                  required />
+            <div class="error-message" *ngIf="producerOrganization.invalid && (submitted || producerOrganization.dirty)">
+              <small *ngIf="producerOrganization.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+              <small *ngIf="producerOrganization.errors?.whitespace" class="p-error" translate>survey.form.errors.not-empty</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- issuer type: producer -->
+      <div *ngIf="surveyIssuerTypes.value?.length === 1 && surveyIssuerTypes.value[0] === PRODUCER">
+        <!-- Producer organization -->
+        <div class="row">
+          <div class="col-25">
+            <label for="producerOrganization">{{'survey.form.fields.producer-organization' | translate}} *</label>
+          </div>
+          <div class="col-75 form-mandatory">
+            <input class="long-input" type="text" formControlName="producerOrganization" id="producerOrganization"
+                  [placeholder]="'survey.form.fields.producer-organization' | translate"
+                  [title]="'survey.form.fields.producer-organization' | translate"
+                  pInputText
+                  required />
+            <div class="error-message" *ngIf="producerOrganization.invalid && (submitted || producerOrganization.dirty)">
+              <small *ngIf="producerOrganization.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+              <small *ngIf="producerOrganization.errors?.whitespace" class="p-error" translate>survey.form.errors.not-empty</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Owner organization -->
+        <div class="row">
+          <div class="col-25">
+            <label for="ownerOrganization">{{'survey.form.fields.owner-organization' | translate}} *</label>
+          </div>
+          <div class="col-75 form-mandatory">
+            <input class="long-input" type="text" formControlName="ownerOrganization" id="ownerOrganization"
+                  [placeholder]="'survey.form.fields.owner-organization' | translate"
+                  [title]="'survey.form.fields.owner-organization' | translate"
+                  pInputText
+                  required />
+            <div class="error-message" *ngIf="ownerOrganization.invalid && (submitted || ownerOrganization.dirty)">
+              <small *ngIf="ownerOrganization.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+              <small *ngIf="ownerOrganization.errors?.whitespace" class="p-error" translate>survey.form.errors.not-empty</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Owner email -->
+    <div class="row">
+      <div class="col-25">
+        <label for="ownerEmail" translate>survey.form.fields.owner-email</label>
+      </div>
+      <div class="col-75">
+        <input class="long-input" type="email" formControlName="ownerEmail" id="ownerEmail"
+              [placeholder]="'survey.form.placeholders.email-address' | translate"
+              [title]="'survey.form.placeholders.email-address' | translate"
+              pInputText
+              email/>
+      </div>
+    </div>
+
+    <!-- message if invalid -->
+    <div class="row" *ngIf="ownerEmail.invalid && (submitted || ownerEmail.dirty)">
+      <div class="col-25"></div>
+      <div class="col-75">
+        <small *ngIf="ownerEmail.errors?.pattern" class="p-error" translate>survey.form.errors.email-invalid</small>
+      </div>
+    </div>
+
+    <!-- Technical manager email -->
+    <div class="row">
+      <div class="col-25">
+        <label for="technicalManagerEmail" translate>survey.form.fields.technical-manager-email</label>
+      </div>
+      <div class="col-75">
+        <input class="long-input" type="email" formControlName="technicalManagerEmail" id="technicalManagerEmail"
+              [placeholder]="'survey.form.placeholders.email-address' | translate"
+              [title]="'survey.form.placeholders.email-address' | translate"
+              pInputText
+              email/>
+      </div>
+    </div>
+
+    <!-- message if invalid -->
+    <div class="row" *ngIf="technicalManagerEmail.invalid && (submitted || technicalManagerEmail.dirty)">
+      <div class="col-25"></div>
+      <div class="col-75">
+        <small *ngIf="technicalManagerEmail.errors?.pattern" class="p-error" translate>survey.form.errors.email-invalid</small>
+      </div>
+    </div>
+
+    <!-- Goal -->
+    <div class="row">
+      <div class="col-25">
+        <label for="goal">{{'survey.form.fields.goal' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <textarea cols="110" rows="3" formControlName="goal" id="goal" [placeholder]="'survey.form.placeholders.goal' | translate" pInputTextarea>
+        </textarea>
+      </div>
+    </div>
+
+    <!-- message if empty -->
+    <div class="row" *ngIf="goal.invalid && (submitted || goal.dirty)">
+      <div class="col-25"></div>
+      <div class="col-75">
+        <small *ngIf="goal.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        <small *ngIf="goal.errors?.whitespace" class="p-error" translate>survey.form.errors.not-empty</small>
+      </div>
+    </div>
+  </p-panel>
+
+  <!-- activities-and-restrictions -->
+  <p-panel [header]="'survey.form.sections.personal-data-privacy' | translate">
+    <div class="row">
+      <div class="col-25">
+        <ul>
+          <li><label>{{'survey.form.fields.activities-and-restrictions' | translate}} *</label></li>
+          <li>
+            <p class="survey-transmission-confidentiality"><span [staticSectionDirective]="'survey-transmission-confidentiality'"></span></p>
+          </li>
+        </ul>
+      </div>
+      <ul class="col-75 form-checkbox">
+        <div class="error-message ml-0" *ngIf="activityChoice.invalid && (submitted || activityChoice.dirty)">
+          <small *ngIf="activityChoice.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+        <li *ngFor="let activity of listSurveyActivityBroadcast" class="field-checkbox">
+          <h3 translate>{{activity.value}}</h3>
+          <ul>
+            <li *ngFor="let item of activity.items">
+              <p-radioButton [label]="item.value | translate"
+                             name="broadcastRestriction"
+                             [value]="item.key + '-' + activity.key"
+                             formControlName="broadcastRestriction"
+              ></p-radioButton>
+              <span class="error-message" *ngIf="!!broadcastRestriction && activityChoice.valid && (submitted || broadcastRestriction.dirty)">
+                <small *ngIf="broadcastRestriction.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+              </span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- additional-informations -->
+    <div class="row">
+      <div class="col-25">
+        <label for="confidentialityInformation" translate>survey.form.fields.additional-information</label>
+      </div>
+      <div class="col-75">
+        <textarea cols="110" rows="5" name="confidentialityInformation" formControlName="confidentialityInformation" id="confidentialityInformation" pInputTextarea></textarea>
+      </div>
+    </div>
+  <!-- message if whitespaces only -->
+    <div class="row" *ngIf="confidentialityInformation?.invalid && (submitted || confidentialityInformation?.dirty)">
+      <div class="col-25"></div>
+      <div class="col-75">
+        <small *ngIf="confidentialityInformation?.errors?.whitespace" class="p-error" translate>survey.form.errors.not-empty</small>
+      </div>
+    </div>
+  </p-panel>
+
+  <shared-survey-bathy-metadata-description #bathyMetadata formControlName="surveyBathyData" [isDeposit]="true" [allFieldsRequired]="false" [submitted]="submitted">
+  </shared-survey-bathy-metadata-description>
+
+  <p-panel [header]="'survey.form.sections.your-bathy-data' | translate">
+    <!-- Bathy attachments (is_bathy = true) -->
+    <p-card class="section-header">
+      <div [staticSectionDirective]="'survey-bathy-data'"></div>
+    </p-card>
+    <div class="row">
+      <div class="col-25 lbl-top">
+        <label for="bathyAttachments" translate>survey.form.fields.bathy-attachments</label>
+      </div>
+      <div class="col-75">
+        <app-attachments id="bathyAttachments"
+                        [manageManyAttachments]="true"
+                        [attachmentFiles]="survey.bathyAttachmentFiles"
+                        [attachmentIds]="survey.bathyAttachmentIds"
+                        [filteredExtensions]="bathyFileTypes"
+                        [maxFileSize]="maxFileSize"
+                        [isBathy]="true"
+                        [isSurvey]="true"
+                        [inputId]="'bathy-attachments'"
+                        (uploadError)="handleUploadError('bathyAttachments', $event)"
+                        (onChange)="setBathyAttachmentIds($event)">
+        </app-attachments>
+        <div class="error-message" *ngIf="attachmentFields['bathyAttachments']">
+          <small class="p-error" translate>survey.form.errors.file-size-exceed</small>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+
+  <p-panel [header]="'survey.form.sections.technical-metadata' | translate">
+    <!-- technical metadata pdf file -->
+    <p-card class="section-header">
+      <div [staticSectionDirective]="'survey-technical-metadata'"></div>
+    </p-card>
+    <div class="row">
+      <div class="col-25 lbl-top">
+        <label for="technicalMetadata">{{'survey.form.fields.technical-metadata' | translate}} *</label>
+      </div>
+      <div class="col-75">
+        <app-attachments id="technicalMetadata"
+                        [manageManyAttachments]="false"
+                        [attachmentFiles]="survey.technicalMetadataFile"
+                        [attachmentIds]="survey.technicalMetadataId"
+                        [showChooseFile]="!survey.technicalMetadataId"
+                        [filteredExtensions]="'.pdf'"
+                        [maxFileSize]="maxFileSize"
+                        [isSurvey]="true"
+                        [inputId]="'technical-metadata-attachments'"
+                        [isTechnicalMetadata]="true"
+                        (uploadError)="handleUploadError('technicalMetadata', $event)"
+                        (onChange)="setTechnicalMetadataId($event)">
+        </app-attachments>
+        <div class="error-message" *ngIf="!survey.technicalMetadataId && transmitted">
+          <small class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+        <div class="error-message" *ngIf="attachmentFields['technicalMetadata']">
+          <small class="p-error" translate>survey.form.errors.file-size-exceed</small>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+
+  <p-panel [header]="'survey.form.sections.misc-attachments' | translate">
+    <!-- Shared attachments -->
+    <p-card class="section-header">
+      <div [staticSectionDirective]="'survey-other-documents'"></div>
+    </p-card>
+    <div class="row">
+      <div class="col-25 lbl-top">
+        <label for="miscAttachments" translate>survey.form.fields.misc-attachments</label>
+      </div>
+      <div class="col-75">
+        <app-attachments id="miscAttachments"
+                        [manageManyAttachments]="true"
+                        [attachmentFiles]="survey.miscAttachmentFiles"
+                        [attachmentIds]="survey.miscAttachmentIds"
+                        [filteredExtensions]="fileTypes"
+                        [maxFileSize]="maxFileSize"
+                        [isSurvey]="true"
+                        [inputId]="'misc-attachments'"
+                        (uploadError)="handleUploadError('miscAttachments', $event)"
+                        (onChange)="setMiscAttachmentIds($event)">
+        </app-attachments>
+        <div class="error-message" *ngIf="attachmentFields['miscAttachments']">
+          <small class="p-error" translate>survey.form.errors.file-size-exceed</small>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+
+  <!-- buttons -->
+  <div class="container">
+    <h2 class="transmission-information-message" translate>
+      survey.form.transmission-information-message
+    </h2>
+    <p-confirmPopup></p-confirmPopup>
+    <div *ngIf="!!survey.id" class="p-grid p-nogutter p-justify-start">
+      <span>{{'survey.files.data-consistency' | translate}} : <i [class]="survey.compliant | surveyCompliantStatus" [title]="survey.compliant | surveyCompliantStatusTxt | translate"></i></span>
+      <span *ngIf="survey.compliant === 'NOT_COMPLIANT'" class="p-error">&nbsp;&nbsp;{{'survey.form.errors.cannot-transmit-because-not-compliant' | translate}}</span>
+    </div>
+    <br/>
+    <div class="p-grid p-nogutter p-justify-start">
+      <button [label]="'infosource.report-hazard.buttons.save-draft' | translate" class="p-button-outlined save-button" pButton type="submit" [disabled]="disableSave">
+      </button>
+      <button *ngIf="canDelete" pButton [label]="'survey.form.buttons.delete-draft' | translate" class="p-button-outlined"
+          (click)="confirmDelete($event)" type="button">
+      </button>
+      <!-- cannot transmit if survey not created nor compliant -->
+      <p-button [label]="'survey.form.buttons.transmit-deposit' | translate" (click)="confirmTransmit($event)" [disabled]="disableTransmit"
+                [title]="(disableTransmit ? 'survey.form.buttons.transmit-deposit-title' : '') | translate" icon="pi pi-angle-right" iconPos="right" type="button">
+      </p-button>
+      <button pButton type="button" class="p-button-danger" [title]="'detail.cancel' | translate" [label]="'detail.cancel' | translate"
+          (click)="confirmCancel($event)">
+      </button>
+    </div>
+  </div>
+</form>
+<p-dialog header="{{'survey.form.transmit-popup.header' | translate}}" [(visible)]="displayPopup" [style]="{width: '50vw'}" [baseZIndex]="10000"
+          [modal]="false" [draggable]="false" [resizable]="false" [closable]="false">
+  <div [staticSectionDirective]="'survey-transmission-popup-content'"></div>
+  <div class="p-field-checkbox">
+    <p-checkbox id="enable-analysis-checkbox" [(ngModel)]="this.survey.externalAnalysisEnabled" binary="true" inputId="binary"
+                [label]="'survey.form.transmit-popup.enable-analysis' | translate">
+    </p-checkbox>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="onTransmitPopupClose()" label="OK" class="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,33 @@
+:host ::ng-deep {
+  .folder-modal-table-type-infosource,
+  .folder-modal-table-type-georegulation {
+    span.p-tag {
+      background: #00b0f0;
+    }
+  }
+
+  .folder-modal-table-type-warning {
+    span.p-tag {
+      background: red;
+    }
+  }
+
+  .folder-modal-table-type-warning_tp,
+  .folder-modal-table-type-study {
+    span.p-tag {
+      background: #ffc000;
+    }
+  }
+
+  .p-accordion p-accordiontab .p-accordion-tab {
+    margin-top: 20px;
+  }
+
+  .p-accordion p-accordiontab p-header {
+    width: 100%;
+  }
+
+  th.tableHeaderCheckbox-width {
+    width: 3rem;
+  }
+}

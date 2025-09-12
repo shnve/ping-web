@@ -1,0 +1,117 @@
+<p-dialog [(visible)]="display"
+          [draggable]="true"
+          [resizable]="true"
+          [closable]="true"
+          modal="true"
+          dismissableMask="true"
+          [breakpoints]="{'480px': '100vw'}"
+          [style]="{width: '80vw', 'max-height': '98vh'}"
+          (onHide)="hide()"
+>
+  <div class="fr-container fr-container--fluid fr-container-md">
+    <div class="fr-grid-row fr-grid-row--center">
+      <div class="fr-modal__body" tabindex="0">
+          <div class="fr-modal__header">
+            <button type="button" class="close-modal-button fr-btn fr-btn--tertiary-no-outline" (click)="hide()" [title]="'detail.close' | translate">
+              <span>{{'detail.close' | translate}}</span>
+              <i class="pi pi-times"></i>
+            </button>
+          </div>
+
+          <div class="fr-modal__content">
+            <div class="fr-header__body-row">
+              <div *ngIf="currentSurvey" class="header-content-title">
+                <h1 class="fr-modal__title">
+                  {{currentSurvey.nameAndLocation}} ({{'survey.details.state.'+ currentSurvey.state | lowercase | translate | capitalizeFirst}}) <i [class]="currentSurvey.compliant | surveyCompliantStatus" [title]="currentSurvey.compliant | surveyCompliantStatusTxt | translate"></i>
+                </h1>
+              </div>
+              <div class="fr-header__tools">
+                <div class="fr-header__tools-links">
+                    <ul class="fr-btns-group fr-btns-group--inline-sm">
+                      <li *ngIf="isBri">
+                        <button type="button" class="fr-btn pi pi-download fr-btn--tertiary" (click)="downloadSurveyAsZipArchive()" [title]="'detail.download-survey-as-zip-archive' | translate"></button>
+                      </li>
+                      <li>
+                        <button class="fr-btn pi pi-share-alt fr-btn--tertiary" [title]="'detail.share-direct-link' | translate" (click)="copySharedLinkUrl($event)" type="button"></button>
+                      </li>
+                      <li>
+                        <p-menu [appendTo]="'body'" #menu [model]="items" [popup]="true"></p-menu>
+                        <button #manageButton class="fr-btn fr-btn--secondary" type="button" [title]="'detail.manage' | translate" (click)="menu.toggle($event)">{{'detail.manage' | translate}}</button>
+                      </li>
+                      <span class="separator"></span>
+                      <li>
+                        <app-lang-dropdown class="lang-choice-container"></app-lang-dropdown>
+                      </li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="fr-callout">
+              <ul>
+                <div *ngIf="currentSurvey">
+                  <li class="name-region">{{'survey.form.fields.name-and-location' | translate}} : {{currentSurvey.nameAndLocation | translate | capitalizeFirst}}</li>
+                  <li class="name-region">{{'survey.form.fields.area' | translate}} : {{currentSurvey.areaName | capitalizeFirst}}</li>
+                  <li *ngIf="currentSurvey.issuingServiceName" class="name-region">{{'survey.form.fields.contributor-service' | translate}} : {{currentSurvey.issuingServiceName}}</li>
+                </div>
+              </ul>
+            </div>
+
+            <div class="fr-container--fluid">
+              <div class="fr-grid-row fr-grid-row--gutters">
+                <div *ngIf="canDisplayMap" class="fr-col fr-col-md-7">
+                  <h3 translate>detail.visualize-analysis-results-on-map</h3>
+                  <survey-modal-map #map
+                                    [modelItem]="currentSurvey"
+                                    [height]="mapHeight"
+                                    [enableLayersShowHide]="true"
+                                    [enableLegend]="true"
+                                    [showDangers]="enableBathyDangersIntegration"
+                                    [shouldShowDangers]="enableBathyDangersIntegration"
+                                    [shouldShowDetections]="!enableBathyDangersIntegration"
+                                    [showDetections]="enableBathyDangersIntegration"
+                                    [popover]="true"
+                                    [shouldMaintainCategoryPanelOpened]="enableBathyDangersIntegration && currentSurvey.surveyExternalAnalysisResults?.dangers.length"
+                                    [showLayers]="false"
+                                    [showZoneX]="false"
+                  ></survey-modal-map>
+                </div>
+
+                <div class="fr-col fr-col-md survey-modal-detail">
+                  <survey-modal-body #detail [survey]="currentSurvey"></survey-modal-body>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-overlayPanel [styleClass]="'clone-panel'" [appendTo]="'body'" #clonePanel>
+  <ng-template pTemplate>
+    <h3 translate>survey.details.clone.clone-confirm</h3>
+    <div class="fill-info">
+      <div class="fill-info-name-and-location">
+        <input pInputText [placeholder]="'survey.form.fields.name-and-location' | translate" [(ngModel)]="selectedNameAndLocation" type="text" (ngModelChange)="cloneInfoChanged()"/> *
+      </div>
+      <div class="fill-info-area">
+        <p-dropdown *ngIf="areas$ | async as areas"
+          id="area-dropdown"
+          [(ngModel)]="selectedAreaId"
+          [options]="areas"
+          [optionLabel]="displayedAreaLabel"
+          optionValue="id"
+          [placeholder]="'survey.form.fields.area' | translate"
+          showClear="true"
+          (onChange)="cloneInfoChanged()"
+          ngDefaultControl>
+        </p-dropdown> *
+      </div>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancelClone()" [title]="'detail.clone-cancel' | translate" [label]="'detail.clone-cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmClone()" [title]="'detail.clone-confirm' | translate" [label]="'detail.clone-confirm' | translate" [disabled]="!canConfirmClone"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>

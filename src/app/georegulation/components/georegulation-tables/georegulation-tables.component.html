@@ -1,0 +1,88 @@
+<shared-select-button
+  class="table-tabs-selector"
+  [ngClass]="tabsClass"
+  [options]="tabs"
+  [(ngModel)]="selectedStatus"
+  (ngModelChange)="selectedStatusChanged()"
+>
+</shared-select-button>
+<georegulation-table-filter-banner
+  [selectedService]="selectedService"
+  [filterState]="filterState"
+  [services]="services"
+  (filterHasChanged)="filterChange($event)"
+  [chipGenerator]="generateFilterChipsText.bind(this)"
+>
+  <ng-template #advancedFilter>
+    <georegulation-advanced-filter
+      class="advanced-filter"advanced-filter
+      [filterState]="filterState"
+      [selectedStatus]="selectedStatus"
+      [selectedIssuingServiceId]="selectedService?.id"
+    ></georegulation-advanced-filter>
+  </ng-template>
+</georegulation-table-filter-banner>
+<georegulation-paginated-table #georegulationTable
+    [items]="georegulations"
+    [totalRecords]="totalGeoregulations"
+    [loading]="tableLoading"
+    [pageInfo]="tableState.pageInfo$ | async"
+    [columns]="columns[selectedStatus]"
+    (onPageChange)="pageChange($event)"
+    (onSort)="sortChange($event)"
+    (onModelItemSelect)="displayModal([$event])"
+    class="table-screen-media"
+>
+  <ng-template id="number" let-georegulation="modelItem">
+    <span *ngIf="georegulation.status === 'PUBLISHED' && georegulation.isExpired">
+      <i class="pi pi-exclamation-triangle" [title]="'georegulation-table.columns.expired' | translate"></i>
+    </span>
+    {{georegulation.number}}
+  </ng-template>
+  <ng-template id="type" let-georegulation="modelItem">
+    {{'enum.georegulation-type.' + (georegulation.type | lowercase) | translate}}
+  </ng-template>
+  <ng-template id="activities" let-georegulation="modelItem">
+    <ul *ngIf="georegulation.activities.length" class="dates-container">
+      <li *ngFor="let activity of georegulation.activities" class="line recipient">
+        {{'enum.georegulation-activities.' + (activity | lowercase) | translate}}
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template id="title" let-georegulation="modelItem">
+    <span [pTooltip]="{name: georegulation.title, internationalName: georegulation.internationalTitle} | translateName" tooltipPosition="top">
+      {{{name: georegulation.title, internationalName: georegulation.internationalTitle} | translateName | sliceWithEllipsis}}
+    </span>
+  </ng-template>
+  <ng-template id="entities" let-georegulation="modelItem">
+    <ul *ngIf="georegulation.entities.length" class="dates-container">
+      <li *ngFor="let entity of georegulation.entities" class="line recipient">
+        {{entity.name}}
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template id="internalComment" let-georegulation="modelItem">
+    <span [pTooltip]="georegulation.internalComment" tooltipPosition="top">
+      {{georegulation.internalComment | sliceWithEllipsis}}
+    </span>
+  </ng-template>
+  <ng-template id="isPublic" let-georegulation="modelItem">
+    {{georegulation.isPublic ? ('georegulation-table.columns.true-value' | translate) : ('georegulation-table.columns.false-value' | translate)}}
+  </ng-template>
+  <ng-template id="isNew" let-georegulation="modelItem">
+    {{georegulation.isNew ? ('georegulation-table.columns.true-value' | translate) : ('georegulation-table.columns.false-value' | translate)}}
+  </ng-template>
+  <ng-template id="lastUpdate" let-georegulation="modelItem">
+    {{georegulation.lastUpdate | localizedDate}}
+  </ng-template>
+  <ng-template id="publicationDate" let-georegulation="modelItem">
+    {{georegulation.publicationDate | localizedDate}}
+  </ng-template>
+  <ng-template id="repealDate" let-georegulation="modelItem">
+    {{georegulation.repealDate | localizedDate}}
+  </ng-template>
+</georegulation-paginated-table>
+<georegulation-modal *ngIf="showModal"
+  (onClose)="closeModal()"
+  (onStatusChangeAction)="statusChanged()"
+  [georegulationIds]="selectedGeoregulationIds"></georegulation-modal>

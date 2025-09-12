@@ -1,0 +1,24 @@
+<p-multiSelect *ngIf="multiSelectMode; else dropdownMode"
+  [options]="options" 
+  [optionLabel]="displayedLabel" 
+  [optionValue]="id"
+  [placeholder]="placeholder"
+  [(ngModel)]="values"
+  (ngModelChange)="selectedValues(values)"
+  display="chip"
+  class="multiselect">        
+</p-multiSelect>
+<ng-template #dropdownMode>
+  <p-dropdown
+    [options]="options | orderBy: (displayedLabel)"
+    [optionLabel]="displayedLabel" 
+    [optionValue]="id"
+    [placeholder]="placeholder"
+    [(ngModel)]="singleValue"
+    [ngModelOptions]="{standalone: true}"
+    (ngModelChange)="selectedValue(singleValue)"
+    [showClear]="true"
+    [autoDisplayFirst]="false"
+    [filter]="true">
+  </p-dropdown>
+</ng-template>

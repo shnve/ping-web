@@ -1,0 +1,44 @@
+{
+  "permissions": [
+    {
+      "scope": "warning",
+      "access": {
+        "guest": false,
+        "public_user": false,
+        "guest_service": false,
+        "operator_service": true,
+        "admin_service": false,
+        "FUNCTIONAL_ADMIN": false,
+        "SERVICE_USER": true
+      },
+      "actions": [
+        {
+          "mgmtRule": "DPC_07",
+          "label": "creation",
+          "access": {
+            "guest": false,
+            "public_user": false,
+            "guest_service": false,
+            "operator_service": true,
+            "admin_service": false,
+            "FUNCTIONAL_ADMIN": false,
+            "SERVICE_USER": true
+          }
+        },
+        {
+          "mgmtRule": "DPC_07",
+          "label": "autre",
+          "access": {
+            "guest": false,
+            "public_user": false,
+            "guest_service": false,
+            "operator_service": false,
+            "admin_service": true,
+            "FUNCTIONAL_ADMIN": false,
+            "SERVICE_USER": false
+          }
+        }
+      ]
+    }
+  ]
+}

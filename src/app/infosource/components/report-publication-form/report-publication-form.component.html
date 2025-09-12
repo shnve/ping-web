@@ -1,0 +1,59 @@
+<div class="container">
+    <form #form (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)" [formGroup]="publicationReportForm">
+        <infosource-shared-report-form #sharedReport formControlName="sharedReportForm" [infosourceId]="infosourceId"
+            [infosSourceReport]="infosSourcePublicationAnomalyReport" [submitted]="submitted"
+            [titleLabel]="'infosource.publication-report.title'" [locationMessage]="'infosource.report-hazard.anomaly-location'"
+            (hasAttachmentsIdsChanged)="hasAttachmentsIdsChangedValues($event)">
+            <!-- Issue reference -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="issueReference" translate>infosource.publication-report.issue-reference<span>*</span>
+                    </label>
+                </div>
+                <div class="col-75">
+                    <input type="text" formControlName="issueReference" id="issueReference">
+                </div>
+            </div>
+            <div class="row"
+                *ngIf="(issueReference.invalid && submitted) || (issueReference.dirty && issueReference.invalid)">
+                <div class="col-25">
+                </div>
+                <div class="col-75">
+                    <small class="p-error" translate>infosource.publication-report.errors.issue-reference-invalid
+                    </small>
+                </div>
+            </div>
+            <!-- Up to date at -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="edition-number" translate>infosource.publication-report.up-to-date-at
+                    </label>
+                </div>
+                <div class="col-75">
+                    <p-calendar [dateFormat]="dateFormat" [showTime]="false" dataType="string"
+                        formControlName="upToDateAt" id="upToDateAt" ngDefaultControl>
+                    </p-calendar>
+                </div>
+            </div>
+            <!-- chapter or page -->
+            <div class="row">
+                <div class="col-25 item-flex-display">
+                    <label for="chapterOrPage" translate>infosource.publication-report.chapter-or-page
+                    </label>
+                </div>
+                <div class="col-75">
+                    <input type="text" formControlName="chapterOrPage" id="chapterOrPage" pInputText>
+                </div>
+            </div>
+            <div class="row"
+                *ngIf="(chapterOrPage.invalid && submitted) || (chapterOrPage.dirty && chapterOrPage.invalid)">
+                <div class="col-25">
+                </div>
+                <div class="col-75">
+                    <small class="p-error" translate>infosource.publication-report.errors.chapter-or-page-invalid
+                    </small>
+                </div>
+            </div>
+        </infosource-shared-report-form>
+    </form>
+</div>

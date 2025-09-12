@@ -1,0 +1,5 @@
+@import 'variables';
+
+.main-content {
+  min-height: calc(100% - #{$headerHeight + $footerHeight});
+}

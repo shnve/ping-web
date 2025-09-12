@@ -1,0 +1,12 @@
+<p-selectButton [(ngModel)]="selectedOption"
+                (ngModelChange)="changeOption()"
+                [options]="options"
+                [multiple]="multiple"
+                [unselectable]="unselectable"
+                optionLabel="translateKey"
+>
+  <ng-template let-item pTemplate>
+    <span class="p-button-label" [ngClass]="{'option-hidden': item.hide === true}">{{item.translateKey | translate}}</span>
+    <i class="options-icon" [class]="item.icon"></i>
+  </ng-template>
+</p-selectButton>

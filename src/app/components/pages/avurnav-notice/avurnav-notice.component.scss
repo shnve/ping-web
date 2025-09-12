@@ -1,0 +1,51 @@
+@import 'variables';
+
+.avurnav-notice-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0 0 0.5rem;
+}
+
+:host ::ng-deep {
+  .visualisation-selector {
+    .p-selectbutton {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.25rem;
+
+      .p-button:hover {
+        background: var(--blue-france-925-125-hover);
+        color: black;
+      }
+    }
+
+    .p-buttonset .p-button {
+      background: var(--blue-france-925-125);
+      border-radius: 0;
+      border: none;
+      padding: 0.6rem 2rem;
+      color: black;
+
+      &.p-highlight {
+        background: white;
+        box-shadow: inset 0em 0.1em $blue-sun;
+        color: $blue-sun;
+      }
+
+      .p-button-label {
+        font-weight: 500;
+      }
+    }
+  }
+
+  .message-container {
+    font-size: 1.5rem;
+    line-height: 3rem;
+
+    .info-icon {
+      font-size: 1.5rem;
+      margin: 0 6px;
+    }
+  }
+}

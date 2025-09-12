@@ -1,0 +1,47 @@
+<button [title]="'table.export-pdf' | translate" pButton (click)="generatePdf()" class="btn-generate"><i class="fas fa-file-pdf"></i></button>
+<!-- Temporally removed: DO NOT REMOVE LINES BELOW
+<button [title]="'table.export-s124' | translate" pButton class="btn-generate" (click)="generateS124()"><i class="fas fa-file-export"></i></button>
+-->
+<button [title]="'table.export-gpx' | translate" pButton class="btn-generate" (click)="generateGpx()"><i class="fas fa-map-marked-alt"></i></button>
+
+<div class="p-d-flex p-flex-column p-col-12">
+  <p-dataView layout="list"
+              [value]="warnings"
+              [paginator]="true"
+              [totalRecords]="totalRecords"
+              [rows]="pageInfo.rows"
+              [first]="pageInfo.page * pageInfo.rows"
+              [rowsPerPageOptions]="rowPerPageOptions"
+              [showCurrentPageReport]="true"
+              [currentPageReportTemplate]="'table.pagination' | translate"
+              [loading]="loading"
+              [lazy]="true"
+              (onLazyLoad)="pageChange($event)"
+    >
+    <ng-template let-warnings pTemplate="listItem">
+      <div *ngFor="let warning of warnings" class="p-col-12 box">
+        <shared-warning-detail [displayDetailsButton]="true" [warning]="warning" (warningSelect)="warningSelect.emit(warning)"></shared-warning-detail>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
+
+<p-overlayPanel [styleClass]="'download-panel'" [appendTo]="'body'" #downloadPanel>
+  <ng-template pTemplate>
+    <div>
+      <p-dropdown
+        ngDefaultControl
+        [options]="allowedFormatToDownload"
+        [(ngModel)]="selectedFormatToDownload"
+        optionValue="value"
+        optionLabel="label"
+        [placeholder]="'detail.select-download-format' | translate"
+        [style]="{width: '250px'}"
+      ></p-dropdown>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="downloadPanel.hide()" [label]="'detail.download-cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmDownload()" [label]="'detail.download-confirm' | translate" [disabled]="!selectedFormatToDownload"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>

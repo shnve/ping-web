@@ -1,0 +1,33 @@
+<ng-container *ngIf="pageItem">
+  <p-confirmPopup></p-confirmPopup>
+  <h1 translate>static-section-list.title.list</h1>
+  <table class="administration-table">
+    <thead>
+    <tr>
+      <th translate>static-section-list.table.key</th>
+      <th translate>static-section-list.table.location</th>
+      <th translate>static-section-list.table.name</th>
+      <th translate>static-section-list.table.path</th>
+      <th translate>static-section-list.table.action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let staticSection of pageItem?.content">
+      <td>{{staticSection.key}}</td>
+      <td>{{staticSection.location}}</td>
+      <td>{{staticSection.name}}</td>
+      <td><a [routerLink]="[staticSection.path]" target="_blank" rel="noopener noreferrer">{{staticSection.path}}</a></td>
+      <td>
+        <button pButton *ngIf="enablePreview" class="p-button-sm" routerLink="./{{staticSection.id}}/details" [label]="'static-section-list.table.show' | translate" icon="pi pi-eye"></button>
+        <button pButton *ngIf="enableEdit" class="p-button-sm" routerLink="./{{staticSection.id}}/edition" [label]="'static-section-list.table.edit' | translate" icon="pi pi-pencil"></button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <app-ping-paginator
+    [page]="pageItem"
+    [currentSize]="this.currentSize"
+    [currentPage]="this.currentPage"
+    (changePage)="this.handlePageEvent($event)"
+  ></app-ping-paginator>
+</ng-container>

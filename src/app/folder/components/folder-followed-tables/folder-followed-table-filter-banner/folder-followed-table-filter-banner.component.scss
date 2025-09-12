@@ -1,0 +1,32 @@
+@import 'variables';
+
+:host ::ng-deep {
+    .banner {
+        .p-selectbutton {
+            height: 100%;
+        }
+
+        .p-dropdown {
+            &:not(p-disabled).p-focus {
+                box-shadow: none;
+            }
+
+            .p-dropdown-panel {
+                color: black;
+
+                .p-dropdown-items .p-dropdown-item {
+                    color: black;
+
+                    &.p-highlight,
+                    &:not(.p-highlight):not(.p-disabled):hover {
+                        color: black;
+                        background-color: $quaternaryColorLighten3;
+                    }
+                }
+            }
+            .p-dropdown-label {
+                padding: 5px 8px;
+            }
+        }
+    }
+}

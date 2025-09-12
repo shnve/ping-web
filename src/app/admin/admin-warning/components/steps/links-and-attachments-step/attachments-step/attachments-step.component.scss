@@ -1,0 +1,82 @@
+@import 'variables';
+
+.content {
+  background-color: white;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container p {
+  text-align: center;
+}
+
+.drop-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  width: 800px;
+  height: 200px;
+  border: 4px dashed $secondaryColor;
+}
+
+.drop-message {
+  text-align: center;
+  color: $secondaryColor;
+  font-size: 1.5rem;
+}
+
+.progress {
+  font-size: 1.2rem;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+.files-container {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.p-fileupload-files {
+  width: 800px;
+  text-align: center;
+}
+
+.p-fileupload-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.p-fileupload-row > div {
+  flex: 1 1 auto;
+  width: 33%;
+}
+
+.p-fileupload-row > div:last-child {
+  text-align: right;
+}
+
+:host ::ng-deep {
+  p-button.btn-cancel-upload {
+    width: 100px;
+    display: inline-block;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0 0 5px 0;
+  color: black;
+}
+
+.col-25.lbl-top {
+  display: flex;
+  align-self: start;
+}

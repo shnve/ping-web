@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="p-col">
+    <button pButton type="button"
+            icon="pi pi-plus"
+            class="add-reference-button"
+            (click)="addReference()"
+            [label]="'study.button.add-reference' | translate"
+            [disabled]="disabled"
+    ></button>
+  </div>
+  <div class="p-col">
+    <ul *ngIf="references?.length" class="references-container">
+      <li *ngFor="let reference of references; let i = index ">
+        <div class="line">
+          <study-reference-item #studyReferenceItem
+              [availableReferenceTypes]="availableReferenceTypes"
+              [ngModel]="reference"
+              (ngModelChange)="referencesOnChange($event, i)"
+              [disabled]="disabled">
+          </study-reference-item>
+          <div class="p-col-fixed button-container">
+            <button pButton
+                    type="button"
+                    icon="pi pi-trash"
+                    class="p-button-text p-button-rounded p-button-danger"
+                    (click)="confirmDelete($event, i)"
+            ></button>
+            <p-confirmPopup [key]="confirmRemoveReference"></p-confirmPopup>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

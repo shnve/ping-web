@@ -1,0 +1,19 @@
+@import 'variables';
+
+:host ::ng-deep {
+  .banner {
+    .p-selectbutton {
+      height: 100%;
+    }
+
+    .p-field-checkbox > label {
+      margin-right: 1.2rem;
+    }
+  }
+}
+
+@media all and (max-width: $screenSizeTablet) {
+  .banner {
+    display: none;
+  }
+}

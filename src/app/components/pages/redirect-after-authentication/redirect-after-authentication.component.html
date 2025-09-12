@@ -1,0 +1,9 @@
+<div class="redirect">
+    <div class="form-group" *ngIf="submitting; else authenticationError">
+        <p-progressSpinner styleClass="custom-spinner" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+        <div translate>redirect.description</div>
+    </div>
+    <ng-template #authenticationError>
+        <div class="form-group" translate>message.error.authentication</div>
+    </ng-template>
+</div>

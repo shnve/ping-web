@@ -1,0 +1,31 @@
+<ng-container *ngIf="pageItem">
+<h1 translate>area-list.title.list</h1>
+<button pButton *ngIf="canCreateModel" class="add-button p-button-sm" routerLink="./ajouter" [label]="'area-list.add-area' | translate" icon="pi pi-plus"></button>
+<table class="administration-table">
+  <thead>
+    <tr>
+      <th translate>area-list.table.urn</th>
+      <th translate>area-list.table.name</th>
+      <th translate>area-list.table.country</th>
+      <th translate>area-list.table.action </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let area of pageItem?.content">
+      <td>{{area.urn}}</td>
+      <td>{{area.name}}</td>
+      <td>{{area.country}}</td>
+      <td>
+        <button pButton *ngIf="canPreviewModel" class="p-button-sm preview-button" routerLink="./{{area.id}}/details" [label]="'area-list.table.show' | translate" icon="pi pi-eye"></button>
+        <button pButton *ngIf="canEditModel" class="p-button-sm edit-button" routerLink="./{{area.id}}/edition" [label]="'area-list.table.edit' | translate" icon="pi pi-pencil"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<app-ping-paginator
+  [page]="pageItem"
+  [currentSize]="this.currentSize"
+  [currentPage]="this.currentPage"
+  (changePage)="this.handlePageEvent($event)"
+  ></app-ping-paginator>
+</ng-container>

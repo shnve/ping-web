@@ -1,0 +1,5 @@
+<h1 translate *ngIf="disabled; else editTitle">static-file.show.title</h1>
+<ng-template #editTitle>
+ <h1 translate>static-file.edit.title</h1>
+</ng-template>
+<static-file-form *ngIf="staticFile" [staticFile]="staticFile" [disabled]="disabled"></static-file-form>

@@ -1,0 +1,35 @@
+.infosource {
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+:host ::ng-deep {
+  .p-card {
+
+    ul {
+      list-style: inside;
+    }
+
+    .p-card-footer {
+      display: flex;
+      flex-flow: wrap;
+      padding: 0;
+    }
+
+  }
+
+  p-button {
+    .btn {
+      display: flex;
+      width: 290px;
+      padding: 13px;
+      margin-top: 10px;
+      height: 80px;
+    }
+
+    .btn-with-right-space {
+      margin-right: 1.5em;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<p-dropdown
+    [options]="availableLanguages"
+    class="lang-dropdown"
+    optionLabel="label" optionValue="code"
+    [(ngModel)]="selectedLanguageCode"
+    (onChange)="onChangeLanguage(selectedLanguageCode)"
+>
+  <ng-template let-language pTemplate="item">
+    <div class="language-item">
+      <img [src]="language.image" [alt]="language.label | translate" class="flag-item"/>
+      <span class="text-item">{{language.label | translate}}</span>
+    </div>
+  </ng-template>
+</p-dropdown>
+<div class="lang-choice-button">
+  <div class="flag-container">
+    <img class="flag second-lang-flag" [src]="countryFlags[1].image" [alt]="countryFlags[1].label | translate">
+    <img class="flag selected-lang-flag" [src]="countryFlags[0].image" [alt]="countryFlags[1].label | translate">
+  </div>
+</div>

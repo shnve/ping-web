@@ -1,0 +1,9 @@
+<div class="sign-in-up-page">
+    <h2 class="sign-in-up-page-item main-title" *ngIf="section === 'contribution'">{{'infosource.sign-in-up-contribute-message' | translate}}</h2>
+    <h2 class="sign-in-up-page-item main-title" *ngIf="section === 'subscription'">{{'subscription.sign-in-up-subscription-message' | translate}}</h2>
+    <div class="sign-in-up-page-item main-title justify-content">
+        <button pButton class="p-button-raised p-button-rounded" (click)="goToPublicLoginPage()" translate>account-panel.already-registered.button.title</button>
+        <button pButton class="p-button-raised p-button-rounded button-pro" (click)="goToProLoginPage()" translate>account-panel.already-registered.button.title.pro</button>
+        <button pButton class="p-button-raised p-button-rounded" (click)="goToAccountCreation()" translate>account-panel.create-button.title</button>
+    </div>
+</div>

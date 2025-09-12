@@ -1,0 +1,89 @@
+@import 'variables';
+
+$border: 1px solid $quaternaryColorLighten1;
+
+.recipient {
+  margin-bottom: 0.4rem;
+}
+
+ul.infosource-reference-list {
+  list-style: circle;
+  margin: 1rem;
+  padding-left: 1rem;
+}
+
+@mixin tabs-style($tabWidth) {
+  .p-buttonset .p-button {
+    width: $tabWidth;
+    border-bottom: $border;
+    border-top: $border;
+    border-radius: 0;
+    padding: 0.8rem 1rem 0.3rem;
+
+    &.p-highlight {
+      background: $quaternaryColorLighten3;
+      color: black;
+    }
+
+    &:first-child {
+      border-left: 0;
+    }
+    &:last-child {
+      border-left: $border;
+      border-right: 0;
+    }
+
+    .p-button-label {
+      font-weight: 500;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .p-selectbutton.p-buttonset.p-component {
+      display: inline-flex;
+      width: 100vw;
+    }
+  }
+}
+
+:host ::ng-deep {
+  .table-tabs-selector {
+    &.two-tabs {
+      @include tabs-style(50%);
+    }
+
+    &.three-tabs {
+      @include tabs-style(33.33%);
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .table-tabs-selector.three-tabs .p-buttonset .p-button {
+      padding: 0.4rem;
+    }
+  }
+
+  .table-screen-media {
+    .p-datatable {
+      min-width: 1200px;
+    }
+    .p-datatable .p-datatable-thead > tr > th {
+      word-wrap: break-word;
+    }
+    .p-datatable .p-datatable-tbody > tr > td {
+      word-wrap: break-word;
+    }
+    .p-datatable .p-datatable-tbody > tr > td:nth-child(3) {
+      word-wrap: break-word;
+      max-width: 120px;
+    }
+  }
+
+  .p-chip {
+    font-size: 0.9rem;
+    background: #4d7fb8;
+    color: var(--primary-color-text);
+    padding: 5px;
+    margin: 5px;
+  }
+}

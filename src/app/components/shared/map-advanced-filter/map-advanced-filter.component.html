@@ -1,0 +1,49 @@
+<form [formGroup]="filterForm">
+  <div class="line-form" formGroupName="period">
+    <span class="label" translate>filter.filter-form.event-period</span>
+    <label class="date-period" for="start-date-filter-intput">
+      <span class="label" translate>filter.filter-form.start</span>
+      <p-calendar [showOnFocus]="false" id="start-date-filter-intput"  formControlName="startDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+
+    <label class="date-period" for="end-date-filter-intput">
+      <span class="label" translate>filter.filter-form.end</span>
+      <p-calendar [showOnFocus]="false" id="end-date-filter-intput" formControlName="endDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+  </div>
+
+  <div class="line-form">
+    <label for="publish-date-filter-intput">
+      <span class="label publish-label" translate>filter.filter-form.published-since</span>
+      <p-calendar [showOnFocus]="false" id="publish-date-filter-intput" formControlName="publishDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+  </div>
+
+</form>

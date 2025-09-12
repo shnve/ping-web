@@ -1,0 +1,42 @@
+@import 'variables';
+
+.folder-detail {
+
+  padding-block-start: 5px;
+
+  .bold-text {
+    font-weight: bold;
+  }
+
+  hr {
+    border-top: 1px solid #d9e3ef;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+
+    > li {
+      margin: 3px 20px;
+      list-style-type: circle;
+      word-wrap: break-word;
+    }
+  }
+
+  .folder-detail-header {
+
+    .folder-detail-header-actions {
+      margin-right: 20px;
+    }
+  }
+
+  .folder-status, .folder-entity, .folder-service {
+    margin-top: 5px;
+    margin-left: 20px;
+  }
+}
+
+/* :host /deep/ mySelector { */
+:host ::ng-deep .bold {
+  color: blue;
+}

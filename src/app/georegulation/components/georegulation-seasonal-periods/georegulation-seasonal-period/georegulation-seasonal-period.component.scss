@@ -1,0 +1,13 @@
+:host ::ng-deep {
+  .p-dropdown {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+span.field-validation-error {
+  color: red;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-left: 20px;
+}

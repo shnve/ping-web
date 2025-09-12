@@ -1,0 +1,8 @@
+<h1 translate *ngIf="disabled; else editTitle">pro-user-list.title.show</h1>
+<ng-template #editTitle>
+ <h1 translate>pro-user-list.title.edit</h1>
+</ng-template>
+<div class="p-grid">
+    <div class="p-col"><app-pro-user-form *ngIf="proUser" [user]="proUser" [disabled]="disabled"></app-pro-user-form></div>
+    <div class="p-col"><app-service-assign-for-user *ngIf="hasServicesLink" [userId]="proUser.id"></app-service-assign-for-user></div>
+</div>

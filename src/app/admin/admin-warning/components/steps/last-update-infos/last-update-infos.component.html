@@ -1,0 +1,4 @@
+<div *ngIf="displayInfos">
+  <span translate class="last-update-infos">{{('admin-warning.creation.labels.txt-last-update-infos'
+    | translate: {lastUpdateDate: getLastUpdateDateFormatted(), lastUpdateUser: getLastUpdateUserFormatted()})}}</span>
+</div>

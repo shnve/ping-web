@@ -1,0 +1,70 @@
+@import 'variables';
+
+.label {
+  font-weight: bold;
+  margin-right: 10px;
+  width: 200px;
+}
+
+.line-form {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.input {
+  min-width: 140px;
+  max-width: 570px;
+}
+
+.ng-invalid.ng-touched {
+  border-color: red;
+}
+
+.save-button {
+  margin: 0 0.5rem;
+}
+
+.button-delete-div {
+  align-self: center;
+}
+
+.button-delete {
+  background-color: transparent;
+  color: red;
+  border-radius: 50%;
+  border: 2px solid;
+  height: 1rem;
+  width: 1rem;
+  padding: 0.5rem;
+}
+
+.form-buttons {
+  margin-top: 0.5rem;
+}
+
+span.field-validation-error {
+  color: $accountCreationFormErrorColor;
+  font-size: $accountCreationFormInputFontSize;
+  margin-left: 20px;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.sub-section-title {
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding: 0.5rem;
+}
+
+:host ::ng-deep .serie-sub-areas .p-multiselect-label {
+  max-width: 850px;
+}

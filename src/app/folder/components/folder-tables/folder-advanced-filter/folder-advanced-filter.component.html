@@ -1,0 +1,117 @@
+<form [formGroup]="filterForm">
+
+  <!-- Folder second part number -->
+  <div class="line-form" >
+    <span class="label" translate>filter.folder-filter-form.second-part-number</span>
+    <label>
+      <input type="text" pInputText formControlName="secondPartNumber">
+    </label>
+  </div>
+
+  <!-- Folder area -->
+  <div *ngIf="canShowFilterByareaIds" class="line-form" >
+    <span class="label" translate>filter.folder-filter-form.areas</span>
+    <p-multiSelect formControlName="areaIds"
+                  [options]="availableAreas"
+                  [filter]="true"
+                  [optionLabel]="areasOptionLabel"
+                  optionValue="id"
+                  [placeholder]="'filter.folder-filter-form.all-areas' | translate"
+                  class="multiselect"
+                  ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+  <!-- Folder number -->
+  <div class="line-form" >
+    <span class="label" translate>filter.folder-filter-form.number</span>
+    <label>
+      <input type="text" pInputText formControlName="number">
+    </label>
+  </div>
+
+  <!-- Folder locality or object -->
+  <div class="line-form" >
+    <span class="label" translate>filter.folder-filter-form.localityOrObject</span>
+    <label>
+      <input type="text" pInputText formControlName="localityOrObject">
+    </label>
+  </div>
+
+  <!-- Maritime entities -->
+  <div class="line-form">
+    <span class="label" translate>filter.folder-filter-form.maritime-entities</span>
+    <p-multiSelect formControlName="maritimeEntityIds"
+                 [options]="availableMaritimeEntities"
+                 [filter]="true"
+                 [optionLabel]="maritimeEntitiesOptionLabel"
+                 optionValue="id"
+                 [placeholder]="'filter.folder-filter-form.all-maritime-entities' | translate"
+                 class="multiselect"
+                 ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+    <!-- Studies -->
+    <div class="line-form" *ngIf="canShowFilterByStudyId">
+      <span class="label" translate>filter.folder-filter-form.study</span>
+      <p-dropdown formControlName="studyId"
+                   [options]="availableStudies"
+                   [filter]="true"
+                   [showClear]="true"
+                   optionLabel="number"
+                   optionValue="id"
+                   [placeholder]="'filter.folder-filter-form.select-study' | translate"
+                   class="multiselect"
+                   ngDefaultControl
+      ></p-dropdown>
+    </div>
+
+  <!-- Last update period -->
+  <div class="line-form" formGroupName="lastUpdatePeriod">
+    <span class="label" translate>filter.folder-filter-form.last-update-period</span>
+    <label class="date-period" for="last-update-start-date-filter-input">
+      <span class="label" translate>filter.filter-form.start</span>
+      <p-calendar id="last-update-start-date-filter-input" formControlName="startDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  ngDefaultControl
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+
+    <label class="date-period" for="last-update-end-date-filter-input">
+      <span class="label" translate>filter.filter-form.end</span>
+      <p-calendar id="last-update-end-date-filter-input" formControlName="endDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  ngDefaultControl
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+  </div>
+
+  <!-- Last update year -->
+  <div class="line-form">
+    <span class="label" translate>filter.folder-filter-form.sending-year</span>
+    <p-dropdown formControlName="lastUpdateYear" #dropdown
+                [options]="availableLastUpdateYear"
+                [autoDisplayFirst]="false"
+                [filter]="true"
+                [showClear]="true"
+                class="multiselect"
+                ngDefaultControl
+    ></p-dropdown>
+  </div>
+
+</form>

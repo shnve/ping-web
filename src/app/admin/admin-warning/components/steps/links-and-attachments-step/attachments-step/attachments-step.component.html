@@ -1,0 +1,15 @@
+<div class="p-fluid">
+  <div class="p-field p-grid">
+    <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="cancelledWarnings" translate>infosource.report-hazard.attachments</label>
+    <div class="p-col-12 p-md-10">
+      <app-attachments id="attachments"
+                        [manageManyAttachments]="true"
+                        [attachmentFiles]="this.attachments.attachmentFiles"
+                        [attachmentIds]="this.attachments.attachmentIds"
+                        (onChangeFiles)="setAttachmentFiles($event)"
+                        >
+      </app-attachments>
+    </div>
+  </div>
+</div>
+

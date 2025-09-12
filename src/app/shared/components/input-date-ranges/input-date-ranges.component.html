@@ -1,0 +1,18 @@
+<button pButton type="button"
+        icon="pi pi-plus"
+        (click)="addDateRange()"
+        translate
+        [label]="'admin-warning.creation.parts.add-date-range' | translate"
+        [disabled]="disabled"
+></button>
+<ul *ngIf="dateRanges.length" class="dates-container">
+  <li *ngFor="let dateRange of dateRanges; let i = index" class="line">
+    <shared-input-date-range [ngModel]="dateRange" (ngModelChange)="dateRangesChanged()" [showDateTimeToggleButton]="showDateTimeToggleButton"
+      [enableTimezone]="enableTimezone" (dateTimeValidated)="onDateTimeValidated($event, i)" [disabled]="disabled"
+    ></shared-input-date-range>
+    <button pButton type="button" icon="pi pi-trash" iconPos="left" (click)="removeDateRange(i)" class="p-button-danger" [disabled]="disabled"></button>
+    <span *ngIf="isInvalidDateTime(i)" class="field-validation-error">
+      <span translate>admin-warning.creation.errors.invalid-daterange</span>
+    </span>
+  </li>
+</ul>

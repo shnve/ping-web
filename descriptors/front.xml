@@ -1,0 +1,13 @@
+<assembly>
+  <id>front</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+      <fileSet>
+        <directory>dist/ping-web/browser</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+  </fileSets>
+</assembly>

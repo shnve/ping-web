@@ -1,0 +1,16 @@
+@import 'src/styling/variables';
+
+a.fr-footer__brand-link::after {
+  -webkit-mask-size: unset;
+  mask-size: unset;
+  --icon-size: 0;
+  -webkit-mask-image: unset;
+  mask-image: unset;
+  content: '';
+}
+
+@media all and (max-width: $screenSizeTablet) {
+  .fr-footer__brand {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,10 @@
+<div class="subscription">
+  <p-card [header]="'subscription.choice.title' | translate" styleClass="p-card-shadow">
+    <div innerHTML="{{'subscription.choice.description' | translate}}"></div>
+    <ng-template pTemplate="footer">
+      <p-button styleClass="btn btn-with-right-space" [label]="'subscription.choice.buttons.warning' | translate" (onClick)="createWarningSubscription()"></p-button>
+      <p-button *ngIf="enableGeoregulationBtn" styleClass="btn" [label]="'subscription.choice.buttons.georegulation' | translate" (onClick)="createGeoregulationSubscription()"></p-button>
+    </ng-template>
+  </p-card>
+</div>
+<p-confirmDialog></p-confirmDialog>

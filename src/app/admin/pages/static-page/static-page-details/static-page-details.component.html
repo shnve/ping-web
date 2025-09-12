@@ -1,0 +1,5 @@
+<h1 translate *ngIf="disabled; else editTitle">static-page-list.title.show</h1>
+<ng-template #editTitle>
+ <h1 translate>static-page-list.title.edit</h1>
+</ng-template>
+<app-static-page-form *ngIf="staticPage" [staticPage]="staticPage" [disabled]="disabled"></app-static-page-form>

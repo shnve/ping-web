@@ -1,0 +1,37 @@
+<h1 translate *ngIf="disabled; else editTitle">maritime-services-list.title.show</h1>
+<ng-template #editTitle>
+ <h1 translate>maritime-services-list.title.edit</h1>
+</ng-template>
+<div class="p-grid">
+    <div class="p-col"><app-maritime-service-form *ngIf="maritimeService" [maritimeService]="maritimeService" [disabled]="disabled"></app-maritime-service-form></div>
+    <div class="p-dir-col">
+        <div class="p-col"><app-service-users-assign *ngIf="canDisplayRoleAssign" [serviceId]="serviceId" [disabled]="disabled"></app-service-users-assign></div>
+        <br/><br/>
+        <div class="p-col">
+            <p-card header="{{'maritime-services-list.title.linkedMaritimeEntities' | translate}}">
+                <ul>
+                    <li *ngFor="let maritimeEntity of maritimeService?.maritimeEntities">
+                        {{maritimeEntity}}
+                    </li>
+                </ul>
+                <div *ngIf="maritimeService?.maritimeEntities.length === 0">
+                    {{'maritime-services-list.noLinkWithMaritimeEntity' | translate}}
+                </div>
+            </p-card>
+        </div>
+        <br/><br/>
+        <div class="p-col">
+            <p-card header="{{'maritime-services-list.title.observedMaritimeEntities' | translate}}">
+                <ul>
+                    <li *ngFor="let maritimeEntity of maritimeService?.observedMaritimeEntities">
+                        {{maritimeEntity}}
+                    </li>
+                </ul>
+                <div *ngIf="maritimeService?.observedMaritimeEntities.length === 0">
+                    {{'maritime-services-list.noMaritimeEntityObserved' | translate}}
+                </div>
+            </p-card>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,124 @@
+<form [formGroup]="filterForm">
+  <div class="line-form" *ngIf="selectedState !== surveyState.DRAFT">
+    <span class="label" translate>filter.survey-filter-form.identifier</span>
+    <input type="text" pInputText formControlName="identifier"
+      [placeholder]="'filter.survey-filter-form.identifier-placeholder' | translate" ngDefaultControl>
+  </div>
+
+  <div class="line-form" *ngIf="showBriFilters">
+    <span class="label" translate>filter.survey-filter-form.shom-id</span>
+    <input type="text" pInputText formControlName="shomId"
+      [placeholder]="'filter.survey-filter-form.shom-id' | translate" ngDefaultControl>
+  </div>
+
+  <div class="line-form">
+    <span class="label" translate>filter.survey-filter-form.name-and-location</span>
+    <input type="text" pInputText formControlName="nameAndLocation"
+      [placeholder]="'filter.survey-filter-form.name-and-location-placeholder' | translate" ngDefaultControl>
+  </div>
+
+  <div class="line-form" *ngIf="showBriFilters">
+    <span class="label" translate>filter.survey-filter-form.producer-organization</span>
+    <input type="text" pInputText formControlName="producerOrganization"
+      [placeholder]="'filter.survey-filter-form.producer-organization' | translate" ngDefaultControl>
+  </div>
+
+  <div class="line-form" *ngIf="showBriFilters">
+    <span class="label" translate>filter.survey-filter-form.owner-organization</span>
+    <input type="text" pInputText formControlName="ownerOrganization"
+      [placeholder]="'filter.survey-filter-form.owner-organization' | translate" ngDefaultControl>
+  </div>
+
+  <div class="line-form" formGroupName="period">
+    <span class="label" translate>filter.survey-filter-form.survey-period</span>
+    <label class="date-period" for="start-date-filter-input">
+      <span class="label" translate>filter.filter-form.start</span>
+      <p-calendar [showOnFocus]="false" id="start-date-filter-input"  formControlName="startDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+      ></p-calendar>
+    </label>
+
+    <label class="date-period" for="end-date-filter-input">
+      <span class="label" translate>filter.filter-form.end</span>
+      <p-calendar [showOnFocus]="false" id="end-date-filter-input" formControlName="endDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+      ></p-calendar>
+    </label>
+  </div>
+
+  <div class="line-form" *ngIf="showBriFilters">
+    <span class="label" translate>filter.survey-filter-form.not-compliant</span>
+    <label>
+      <p-checkbox formControlName="notCompliant" [binary]="true"></p-checkbox>
+    </label>
+  </div>
+
+  <div class="line-form" *ngIf="showBriFilters">
+    <span class="label" translate>filter.survey-filter-form.transmission-status</span>
+    <p-dropdown formControlName="transmissionStatus"
+                   [options]="availableTransmissionStatus"
+                   optionLabel="value"
+                   optionValue="key"
+                   [autoDisplayFirst]="false"
+                   [filter]="true"
+                   [showClear]="true"
+                   class="multiselect"
+                   ngDefaultControl
+    ></p-dropdown>
+  </div>
+
+  <div class="line-form" formGroupName="transmissionPeriod" *ngIf="selectedState !== surveyState.DRAFT">
+    <span class="label" translate>filter.survey-filter-form.transmission-period</span>
+    <label class="date-period" for="start-date-filter-input">
+      <span class="label" translate>filter.filter-form.start</span>
+      <p-calendar [showOnFocus]="false" id="start-date-filter-input" formControlName="startDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+      ></p-calendar>
+    </label>
+
+    <label class="date-period" for="end-date-filter-input">
+      <span class="label" translate>filter.filter-form.end</span>
+      <p-calendar [showOnFocus]="false" id="end-date-filter-input" formControlName="endDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+      ></p-calendar>
+    </label>
+  </div>
+
+  <div class="line-form" *ngIf="showBriFilters">
+    <span class="label" translate>filter.survey-filter-form.expected-deletion-date</span>
+    <p-calendar [showOnFocus]="false" id="expected-deletion-date-filter-input" formControlName="expectedDeletionDate"
+                monthNavigator="true"
+                yearNavigator="true"
+                showIcon="true"
+                dateFormat="dd/mm/yy"
+                [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+    ></p-calendar>
+  </div>
+
+  <div class="line-form" *ngIf="showBriFilters">
+    <span class="label" translate>filter.survey-filter-form.bri-internal-comment</span>
+    <input type="text" pInputText formControlName="briInternalComment"
+      [placeholder]="'filter.survey-filter-form.bri-internal-comment' | translate" ngDefaultControl>
+  </div>
+</form>

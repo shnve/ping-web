@@ -1,0 +1,9 @@
+<div class="infosource">
+  <p-card [header]="'infosource.creation.bathy.title' | translate" styleClass="p-card-shadow">
+    <div innerHTML="{{'infosource.creation.bathy.description' | translate}}"></div>
+    <ng-template  pTemplate="footer">
+      <p-button styleClass="btn btn-with-right-space" [label]="'infosource.creation.buttons.bathy-test' | translate" routerLink="/survey/notdeposit"></p-button>
+      <p-button styleClass="btn" [label]="'infosource.creation.buttons.bathy-deposit' | translate" routerLink="/survey/deposit"></p-button>
+    </ng-template>
+  </p-card>
+</div>

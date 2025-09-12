@@ -1,0 +1,84 @@
+<div [formGroup]="form">
+  <p-panel [header]="'survey.form.sections.survey-description' | translate">
+
+    <!-- Name and location -->
+    <div class="row" [ngClass]="{'error': (nameAndLocation?.invalid && (submitted || nameAndLocation?.dirty))}">
+      <div class="col-25">
+        <label for="nameAndLocation">{{'survey.form.fields.name-and-location' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <input class="long-input" type="text"
+                [(ngModel)]="survey.nameAndLocation"
+                formControlName="nameAndLocation"
+                id="nameAndLocation"
+                [placeholder]="'survey.form.placeholders.name-and-location' | translate"
+                [title]="'survey.form.fields.name-and-location' | translate"
+                pInputText
+                required />
+        <div class="error-message" *ngIf="nameAndLocation?.invalid && (submitted || nameAndLocation?.dirty)">
+          <small *ngIf="nameAndLocation?.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+          <small *ngIf="nameAndLocation?.errors?.whitespace" class="p-error" translate>survey.form.errors.not-empty</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Area -->
+    <div class="row">
+      <div class="col-25">
+        <label for="areaId">{{'survey.form.fields.area' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <p-dropdown id="areaId" *ngIf="areas$ | async as areas"
+                    [(ngModel)]="survey.areaId"
+                    formControlName="areaId"
+                    [options]="areas"
+                    [optionLabel]="displayedAreaLabel"
+                    optionValue="id"
+                    [showClear]="areas.length"
+                    [placeholder]="'survey.form.placeholders.area' | translate">
+        </p-dropdown>
+        <div class="error-message" *ngIf="areaId?.invalid && (submitted || areaId?.dirty)">
+          <small *ngIf="areaId?.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievement period -->
+    <div class="row">
+      <div class="col-25">
+        <label for="achievementPeriod">{{'survey.form.fields.achievement-period' | translate}}<span *ngIf="achievementPeriodAsterisk"> *</span></label>
+      </div>
+      <div class="col-75">
+        <shared-input-date-range #achievementPeriodComponent id="achievementPeriod"
+          formControlName="achievementPeriod" [(ngModel)]="survey.achievementPeriod"
+          [showDateTimeToggleButton]="false" (dateTimeValidated)="dateValidated($event)"
+        ></shared-input-date-range>
+        <span *ngIf="achievementPeriod?.value && (!achievementPeriod?.value.dateStart && achievementPeriod?.value.dateEnd || achievementPeriod?.value.dateStart && !achievementPeriod?.value.dateEnd || invalidDate)"
+              class="field-validation-error"
+        >
+          <span translate>admin-warning.creation.errors.invalid-daterange</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Contributor service -->
+    <div class="row" *ngIf="hasRoleServiceUser">
+      <div class="col-25">
+        <label for="serviceId">{{'survey.form.fields.contributor-service' | translate}} *</label>
+      </div>
+      <div class="col-75 form-mandatory">
+        <p-dropdown *ngIf="proUserServices$ | async as proUserServices"
+          [ngClass]="{'ng-dirty': (serviceId?.invalid ) || (submitted && serviceId?.dirty)}"
+          [options]="proUserServices" [showClear]="true"
+          [placeholder]="'survey.form.placeholders.contributor-service' | translate"
+          filter="true" [optionLabel]="'option-label-name' | translate" optionValue="id" formControlName="serviceId"
+          id="serviceId" ngDefaultControl>
+        </p-dropdown>
+
+        <div class="error-message" *ngIf="serviceId?.invalid && (submitted || serviceId?.dirty)">
+          <small *ngIf="serviceId?.errors?.required" class="p-error" translate>survey.form.errors.required-field</small>
+        </div>
+      </div>
+  </div>
+  </p-panel>
+</div>

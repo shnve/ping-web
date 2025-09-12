@@ -1,0 +1,53 @@
+@import 'variables';
+
+.survey-modal-detail {
+  max-height: 56vh;
+  overflow: hidden auto;
+  padding-right: 1rem;
+  margin-bottom: 2rem;
+}
+
+.fill-info-name-and-location {
+  margin-bottom: 5px;
+}
+
+:host::ng-deep {
+  .p-dialog .p-dialog-header-icons {
+    display: none;
+  }
+
+  .p-button.p-button-icon-only {
+    width: 1.5rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+  }
+
+  .p-button.p-button-text {
+    color: $quaternaryColor;
+  }
+
+  .p-fieldset-legend {
+    border: none;
+    background: none;
+    margin-left: 0.5rem;
+    padding: 0 1rem;
+  }
+}
+
+.img-lang {
+  width: inherit;
+  height: fit-content;
+}
+
+@media (max-width: 63rem) {
+  .survey-modal-detail {
+    max-height: initial;
+    overflow-y: auto;
+  }
+
+  .fr-col-md-7 {
+    flex: unset;
+    width: unset;
+    max-width: unset;
+  }
+}

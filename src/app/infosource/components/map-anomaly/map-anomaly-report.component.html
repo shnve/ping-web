@@ -1,0 +1,69 @@
+<div class="p-col step-container">
+    <form #form (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)" [formGroup]="mapAnomalyReportForm">
+        <infosource-shared-report-form #sharedReport formControlName="sharedReportForm" [infosourceId]="infosourceId"
+            [submitted]="submitted" [infosSourceReport]="infosSourceMapAnomalyReport" [locationMessage]="'infosource.report-hazard.anomaly-location'"
+            (hasAttachmentsIdsChanged)="hasAttachmentsIdsChangedValues($event)"
+            [titleLabel]="'infosource.map-anomaly-report.title'">
+            <!-- Map number -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="mapNumber" translate>infosource.map-anomaly-report.map-number
+                        <span>*</span>
+                    </label>
+                </div>
+                <div class="col-75">
+                    <input type="text" formControlName="mapNumber" id="mapNumber" pInputText>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="(mapNumber.invalid && submitted) || (mapNumber.dirty && mapNumber.invalid)">
+                <div class="col-25">
+                </div>
+                <div class="col-75">
+                    <small class="p-error" translate>infosource.map-anomaly-report.errors.map-number-invalid
+                    </small>
+                </div>
+            </div>
+
+            <!-- Edition number -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="edition-number" translate>infosource.map-anomaly-report.edition-number
+                    </label>
+                </div>
+                <div class="col-75">
+                    <input type="text" formControlName="editionNumber" id="editionNumber" pInputText>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="(editionNumber.invalid && submitted) || (editionNumber.dirty && editionNumber.invalid)">
+                <div class="col-25">
+                </div>
+                <div class="col-75">
+                    <small class="p-error" translate>infosource.map-anomaly-report.errors.edition-number-invalid
+                    </small>
+                </div>
+            </div>
+
+            <!-- Last patch number -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="lastPatchNumber" translate>infosource.map-anomaly-report.last-patch-number
+                    </label>
+                </div>
+                <div class="col-75">
+                    <input type="text" formControlName="lastPatchNumber" id="lastPatchNumber" pInputText>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="(lastPatchNumber.invalid && submitted) || (lastPatchNumber.dirty && lastPatchNumber.invalid)">
+                <div class="col-25">
+                </div>
+                <div class="col-75">
+                    <small class="p-error" translate>infosource.map-anomaly-report.errors.last-patch-number-invalid
+                    </small>
+                </div>
+            </div>
+        </infosource-shared-report-form>
+    </form>
+</div>

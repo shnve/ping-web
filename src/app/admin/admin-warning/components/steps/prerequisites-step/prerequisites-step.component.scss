@@ -1,0 +1,230 @@
+@import 'variables';
+
+:host ::ng-deep {
+  .p-error {
+    margin-left: .5rem;
+  }
+
+  p-multiselect {
+    & > .p-multiselect {
+      max-width: 320px;
+    }
+  }
+
+  p-multiselect.cancelled-warnings {
+    & > .p-multiselect {
+      max-width: 750px;
+    }
+  }
+
+  p-multiselect.readonly-mode {
+    & > .p-multiselect {
+      background: #969696;
+
+      .p-multiselect-label-container,
+      .p-multiselect-label,
+      .p-multiselect-trigger {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  p-dropdown.readonly-mode {
+    & > .p-dropdown {
+      background: #969696;
+
+      .p-dropdown-label,
+      .p-dropdown-clear-icon,
+      .p-dropdown-trigger {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  p-button.btn-reset-serie,
+  p-button.btn-add-area,
+  p-button.btn-save-locality {
+    & > .p-button {
+      width: 2.1rem;
+      height: 2.1rem;
+      margin: 0.2rem 1rem;
+    }
+  }
+
+  p-button.btn-reset-type-general {
+    & > .p-button {
+      width: 2.1rem;
+      height: 2.1rem;
+      margin-left: 1rem;
+    }
+  }
+
+  p-button.btn-remove-locality {
+    & > .p-button {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  p-panel.selected-areas-localities {
+    & > .p-component {
+      margin-bottom: 1rem;
+    }
+  }
+
+  p-radiobutton {
+    margin-right: 0.5rem;
+  }
+
+  .add-part-button > button {
+    width: calc(100% - 4.357rem);
+  }
+
+  .area-grid-item {
+    min-width: 440px;
+  }
+}
+
+.p-field {
+  margin-bottom: 1rem;
+
+  & > label {
+    display: inline-block;
+    margin-right: .5rem;
+  }
+}
+
+.serie-elements,
+.areas-elements,
+.localities-elements {
+  margin-right: 5px;
+  min-width: 212px;
+}
+
+.year-elements {
+  min-width: 40px;
+}
+
+.area-grid-item {
+  margin: .5em;
+  border: 1px solid var(--surface-d);
+
+  .area-grid-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem;
+  }
+
+  .area-grid-item-content {
+    text-align: left;
+  }
+}
+
+
+.area-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.area-description {
+  margin: 1rem;
+}
+
+.item-flex-display {
+  display: flex;
+  align-items: center;
+}
+
+.locality-name {
+  font-size: 1rem;
+  font-weight: normal;
+  margin-right: 5px;
+}
+
+.serie-warningNumber-fields,
+.areas-localities-fields {
+  display: flex;
+
+  .first-field {
+    margin-right: 90px;
+  }
+
+  .last-field {
+    margin-left: 90px;
+  }
+}
+
+.label-select-serie,
+.label-select-areas,
+.label-select-type-general,
+.label-cancellationTime,
+.label-timezone,
+.label-number-reservation,
+.label-model,
+.label-cancelled-warnings {
+  align-self: center;
+  margin-right: 0.5rem;
+}
+
+.label-separator-number-reservation {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.next-available-number {
+  margin-left: 0.5rem;
+  font-style: italic;
+  color: grey;
+}
+
+.p-button.p-button-outlined {
+  color: $primaryColor;
+  border-color: $primaryColor;
+  margin-right: 18px;
+}
+
+.input-number-reservation {
+  width: 100px;
+}
+
+.model-name {
+  width: 300px;
+}
+
+.col-75 {
+  float: left;
+  width: 80%;
+  margin: auto 5px;
+}
+
+.step-container {
+  position: relative;
+  min-height: 250px;
+
+  .parts-list-container {
+    width: 260px;
+  }
+
+  .part-map-container {
+    padding: 0 0.5rem;
+  }
+}
+
+.datetime-field {
+  display: flex;
+}
+
+.info-timezone {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  font-style: italic;
+}
+
+/* Responsive */
+@media all and (max-width: $screenSizeLaptop) {
+  .area-grid-container {
+    width: 100%;
+  }
+}

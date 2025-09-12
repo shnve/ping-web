@@ -1,0 +1,31 @@
+<div class="container">
+    <form #form (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)" [formGroup]="reportFutureUpdatesForm">
+        <infosource-shared-report-form #sharedReport formControlName="sharedReportForm" [infosourceId]="infosourceId"
+            [infosSourceReport]="infosourceFutureUpdates" [submitted]="submitted"
+            (hasAttachmentsIdsChanged)="hasAttachmentsIdsChangedValues($event)" [locationMessage]="'infosource.future-updates.information-location'"
+            [titleLabel]="'infosource.future-updates.title'" [isFutureUpdates]="true">
+
+            <!-- Object future info -->
+            <div class="row">
+                <div class="col-25">
+                    <label for="objectFutureInfo" translate>
+                        infosource.future-updates.object-future-info<span>*</span>
+                    </label>
+                </div>
+                <div class="col-75">
+                    <input type="text" formControlName="objectFutureInfo" id="objectFutureInfo" pInputText>
+                </div>
+            </div>
+
+            <div class="row"
+                *ngIf="(objectFutureInfo.invalid && submitted) || (objectFutureInfo.dirty && objectFutureInfo.invalid)">
+                <div class="col-25">
+                </div>
+                <div class="col-75">
+                    <small class="p-error" translate>infosource.future-updates.errors.future-info-invalid
+                    </small>
+                </div>
+            </div>
+        </infosource-shared-report-form>
+    </form>
+</div>

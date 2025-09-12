@@ -1,0 +1,48 @@
+<div class="container">
+  <p-button (onClick)="addFeaturePart()"
+            *ngIf="!featureParts?.length"
+            [label]="'admin-warning.creation.parts.add-part' | translate"
+  ></p-button>
+  <span *ngIf="!featureParts?.length" class="add-part-star"> * </span>
+  <div class="parts-container">
+    <div class="p-grid">
+      <div *ngIf="featureParts?.length" class="p-col-fixed parts-list-container">
+        <p-button (onClick)="addFeaturePart()"
+                  [disabled]="disabled"
+                  [label]="'admin-warning.creation.parts.add-part' | translate"
+                  class="add-part-button"
+        ></p-button>
+        <span class="add-part-star"> * </span>
+        <georegulation-parts-list (partRemoved)="removePart($event)"
+                               (partSelected)="selectPart($event)"
+                               [featureParts]="featureParts"
+                               [readonly]="disabled"
+                               [selectedParts]="[selectedPart]"
+                               [validFeaturePart]="areFeaturePartsValid()"
+        ></georegulation-parts-list>
+      </div>
+      <div class="p-col part-map-container">
+        <div *ngIf="selectedPart">
+          <georegulation-parts-map #geometriesForm
+                                   [featurePart]="selectedPart"
+                                   [featureParts]="featureParts"
+                                   [disabled]="disabled"
+                                   [issuingServiceId]="issuingServiceId">
+          </georegulation-parts-map>
+        </div>
+        <georegulation-part-form #georegulationPartForm *ngIf="selectedPart"
+                              (partChanged)="partChanged($event)"
+                              [featurePart]="selectedPart"
+                              [timezone]="timezone"
+                              [geometries]="getGeometries()"
+                              [validFeaturePart]="hasValidPart(selectedPart)"
+                              [showRestrictionCategories]="showRestrictionCategories"
+                              [showCalendarPeriods]="showCalendarPeriods"
+                              [disabled]="disabled"
+                              [submitted]="submitted"
+                              [partIndex]="getNumberForSearchedPart(selectedPart)"
+        ></georegulation-part-form>
+      </div>
+    </div>
+  </div>
+</div>

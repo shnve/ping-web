@@ -1,0 +1,18 @@
+<div class="table-wrapper">
+  <table class="fl-table">
+    <thead>
+    <tr>
+      <th translate>service-user-assign.service</th>
+      <th translate>service-user-assign.user-role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let role of userRole$ | async">
+      <td>
+        <a routerLink="/administration/service-maritime/{{role.id}}/details" rel="noopener noreferrer" target="_blank">{{translate.currentLang === 'fr' ? role.name : role.internationalName}}</a>
+      </td>
+      <td>{{'role.' + findLabel(role.serviceRole) | translate}}</td>
+    </tr>
+    <tbody>
+  </table>
+</div>

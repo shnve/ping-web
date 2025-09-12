@@ -1,0 +1,198 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ping-web": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": {
+              "base": "dist/ping-web"
+            },
+            "index": "src/index.html",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "node_modules/primeng/resources/themes/fluent-light/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeflex/primeflex.css",
+              "node_modules/@fortawesome/fontawesome-free/css/solid.css",
+              "node_modules/@fortawesome/fontawesome-free/css/regular.css",
+              "node_modules/@fortawesome/fontawesome-free/css/fontawesome.css",
+              "node_modules/ol/ol.css",
+              "node_modules/@shom2/carto/css/styles.css",
+              "node_modules/intl-tel-input/build/css/intlTelInput.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/summernote/dist/summernote-lite.min.css",
+              "src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styling/",
+                "."
+              ]
+            },
+            "scripts": [
+              "node_modules/quill/dist/quill.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/summernote/dist/summernote-lite.min.js"
+            ],
+            "extractLicenses": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true,
+            "browser": "src/main.ts"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "8mb",
+                  "maximumError": "8mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "extractLicenses": false,
+              "sourceMap": true,
+              "optimization": false,
+              "namedChunks": true
+            },
+            "iaas": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.iaas.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": ""
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "ping-web:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "ping-web:build:production"
+            },
+            "local": {
+              "buildTarget": "ping-web:build:local"
+            },
+            "iaas": {
+              "buildTarget": "ping-web:build:iaas"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "ping-web:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "sourceMap": true,
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/summernote/dist/summernote-lite.min.css",
+              "src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styling/"
+              ]
+            },
+            "scripts": [
+              "node_modules/quill/dist/quill.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/summernote/dist/summernote-lite.min.js"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "ping-web:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ping-web:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ],
+    "analytics": false
+  }
+}

@@ -1,0 +1,47 @@
+@import 'variables';
+
+.number-preview {
+  margin-top: 10px;
+}
+
+:host ::ng-deep {
+  .parts-fieldset {
+    p-header > div {
+      padding: 0.25rem;
+
+      p-button {
+        margin-left: 0.25rem;
+      }
+    }
+
+    .p-fieldset-content {
+      padding: 10px 1rem;
+    }
+  }
+
+  .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
+    padding: 0.5rem;
+    color: $fieldsetLegendColorAColor;
+    border-radius: 3px;
+    transition: box-shadow 0.2s;
+  }
+
+  em {
+    font-style: italic;
+  }
+}
+
+.p-button.p-button-icon-only {
+  width: 1.5rem;
+  height: 1.4rem;
+  margin-right: 0.5rem;
+}
+
+.p-button.p-button-icon-only-download {
+  width: 2.357rem;
+  height: 2.357rem;
+}
+
+.p-button.p-button-text {
+  color: #00489a;
+}

@@ -1,0 +1,9 @@
+<div class="navigation-menu">
+  <p-menubar [model]="items" autoDisplay="true">
+    <a [routerLink]="[baseStaticPath, 'data-services']" class="data-services" title="{{ 'menu.anchor.title.data-services' | translate }}" target="_blank" rel="noopener noreferrer">
+      <i class="pi pi-question-circle icon-data-services"></i>
+      <span translate>menu.data-services</span>
+    </a>
+  </p-menubar>
+</div>
+<app-breadcrumb class="breadcrumb"></app-breadcrumb>

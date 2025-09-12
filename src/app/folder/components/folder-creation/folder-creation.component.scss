@@ -1,0 +1,48 @@
+@import 'variables';
+
+.container {
+  border-radius: 5px;
+  padding: 20px;
+}
+  
+.col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+  
+.col-75 {
+  float: left;
+  width: 80%;
+  margin-top: 6px;
+}
+  
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.folder-title {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.button {
+  margin-top: 10px;
+  margin-left: 296px;
+}
+
+.p-button {
+  &.p-button-outlined {
+    color: $primaryColor;
+    border-color: $primaryColor;
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+  &.p-button-danger {
+    margin-top: 20px;
+  }
+}

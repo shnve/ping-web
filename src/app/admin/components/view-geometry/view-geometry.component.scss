@@ -1,0 +1,17 @@
+:host ::ng-deep {
+  .map {
+    .sc-module-container.sc-drawing-block .sc-drawing-module-container .sc-container-principal-block {
+      width: initial;
+    }
+
+    .sc-coordinates-form {
+      .sc-options-tools {
+        .sc-sections {
+          font-size: 10px;
+          border: none;
+          padding: 5px 15px 4px 15px;
+        }
+      }
+    }
+  }
+}

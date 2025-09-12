@@ -1,0 +1,12 @@
+<div>
+  <button pButton type="button"
+        icon="pi pi-plus"
+        (click)="add()"
+        [label]="'georegulation.creation.add-seasonal-period' | translate"
+        [disabled]="disabled"
+  ></button>
+  <div *ngFor="let seasonalPeriod of seasonalPeriods; let index=index">
+    <georegulation-seasonal-period [ngModel]="seasonalPeriod" (ngModelChange)="seasonalPeriodsChanged()" [disabled]="disabled"></georegulation-seasonal-period>
+    <button pButton type="button" icon="pi pi-trash" iconPos="left" (click)="remove(index)" class="p-button-danger" [disabled]="disabled"></button>
+  </div>
+</div>

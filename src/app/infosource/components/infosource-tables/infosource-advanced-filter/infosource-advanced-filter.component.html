@@ -1,0 +1,187 @@
+<form [formGroup]="filterForm">
+
+  <!-- display rejected -->
+  <div class="line-form" *ngIf="selectedState === infosourceState.RECEIVED">
+    <span class="label" translate>filter.infosource-filter-form.display-rejected</span>
+    <label>
+      <p-checkbox formControlName="rejected" [binary]="true"></p-checkbox>
+    </label>
+  </div>
+
+  <!-- display archived -->
+  <div class="line-form" *ngIf="selectedState === infosourceState.RECEIVED">
+    <span class="label" translate>filter.infosource-filter-form.display-archived</span>
+    <label>
+      <p-checkbox formControlName="archived" [binary]="true"></p-checkbox>
+    </label>
+  </div>
+
+  <!-- Natures -->
+  <div class="line-form">
+    <span class="label" translate>filter.infosource-filter-form.natures</span>
+    <p-multiSelect formControlName="natures"
+                   [options]="availableNatures"
+                   [filter]="true"
+                   optionLabel="value"
+                   optionValue="key"
+                   [placeholder]="'filter.infosource-filter-form.all-natures' | translate"
+                   class="multiselect"
+                   ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+  <!-- Maritime entities -->
+  <div class="line-form">
+    <span class="label" translate>filter.infosource-filter-form.maritime-entities</span>
+    <p-multiSelect formControlName="maritimeEntityIds"
+                   [options]="availableMaritimeEntities"
+                   [filter]="true"
+                   [optionLabel]="'option-label-name' | translate"
+                   optionValue="id"
+                   [placeholder]="'filter.infosource-filter-form.all-maritime-entities' | translate"
+                   class="multiselect"
+                   ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+  <!-- Tags -->
+  <div class="line-form">
+    <span class="label" translate>filter.infosource-filter-form.tags</span>
+    <p-multiSelect formControlName="tags"
+                  [options]="availableTags"
+                  [filter]="true"
+                  [placeholder]="'filter.infosource-filter-form.all-tags' | translate"
+                  class="multiselect"
+                  optionLabel="value"
+                  optionValue="value"
+                  ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+  <!-- Last update period -->
+  <div class="line-form"  formGroupName="lastUpdatePeriod" *ngIf="selectedState === infosourceState.DRAFT">
+    <span class="label" translate>filter.infosource-filter-form.last-update-period</span>
+    <label class="date-period" for="last-update-start-date-filter-input">
+      <span class="label" translate>filter.filter-form.start</span>
+      <p-calendar [showOnFocus]="false" id="last-update-start-date-filter-input"  formControlName="startDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  ngDefaultControl
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+
+    <label class="date-period" for="last-update-end-date-filter-input">
+      <span class="label" translate>filter.filter-form.end</span>
+      <p-calendar [showOnFocus]="false" id="last-update-end-date-filter-input" formControlName="endDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  ngDefaultControl
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+  </div>
+
+
+  <!-- IS number -->
+  <div class="line-form" *ngIf="selectedState !== infosourceState.DRAFT">
+    <span class="label" translate>filter.infosource-filter-form.number</span>
+    <label>
+      <input type="text" pInputText formControlName="number" placeholder="">
+    </label>
+  </div>
+
+  <!-- Sending period -->
+  <div class="line-form"  formGroupName="sendingPeriod" *ngIf="selectedState !== infosourceState.DRAFT">
+    <span class="label" translate>filter.infosource-filter-form.sending-period</span>
+    <label class="date-period" for="sending-start-date-filter-input">
+      <span class="label" translate>filter.filter-form.start</span>
+      <p-calendar [showOnFocus]="false" id="sending-start-date-filter-input"  formControlName="startDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  ngDefaultControl
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+
+    <label class="date-period" for="sending-end-date-filter-input">
+      <span class="label" translate>filter.filter-form.end</span>
+      <p-calendar [showOnFocus]="false" id="sending-end-date-filter-input" formControlName="endDate"
+                  monthNavigator="true"
+                  yearNavigator="true"
+                  [yearRange]="yearRange"
+                  showIcon="true"
+                  dateFormat="dd/mm/yy"
+                  [placeholder]="'filter.filter-form.date-placeholder' | translate"
+                  [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+                  ngDefaultControl
+                  appendTo="body"
+      ></p-calendar>
+    </label>
+  </div>
+
+  <!-- sending year -->
+  <div class="line-form" *ngIf="selectedState !== infosourceState.DRAFT">
+    <span class="label" translate>filter.infosource-filter-form.sending-year</span>
+    <p-dropdown formControlName="sendingYear"
+                   [options]="availableSendingYear"
+                   [autoDisplayFirst]="false"
+                   [filter]="true"
+                   [showClear]="true"
+                   class="multiselect"
+                   ngDefaultControl
+    ></p-dropdown>
+  </div>
+
+  <!-- Recipients -->
+  <div class="line-form" *ngIf="selectedState !== infosourceState.DRAFT">
+    <span class="label" translate>filter.infosource-filter-form.recipients</span>
+    <p-multiSelect formControlName="recipientIds"
+                   [options]="availableRecipients"
+                   [filter]="true"
+                   [optionLabel]="maritimeEntitiesOrRecipientsOptionLabel"
+                   optionValue="id"
+                   [placeholder]="'filter.infosource-filter-form.all-recipients' | translate"
+                   class="multiselect"
+                   ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+  <!-- Affair number -->
+  <div class="line-form" *ngIf="selectedState !== infosourceState.DRAFT">
+    <span class="label" translate>filter.infosource-filter-form.affair-number</span>
+    <label>
+      <input type="text" pInputText formControlName="affairNumber" placeholder="">
+    </label>
+  </div>
+
+  <!-- Service statuses -->
+  <div class="line-form" *ngIf="selectedState === infosourceState.RECEIVED">
+    <span class="label" translate>filter.infosource-filter-form.service-statuses</span>
+    <p-multiSelect formControlName="serviceStatuses"
+                   [options]="availableServiceStatuses"
+                   [filter]="true"
+                   optionLabel="value"
+                   optionValue="key"
+                   [placeholder]="'filter.infosource-filter-form.all-service-statuses' | translate"
+                   class="multiselect"
+                   ngDefaultControl
+    ></p-multiSelect>
+  </div>
+
+</form>

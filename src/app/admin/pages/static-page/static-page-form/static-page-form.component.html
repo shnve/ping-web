@@ -1,0 +1,45 @@
+<form [formGroup]="staticPageForm" class="form" (ngSubmit)="saveStaticPage()">
+  <!-- title -->
+  <div class="line-form p-field p-grid">
+    <label for="static-page-title" class="label p-col-fixed">{{'static-page.title' | translate }} *</label>
+    <input id="static-page-title" type="text" formControlName="title" [ngClass]="{'is-invalid': title.errors}" required>
+    <div *ngIf="(title.touched || title.dirty) && title.errors" class="invalid-feedback">
+      <div *ngIf="title.errors.required">{{('errors.required' | translate:{attr: 'Title'})}}</div>
+    </div>
+  </div>
+
+  <!-- international title -->
+  <div class="line-form p-field p-grid">
+    <label for="static-page-internationalTitle" class="label p-col-fixed">{{'static-page.internationalTitle' | translate }} *</label>
+    <input id="static-page-internationalTitle" type="text" formControlName="internationalTitle" [ngClass]="{'is-invalid': internationalTitle.errors}" required>
+    <div *ngIf="(internationalTitle.touched || internationalTitle.dirty) && internationalTitle.errors" class="invalid-feedback">
+      <div *ngIf="internationalTitle.errors.required">{{('errors.required' | translate:{attr: 'International title'})}}</div>
+    </div>
+  </div>
+
+  <!-- path -->
+  <div class="line-form p-field p-grid">
+    <label for="static-page-path" class="label p-col-fixed">{{'static-page.path' | translate }} *</label>
+    <input id="static-page-path" type="text" formControlName="path" [ngClass]="{'is-invalid': path.errors}" required>
+    <div *ngIf="(path.touched || path.dirty) && path.errors" class="invalid-feedback">
+      <div *ngIf="path.errors.required">{{('errors.required' | translate:{attr: 'path'})}}</div>
+      <div *ngIf="path.errors.pattern">{{('errors.must-match' | translate:{attr: 'path', pattern: path.errors.pattern.requiredPattern})}}</div>
+    </div>
+  </div>
+
+  <!-- content -->
+  <div class="line-form p-field p-grid">
+    <h5 class="label" translate>static-page.content</h5>
+    <div [ngxSummernote]="configEditor" [ngxSummernoteDisabled]="disabled" formControlName="content" ngDefaultControl></div>
+  </div>
+
+  <!-- international content -->
+  <div class="line-form p-field p-grid">
+    <h5 class="label" translate>static-page.internationalContent</h5>
+    <div [ngxSummernote]="configEditor" [ngxSummernoteDisabled]="disabled" formControlName="internationalContent" ngDefaultControl></div>
+  </div>
+
+  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="!staticPageForm.valid"></button>
+  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left" [routerLink]="staticPageListPath"></button>
+  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times" [routerLink]="staticPageListPath"></button>
+</form>

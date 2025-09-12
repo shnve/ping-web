@@ -1,0 +1,301 @@
+<div class="account">
+  <h2 translate>account.creation.title</h2>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+    <h3 translate>account.creation.credentials.title</h3>
+
+    <!-- email -->
+    <div class="form-group" [ngClass]="{'error': (email.invalid && (email.dirty || email.touched)) || emailCreationError}">
+      <div class="form-mandatory">
+        <span class="p-float-label input-field">
+          <input id="email" type="text" formControlName="email" [ngClass]="{'error': email.invalid && (email.dirty || email.touched)}"
+            [title]="'account.creation.credentials.email' | translate"
+             (keypress)="onKeypressEvent($event)" pInputText required>
+          <label for="email">{{'account.creation.credentials.email' | translate}}</label>
+        </span>
+      </div>
+      <span *ngIf="email.invalid && (email.dirty || email.touched)" class="field-validation-error">
+        <span translate>account.creation.errors.email-invalid</span>
+      </span>
+      <span *ngIf="emailCreationError && !email.invalid" class="field-validation-error">
+        <span translate>{{ emailCreationError }}</span>
+      </span>
+    </div>
+
+    <!-- password -->
+    <div class="form-group" [ngClass]="{'error': (password.invalid && (password.dirty || password.touched)) || passwordCreationError}">
+      <div class="form-mandatory">
+        <span class="p-float-label input-field">
+          <p-password formControlName="password"
+                      [promptLabel]="'account.creation.p-password-component.prompt-label' | translate"
+                      [weakLabel]="'account.creation.p-password-component.weak-label' | translate"
+                      [mediumLabel]="'account.creation.p-password-component.medium-label' | translate"
+                      [strongLabel]="'account.creation.p-password-component.strong-label' | translate"
+                      [toggleMask]="true" [feedback]="true" id="password"
+                      (keypress)="onKeypressEvent($event)" required ngDefaultControl>
+            <ng-template pTemplate="footer">
+              <hr />
+              <ul>
+                <li translate>account.creation.p-password-component.footer.tip1</li>
+                <li translate>account.creation.p-password-component.footer.tip2</li>
+                <li translate>account.creation.p-password-component.footer.tip3</li>
+                <li translate>account.creation.p-password-component.footer.tip4</li>
+              </ul>
+            </ng-template>
+          </p-password>
+          <label for="password">{{'account.creation.credentials.password' | translate}}</label>
+        </span>
+      </div>
+      <span *ngIf="password.invalid && (password.dirty || password.touched)" class="field-validation-error">
+        <span translate>account.creation.errors.password-invalid</span>
+      </span>
+      <span *ngIf="passwordCreationError && !password.invalid" class="field-validation-error">
+        <span translate>{{ passwordCreationError }}</span>
+      </span>
+    </div>
+
+    <hr/>
+
+    <h3 translate>account.creation.information.title</h3>
+
+    <!-- gender -->
+    <div class="form-group">
+      <div class="p-field-radiobutton">
+        <p-radioButton id="gender1" name="gender" value="MR" formControlName="gender" inputId="gender1" ngDefaultControl></p-radioButton>
+        <label for="gender1" translate>account.creation.information.gender.mr</label>
+      </div>
+      <div class="p-field-radiobutton">
+        <p-radioButton id="gender2" name="gender" value="MRS" formControlName="gender" inputId="gender2" ngDefaultControl></p-radioButton>
+        <label for="gender2" translate>account.creation.information.gender.mrs</label>
+      </div>
+    </div>
+
+    <!-- firstname -->
+    <div class="form-group" [ngClass]="{'error': (firstName.invalid && (firstName.dirty || firstName.touched))}">
+      <div class="form-mandatory">
+        <span class="p-float-label input-field">
+          <input id="firstName" type="text" formControlName="firstName"
+               [title]="'account.creation.information.firstname' | translate"
+               [ngClass]="{'error': firstName.invalid && (firstName.dirty || firstName.touched)}"
+               required pInputText/>
+          <label for="firstName">{{'account.creation.information.firstname' | translate}}</label>
+        </span>
+      </div>
+      <span *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="field-validation-error">
+        <span translate>account.creation.errors.firstName-invalid</span>
+      </span>
+    </div>
+
+    <!-- lastname -->
+    <div class="form-group" [ngClass]="{'error': (lastName.invalid && (lastName.dirty || lastName.touched))}">
+      <div class="form-mandatory">
+        <span class="p-float-label input-field">
+          <input id="lastName" type="text" formControlName="lastName"
+               [title]="'account.creation.information.lastname' | translate"
+               [ngClass]="{'error': lastName.invalid && (lastName.dirty || lastName.touched)}"
+               required pInputText/>
+          <label for="lastName">{{'account.creation.information.lastname' | translate}}</label>
+        </span>
+      </div>
+      <span *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="field-validation-error">
+        <span translate>account.creation.errors.lastName-invalid</span>
+      </span>
+    </div>
+
+    <!-- phone numbers -->
+    <div class="form-group phone-numbers" formGroupName="phoneNumbers"
+    [ngClass]="{'error': phoneNumbers.invalid && (mobile.dirty || mobile.touched || home.dirty || home.touched)}">
+    <p-fieldset [legend]="'account.creation.information.phone-numbers' | translate" [toggleable]="false">
+      <label for="mobile">{{'account.creation.information.mobile-phone' | translate}}</label>
+      <div class="form-mandatory">
+        <ngx-intl-tel-input class="phone-number" [preferredCountries]="preferredCountries"
+                            [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="false"
+                            [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                            [selectedCountryISO]="CountryISO.France" [maxLength]="15"
+                            [phoneValidation]="false" [separateDialCode]="separateDialCode"
+                            [numberFormat]="PhoneNumberFormat.National"
+                            [customPlaceholder]="123456789"
+                            [title]="'account.creation.information.mobile-phone' | translate"
+                            [ngClass]="{'error': phoneNumbers.invalid && (mobile.dirty || mobile.touched)}"
+                            name="mobile" formControlName="mobile" id="mobile" ngDefaultControl>
+        </ngx-intl-tel-input>
+      </div>
+      <br/>
+      <label for="home">{{'account.creation.information.home-phone' | translate}}</label>
+      <div class="form-mandatory">
+        <ngx-intl-tel-input class="phone-number" [preferredCountries]="preferredCountries"
+                            [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="false"
+                            [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                            [selectedCountryISO]="CountryISO.France" [maxLength]="15"
+                            [phoneValidation]="false" [separateDialCode]="separateDialCode"
+                            [numberFormat]="PhoneNumberFormat.National"
+                            [customPlaceholder]="123456789"
+                            [title]="'account.creation.information.home-phone' | translate"
+                            [ngClass]="{'error': phoneNumbers.invalid && (home.dirty || home.touched)}"
+                            name="home" formControlName="home" id="home" ngDefaultControl>
+        </ngx-intl-tel-input>
+      </div>
+      <span *ngIf="phoneNumbers.invalid && (mobile.dirty || mobile.touched || home.dirty || home.touched)" class="field-validation-error">
+        <span translate>account.creation.errors.phonenumber-invalid</span>
+      </span>
+    </p-fieldset>
+    </div>
+
+    <!-- enable subscription notifications sound -->
+    <div class="form-group line-form p-field p-grid">
+      <label for="is-pro-account" class="label p-col-fixed" translate>account.creation.information.is-pro-account</label>
+      <p-selectButton id="is-pro-account"
+                      [options]="booleanOptions"
+                      ngDefaultControl
+                      [unselectable]="true"
+                      formControlName="proAccount">
+        <ng-template let-item pTemplate>
+          <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+        </ng-template>
+      </p-selectButton>
+    </div>
+
+    <!-- organization -->
+    <div class="form-group" [ngClass]="proAccount.value ? 'form-mandatory' : 'form-optional'">
+      <span class="p-float-label input-field">
+        <input id="organization" type="text" formControlName="organization"
+                [placeholder]="(proAccount.value ? 'account.creation.information.organization-mandatory' : 'account.creation.information.organization') | translate"
+                [title]="(proAccount.value ? 'account.creation.information.organization-mandatory' : 'account.creation.information.organization') | translate" />
+        <label for="organization">{{(proAccount.value ? 'account.creation.information.organization-mandatory' : 'account.creation.information.organization')  | translate}}</label>
+      </span>
+    </div>
+
+    <div class="form-group" [ngClass]="{'error': proAccount.value && (!organization.value || organization.value.trim() === '')}">
+      <span *ngIf="proAccount.value && (!organization.value || organization.value.trim() === '')" class="field-validation-error">
+        <span translate>account.creation.errors.organization-invalid</span>
+      </span>
+    </div>
+
+    <!-- ship name -->
+    <div class="form-group form-optional">
+      <span class="p-float-label input-field">
+        <input id="shipName" type="text" formControlName="shipName"
+             [title]="'account.creation.information.ship-name' | translate" pInputText/>
+        <label for="shipName">{{'account.creation.information.ship-name' | translate}}</label>
+      </span>
+    </div>
+
+    <!-- homeport -->
+    <div class="form-group form-optional">
+      <span class="p-float-label input-field">
+        <input id="homeport" type="text" formControlName="homeport"
+             [title]="'account.creation.information.homeport' | translate" pInputText/>
+        <label for="homeport">{{'account.creation.information.homeport' | translate}}</label>
+      </span>
+    </div>
+
+    <!-- registration number -->
+    <div class="form-group form-optional">
+      <span class="p-float-label input-field">
+        <input id="registrationNumber" type="text" formControlName="registrationNumber"
+             [title]="'account.creation.information.registration-number' | translate" pInputText/>
+        <label for="registrationNumber">{{'account.creation.information.registration-number' | translate}}</label>
+      </span>
+    </div>
+
+    <!-- preferred area -->
+    <div class="form-group form-optional">
+      <p-dropdown *ngIf="areas$ | async as areas"
+          id="area-dropdown"
+          formControlName="preferredArea"
+          [options]="areas"
+          [optionLabel]="'option-label-name' | translate"
+          optionValue="id"
+          [placeholder]="'account.creation.information.preferred-area' | translate"
+          display="chip" ngDefaultControl>
+      </p-dropdown>
+    </div>
+
+    <!-- enable subscription notifications sound -->
+    <div class="form-group line-form p-field p-grid">
+      <label for="has-notifications-sound" class="label p-col-fixed lbl-notification" translate>account.creation.information.notifications-sound</label>
+      <p-selectButton id="has-notifications-sound"
+                      [options]="booleanOptions"
+                      ngDefaultControl
+                      [unselectable]="true"
+                      formControlName="hasNotificationsSound">
+        <ng-template let-item pTemplate>
+          <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+        </ng-template>
+      </p-selectButton>
+    </div>
+
+    <!-- enable subscription email notifications -->
+    <div class="form-group line-form p-field p-grid">
+      <label for="has-subscription-email-notifications" class="label p-col-fixed lbl-notification" translate>account.creation.information.subscription-email-notifications</label>
+      <p-selectButton id="has-subscription-email-notifications"
+                      [options]="booleanOptions"
+                      ngDefaultControl
+                      [unselectable]="true"
+                      formControlName="hasSubscriptionEmailNotifications">
+        <ng-template let-item pTemplate>
+          <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+        </ng-template>
+      </p-selectButton>
+    </div>
+
+    <!-- accept CGU -->
+    <div class="form-group line-form p-field p-grid" [ngClass]="{'error': hasAcceptedTos.invalid}">
+      <div class="checkbox-group">
+        <p-checkbox formControlName="hasAcceptedTos" id="hasAcceptedTos-accept" [binary]="true" ngDefaultControl></p-checkbox>
+        <label for="hasAcceptedTos-accept" class="label p-col-fixed lbl-accept">
+          <a [routerLink]="[baseStaticPath, 'cgu']" rel="noopener noreferrer" target="_blank">{{'account.creation.information.terms-of-service' | translate}}</a>
+        </label>
+      </div>
+      <span *ngIf="hasAcceptedTos.invalid" class="field-validation-error">
+        <span translate>account.creation.errors.hasAcceptedTos-invalid</span>
+      </span>
+    </div>
+
+    <!-- accept notification -->
+    <div class="form-group line-form p-field p-grid">
+      <div class="checkbox-group">
+        <p-checkbox formControlName="notification" id="notification-accept" [binary]="true" ngDefaultControl></p-checkbox>
+        <label for="notification-accept" class="label p-col-fixed lbl-accept">{{'account.creation.information.notification' | translate}} <em>{{'account.creation.information.notification-nautiques' | translate}}</em></label>
+      </div>
+    </div>
+
+    <!-- captcha -->
+    <div class="form-group" [ngClass]="{'error': !captchaValid && captchaTouched}">
+      <span *ngIf="!captchaValid  && captchaTouched" class="field-validation-error">
+        <span translate>account.creation.errors.captcha-invalid</span>
+      </span>
+      <custom-captcha #captcha id="captcha" [config]="captchaConfig"></custom-captcha>
+    </div>
+
+    <div class="form-group" [ngClass]="{'error': submitError}">
+      <span *ngIf="submitError" class="field-validation-error">
+        <span translate>{{ submitError }}</span>
+      </span>
+    </div>
+
+    <!-- Progress spinner displayed while submitting form (i.e. creating user server-side) -->
+    <div class="form-group" *ngIf="submitting">
+      <p-progressSpinner styleClass="custom-spinner" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+    </div>
+
+    <!-- submit form -->
+    <p-button id="btn-submit" type="submit" [label]="'account.creation.submit' | translate"
+            [disabled]="!(profileForm.valid && !submitting)" ngDefaultControl></p-button>
+
+  </form>
+
+  <!-- Modal dialog used to show account creation confirmation before redirect to login form -->
+  <p-dialog [(visible)]="displayConfirmModal" [modal]="true" [closable]="false"
+            [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
+            [style]="{width: '50vw'}" [baseZIndex]="10000"
+            [draggable]="false" [resizable]="false" (onHide)="hideModalDialog()">
+    <ng-template pTemplate="header">
+      <span class="p-dialog-title" translate>account.creation.modal.title</span>
+    </ng-template>
+    <p translate>account.creation.modal.content</p>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="displayConfirmModal=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>

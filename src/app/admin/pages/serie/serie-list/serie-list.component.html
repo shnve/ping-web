@@ -1,0 +1,31 @@
+<ng-container *ngIf="pageItem">
+<h1 translate>serie-list.title.list</h1>
+<button pButton *ngIf="canCreateModel" class="add-button p-button-sm" routerLink="./ajouter" [label]="'serie-list.add-serie' | translate" icon="pi pi-plus"></button>
+<table class="administration-table">
+  <thead>
+  <tr>
+    <th translate>serie-list.table.urn</th>
+    <th translate>serie-list.table.name</th>
+    <th translate>serie-list.table.service</th>
+    <th translate>serie-list.table.action </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let serie of pageItem?.content">
+    <td>{{serie.urn}}</td>
+    <td>{{serie.name}}</td>
+    <td>{{serie.maritimeService?.name}}</td>
+    <td>
+      <button pButton *ngIf="canPreviewModel" class="p-button-sm preview-button" routerLink="./{{serie.id}}/details" [label]="'serie-list.table.show' | translate" icon="pi pi-eye"></button>
+      <button pButton *ngIf="canEditModel" class="p-button-sm edit-button" routerLink="./{{serie.id}}/edition" [label]="'serie-list.table.edit' | translate" icon="pi pi-pencil"></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<app-ping-paginator
+  [page]="pageItem"
+  [currentSize]="this.currentSize"
+  [currentPage]="this.currentPage"
+  (changePage)="this.handlePageEvent($event)"
+></app-ping-paginator>
+</ng-container>

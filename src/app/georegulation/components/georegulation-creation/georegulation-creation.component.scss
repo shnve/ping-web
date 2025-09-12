@@ -1,0 +1,144 @@
+@import 'variables';
+
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+  padding: 9px;
+  resize: vertical;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  padding: 20px;
+}
+
+.georegulation-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+
+.col-25.lbl-additional-numbers {
+  display: flex;
+  align-self: start;
+  margin-top: 15px;
+}
+
+.col-25.lbl-top {
+  display: flex;
+  align-self: start;
+}
+
+.col-75 {
+  float: left;
+  width: 80%;
+  margin-top: 6px;
+}
+
+.col-75.textareas {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.p-button {
+  &.p-button-outlined {
+    color: $primaryColor;
+    border-color: $primaryColor;
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+  &.p-button-danger {
+    margin-top: 20px;
+  }
+}
+
+.div-textareas {
+  width: 100%;
+  padding-right: 15px;
+  flex: 50%;
+  padding-bottom: 15px;
+}
+
+.lang-label-error {
+  margin-left: 10px;
+  color: red;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.p-field-checkbox {
+  padding-top: 0.6rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0 0 5px 0;
+  color: black;
+}
+
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+:host ::ng-deep {
+  .p-button-label {
+    font-weight: 600;
+  }
+
+  p-multiselect {
+    padding: 0;
+  }
+
+  .p-multiselect-label-container {
+    max-width: 900px;
+  }
+
+  p-radiobutton {
+    margin-right: 0.5rem;
+  }
+}
+
+label {
+  display: block;
+  margin: 8px 0;
+  padding: 12px 7px 12px 0;
+
+  & > span.form-asterisk {
+    vertical-align: top;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+}
+
+textarea {
+  width: 100%;
+}
+
+.lang-label {
+  text-transform: uppercase;
+  margin-right: 7px;
+  vertical-align: top;
+}

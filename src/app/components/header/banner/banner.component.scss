@@ -1,0 +1,250 @@
+@use "sass:math";
+@import 'src/styling/variables';
+
+$appTitleFontSize: 1.6rem;
+
+:host ::ng-deep {
+  width: 100%;
+  height: $bannerHeight;
+
+  i.pi.pi-bell {
+    margin-right: 0.5rem;
+  }
+
+  .p-badge {
+    padding: 0;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    line-height: 1.1rem;
+  }
+
+  .p-badge.p-badge-danger {
+    background-color: red;
+    color: white;
+  }
+
+  .p-button-label {
+    font-weight: unset;
+  }
+
+  .p-button {
+    border: none;
+    background: none;
+
+    &:hover {
+      color: var(--text-action-high-blue-france);
+      background-color: var(--hover);
+    }
+  }
+
+  .p-button.button-notifications {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    height: 2.357rem;
+  }
+
+  .p-button.button-no-notification {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    height: 2.357rem;
+  }
+}
+
+.notification-header > th {
+  padding: 5px;
+  text-align: center;
+  border-bottom: solid 1px $quaternaryColorLighten1;
+
+  .notification-delete-selection-button {
+    padding: 0 2.357rem 0 10px;
+  }
+}
+
+tr.notification {
+  background: $quaternaryColorLighten3;
+  border-bottom: solid 1px $quaternaryColorLighten1;
+
+  &:hover:not(.disabled) {
+    cursor: pointer;
+    background: $quaternaryColorLighten2;
+  }
+
+  &.read {
+    background: white;
+
+    &:hover:not(.disabled) {
+      background: #f3f2f1;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.7;
+  }
+
+  td {
+    padding: 10px;
+    vertical-align: middle;
+    border: none;
+
+    &.notification-icon {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      .notification-type-icon {
+        color: $primaryColor;
+      }
+    }
+
+    &.notification-title {
+      width: 300px;
+    }
+
+    &.notification-actions > * {
+      padding: 5px;
+    }
+
+    .notification-type-label {
+      font-size: 80%;
+      color: $primaryColor;
+      margin-bottom: 5px;
+    }
+
+    .service-prefix {
+      font-weight: bold;
+    }
+
+    .no-subscription-button {
+      display: inline-block;
+      width: 2.357rem;
+      border: 1px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.no-notification {
+  margin: 20px auto;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  background-color: var(--background-raised-grey);
+  height: $bannerHeight;
+  line-height: $bannerHeight;
+  padding: 0 10px;
+}
+
+.title-container {
+  line-height: math.div($bannerHeight, 4);
+
+  .title-description {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    color: var(--g800);
+  }
+}
+
+.center-space {
+  flex-grow: 1;
+}
+
+.banner-nav {
+  display: flex;
+  align-items: center;
+
+  .p-button {
+    border: none;
+    margin: 0 4px;
+    box-shadow: none;
+  }
+}
+
+.lang-choice-container {
+  height: 50px;
+  width: 90px;
+}
+
+.banner-link {
+  color: white;
+  &:hover {
+    text-decoration: underline;
+    color: white;
+  }
+}
+
+.account-panel-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > button {
+    width: fit-content;
+  }
+}
+
+@media (max-width: 63rem) {
+  :host ::ng-deep {
+    height: $mobileBannerHeight;
+
+    .p-button-label {
+      display: none;
+    }
+
+    .p-button .p-button-icon-left {
+      margin-right: 0;
+    }
+  }
+
+  .container {
+    height: $mobileBannerHeight;
+
+    .banner-nav {
+      line-height: $mobileBannerHeight;
+    }
+  }
+
+  .title-container {
+    padding-right: 10px;
+  }
+
+  .fr-header__tools {
+    margin-left: auto;
+  }
+
+  .fr-btns-group {
+    flex-wrap: unset;
+    margin-right: 0;
+
+    &.fr-btn {
+      margin: 0;
+    }
+  }
+
+  .fr-btns-group:not(.fr-btns-group--sm):not(.fr-btns-group--lg)
+    .fr-btn:not([class^="fr-icon-"]):not([class*=" fr-icon-"]):not([class^="fr-fi-"]):not([class*=" fr-fi-"]) {
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: $screenSizeTablet) {
+  .title-container {
+    .title-description {
+      font-size: 1rem;
+      line-height: 1.2rem;
+    }
+  }
+
+  .banner-nav {
+    .p-button {
+      margin: 0;
+
+      .p-button-icon-only {
+        width: 1.9rem;
+        height: 1.9rem;
+      }
+    }
+  }
+}

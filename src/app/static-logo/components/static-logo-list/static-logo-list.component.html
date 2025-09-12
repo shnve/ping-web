@@ -1,0 +1,33 @@
+<ng-container *ngIf="pageItem">
+  <p-confirmPopup></p-confirmPopup>
+  <h1 translate>static-logo.list.title</h1>
+  <button pButton *ngIf="enableCreate" class="add-button p-button-sm" routerLink="./creation" [label]="'static-logo.creation.title' | translate" icon="pi pi-plus"></button>
+  <table class="administration-table" aria-label="static-logo-administration-table">
+    <thead>
+    <tr>
+      <th translate>static-logo.list.table.key</th>
+      <th translate>static-logo.list.table.description</th>
+      <th translate>static-logo.list.table.preview</th>
+      <th translate>static-logo.list.table.actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let staticLogo of pageItem?.content">
+      <td>{{staticLogo.key}}</td>
+      <td>{{staticLogo.description}}</td>
+      <td><img src="{{staticLogo.content}}" alt="img-preview-table" class="img-preview-table"/></td>
+      <td>
+        <button pButton *ngIf="enablePreview" class="p-button-sm" routerLink="./{{staticLogo.id}}/details" [label]="'static-logo.list.actions.show' | translate" icon="pi pi-eye"></button>
+        <button pButton *ngIf="enableEdit" class="p-button-sm" routerLink="./{{staticLogo.id}}/edition" [label]="'static-logo.list.actions.edit' | translate" icon="pi pi-pencil"></button>
+        <button pButton *ngIf="enableEdit && !staticLogo.locked" class="p-button-sm" (click)="confirmDelete($event, staticLogo.id)" [title]="'static-logo.list.actions.delete' | translate" icon="pi pi-trash"></button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <app-ping-paginator
+    [page]="pageItem"
+    [currentSize]="this.currentSize"
+    [currentPage]="this.currentPage"
+    (changePage)="this.handlePageEvent($event)"
+  ></app-ping-paginator>
+</ng-container>

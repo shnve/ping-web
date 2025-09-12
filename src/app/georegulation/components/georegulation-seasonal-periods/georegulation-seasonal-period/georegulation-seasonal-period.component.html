@@ -1,0 +1,41 @@
+{{'georegulation.seasonal-periods-from' | translate }}
+<p-dropdown [options]="availableDays"
+            [(ngModel)]="dayStart"
+            (ngModelChange)="dayStartChanged()"
+            [disabled]="disabled"
+            [placeholder]="'georegulation.seasonal-periods-select-day' | translate" ngDefaultControl>
+</p-dropdown>
+<p-dropdown [options]="availableMonths"
+            [(ngModel)]="monthStart"
+            (ngModelChange)="monthStartChanged()"
+            [disabled]="disabled"
+            [placeholder]="'georegulation.seasonal-periods-select-month' | translate" ngDefaultControl>
+  <ng-template pTemplate="item" let-month >
+    <div>{{ month.label | translate}}</div>
+  </ng-template>
+  <ng-template pTemplate="selectedItem" let-month >
+    <div>{{ month.label | translate}}</div>
+  </ng-template>
+</p-dropdown>
+{{'georegulation.seasonal-periods-to' | translate }}
+<p-dropdown [options]="availableDays"
+            [(ngModel)]="dayEnd"
+            (ngModelChange)="dayEndChanged()"
+            [disabled]="disabled"
+            [placeholder]="'georegulation.seasonal-periods-select-day' | translate" ngDefaultControl>
+</p-dropdown>
+<p-dropdown [options]="availableMonths"
+            [(ngModel)]="monthEnd"
+            (ngModelChange)="monthEndChanged()"
+            [disabled]="disabled"
+            [placeholder]="'georegulation.seasonal-periods-select-month' | translate" ngDefaultControl>
+  <ng-template pTemplate="item" let-month >
+    <div>{{ month.label | translate}}</div>
+  </ng-template>
+  <ng-template pTemplate="selectedItem" let-month >
+    <div>{{ month.label | translate}}</div>
+  </ng-template>
+</p-dropdown>
+<span *ngIf="isInvalid" class="field-validation-error">
+  <span translate>georegulation.seasonal-periods-invalid</span>
+</span>

@@ -1,0 +1,49 @@
+@import 'variables';
+
+.infosources-list-item-container {
+  font-size: 0.8rem;
+
+  .title {
+    text-align: start;
+  }
+}
+
+.informations-item {
+  margin-bottom: 2px;
+}
+
+strong {
+  font-weight: 700;
+}
+
+:host ::ng-deep {
+  .p-scrollpanel {
+    &.custombar1 {
+      .p-scrollpanel-wrapper {
+        border-right: 9px solid var(--layer-1);
+      }
+
+      .p-scrollpanel-bar {
+        background-color: $quaternaryColor;
+        opacity: 1;
+        transition: background-color .2s;
+
+        &.p-scrollpanel-bar-y {
+          width: 6px;
+        }
+
+        &.p-scrollpanel-bar-x {
+          height: 6px;
+        }
+
+        &:hover {
+          background-color: $primaryColor;
+        }
+      }
+    }
+  }
+
+  .infosource-detail-label {
+    font-weight: 700;
+  }
+}

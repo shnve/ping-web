@@ -1,0 +1,206 @@
+@import 'variables';
+
+.georegulation-detail {
+  max-height: 57vh;
+  overflow: hidden auto;
+  padding-right: 0.5rem;
+
+  hr {
+    border-top: 1px solid $quaternaryColorLighten3;
+  }
+
+  h2 {
+    font-weight: bold;
+  }
+
+  .georegulation-summary {
+    margin: 1rem 0;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-block-start: unset;
+  }
+
+  .georegulation-detail-header {
+    .georegulation-detail-header-actions {
+      margin-right: 20px;
+    }
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  .download-geometries {
+    flex-grow: 1;
+    text-align: right;
+    margin-left: 15px;
+    margin-right: 10px;
+  }
+
+  .georegulation-feature-item {
+    border: 1px solid $lightGreyColor;
+    line-height: 18px;
+    white-space: pre-wrap;
+
+    &.visualisable {
+      background-color: $tertiaryColorLighten2;
+
+      .fr-col.fr-col-8.part-number {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.pi-chevron-down {
+  margin-left: auto;
+}
+
+.fr-container,
+.fr-container-sm,
+.fr-container-md {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.fr-grid-row.p-card-part-header {
+  align-items: center;
+  flex-flow: row;
+}
+
+.fr-grid-row.part-header {
+  align-items: center;
+  flex-flow: row;
+  border: 1px solid $lightGreyColor;
+}
+
+.p-card-part-header-title {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.fr-col.fr-col-8.part-number {
+  margin-left: 1rem;
+}
+
+:host ::ng-deep {
+  fieldset {
+    margin-bottom: 0.5rem;
+  }
+
+  .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
+    padding: 0.5rem;
+    color: $fieldsetLegendColorAColor;
+    border-radius: 3px;
+    transition: box-shadow 0.2s;
+  }
+
+  .p-d-flex {
+    flex-wrap: wrap;
+  }
+
+  .p-mr-10 {
+    padding: 1rem;
+  }
+
+  a {
+    cursor: pointer;
+    word-break: break-word;
+  }
+
+  p-accordion {
+    p-accordiontab .p-accordion-tab {
+      margin-bottom: 0.5rem;
+    }
+
+    .p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
+      margin-left: auto;
+    }
+
+    .p-accordion-header .p-accordion-header-link {
+      padding: 1rem;
+      width: 100%;
+      display: inline-flex;
+    }
+
+    .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+      font-weight: bold;
+      color: $blue-sun;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      border: 1px solid $lightGreyColor;
+    }
+
+    .p-accordion p-accordiontab .p-accordion-header:not(.p-highlight) .p-accordion-header-link,
+    .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+      font-weight: unset;
+      color: $blue-sun;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      border: 1px solid $lightGreyColor;
+    }
+
+    .p-accordion-content {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin: 5px 20px;
+      list-style-type: circle;
+      word-wrap: break-word;
+    }
+  }
+
+  .p-card {
+    box-shadow: unset;
+
+    .p-card-body {
+      padding: 0 0 1rem 0;
+    }
+
+    .p-card-content {
+      padding: 0;
+    }
+
+    .p-card-header {
+      border: 1px solid $lightGreyColor;
+      padding: 0;
+    }
+  }
+
+  .visualisation-button-container {
+    text-align: right;
+
+    .visualize-all-button {
+      padding-left: 0.5rem;
+
+      .visualize-all-label {
+        padding-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.p-fileupload-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 63rem) {
+  .georegulation-detail {
+    max-height: initial;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 67rem) {
+  .visualize-all-button {
+    padding-left: 0;
+    padding-right: 0.5rem;
+  }
+}

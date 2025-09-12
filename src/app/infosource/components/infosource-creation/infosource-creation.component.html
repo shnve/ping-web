@@ -1,0 +1,20 @@
+<div class="infosource">
+  <p-card [header]="'infosource.creation.title' | translate" styleClass="p-card-shadow">
+    <div translate>infosource.creation.description</div>
+    <ng-template *ngIf="isDangerReport()" pTemplate="footer">
+      <div>
+        <p-button styleClass="btn btn-with-right-space" [label]="'infosource.creation.buttons.hazard' | translate" (onClick)="reportHazard()"></p-button>
+        <ul innerHTML="{{'infosource.creation.examples.hazard' | translate}}"></ul>
+      </div>
+      <div>
+        <p-button styleClass="btn" [label]="'infosource.creation.buttons.another-hazard' | translate" (onClick)="reportOtherAnomaly()"></p-button>
+        <ul innerHTML="{{'infosource.creation.examples.another-hazard' | translate}}"></ul>
+      </div>
+    </ng-template>
+    <ng-template *ngIf="isMapAnomalyReport()" pTemplate="footer">
+      <p-button styleClass="btn btn-with-right-space" [label]="'infosource.choice.buttons.shom-map-anomaly' | translate" (onClick)="reportMapAnomaly()"></p-button>
+      <p-button styleClass="btn btn-with-right-space" [label]="'infosource.choice.buttons.shom-publication-anomaly' | translate" (onClick)="reportPublicationAnomaly()"></p-button>
+      <p-button styleClass="btn" [label]="'infosource.choice.buttons.futur-update-information' | translate" (onClick)="reportFutureUpdates()"></p-button>
+    </ng-template>
+  </p-card>
+</div>

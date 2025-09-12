@@ -1,0 +1,206 @@
+@import 'variables';
+
+// Formulaire d'édition d'utilisateur
+$accountCreationFormWidth: 305px;
+$accountCreationFormInputWidth: 295px;
+$accountCreationFormErrorColor: red;
+$accountCreationFormBorderColor: #e1e1e1;
+$accountCreationFormCaptchaWidth: 227px;
+$accountCreationFormTitleColor: #505050;
+$accountCreationFormSubTitleColor: #969696;
+$accountCreationFormInputHeight: 40px;
+$accountCreationFormInputFontSize: 13px;
+$accountCreationFormInputVerticalPadding: 0;
+$accountCreationFormInputHorizontalPadding: 15px;
+$accountCreationFormProgressSpinnerSize: 40px;
+
+h1 {
+  font-weight: bold;
+  font-size: 2em;
+  margin-top: 1em;
+  margin-left: 5%;
+}
+
+form.user-form {
+  text-align: center;
+  padding-bottom: 20px;
+
+  .form-optional {
+    text-align: left;
+  }
+
+  .form-group {
+    margin: 0 auto 20px;
+    width: 100%;
+    max-width: $accountCreationFormWidth;
+
+    .p-field-radiobutton {
+      position: relative;
+      display: inline-block;
+
+      & > label {
+        position: relative;
+        padding: 5px 20px 0 11px;
+        display: inline-block;
+        margin: 0 10px 0 0;
+        line-height: 20px;
+      }
+    }
+
+    .p-field-togglebutton {
+      text-align: left;
+      display: flex;
+      flex-direction: row;
+
+      & > label {
+        position: relative;
+        display: inline;
+        margin: 0 0 5px 24px;
+        line-height: 20px;
+        padding-top: 0;
+      }
+    }
+
+    input[type="text"] {
+      width: 100%;
+      max-width: $accountCreationFormWidth;
+      height: $accountCreationFormInputHeight;
+      border: 1px solid $accountCreationFormBorderColor;
+      padding: $accountCreationFormInputVerticalPadding $accountCreationFormInputHorizontalPadding;
+      font-size: $accountCreationFormInputFontSize;
+      border-radius: 0;
+    }
+
+    button[type="submit"] {
+      margin: 0 auto;
+      display: inline-block;
+    }
+
+    .form-mandatory {
+      display: flex;
+      flex-direction: row;
+
+      .form-asterisk {
+        margin-left: 3px;
+      }
+    }
+  }
+
+  .form-group.phone-numbers {
+    margin: 0 auto;
+  }
+
+  .form-group.error span.field-validation-error {
+    color: $accountCreationFormErrorColor;
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: $accountCreationFormInputFontSize;
+    line-height: 16px;
+  }
+
+  .form-group.error input[type="text"].error,
+  .form-group.error .p-field-togglebutton.error > label > a {
+    color: $accountCreationFormErrorColor;
+    border-color: $accountCreationFormErrorColor;
+  }
+}
+
+.p-button-sm.add-button  {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  margin-left: 5%;
+  .p-button-label {
+    display: flex;
+  }
+}
+
+.form {
+  margin: 1em 5% 2em;
+  padding: 1em;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12);
+}
+
+table.administration-table {
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12);
+  margin: 1em auto 2em;
+
+  thead {
+    tr {
+      height: 56px;
+      border-bottom: 1px rgba(0,0,0,.12) solid;
+
+      th {
+        padding-left: 24px;
+        text-align: left;
+        color: rgba(0,0,0,.54);
+        font-size: 12px;
+        font-weight: 500;
+        height: 56px;
+        vertical-align: middle;
+
+        &:last-of-type {
+          padding-right: 24px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      color: rgba(0, 0, 0, 0.87);
+      font-weight: 400;
+      height: 48px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+      td {
+        color: rgba(0, 0, 0, 0.87);
+        font-size: 14px;
+        font-weight: 400;
+        padding: 0 0 0 24px;
+        text-align: left;
+        height: 48px;
+        vertical-align: middle;
+
+        // Buttons d'actions en fin de ligne
+        &:last-of-type {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-right: 24px;
+
+          .p-button-sm:last-child {
+            margin-left: 5px;
+          }
+
+          .p-button-label {
+            display: flex;
+
+            .pi {
+              margin-left: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.shom-button-icon {
+  text-align: center;
+  margin: 0;
+  background: transparent;
+  padding: 0;
+  min-width: 0;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  line-height: 40px;
+  border-radius: 50%;
+  border: none;
+  text-decoration: none;
+}

@@ -1,0 +1,52 @@
+<ng-container *ngIf="pageItem">
+<h1 translate>maritime-services-list.title.list</h1>
+<button pButton *ngIf="canCreateModel" class="add-button p-button-sm" routerLink="./ajouter" [label]="'maritime-services-list.add' | translate" icon="pi pi-plus"></button>
+<table class="administration-table">
+  <thead>
+  <tr>
+    <th translate>maritime-services-list.table.urn</th>
+    <th>
+      <label translate>maritime-services-list.table.name</label>
+      <br/>
+      <input pInputText class="text-filter" [placeholder]="'maritime-entity.filter-name' | translate" [(ngModel)]="filteredName"
+        (ngModelChange)="onFilteredNameChange()" type="text" />
+    </th>
+    <th>
+      <label translate>maritime-services-list.table.type</label>
+      <br/>
+      <app-maritime-service-filter [maritimeServiceTypes]="maritimeServiceTypeEnum" [displayedLabel]="'value'"
+        [id]="'id'" (filterSelected)="fetchFilterValues($event)"
+        [placeholder]="'maritime-entity.filter-type' | translate">
+      </app-maritime-service-filter>
+    </th>
+    <th>
+      <label translate>maritime-services-list.table.area</label>
+      <br/>
+      <app-maritime-service-filter *ngIf="areas$ | async as areas" [areas]="areas"
+        [displayedLabel]="displayedLabel" [id]="'id'" (filterSelected)="fetchFilterValues($event)"
+        [placeholder]="'maritime-entity.filter-areas' | translate">
+      </app-maritime-service-filter>
+    </th>
+    <th translate>maritime-services-list.table.action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let service of pageItem?.content">
+    <td>{{service.urn}}</td>
+    <td>{{service.name}}</td>
+    <td>{{'enum.maritime-service-type.' + (service.type | lowercase) | translate}}</td>
+    <td>{{displayArea(service)}}</td>
+    <td>
+      <button pButton *ngIf="canPreview(service.id)" class="p-button-sm preview-button" routerLink="./{{service.id}}/details" [title]="'maritime-services-list.table.show' | translate" icon="pi pi-eye"></button>
+      <button pButton *ngIf="canEditModel" class="p-button-sm edit-button" routerLink="./{{service.id}}/edition" [title]="'maritime-services-list.table.edit' | translate" icon="pi pi-pencil"></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<app-ping-paginator
+  [page]="pageItem"
+  [currentSize]="this.currentSize"
+  [currentPage]="this.currentPage"
+  (changePage)="this.handlePageEvent($event)"
+></app-ping-paginator>
+</ng-container>

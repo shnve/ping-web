@@ -1,0 +1,13 @@
+<p-dialog header="{{header | translate}}" [(visible)]="displayDisclaimer" [position]="position"
+          [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [baseZIndex]="10000"
+          [modal]="false" [draggable]="false" [resizable]="false" [closable]="false">
+  <p [innerHTML]="content | translate | safeHtml"></p>
+  <div class="p-field-checkbox">
+    <p-checkbox id="disclaimer-checkbox" [(ngModel)]="checked" binary="true" inputId="binary"
+                [label]="'home-page.disclaimer.neverShowAgain' | translate">
+    </p-checkbox>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="onClose(checked)" label="OK" class="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

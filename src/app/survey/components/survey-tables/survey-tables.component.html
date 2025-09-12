@@ -1,0 +1,83 @@
+<shared-select-button
+  class="table-tabs-selector"
+  [ngClass]="tabsClass"
+  [options]="tabs"
+  [(ngModel)]="selectedState"
+  (ngModelChange)="selectedStateChanged()"
+>
+</shared-select-button>
+<survey-table-filter-banner
+  [selectedService]="selectedService"
+  [filterState]="filterState"
+  [services]="services"
+  [displayServiceFilter]="hasRoleServiceUser && (!isBri || selectedState !== TRANSMITTED)"
+  (filterHasChanged)="filterChange($event)"
+  [chipGenerator]="generateFilterChipsText.bind(this)"
+>
+  <ng-template #advancedFilter>
+    <survey-advanced-filter
+      class="advanced-filter"
+      [filterState]="filterState"
+      [selectedState]="selectedState"
+      [isBri]="isBri"
+      [selectedIssuingServiceId]="selectedService?.id"
+    ></survey-advanced-filter>
+  </ng-template>
+</survey-table-filter-banner>
+<survey-paginated-table #surveyTable
+  [items]="surveys"
+  [totalRecords]="totalSurveys"
+  [loading]="tableLoading"
+  [pageInfo]="tableState.pageInfo$ | async"
+  [columns]="columns[selectedState]"
+  (onPageChange)="pageChange($event)"
+  (onSort)="sortChange($event)"
+  (onModelItemSelect)="displayModal([$event])"
+  class="table-screen-media"
+>
+  <ng-template id="identifier" let-survey="modelItem">
+    {{survey.identifier}}
+  </ng-template>
+  <ng-template id="shomId" let-survey="modelItem">
+    {{survey.shomId}}
+  </ng-template>
+  <ng-template id="nameAndLocation" let-survey="modelItem">
+    {{survey.nameAndLocation}}
+  </ng-template>
+  <ng-template id="producerOrganization" let-survey="modelItem">
+    {{survey.producerOrganization}}
+  </ng-template>
+  <ng-template id="ownerOrganization" let-survey="modelItem">
+    {{survey.ownerOrganization}}
+  </ng-template>
+  <ng-template id="period" let-survey="modelItem">
+    {{survey.startDate | date: 'dd/MM/YYYY'}} - {{survey.endDate | date: 'dd/MM/YYYY'}}
+  </ng-template>
+  <ng-template id="compliant" let-survey="modelItem">
+    <span class="item-centered">
+      <i [class]="survey.compliant | surveyCompliantStatus" [title]="survey.compliant | surveyCompliantStatusTxt | translate"></i>
+    </span>
+  </ng-template>
+  <ng-template id="testStatus" let-survey="modelItem">
+    <p-tag value="{{survey.testProcessingStatus | surveyProcessingStatusI18nValue | translate}} - {{survey.testProcessingDate | date: 'dd/MM/YYYY'}}"
+           severity="{{survey.testProcessingStatus | surveyProcessingStatus}}">
+    </p-tag>
+  </ng-template>
+  <ng-template id="lastUpdate" let-survey="modelItem">
+    {{survey.lastUpdate | formatDatetime: 'UTC'}}
+  </ng-template>
+  <ng-template id="transmissionStatus" let-survey="modelItem">
+    <p-tag value="{{survey.transmissionStatus | surveyProcessingStatusI18nValue | translate}} - {{survey.lastUpdateTransmissionDate | date: 'dd/MM/YYYY'}}"
+           severity="{{survey.transmissionStatus | surveyProcessingStatus}}">
+    </p-tag>
+  </ng-template>
+  <ng-template id="expectedDeletionDate" let-survey="modelItem">
+    {{survey.expectedDeletionDate | date: 'dd/MM/YYYY'}}
+  </ng-template>
+  <ng-template id="briInternalComment" let-survey="modelItem">
+    <span [pTooltip]="survey.briInternalComment" tooltipPosition="top">
+      {{survey.briInternalComment | sliceWithEllipsis}}
+    </span>
+  </ng-template>
+</survey-paginated-table>
+<survey-modal *ngIf="showModal" #modal (onClose)="closeModal()" (stateChanged)="stateChanged($event)" [surveyIds]="selectedSurveyIds"></survey-modal>

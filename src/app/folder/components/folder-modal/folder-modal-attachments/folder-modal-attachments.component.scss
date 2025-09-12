@@ -1,0 +1,63 @@
+:host ::ng-deep {
+  .drop-container {
+    width: 100% !important;
+
+    .drop-message {
+      width: 100%;
+      padding-bottom: 5px;
+      padding-left: 10px;
+      padding-right: 10px;
+
+      p:first-child {
+        display: none;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+
+  .p-fileupload-files {
+    width: 100% !important;
+
+    .p-fileupload-row > div {
+      width: auto !important;
+
+      &.filenamesize {
+        margin: 0;
+      }
+
+      &.filesize {
+        flex: 1 0 auto;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  th.tableHeaderCheckbox-width {
+    width: 3rem;
+  }
+}
+
+input,
+p-dropdown {
+  width: 100%;
+}
+
+div.file {
+  display: flex;
+  align-items: center;
+
+  .filename {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .filesize {
+    margin-left: 5px;
+    flex-shrink: 0;
+  }
+}

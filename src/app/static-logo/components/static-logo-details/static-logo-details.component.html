@@ -1,0 +1,2 @@
+<h1>{{('static-logo.' + ((disabled ? 'show' : 'edit') + '.title')) | translate}}</h1>
+<static-logo-form *ngIf="staticLogo" [staticLogo]="staticLogo" [disabled]="disabled"></static-logo-form>

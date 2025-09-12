@@ -1,0 +1,107 @@
+@import 'fonts';
+
+$fontFamily: Arial, sans-serif;
+$fontSize: 1rem;
+$primaryColor: #0c224c;
+$primaryColorLighten1: #556482;
+$primaryColorLighten2: #9ea7b8;
+$primaryColorLighten3: #dadee4;
+
+$secondaryColor: #277eac;
+$secondaryColorLighten1: #8dd6f2;
+$secondaryColorLighten2: #bee8f7;
+$secondaryColorLighten3: #e6f6fc;
+
+$tertiaryColor: #aeddea;
+$tertiaryColorLighten1: #c6e7f0;
+$tertiaryColorLighten2: #def1f6;
+$tertiaryColorLighten3: #f2f9fb;
+
+$quaternaryColor: #00489a;
+$quaternaryColorLighten1: #4770ab;
+$quaternaryColorLighten2: #9ab6d6;
+$quaternaryColorLighten3: #d9e3ef;
+$quaternaryColorLighten4: #6a6af4;
+
+$textPrimaryColor: $primaryColor;
+$textSecondaryColor: white;
+$errorColor: #d34442;
+$errorColor2: #a4252c;
+$lightGreyColor: #DDDDDD;
+$middleGrey: #605e5c;
+$Grey: #555555;
+$brightGray : #E7E9EB;
+
+$hilightBgColor: $primaryColorLighten1;
+
+$blue-sun:#000091;
+
+$screenSizePhone: 480px;
+$screenSizeTablet: 768px;
+$screenSizeLaptop: 1024px;
+$screenSizeLargeDevice: 1200px;
+
+// ------ ZIndex
+$menuZIndex: 100;
+
+
+// ------ Header
+$headerSeparatorBorderSize: 1px;
+$logoMarginLeftRight: 1px;
+$logoMarginBottom: 3px;
+$logoMarginTop: 2px;
+$logoHeight: 80px;
+$logoWidth: 96px;
+$mobileDiff: 30px;
+$bannerHeight: 80px;
+$mobileBannerHeight: $bannerHeight + $mobileDiff;
+$navmenuHeight: $logoHeight + $logoMarginBottom + $logoMarginTop - $bannerHeight + 42px;
+$breadcrumbHeight: 30px;
+$headerHeight: $bannerHeight + $navmenuHeight + $breadcrumbHeight + $headerSeparatorBorderSize;
+$mobileHeaderHeight: $headerHeight + $mobileDiff;
+$menuBlankSpaceWidth: 60px;
+
+// ------ Footer
+
+$footerFirstBarHeight: 170px;
+$footerFirstBarHeightPortrait: $footerFirstBarHeight + 160px;
+$footerLastBarHeight: 75px;
+$footerHeight: $footerFirstBarHeight + $footerLastBarHeight;
+
+
+// ------ Account-form
+$accountCreationFormWidth: 305px;
+$accountCreationFormInputWidth: 295px;
+$accountCreationFormErrorColor: red;
+$accountCreationFormBorderColor: #e1e1e1;
+$accountCreationFormCaptchaWidth: 227px;
+$accountCreationFormTitleColor: #505050;
+$accountCreationFormSubTitleColor: #969696;
+$accountCreationFormInputHeight: 40px;
+$accountCreationFormInputFontSize: 13px;
+$accountCreationFormInputVerticalPadding: 0;
+$accountCreationFormInputHorizontalPadding: 15px;
+$accountCreationFormProgressSpinnerSize: 40px;
+
+$fieldsetLegendColorAColor: #495057;
+
+// ------- Survey
+$surveyTestSuccessColor: #498205;
+$surveyTestSuccessWithErrorsColor: #fbc02d;
+
+$significantDeviationProbeColor: #35B9E677;
+$lesserFundZoneColor: #35B9E677;
+$criticalProbeColor: #FF0000;
+$importantProbeColor: #FFA500;
+$provenProbeColor: #FFFF00;
+
+$textShadowColor: #000;
+
+// ------ Message
+$colorMessageInfo: #0063cb;
+$colorMessageWarning: #b34000;
+
+// ------ prime-ng overrides
+$tagInfoColor: #0f7acb;
+$tagSuccessColor: #4c8508;
+$datatableColumnHighlightColor: #0a69cf;

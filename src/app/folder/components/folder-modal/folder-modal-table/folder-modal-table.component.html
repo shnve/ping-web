@@ -1,0 +1,71 @@
+<p-accordion>
+  <p-accordionTab [header]="formatNotionTableHeader(tableFolderGraph.length)" [selected]="true">
+    <div class="table-container">
+      <p-table selectionMode="multiple" *ngIf="tableFolderGraph.length; else noData"
+               [(selection)]="selectedNotionsForCreatingStudy"
+               dataKey="id"
+               (onRowSelect)="selectNotion()"
+               (onRowUnselect)="selectNotion()"
+               (onHeaderCheckboxToggle)="selectNotion()"
+               [columns]="columns"
+               [value]="this.tableFolderGraph">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th class="tableHeaderCheckbox-width" *ngIf="canEditOrDeleteAttachments">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns">
+              {{col.translateKey | translate}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-notion let-columns="columns">
+          <tr>
+            <td *ngIf="canEditOrDeleteAttachments">
+              <p-tableCheckbox [value]="notion"></p-tableCheckbox>
+            </td>
+            <td *ngFor="let col of columns">
+              <ng-container *ngIf="col.key !== 'action'">
+                <ng-container *ngIf="col.key === 'type'">
+                  <p-tag
+                    value="{{'folder-modal-table.type.' + notion[col.key] | translate}}"
+                    class="folder-modal-table-type-{{(notion[col.key] | lowercase)}}">
+                  </p-tag>
+                </ng-container>
+                <ng-container *ngIf="col.key === 'number'">
+                  <span *ngIf="notion.number; else noNumber"><a [href]="accessLinkToNotion(notion)" rel="noopener noreferrer" target="_blank">{{notion.number}}</a></span>
+                  <ng-template #noNumber>
+                    <span *ngIf="notion.canBeAccessed"><a [href]="accessLinkToNotion(notion)" rel="noopener noreferrer" target="_blank">({{'enum.folder-notion-draft' | translate}})</a></span>
+                    <span *ngIf="!notion.canBeAccessed">({{'enum.folder-notion-draft' | translate}})</span>
+                  </ng-template>
+                </ng-container>
+                <ng-container *ngIf="col.key === 'creationDate' || col.key === 'endDate'">
+                  {{formatDate(notion[col.key])}}
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="col.key === 'action'">
+                <button pButton
+                        (click)="confirmDelete($event, notion)"
+                        type="button"
+                        icon="pi pi-trash"
+                        class="p-button-text p-button-rounded p-button-danger">
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <ng-template #noData>
+        <div translate>folder.graph.no-data</div>
+      </ng-template>
+    </div>
+  </p-accordionTab>
+</p-accordion>
+
+<folder-modal-attachments #modalFolderAttachmentTable
+                          [folder]="folder" 
+                          [canEditOrDelete]="canEditOrDeleteAttachments"
+                          (attachmentsChanged)="onAttachmentChanged()"
+                          (attachmentSelected)="selectAttachment($event)">
+
+</folder-modal-attachments>

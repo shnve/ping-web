@@ -1,0 +1,41 @@
+  <div>
+    <ng-container #flow="flow" [flowConfig]="{ target: urlUploadChunk, singleFile: true, chunkSize: chunkSize, forceChunkSize: true }"></ng-container>
+    <div *ngIf="showChooseFile && !disabled" [flow]="flow.flowJs" flowDrop>
+      <div>
+        <div>
+          <div class="drop-container">
+            <div class="drop-message">
+              <label for="{{inputId}}" translate>attachments.txt-dnd-attachment</label>
+              <br />
+              <input id="{{inputId}}" [flow]="flow.flowJs" flowButton type="file" [flowAttributes]="flowAttributes">
+              <br />
+              <p class="progress">{{('attachments.txt-dnd-progress' | translate:{progressValue:
+                (flow.transfers$ | async).totalProgress | percent})}}</p>
+              <p-button (click)="flow.cancel()" [disabled]="!uploading" [label]="'attachments.btn-cancel' | translate"
+                class="btn-cancel-upload"></p-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="files-container">
+      <div *ngIf="hasFiles()" class="p-fileupload-files">
+        <div *ngFor="let file of attachmentFiles; let i = index;" class="p-fileupload-row">
+          <div class="p-fileupload-filename filenamesize"><a (click)="open($event,i)" href="">{{file.filename}}</a></div>
+          <div *ngIf="formatFileSize(file?.totalSize)">{{formatFileSize(file?.totalSize)}}</div>
+          <div *ngIf="!disabled">
+            <button (click)="remove($event,i)" [disabled]="uploading" icon="pi pi-trash" pButton type="button"></button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="hasOneFile()" class="p-fileupload-files">
+        <div class="p-fileupload-row">
+          <div class="p-fileupload-filename filenamesize"><a (click)="open($event,0)" href="">{{attachmentFiles?.filename}}</a></div>
+          <div *ngIf="formatFileSize(attachmentFiles?.totalSize)" class="filesize">{{formatFileSize(attachmentFiles?.totalSize)}}</div>
+          <div *ngIf="!disabled">
+            <button (click)="remove($event,0)" [disabled]="uploading" icon="pi pi-trash" pButton type="button"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

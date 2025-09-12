@@ -1,0 +1,52 @@
+<form [formGroup]="subAreaForm" class="form" (ngSubmit)="saveSubArea()">
+  <div class="line-form p-field p-grid">
+    <label for="sub-area-urn" class="label p-col-fixed" translate>area.urn</label>
+    <input id="sub-area-urn" type="text" formControlName="urn">
+  </div>
+  <div class="line-form p-field p-grid">
+    <label for="sub-area-technical-identifier" class="label p-col-fixed" translate>area.technical-identifier</label>
+    <input id="sub-area-technical-identifier" type="text" formControlName="technicalIdentifier">
+  </div>
+  <div class="line-form p-field p-grid">
+    <label for="sub-area-name" class="label p-col-fixed">{{ 'area.name' | translate }} *</label>
+    <input id="sub-area-name" type="text" formControlName="name" required>
+  </div>
+  <div class="line-form p-field p-grid">
+    <label for="sub-area-iname" class="label p-col-fixed" translate>area.internationalName</label>
+    <input id="sub-area-iname" type="text" formControlName="internationalName">
+  </div>
+  <div class="line-form p-field p-grid">
+    <label for="sub-area-children" class="label p-col-fixed" translate>subArea.subAreas</label>
+    <p-multiSelect *ngIf="subAreas$ | async as subAreas"
+                   id="sub-area-children"
+                   formControlName="subAreas"
+                   [options]="subAreas | orderBy: (displayedLabel)"
+                   [optionLabel]="displayedLabel"
+                   [maxSelectedLabels]="subAreas.length"
+                   optionValue="id"
+                   display="chip"
+                   [placeholder]="'subArea.select-child' | translate">
+
+    </p-multiSelect>
+  </div>
+  <div class="line-form p-field p-grid">
+    <label for="maritime-entity-areas" class="label p-col-fixed" translate>maritime-entity.areas</label>
+    <p-dropdown id="maritime-entity-areas" *ngIf="areas$ | async as areas"
+                   formControlName="areaId"
+                   [options]="areas | orderBy: (displayedLabel)"
+                   [optionLabel]="displayedLabel"
+                   optionValue="id"
+                   [placeholder]="'maritime-entity.all-areas' | translate"
+                   display="chip"
+                   showClear="true">
+    </p-dropdown>
+  </div>
+  <div class="p-col part-map-container">
+    <app-view-geometry #viewGeometry [isEditionMode]="!disabled"
+                       [geometry]="subArea?.geom"
+    ></app-view-geometry>
+  </div>
+  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="!subAreaForm.valid"></button>
+  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times" routerLink="/administration/sous-zones" ></button>
+  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left" routerLink="/administration/sous-zones" ></button>
+</form>

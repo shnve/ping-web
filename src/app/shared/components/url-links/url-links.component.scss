@@ -1,0 +1,20 @@
+@import 'variables';
+
+* {
+  box-sizing: border-box;
+}
+
+input[type=text] {
+  padding: 9px;
+  resize: vertical;
+}
+
+.url-link-item {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+
+  .url-link-item-content {
+    margin-right: 10px;
+  }
+}

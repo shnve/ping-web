@@ -1,0 +1,209 @@
+<p-dialog [header]="'account.edition.email-changed-modal.title' | translate" [(visible)]="displayLogoutInfo" [modal]="true" [style]="{width: '50vw'}"
+  [draggable]="false" [resizable]="false" (onHide)="logoutInfoClosed()">
+  <p translate>account.edition.email-changed-modal.content</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayLogoutInfo=false" label="OK" class="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>
+<form [formGroup]="form" (ngSubmit)="editUser()" *ngIf="form" class="user-form">
+  <h3 translate>account.creation.information.title</h3>
+  <!-- gender -->
+  <div class="form-group">
+    <div class="p-field-radiobutton">
+      <p-radioButton id="gender1" name="title" value="MR" formControlName="title" inputId="gender1"
+                     ngDefaultControl></p-radioButton>
+      <label for="gender1" translate>account.creation.information.gender.mr</label>
+    </div>
+    <div class="p-field-radiobutton">
+      <p-radioButton id="gender2" name="title" value="MRS" formControlName="title" inputId="gender2"
+                     ngDefaultControl></p-radioButton>
+      <label for="gender2" translate>account.creation.information.gender.mrs</label>
+    </div>
+  </div>
+
+  <!-- firstname -->
+  <div class="form-group" [ngClass]="{'error': (isInvalidTouchedOrDirty('firstname'))}">
+    <div class="form-mandatory">
+      <span class="p-float-label input-field">
+        <input id="firstName" type="text" formControlName="firstname"
+              [title]="'account.creation.information.firstname' | translate"
+              [ngClass]="{'error': isInvalidTouchedOrDirty('firstname')}"
+              required pInputText/>
+        <label for="firstName">{{'account.creation.information.firstname' | translate}}</label>
+      </span>
+    </div>
+    <span *ngIf="isInvalidTouchedOrDirty('firstname')" class="field-validation-error">
+      <span translate>account.creation.errors.firstName-invalid</span>
+    </span>
+  </div>
+
+  <!-- lastname -->
+  <div class="form-group" [ngClass]="{'error': (isInvalidTouchedOrDirty('lastname'))}">
+    <div class="form-mandatory">
+      <span class="p-float-label input-field">
+        <input id="lastName" type="text" formControlName="lastname"
+             [title]="'account.creation.information.lastname' | translate"
+             [ngClass]="{'error': isInvalidTouchedOrDirty('lastname')}"
+             required pInputText/>
+        <label for="lastName">{{'account.creation.information.lastname' | translate}}</label>
+      </span>
+    </div>
+    <span *ngIf="isInvalidTouchedOrDirty('lastname')" class="field-validation-error">
+      <span translate>account.creation.errors.lastName-invalid</span>
+    </span>
+  </div>
+
+  <!-- email -->
+  <div *ngIf="isPublicUser()" class="form-group" [ngClass]="{'error': (isInvalidTouchedOrDirty('email'))}">
+    <div class="form-mandatory">
+      <span class="p-float-label input-field">
+        <input id="email" type="text" formControlName="email"
+              [title]="'account.creation.information.firstname' | translate"
+              [ngClass]="{'error': isInvalidTouchedOrDirty('email')}"
+              required pInputText/>
+        <label for="email">{{'account.creation.credentials.email' | translate}}</label>
+      </span>
+    </div>
+    <span *ngIf="isInvalidTouchedOrDirty('email')" class="field-validation-error">
+      <span translate>account.creation.errors.email-invalid</span>
+    </span>
+  </div>
+
+  <!-- phone numbers -->
+  <div class="form-group phone-numbers" [ngClass]="{'error': (isInvalidTouchedOrDirty('mobilePhoneNumber') || isInvalidTouchedOrDirty('phoneNumber'))}">
+    <p-fieldset [legend]="'account.creation.information.phone-numbers' | translate" [toggleable]="false">
+      <label for="mobilePhoneNumber">{{'account.creation.information.mobile-phone' | translate}}</label>
+      <div class="form-mandatory">
+        <ngx-intl-tel-input class="phone-number" [preferredCountries]="preferredCountries"
+                            [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="false"
+                            [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                            [selectedCountryISO]="CountryISO.France" [maxLength]="15"
+                            [phoneValidation]="true" [separateDialCode]="true"
+                            [numberFormat]="PhoneNumberFormat.National"
+                            [customPlaceholder]="123456789"
+                            [title]="'account.creation.information.mobile-phone' | translate"
+                            [ngClass]="{'error': isInvalidTouchedOrDirty('mobilePhoneNumber')}"
+                            name="mobilePhoneNumber" formControlName="mobilePhoneNumber" id="mobilePhoneNumber" ngDefaultControl>
+        </ngx-intl-tel-input>
+      </div>
+      <br/>
+      <label for="phoneNumber">{{'account.creation.information.home-phone' | translate}}</label>
+      <div class="form-mandatory">
+        <ngx-intl-tel-input class="phone-number" [preferredCountries]="preferredCountries"
+                            [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="false"
+                            [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                            [selectedCountryISO]="CountryISO.France" [maxLength]="15"
+                            [phoneValidation]="true" [separateDialCode]="true"
+                            [numberFormat]="PhoneNumberFormat.National"
+                            [customPlaceholder]="123456789"
+                            [title]="'account.creation.information.home-phone' | translate"
+                            [ngClass]="{'error': isInvalidTouchedOrDirty('phoneNumber')}"
+                            name="phoneNumber" formControlName="phoneNumber" id="phoneNumber" ngDefaultControl>
+        </ngx-intl-tel-input>
+      </div>
+      <span *ngIf="isInvalidTouchedOrDirty('mobilePhoneNumber') || isInvalidTouchedOrDirty('phoneNumber')" class="field-validation-error">
+        <span translate>account.creation.errors.phonenumber-invalid</span>
+      </span>
+    </p-fieldset>
+  </div>
+
+  <!-- is pro account -->
+  <div class="form-group line-form p-field p-grid">
+    <label for="is-pro-account" class="label p-col-fixed" translate>account.creation.information.is-pro-account</label>
+    <p-selectButton id="is-pro-account"
+                    [options]="booleanOptions"
+                    ngDefaultControl
+                    [unselectable]="true"
+                    formControlName="proAccount">
+      <ng-template let-item pTemplate>
+        <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+      </ng-template>
+    </p-selectButton>
+  </div>
+
+  <!-- organization -->
+  <div class="form-group" [ngClass]="proAccount.value ? 'form-mandatory' : 'form-optional'">
+    <span class="p-float-label input-field">
+      <input id="organization" type="text" formControlName="organization"
+            [placeholder]="(proAccount.value ? 'account.creation.information.organization-mandatory' : 'account.creation.information.organization') | translate"
+            [title]="(proAccount.value ? 'account.creation.information.organization-mandatory' : 'account.creation.information.organization') | translate" pInputText/>
+      <label for="organization">{{(proAccount.value ? 'account.creation.information.organization-mandatory' : 'account.creation.information.organization') | translate}}</label>
+    </span>
+  </div>
+
+  <!-- ship name -->
+  <div class="form-group form-optional">
+    <span class="p-float-label input-field">
+      <input id="shipName" type="text" formControlName="shipName"
+            [title]="'account.creation.information.ship-name' | translate" pInputText/>
+      <label for="shipName">{{'account.creation.information.ship-name' | translate}}</label>
+    </span>
+  </div>
+
+  <!-- homeport -->
+  <div class="form-group form-optional">
+    <span class="p-float-label input-field">
+      <input id="homeport" type="text" formControlName="homePort"
+            [title]="'account.creation.information.homeport' | translate" pInputText/>
+      <label for="homeport">{{'account.creation.information.homeport' | translate}}</label>
+    </span>
+  </div>
+
+  <!-- registration number -->
+  <div class="form-group form-optional">
+    <span class="p-float-label input-field">
+      <input id="registrationNumber" type="text" formControlName="registrationNumber"
+            [title]="'account.creation.information.registration-number' | translate" pInputText/>
+      <label for="registrationNumber">{{'account.creation.information.registration-number' | translate}}</label>
+    </span>
+  </div>
+
+  <!-- preferred area -->
+  <div class="form-group form-optional">
+    <p-dropdown id="area-dropdown"
+                formControlName="preferredAreaId"
+                [options]="areas$ | async"
+                [optionLabel]="'option-label-name' | translate"
+                optionValue="id"
+                [placeholder]="'account.creation.information.preferred-area' | translate"
+                display="chip"
+                showClear="true"
+                ngDefaultControl>
+    </p-dropdown>
+  </div>
+
+  <!-- enable subscription notifications sound -->
+  <div class="form-group line-form p-field p-grid">
+    <label for="has-notifications-sound" class="label p-col-fixed lbl-notification" translate>account.creation.information.notifications-sound</label>
+    <p-selectButton id="has-notifications-sound"
+                    [options]="booleanOptions"
+                    ngDefaultControl
+                    [unselectable]="true"
+                    formControlName="hasNotificationsSound">
+      <ng-template let-item pTemplate>
+        <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+      </ng-template>
+    </p-selectButton>
+  </div>
+
+  <!-- enable subscription email notifications -->
+  <div class="form-group line-form p-field p-grid">
+    <label for="has-subscription-email-notifications" class="label p-col-fixed lbl-notification" translate>account.creation.information.subscription-email-notifications</label>
+    <p-selectButton id="has-subscription-email-notifications"
+                    [options]="booleanOptions"
+                    ngDefaultControl
+                    [unselectable]="true"
+                    formControlName="hasSubscriptionEmailNotifications">
+      <ng-template let-item pTemplate>
+        <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+      </ng-template>
+    </p-selectButton>
+  </div>
+
+  <!-- submit form -->
+  <p-button *ngIf="!disabled" class="edit-button" id="btn-submit" type="submit" [label]="'account.creation.submit' | translate"
+            [disabled]="!(form.valid)" ngDefaultControl></p-button>
+
+</form>
+
+<app-infosource-identifier *ngIf="!isFunctionalAdmin" [identifier]="identifier"></app-infosource-identifier>

@@ -1,0 +1,99 @@
+<shared-select-button
+  class="table-tabs-selector"
+  [options]="tabs"
+  [(ngModel)]="selectedStatus"
+  (ngModelChange)="selectedStatusChanged()"
+>
+</shared-select-button>
+<shared-table-filter-banner
+  [serieSelected]="serieSelected"
+  [filterState]="filterState"
+  [series]="series"
+  (onFilterChange)="filterChange()"
+  [chipGenerator]="generateFilterChipsText.bind(this)"
+>
+  <ng-template #advancedFilter>
+    <app-table-admin-advanced-filter
+      class="advanced-filter"
+      [filterState]="filterState"
+      [subAreas]="serieSelected?.subAreas"
+      [selectedStatus]="selectedStatus"
+      [selectedSerieId]="serieSelected?.id"
+    ></app-table-admin-advanced-filter>
+  </ng-template>
+</shared-table-filter-banner>
+<shared-warning-table #warningTable
+    [items]="warnings"
+    [totalRecords]="totalWarnings"
+    [loading]="tableLoading"
+    [pageInfo]="tableState.pageInfo$ | async"
+    [columns]="columns[selectedStatus]"
+    (onPageChange)="pageChange($event)"
+    (onSort)="sortChange($event)"
+    (onModelItemSelect)="displayWarningModal([$event])"
+    class="table-screen-media"
+>
+  <ng-template id="state" let-warning="modelItem">
+    <p-tag *ngIf="!(selectedStatus === 'DRAFT' && warning.state === 'ACTIVE')" value="{{'table.warning-state.' + warning.state | translate}}"
+           severity="{{warning.state | warningStateSeverity}}"
+    ></p-tag>
+  </ng-template>
+  <ng-template id="lastUpdate" let-warning="modelItem">
+    {{warning.lastUpdate | date:'dd/MM/YYYY'}}
+  </ng-template>
+  <ng-template id="number" let-warning="modelItem">
+    {{warning | formatWarningNumber}}
+  </ng-template>
+  <ng-template id="model" let-warning="modelItem">
+    {{warning.modelName}}
+  </ng-template>
+  <ng-template id="references" let-warning="modelItem">
+    <ng-container *ngFor="let ref of warning.references">
+      {{ref | formatWarningNumber}}<br>
+    </ng-container>
+  </ng-template>
+  <ng-template id="title" let-warning="modelItem">
+    {{warning | formatWarningTitle}} - {{getTranslateKeyFromTypeDetails(warning.warningTypeDetails) | translate}}
+  </ng-template>
+  <ng-template id="entities" let-warning="modelItem">
+    <ng-container *ngFor="let entity of warning.entities">
+      {{entity}}<br>
+    </ng-container>
+  </ng-template>
+  <ng-template id="publicationDate" let-warning="modelItem">
+    {{warning.publicationDate | date:'dd/MM/YYYY'}}
+  </ng-template>
+  <ng-template id="estimatedPublicationDate" let-warning="modelItem">
+    {{warning.estimatedPublicationDate | date:'dd/MM/YYYY'}}
+    <span *ngIf="warning.estimatedPublicationDate">
+      <span *ngIf="daysBetweenDateAndToday(warning.estimatedPublicationDate); let diffDays; else today">
+        ({{diffDays}} {{'table.days' | translate}})
+      </span>
+      <ng-template #today>
+        <span>({{'table.today' | translate}})</span>
+      </ng-template>
+    </span>
+  </ng-template>
+    <ng-template id="cancellationDate" let-warning="modelItem">
+    {{warning.cancellationDate | date:'dd/MM/YYYY'}}
+  </ng-template>
+  <ng-template id="endOfBroadcastDate" let-warning="modelItem">
+    {{warning.endOfBroadcastDate | date:'dd/MM/YYYY'}}
+  </ng-template>
+  <ng-template id="reviewDate" let-warning="modelItem">
+    {{warning.reviewDate | date:'dd/MM/YYYY'}}
+  </ng-template>
+  <ng-template id="folders" let-warning="modelItem">
+    <ng-container *ngFor="let folder of warning.folders">
+      {{folder}}<br>
+    </ng-container>
+  </ng-template>
+</shared-warning-table>
+<shared-warning-modal *ngIf="showModal" #modal
+  (onClose)="showModal = false"
+  (onStatusChangeAction)="onStatusChangeAction()"
+  [mainWarningsParts]="selectedWarnings"
+  [selectedStatus]="selectedStatus"
+  [serieSelected]="serieSelected"
+></shared-warning-modal>
+

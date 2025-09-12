@@ -1,0 +1,15 @@
+<div class="card-customed">
+    <div class="header">
+        <div *ngIf="warning.status !== listWarningStatus.NOT_SAVED">
+            <span>{{warning.prerequisites | formatWarningNumber:true}} - {{warning.status}}</span>
+        </div>
+    </div>
+    <div class="md-stepper-horizontal">
+        <div class="md-step" [ngClass]="{'active': currentStep === step.routerLink }" *ngFor="let step of steps; let i=index">
+            <button class="btn" [ngClass]="{'btn-active': currentStep === step.routerLink }" type="submit" (click)="moveToStep(step.routerLink)">
+                <span class="md-step-title">{{i+1}}</span></button>
+            <div class="md-step-title" [ngClass]="{'md-step-title-active': currentStep === step.routerLink }">{{step.label}}</div>
+            <div *ngIf="step.routerLink !== '/finalization'" [ngClass]="step.routerLink !== '/diffusion' ? 'md-step-bar-middle' : 'md-step-bar-right'"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+:host ::ng-deep {
+  p-dialog {
+    .p-dialog .p-dialog-header {
+      border-bottom: none;
+      padding: 1.5rem;
+    }
+
+    .p-dialog .p-dialog-footer {
+      border-top: none;
+      padding: 0 1.5rem 1.5rem 1.5rem;
+    }
+
+    .p-dialog .p-dialog-header .p-dialog-title {
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.p-multiselect-items-wrapper {
+  width: 100px;
+}
+
+.line-form {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-left: 1rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .margin {
+    margin-right: 0.5rem;
+  }
+}
+
+input {
+  min-width: 285px;
+  margin-left: 19px;
+  height: 35px;
+}
+
+.actions {
+  margin-top: 10px;
+  text-align: center;
+
+  .p-button {
+    margin-right: 5px;
+  }
+}

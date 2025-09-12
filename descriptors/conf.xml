@@ -1,0 +1,22 @@
+<assembly>
+  <id>conf</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+      <fileSet>
+          <directory>nginx</directory>
+          <outputDirectory>conf</outputDirectory>
+          <fileMode>0644</fileMode>
+          <filtered>false</filtered>
+          <excludes>
+            <exclude>nginx/entrypoint.sh</exclude>
+            <exclude>nginx/local.env</exclude>
+            <exclude>nginx/nginx.conf</exclude>
+            <exclude>nginx/portal.conf.docker_tmpl</exclude>
+            <exclude>nginx/services.conf.docker_tmpl</exclude>
+          </excludes>
+      </fileSet>
+  </fileSets>
+</assembly>

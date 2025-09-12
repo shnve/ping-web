@@ -1,0 +1,138 @@
+<div class="container">
+  <div class="title-container">
+    <a class="banner-link" href="/" routerLink="/" [title]="'title.description' | translate">
+      <span class="title-description" translate>title.description</span>
+    </a>
+  </div>
+  <div class="fr-header__tools">
+    <div class="fr-header__tools-links">
+        <ul class="fr-btns-group">
+            <li>
+              <button class="fr-btn fr-btn--tertiary-no-outline"
+                      type="button"
+                      [label]="'account-panel.already-registered.button.' + (loggedIn ? 'my-account' : 'title') | translate"
+                      [title]="'account-panel.already-registered.button.' + (loggedIn ? 'my-account' : 'title') | translate"
+                      pButton [icon]="'pi ' + (loggedIn ? 'pi-user-edit' : 'pi-user')"
+                      (click)="loginPanel.toggle($event)">
+              </button>
+            </li>
+            <li>
+              <ng-container *ngIf="loggedIn && canShowNotificationPanel">
+                <p-overlayPanel styleClass="notifications-panel" #notificationsPanel [appendTo]="'body'">
+                  <ng-template pTemplate>
+                    <p-table selectionMode="multiple" *ngIf="notifications?.length; else noNotifications"
+                              [scrollable]="true"
+                              scrollHeight="500px"
+                              [value]="notifications"
+                              (onRowSelect)="onNotificationSelect()"
+                              (onRowUnselect)="onNotificationSelect()"
+                              (onHeaderCheckboxToggle)="onNotificationSelect()"
+                              [(selection)]="selectedNotifications">
+                      <p-confirmPopup #confirmPopup></p-confirmPopup>
+                      <ng-template pTemplate="header">
+                        <tr class="notification-header">
+                          <th scope="col">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                          </th>
+                          <th scope="col"></th>
+                          <th scope="col">
+                            <p-toggleButton [ngModel]="areAllSelectionRead"
+                                            onIcon="far fa-envelope-open" offIcon="far fa-envelope"
+                                            [title]="areAllSelectionRead ? ('notification.mark-as-unread' | translate) : ('notification.mark-as-read' | translate)"
+                                            (onChange)="toggleReadStatus($event)"
+                                            [disabled]="!!confirmPopup.confirmation || !selectedNotifications.length"
+                            ></p-toggleButton>
+                            <p-button class="notification-delete-selection-button" icon="pi pi-trash"
+                                      (click)="!confirmPopup.confirmation && confirmDelete($event)"
+                                      [disabled]="!!confirmPopup.confirmation || !selectedNotifications.length"></p-button>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-notification>
+                        <tr class="notification"
+                            [class.read]="notification.read"
+                            [class.disabled]="!!confirmPopup.confirmation"
+                            (click)="!confirmPopup.confirmation && onClickNotification(notification)">
+                          <td class="notification-icon">
+                            <p-tableCheckbox [value]="notification"
+                                             (click)="$event.stopPropagation();"
+                            ></p-tableCheckbox>
+                            <i [class]="'pi ' + getNotificationIcon(notification.type) + ' notification-type-icon'"></i>
+                          </td>
+                          <td class="notification-title">
+                            <div class="notification-type-label">
+                              {{('notification.type.' + notification.type.toLowerCase().replace(regexNotificationType, '-')) | translate}}
+                            </div>
+                            <span class="service-prefix">
+                                {{notification.creationDate.toString().split('T')[0] | formatDate}}
+                                <span *ngIf="isServiceUser && !isEmpty(notification.service)"> {{'preposition-for' | translate}} {{notification.service | translateName}}</span>
+                               :
+                            </span>
+                            <span [innerHTML]="notification.title | formatNotificationTitle | safeHtml"></span>
+                          </td>
+                          <td class="notification-actions">
+                            <p-toggleButton [ngModel]="notification.read"
+                                            onIcon="far fa-envelope-open" offIcon="far fa-envelope"
+                                            [title]="notification.read ? ('notification.mark-as-unread' | translate) : ('notification.mark-as-read' | translate)"
+                                            (onChange)="toggleReadStatus($event, notification)"
+                                            [disabled]="!!confirmPopup.confirmation"
+                            ></p-toggleButton>
+                            <p-button icon="pi pi-trash"
+                                      (click)="!confirmPopup.confirmation && confirmDelete($event, notification)"
+                                      [disabled]="!!confirmPopup.confirmation"></p-button>
+                            <p-button *ngIf="notificationComesFromSubscription(notification); else noSubscriptionButton"
+                                      icon="pi pi-cog"
+                                      (click)="!confirmPopup.confirmation && navigateToSubscription($event, notification)"
+                                      [title]="'notification.see-subscription' | translate"
+                                      [disabled]="!!confirmPopup.confirmation"></p-button>
+                            <ng-template #noSubscriptionButton>
+                              <span class="no-subscription-button"></span>
+                            </ng-template>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                    <ng-template #noNotifications>
+                      <div class="p-d-flex p-jc-center no-notification" translate>notification.no-data</div>
+                    </ng-template>
+                  </ng-template>
+                </p-overlayPanel>
+                <button type="button" [label]="'notification.title' | translate" [title]="'notification.title' | translate" pButton [class]="'fr-btn fr-btn--tertiary-no-outline ' + (numberUnreadNotifications ? 'button-notifications' : 'button-no-notification')" (click)="notificationsPanel.toggle($event)" #notificationsBell>
+                  <i *ngIf="numberUnreadNotifications; else noUnreadNotifications" class="pi pi-bell p-mr-2" pBadge [value]="numberUnreadNotifications" severity="danger"></i>
+                  <ng-template #noUnreadNotifications>
+                    <i class="pi pi-bell"></i>
+                  </ng-template>
+                </button>
+              </ng-container>
+            </li>
+        </ul>
+    </div>
+  </div>
+  <div class="banner-nav">
+    <p-overlayPanel styleClass="account-panel" #loginPanel>
+      <ng-template pTemplate>
+        <div *ngIf="loggedIn; else loginOrRegister">
+          <div><span translate>account-panel.welcome</span> {{user.firstname}} {{user.lastname}} <span *ngIf="user.serviceName">{{user.serviceName}}</span></div>
+          <div class="account-panel-buttons">
+            <button *ngIf="isConnected" pButton class="p-button-raised p-button-rounded" (click)="redirectToEdit()" translate>account-panel.edit-user-button</button>
+            <button pButton class="p-button-raised p-button-rounded logout-button" (click)="logout()" translate>account-panel.logout-button.title</button>
+          </div>
+        </div>
+        <ng-template #loginOrRegister>
+          <div class="already-registered" translate>account-panel.already-registered.description</div>
+          <div class="account-panel-buttons">
+            <button pButton class="p-button-raised p-button-rounded" (click)="goToPublicLoginPage()" translate>account-panel.already-registered.button.title</button>
+            <button pButton class="p-button-raised p-button-rounded button-pro" (click)="goToProLoginPage()" translate>account-panel.already-registered.button.title.pro</button>
+          </div>
+          <hr />
+          <div class="not-already-registered" translate>account-panel.not-already-registered.description</div>
+          <div>
+            <button pButton class="p-button-raised p-button-rounded" (click)="goToAccountCreation()" translate>account-panel.create-button.title</button>
+          </div>
+        </ng-template>
+      </ng-template>
+    </p-overlayPanel>
+    <app-lang-dropdown class="lang-choice-container"></app-lang-dropdown>
+  </div>
+</div>
+

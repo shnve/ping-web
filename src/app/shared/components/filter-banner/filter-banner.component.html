@@ -1,0 +1,26 @@
+<div class="banner">
+  <button pButton
+          class="other-filters-button"
+          [label]="'filter.filter-bar.other-filters' | translate"
+          (click)="op.toggle($event)"
+  ></button>
+  <div class="chips-container">
+    <p-chip *ngFor="let chipText of quickFilterAccessChips"
+            [label]="chipText.translateKey | translate:chipText.translateParams"
+            (onRemove)="removeQuickFilterChip(chipText.key)"
+            [removable]="true"
+    ></p-chip>
+  </div>
+</div>
+
+
+<p-overlayPanel #op
+    class="overlay-panel"
+    [showCloseIcon]="true"
+    [autoZIndex]="false"
+    [dismissable]="false"
+>
+  <ng-template pTemplate>
+    <app-map-advanced-filter [filterState]="_filterState"></app-map-advanced-filter>
+  </ng-template>
+</p-overlayPanel>

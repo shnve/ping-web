@@ -1,0 +1,132 @@
+<div>
+  <div class="avurnav-notice-header">
+    <shared-select-button
+        class="visualisation-selector"
+        [(ngModel)]="visualisationMode"
+        [options]="visualisationModeOptions"
+    ></shared-select-button>
+    <span class="label-area" translate>menu.area</span>
+    <app-area-dropdown class="app-area-dropdown"></app-area-dropdown>
+  </div>
+  <div *ngIf="visualisationMode === 'map'">
+    <shared-disclaimer [displayDisclaimer]="displayMapDisclaimer"
+                       [header]="'home-page.disclaimer.title'"
+                       [content]="mapDisclaimerContent"
+                       (closeDialog)="onCloseMapDisclaimer($event)"
+    >
+    </shared-disclaimer>
+    <shared-disclaimer [displayDisclaimer]="displayDeviceOrientationModeDisclaimer"
+                       position="top-left"
+                       [header]="'menu.infosource.disclaimer.title'"
+                       [content]="'menu.infosource.disclaimer.description'"
+                       (closeDialog)="onCloseDeviceOrientationModeDisclaimer($event)"
+    ></shared-disclaimer>
+    <app-map-filter-banner (onFilterChange)="loadMapWarnings($event)"
+                           [filterState]="mapFilterState"
+    ></app-map-filter-banner>
+    <sig-map [warnings]="mapWarnings$ | async"
+             [getDetailWarnings]="true"
+             [extent]="selectedAreaExtent"
+             (onSelectWarnings)="displayWarningModal($event)"
+             [popover]="true"
+             [showLabels]="false"
+             [enableGotoLegend]="true"
+             [enableLabelsShowHide]="true"
+             [enableLayersShowHide]="true"
+             [shouldShowRasterMarineWithAdditionalLayerForWestAfrica]="true"
+             [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
+    ></sig-map>
+    <app-filters-bar (onFilterChange)="loadMapWarnings($event)"
+                     [filterState]="mapFilterState"
+    ></app-filters-bar>
+  </div>
+  <div *ngIf="visualisationMode === 'table'">
+    <div *ngIf="selectedArea$ | async as currArea; else noAreaWarnMessage">
+      <shared-disclaimer [displayDisclaimer]="displayTableDisclaimer"
+                         [header]="'home-page.disclaimer.title'"
+                         [content]="getTableDisclaimerContent(currArea)"
+                         (closeDialog)="onCloseTableDisclaimer($event, currArea?.id)"
+      >
+      </shared-disclaimer>
+      <shared-table-filter-banner #bannerTable
+                               [series]="series"
+                               [filterState]="tableFilterState"
+                               tableView="list"
+                               [listDetailSwitcher]="true"
+                               (onChangeTableView)="onChangeTableView($event)"
+                               [chipGenerator]="generateTableFilterChipsText.bind(this)"
+      >
+        <ng-template>
+          <app-table-advanced-filter
+            [filterState]="tableFilterState"
+            [selectedSerieId]="bannerTable.serieSelected?.id"
+          ></app-table-advanced-filter>
+        </ng-template>
+      </shared-table-filter-banner>
+      <div *ngIf="tableFilterState.getValues().serie ; else noSerieWarnMessage" class="table-container">
+        <shared-warning-table *ngIf="bannerTable.tableView === 'list'; else tableDetail"
+                           (onModelItemSelect)="displayWarningModal([$event])"
+                           [items]="tableWarnings"
+                           [totalRecords]="totalWarnings"
+                           (onPageChange)="tableChange($event)"
+                           [pageInfo]="tableState.pageInfo$ | async"
+                           [loading]="tableLoading"
+                           [columns]="[
+                             {field: 'id', translateKey: 'table.columns.number'},
+                             {field: 'title', translateKey: 'table.columns.title'}
+                           ]"
+                           [appliedFilterValues]="tableFilterState.getValues()"
+                           [showPdfExport]="true"
+                           [showS124Export]="true"
+                           [showGpxZipExport]="true"
+                   >
+          <ng-template id="id" let-warning="modelItem">
+            {{warning | formatWarningNumber}}
+          </ng-template>
+          <ng-template id="title" let-warning="modelItem">
+            {{warning | formatWarningTitle}} - {{translatedWarningTypeDetails(warning.warningTypeDetails)}}
+          </ng-template>
+        </shared-warning-table>
+        <ng-template #tableDetail>
+          <app-warning-detail-table [warnings]="tableWarnings"
+                                    [totalRecords]="totalWarnings"
+                                    (onPageChange)="tableChange($event)"
+                                    (warningSelect)="displayWarningModal([$event])"
+                                    [loading]="tableLoading"
+                                    [pageInfo]="tableState.pageInfo$ | async"
+                                    [appliedFilterValues]="tableFilterState.getValues()"
+          ></app-warning-detail-table>
+        </ng-template>
+        <app-table-filters-bar (onFilterChange)="loadMapWarnings($event)"
+                               [series]="series"
+                               [filterState]="tableFilterState"
+        ></app-table-filters-bar>
+      </div>
+
+      <ng-template #noSerieWarnMessage>
+        <p-messages severity="warn">
+          <ng-template pTemplate>
+            <div class="message-container">
+              <i class="info-icon pi pi-info-circle"></i>
+              <span translate>table.no-serie-selected</span>
+            </div>
+          </ng-template>
+        </p-messages>
+      </ng-template>
+    </div>
+    <ng-template #noAreaWarnMessage>
+      <p-messages severity="warn">
+        <ng-template pTemplate>
+          <div class="message-container">
+            <i class="info-icon pi pi-info-circle"></i>
+            <span translate>table.no-area-selected</span>
+          </div>
+        </ng-template>
+      </p-messages>
+    </ng-template>
+  </div>
+  <shared-warning-modal *ngIf="showModal" #modal
+                     (onClose)="showModal = false"
+                     [mainWarningsParts]="warnings"
+  ></shared-warning-modal>
+</div>

@@ -1,0 +1,225 @@
+<p-dialog [(visible)]="display"
+          [draggable]="true"
+          [resizable]="true"
+          [closable]="true"
+          modal="true"
+          dismissableMask="true"
+          [breakpoints]="{'480px': '100vw'}"
+          [style]="{width: '80vw', 'max-height': '98vh'}"
+          (onHide)="hide()"
+>
+  <div class="fr-container fr-container--fluid fr-container-md">
+    <div class="fr-grid-row fr-grid-row--center">
+      <div class="fr-modal__body" tabindex="0">
+          <div class="fr-modal__header">
+            <button type="button" class="close-modal-button fr-btn fr-btn--tertiary-no-outline" (click)="hide()" [title]="'detail.close' | translate">
+              <span>{{'detail.close' | translate}}</span>
+              <i class="pi pi-times"></i>
+            </button>
+          </div>
+
+          <div class="fr-modal__content">
+            <div class="fr-header__body-row">
+              <div class="header-content-title">
+                <button class="fr-btn fr-btn--tertiary pi pi-arrow-left" *ngIf="georegulationIds?.length > 1" [title]="'detail.previous' | translate" [disabled]="!hasPrevious" (click)="previous()"></button>
+                <h1 class="fr-modal__title">
+                  {{georegulation?.mainNumber | georegulationFormatNumber}} {{'georegulation.modal.details-fieldset' | translate}}
+                  <span *ngIf="proUser && georegulation?.status">({{('enum.georegulation-status.' + georegulation?.status | lowercase | translate) | lowercase}})</span>
+                </h1>
+                <button class="fr-btn fr-btn--tertiary pi pi-arrow-right" *ngIf="georegulationIds?.length > 1" [title]="'detail.next' | translate" [disabled]="!hasNext" (click)="next()"></button>
+              </div>
+              <div class="fr-header__tools">
+                <div class="fr-header__tools-links">
+                  <ul class="fr-btns-group fr-btns-group--inline-sm">
+                    <li>
+                      <button type="button" class="fr-btn pi pi-download fr-btn--tertiary" (click)="downloadPanel.toggle($event)" [title]="'detail.download-geometries' | translate"></button>
+                    </li>
+                    <li>
+                      <button class="fr-btn pi pi-share-alt fr-btn--tertiary" [title]="'detail.share-direct-link' | translate" (click)="copySharedLinkUrl($event)" type="button"></button>
+                    </li>
+                    <li>
+                      <button class="fr-btn pi pi-file-pdf fr-btn--tertiary" (click)="generatePdf($event)" [title]="'detail.generate-pdf' | translate" type="button"></button>
+                    </li>
+                    <li *ngIf="canManage">
+                      <p-menu [appendTo]="'body'" #menu [model]="items" [popup]="true"></p-menu>
+                      <button #manageButton class="fr-btn fr-btn--secondary" type="button" [title]="'detail.manage' | translate" (click)="menu.toggle($event)">{{'detail.manage' | translate}}</button>
+                    </li>
+                    <span class="separator"></span>
+                    <li>
+                      <app-lang-dropdown class="lang-choice-container"></app-lang-dropdown>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="fr-callout">
+              <ul>
+                <ng-container *ngIf="georegulation?.title">
+                  <li>
+                    {{'georegulation.modal.title' | translate}} :
+                    <span [innerText]="({name: georegulation.title, internationalName: georegulation.internationalTitle} | translateName)"></span>
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="georegulation?.activities?.length">
+                  <li>
+                    {{'georegulation.modal.activities' | translate}} :
+                    <span *ngFor="let activity of georegulation.activities; let isLast = last">
+                      {{(('enum.georegulation-activities.' + (activity | lowercase)) | translate) + (!isLast ? ', ' : '')}}
+                    </span>
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="georegulation?.temporary">
+                  <li>
+                    {{'georegulation.modal.temporary' | translate}}
+                    <span *ngIf="georegulation.calendarPeriods?.length">
+                      - <span translate>georegulation.modal.periods</span> :
+                      <ng-container *ngFor="let calendarPeriod of georegulation.calendarPeriods; let isFirst = first">
+                        <ng-container *ngIf="!isFirst">, </ng-container>
+                        <ng-container *ngIf="calendarPeriod.dateStart">{{((calendarPeriod.dateEnd ? 'georegulation.modal.period.start-label' : 'georegulation.modal.period.start-label-without-end') | translate)}}
+                          {{(calendarPeriod.dateStart | localizedDate)}}</ng-container>
+                        <ng-container *ngIf="calendarPeriod.dateEnd">
+                          {{((calendarPeriod.dateStart ? 'georegulation.modal.period.end-label' : 'georegulation.modal.period.end-label-without-start') | translate)}}
+                          {{(calendarPeriod.dateEnd | localizedDate)}}</ng-container>
+                      </ng-container>
+                    </span>
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="georegulation?.seasonalPeriods?.length">
+                  <li>
+                    {{'georegulation.modal.seasonal-periods' | translate}} :
+                    <span *ngFor="let seasonalPeriod of georegulation.seasonalPeriods, let isFirst=first">
+                      <ng-container *ngIf="!isFirst">, </ng-container>
+                      <ng-container *ngIf="seasonalPeriod.dayStart">{{'georegulation.modal.seasonal-periods-start' | translate}} {{seasonalPeriod.dayStart}} {{seasonalPeriod.monthStart | formatMonth | translate | lowercase}} </ng-container>
+                      <ng-container *ngIf="seasonalPeriod.dayEnd">{{'georegulation.modal.seasonal-periods-end' | translate}} {{seasonalPeriod.dayEnd}} {{seasonalPeriod.monthEnd | formatMonth | translate | lowercase}}</ng-container>
+                    </span>
+                  </li>
+                </ng-container>
+                <ng-container>
+                  <li>
+                    {{'georegulation.modal.type' | translate}} :
+                    <span>{{('georegulation.type.' + georegulation?.type) | translate}}</span>
+                    <span *ngIf="georegulation?.hasCoastlineLimit"> - {{'georegulation.coastline-limit' | translate}}</span>
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="georegulation?.entities?.length">
+                  <li>
+                    {{'georegulation.modal.entities' | translate}} :
+                    <span *ngFor="let entity of georegulation.entities; let isLast = last">
+                      {{(entity | translateName) + (!isLast ? ', ' : '')}}
+                    </span>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+
+            <div class="fr-container--fluid">
+              <div class="fr-grid-row fr-grid-row--gutters">
+                <div class="fr-col fr-col-md-8">
+                  <div *ngIf="georegulation">
+                    <georegulation-modal-map [modelItem]="georegulation" #map
+                                              [height]="mapHeight"
+                                              [featuresToHighlight]="highlightedFeatures"
+                                              [enableLayersShowHide]="true"
+                                              [showLayers]="false"
+                                              [showZoneX]="false"
+                                              [canShowRasterMarineLayer]="true"
+                                              [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
+                                              [canShowOrthoIGNLayer]="true"
+                                              [canClickOnGeometry]="true"
+                                              [notionType]="notionType"
+                                              (geometriesBeingClicked)="highlightFeaturePartOnClickOnGeometry($event)"
+                                              partsAttributeName="parts">
+                    </georegulation-modal-map>
+                    <div class="p-col-11 p-as-center p-ac-center"><i class="pi pi-exclamation-triangle"></i> {{'georegulation.modal.warning' | translate}}</div>
+                    <ng-template #noGeometryData>
+                      <div translate>detail.no-geometry-data</div>
+                    </ng-template>
+                  </div>
+                </div>
+
+                <div class="fr-col fr-col-md-4">
+                  <georegulation-detail #georegulationDetail [georegulation]="georegulation"
+                                        [proUser]="proUser"
+                                        (allFeaturesVisualized)="visualizeAllFeatures()"
+                                        (featurePartClicked)="selectFeaturePart($event)"
+                    ></georegulation-detail>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-confirmPopup></p-confirmPopup>
+
+<p-overlayPanel #addToFolderPanel>
+  <ng-template pTemplate>
+    <shared-add-notion-to-folder-selection [notionId]="georegulation?.id" (addingPanelClosed)="closeAddingPanel()" [notionType]="notionType">
+    </shared-add-notion-to-folder-selection>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel [styleClass]="'download-panel'" [appendTo]="'body'" #downloadPanel>
+  <ng-template pTemplate>
+    <div>
+      <p-dropdown
+        ngDefaultControl
+        [options]="allowedFormatToDownload"
+        [(ngModel)]="selectedFormatToDownload"
+        optionValue="value"
+        optionLabel="label"
+        [placeholder]="'detail.select-download-format' | translate"
+        [style]="{width: '250px'}"
+      ></p-dropdown>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancelDownload()" [label]="'detail.download-cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmDownload()" [label]="'detail.download-confirm' | translate" [disabled]="!selectedFormatToDownload"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+<p-overlayPanel [styleClass]="'send-panel'" #sendPanel>
+  <h3 translate>detail.send</h3>
+  <ng-template pTemplate>
+    <div>
+      <p-multiSelect
+        ngDefaultControl
+        [options]="availableRecipients"
+        [(ngModel)]="selectedRecipients"
+        [placeholder]="'detail.select-recipients' | translate"
+        [style]="{width: '250px'}">
+        <ng-template let-recipient pTemplate="item">
+          <span>{{recipient | translateName}}</span>
+        </ng-template>
+        <ng-template let-recipients pTemplate="selectedItems">
+          <span *ngFor="let recipient of recipients">
+              {{recipient | translateName}}
+          </span>
+          <span *ngIf="recipients?.length === 0">
+            {{'detail.send-georegulation-placeholder' | translate}}
+          </span>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="closeSendPanel()" [label]="'detail.send-georegulation-cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmSend()" [label]="'detail.send-georegulation-confirm' | translate" [disabled]="!selectedRecipients?.length"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel [styleClass]="'clone-panel'" #clonePanel>
+  <h3 translate>detail.manage-options.clone-georegulation</h3>
+  <ng-template pTemplate>
+    <input type="text" pInputText [(ngModel)]="clonedGeoregulationNumberText"
+           (ngModelChange)="clonedGeoregulationTextChanged()"
+           [placeholder]="'georegulation.creation.number.text-placeholder' | translate">
+    <div class="number-preview">{{'georegulation.modal.cloned-number' | translate}}<br/>{{clonedGeoregulationNumber | georegulationFormatNumber}}</div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="closeClonePanel()" [label]="'detail.clone-cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmClone()" [label]="'detail.clone-confirm' | translate" [disabled]="!clonedGeoregulationNumberText?.length"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>

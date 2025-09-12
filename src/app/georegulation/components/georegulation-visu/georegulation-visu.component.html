@@ -1,0 +1,42 @@
+<div class="georegulation-header">
+  <span class="label-area" translate>menu.area</span>
+  <app-area-dropdown class="app-area-dropdown"></app-area-dropdown>
+</div>
+<shared-disclaimer [displayDisclaimer]="displayAreaDisclaimer"
+                   [header]="'home-page.disclaimer.title'"
+                   [content]="areaDisclaimerContent"
+                   (closeDialog)="onCloseAreaDisclaimer($event)"
+></shared-disclaimer>
+<shared-disclaimer [displayDisclaimer]="displayDeviceOrientationModeDisclaimer"
+                   position="top-left"
+                   [header]="'menu.infosource.disclaimer.title'"
+                   [content]="'menu.infosource.disclaimer.description'"
+                   (closeDialog)="onCloseDeviceOrientationModeDisclaimer($event)"
+></shared-disclaimer>
+<georegulation-map-filter-banner (filterHasChanged)="loadMapGeoregulations($event)"
+  [filterState]="mapFilterStateGeoregulation">
+</georegulation-map-filter-banner>
+<sig-map [georegulations]="mapGeoregulations$ | async"
+  [getDetailWarnings]="false"
+  [getDetailGeoregulations]="true"
+  [showGeoregulations]="true"
+  [canShowHideGeoregulationLayers]="false"
+  [canShowRasterMarineLayer]="true"
+  [canShowOrthoIGNLayer]="true"
+  [extent]="selectedAreaExtent"
+  (georegulationsSelected)="displayGeoregulationModal($event)"
+  [popover]="true"
+  [showZoneX]="false"
+  [showLabels]="false"
+  [enableGotoLegend]="true"
+  [enableLabelsShowHide]="true"
+  [enableLayersShowHide]="true"
+  [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
+></sig-map>
+<georegulation-map-filter-bar (filterHasChanged)="loadMapGeoregulations($event)"
+  [filterState]="mapFilterStateGeoregulation">
+</georegulation-map-filter-bar>
+<georegulation-modal *ngIf="showModal" #modal
+  (onClose)="closeModal()"
+  [georegulationIds]="selectedGeoregulationIds">
+</georegulation-modal>

@@ -1,0 +1,34 @@
+<p-button styleClass="new-subscription" [label]="'subscription.buttons.new' | translate" [routerLink]="'/subscription/' + selectedType.toLowerCase() + '/creation'"></p-button>
+<subscription-paginated-table #SubscriptionTable
+                        [items]="subscriptions"
+                        [totalRecords]="totalSubscriptions"
+                        [loading]="tableLoading"
+                        [pageInfo]="tableState.pageInfo$ | async"
+                        [columns]="columns[selectedType]"
+                        (onPageChange)="pageChange($event)"
+                        (onSort)="sortChange($event)"
+                        (onModelItemSelect)="displaySubscriptionModal([$event])"
+                        class="table-screen-media"
+>
+  <ng-template id="maritimeServiceSubscriber" let-subscription="modelItem">
+    {{{name: subscription.maritimeServiceSubscriberName, internationalName: subscription.maritimeServiceSubscriberInternationalName} | translateName}}
+  </ng-template>
+  <ng-template id="title" let-subscription="modelItem">
+    {{subscription.title}}
+  </ng-template>
+  <ng-template id="creationDate" let-subscription="modelItem">
+    {{subscription.creationDate | formatDatetime}}
+  </ng-template>
+  <ng-template id="areaName" let-subscription="modelItem">
+    {{{name: subscription.areaName, internationalName: subscription.areaInternationalName} | translateName}}
+  </ng-template>
+  <ng-template id="sendingMail" let-subscription="modelItem">
+    <button class="p-button-text p-button-success" *ngIf="subscription.sendingMail" pButton><i class="fa fa-fw fa-check"></i></button>
+    <button class="p-button-text p-button-danger" *ngIf="!subscription.sendingMail" pButton><i class="fa fa-fw fa-window-close"></i></button>
+  </ng-template>
+</subscription-paginated-table>
+<subscription-modal *ngIf="showModal"
+  (onStatusChangeAction)="onStatusChangeAction()"
+  (onClose)="closeModal()"
+  [mainSubscriptions]="selectedSubscriptions"
+></subscription-modal>

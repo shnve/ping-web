@@ -1,0 +1,16 @@
+li {
+  margin: 10px 20px;
+  list-style-type: circle;
+  word-wrap: break-word;
+}
+
+:host ::ng-deep {
+  .p-accordion .p-accordion-header .p-accordion-header-link {
+    border: none;
+    background: none;
+  }
+
+  .p-datatable > .p-datatable-wrapper {
+    overflow: hidden;
+  }
+}

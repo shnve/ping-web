@@ -1,0 +1,45 @@
+<div class="p-fluid">
+  <div *ngIf="isNoticeOrNoticeTP" class="p-field p-grid">
+    <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="replacedWarnings"
+      translate>admin-warning.creation.labels.replaced-warnings</label>
+    <div class="p-col-12 p-md-10">
+      <p-multiSelect [(ngModel)]="selectedReplaceableWarnings" [disabled]="isPublishedWarning || isWarningModel"
+        [options]="replaceableWarnings | orderBy: 'warningNumber'" [showToggleAll]="false" id="replacedWarnings" optionLabel="warningNumber" [maxSelectedLabels]="replaceableWarnings?.length"
+        optionValue="id"></p-multiSelect>
+    </div>
+  </div>
+  <div class="p-field p-grid">
+    <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="referencedWarnings"
+      translate>admin-warning.creation.labels.referenced-warnings</label>
+    <div class="p-col-12 p-md-10">
+      <p-multiSelect [(ngModel)]="selectedReferenceableWarnings" [options]="referenceableWarnings | orderBy: 'warningNumber'"
+        [disabled]="isWarningModel" [showToggleAll]="false" id="referencedWarnings" optionLabel="warningNumber" [maxSelectedLabels]="referenceableWarnings?.length"
+        optionValue="id" [virtualScroll]="true" [virtualScrollItemSize]="38"></p-multiSelect>
+    </div>
+  </div>
+  <div class="p-field p-grid">
+    <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="infosources"
+      translate>admin-warning.creation.labels.linked-infosources</label>
+    <div class="p-col-12 p-md-10">
+      <p-multiSelect [(ngModel)]="selectedInfosources" [disabled]="isWarningModel" [options]="availableInfosources | orderBy: 'number'" [maxSelectedLabels]="availableInfosources?.length"
+        [showToggleAll]="false" id="infosources" optionLabel="number" optionValue="id"></p-multiSelect>
+    </div>
+  </div>
+  <div class="p-field p-grid">
+    <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="maritimeEntities"
+      translate>admin-warning.creation.labels.linked-entities</label>
+    <div class="p-col-12 p-md-10">
+      <p-multiSelect [(ngModel)]="selectedEntities" [disabled]="isWarningModel" [options]="availableEntities | orderBy: ('option-label-name' | translate)" [maxSelectedLabels]="availableEntities?.length"
+        [showToggleAll]="false" id="maritimeEntities" [optionLabel]="'option-label-name' | translate" optionValue="id">
+      </p-multiSelect>
+    </div>
+  </div>
+  <div class="p-field p-grid">
+    <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="georegulations"
+      translate>admin-warning.creation.labels.linked-georegulations</label>
+    <div class="p-col-12 p-md-10">
+      <p-multiSelect [(ngModel)]="selectedGeoregulations" [disabled]="isWarningModel" [options]="availableGeoregulations | orderBy: 'number'" [maxSelectedLabels]="availableGeoregulations?.length"
+        [showToggleAll]="false" id="georegulations" optionLabel="number" optionValue="id"></p-multiSelect>
+    </div>
+  </div>
+</div>

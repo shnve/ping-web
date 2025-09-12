@@ -1,0 +1,75 @@
+<p-dialog [header]="'folder-modal-study.study-update' | translate"
+          [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" appendTo="body">
+          <form [formGroup]="studyForm">
+            <p-fieldset class="p-fieldset-edit-study" legend="{{'folder-modal-study.columns.number' | translate}}" [toggleable]="true">
+              <div class="line-form p-field p-grid p-col">
+                <input id="folder-study-infonaut-number" formControlName="number" type="text">
+              </div>
+            </p-fieldset>
+            <p-fieldset class="p-fieldset-edit-study" legend="{{'folder-modal-study.notions' | translate}}" [toggleable]="true">
+              <div class="line-form p-field p-grid">
+                <div class="p-grid">
+                  <div class="p-dir-col">
+                    <div class="p-col">
+                      <p-multiSelect class="p-col"
+                                    [style]="{width: '350px'}"
+                                    [placeholder]="'study.select-notions' | translate"
+                                    [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
+                                    formControlName="notionsIds"
+                                    [options]="optionsFolderNotions"
+                                    optionLabel="number"
+                                    optionValue="key"
+                                    group="true">
+                        <ng-template let-group pTemplate="group">
+                          <div><span>{{group.label}}</span></div>
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            <div><span>{{item.number}}</span></div>
+                        </ng-template>
+                      </p-multiSelect>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-fieldset>
+            <p-fieldset class="p-fieldset-edit-study" legend="{{'folder-modal-study.attachments' | translate}}" [toggleable]="true">
+              <div class="line-form p-field p-grid">
+                <div class="p-grid">
+                  <div class="p-dir-col">
+                    <div class="p-col">
+                      <p-multiSelect class="p-col"
+                                     [style]="{width: '350px'}"
+                                     [placeholder]="'study.select-attachments' | translate"
+                                     formControlName="attachmentsIds"
+                                     [options]="folderAttachments"
+                                     [style]="{width: '350px'}"
+                                     optionLabel="attachmentFile.filename"
+                                     optionValue="id">
+                      </p-multiSelect>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-fieldset>
+            <p-fieldset class="p-fieldset-edit-study references-parts" legend="{{'detail.folder-references' | translate}}" [toggleable]="true">
+              <div class="line-form p-field p-grid">
+                <div class="p-grid">
+                  <div class="p-dir-col">
+                    <div class="p-col">
+                      <study-references #references name="references"
+                                         formControlName="references">
+                      </study-references>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-fieldset>
+          </form>
+          <ng-template pTemplate="footer" >
+            <div class="p-fluid">
+              <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancel()" [label]="'cancel' | translate"></button>
+              <button pButton [disabled]="isFormInvalid()" type="button" class="p-button-sm" (click)="saveStudy()" [label]="'save' | translate"></button>
+            </div>
+          </ng-template>
+</p-dialog>

@@ -1,0 +1,69 @@
+<div class="distance-unit-precision">
+  <label class="no-margin">
+    <div class="line-form">
+      <label for="circle-distance-unit" class="p-col-fixed no-margin">{{ 'admin-warning.creation.parts.information.radiusDistanceUnit' | translate }}</label>
+      <p-dropdown [options]="availableDistanceUnits"
+                  [(ngModel)]="selectedDistanceUnit"
+                  ngDefaultControl>
+                  <ng-template pTemplate="item" let-item>
+                  {{item.name | translate}}
+                  </ng-template>
+                  <ng-template pTemplate="selectedItem" let-item>
+                  {{item.name | translate}}
+                  </ng-template>
+      </p-dropdown>
+    </div>
+  </label>
+  <label class="no-margin">
+    <div class="line-form">
+      <label for="decimal-minute-precision" class="p-col-fixed margin-label">{{ 'admin-warning.creation.parts.information.decimal-minute-precision' | translate }}</label>
+      <p-dropdown [options]="availablePrecision"
+                  [(ngModel)]="selectedPrecision"
+                  ngDefaultControl>
+      </p-dropdown>
+    </div>
+  </label>
+  <label class="no-margin">
+    <div class="line-form">
+      <label for="type-expression" class="p-col-fixed margin-label">{{ 'admin-warning.creation.parts.information.type-expression' | translate }}</label>
+      <p-dropdown [options]="availableTypeExpression"
+                  [placeholder]="'admin-warning.creation.parts.information.select-type-expression' | translate"
+                  [(ngModel)]="selectedTypeExpression"
+                  ngDefaultControl>
+        <ng-template pTemplate="item" let-item>
+          {{item.pathTypeExpression | translate}}
+        </ng-template>
+        <ng-template pTemplate="selectedItem" let-item>
+          {{item.pathTypeExpression | translate}}
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </label>
+</div>
+<div class="div-info">
+  <div *ngFor="let lang of langs">
+    <div class="btn-toolbar">
+      <!-- insérer géométries -->
+      <button pButton type="button" [icon]="wasClicked('geometry', lang)" iconPos="right"
+              (click)="addGeometry(lang)" translate [label]="'admin-warning.creation.parts.information.add-geometry' | translate"
+      ></button>
+      <!-- insérer zones affectées -->
+      <button pButton type="button" [icon]="wasClicked('zone', lang)" iconPos="right"
+              (click)="addZone(lang)" translate [label]="'admin-warning.creation.parts.information.add-zone' | translate"
+      ></button>
+      <!-- insérer AN en vigueur -->
+      <button pButton type="button" [icon]="wasClicked('published', lang)" iconPos="right"
+              (click)="addInEffectWarnings(lang)" translate [label]="'admin-warning.creation.parts.information.add-in-effect-warnings' | translate"
+      ></button>
+      <!-- insérer l'expression type -->
+      <button pButton type="button" [icon]="wasClicked('typeExpression', lang)" iconPos="right"
+              (click)="addTypeExpression(lang)" translate [label]="'admin-warning.creation.parts.information.add-type-expression' | translate"
+      ></button>
+      <label [ngClass]="{'error': !validFeaturePart && (isMandatoryLanguage(lang) && containsNonEmptyInformation(lang))}">
+        <span class="lang-label">{{lang}}</span><span *ngIf="isMandatoryLanguage(lang)" class="form-asterisk ">(*)</span>
+        <textarea pInputTextarea [rows]="10" [(ngModel)]="information[lang]" (ngModelChange)="informationChanged()">
+        </textarea>
+      </label>
+    </div>
+  </div>
+</div>

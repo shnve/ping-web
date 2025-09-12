@@ -1,0 +1,20 @@
+<button *ngIf="!disabled" pButton type="button"
+        icon="pi pi-plus"
+        (click)="addAdditionalNumber()"
+        translate
+        [label]="'georegulation.add-additional-number' | translate"
+></button>
+<ul *ngIf="additionalNumbers?.length" class="additional-numbers-container">
+    <li *ngFor="let additionalNumber of additionalNumbers; let i = index" class="line">
+        <georegulation-number-input [ngModel]="additionalNumber"
+            (ngModelChange)="additionalNumbersChanged()"
+            [availableYears]="availableYears"
+            [availableAuthorities]="availableAuthorities"
+            [ngModelOptions]="{standalone: true}"
+            [disabled]="disabled">
+        </georegulation-number-input>
+        <button *ngIf="!disabled" pButton type="button" icon="pi pi-trash" iconPos="left" 
+            (click)="removeAdditionalNumber(i)" class="p-button-danger">
+        </button>
+    </li>
+</ul>

@@ -1,0 +1,219 @@
+<p-dialog [(visible)]="display"
+          [draggable]="true"
+          [resizable]="true"
+          [closable]="true"
+          modal="true"
+          dismissableMask="true"
+          [breakpoints]="{'480px': '100vw'}"
+          [style]="{width: '80vw', 'max-height': '98vh'}"
+          (onHide)="hide()"
+>
+  <div class="fr-container fr-container--fluid fr-container-md">
+    <div class="fr-grid-row fr-grid-row--center">
+      <div class="fr-modal__body" tabindex="0">
+          <div class="fr-modal__header">
+            <button type="button" class="close-modal-button fr-btn fr-btn--tertiary-no-outline" (click)="hide()">
+              <span>{{'detail.close' | translate}}</span>
+              <i class="pi pi-times"></i>
+            </button>
+          </div>
+
+          <div class="fr-modal__content">
+            <div class="fr-header__body-row">
+              <div class="header-content-title">
+                <h1 class="fr-modal__title">
+                  {{infosourcePartial | infosourceFormatDetailsModalTitle}}
+                </h1>
+              </div>
+              <div class="fr-header__tools">
+                <div class="fr-header__tools-links">
+                    <ul class="fr-btns-group fr-btns-group--inline-sm">
+                      <li>
+                        <button class="fr-btn pi pi-share-alt fr-btn--tertiary" [title]="'detail.share-direct-link' | translate" (click)="copySharedLinkUrl($event)" type="button"></button>
+                      </li>
+                      <li>
+                        <button class="fr-btn pi pi-file-pdf fr-btn--tertiary" (click)="generatePdf($event)" [title]="'detail.generate-pdf' | translate" type="button"></button>
+                      </li>
+                      <li *ngIf="canManage">
+                        <p-menu [appendTo]="'body'" #menu [model]="items" [popup]="true"></p-menu>
+                        <button #manageButton class="fr-btn fr-btn--secondary" type="button" (click)="menu.toggle($event)">{{'detail.manage' | translate}}</button>
+                      </li>
+                      <span class="separator"></span>
+                      <li>
+                        <app-lang-dropdown class="lang-choice-container"></app-lang-dropdown>
+                      </li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="fr-callout">
+              <ul>
+                <li>
+                  {{'infosource.details.nature' | translate}} : {{infosourceNature | translate | capitalizeFirst}}
+                </li>
+              </ul>
+              <ng-container *ngIf="['SURVEY_TRANSMISSION', 'BATHY'].includes(infosource?.nature)">
+                <ul *ngFor="let infosourceObject of infosource.object | keyValueNoSort" class="content-list">
+                  <li *ngIf="infosourceObject.value" [innerHtml]="infosourceObject | infosourcePartFormatDetailsModalObject:infosource.object:true:infosource.timezone"></li>
+                </ul>
+              </ng-container>
+            </div>
+
+            <div *ngIf="infosource" class="fr-container--fluid">
+              <div class="fr-grid-row fr-grid-row--gutters">
+                <div class="fr-col fr-col-md-8">
+                  <div>
+                    <infosource-details-map *ngIf="canDisplayMap; else noLocalisationData" #map
+                                            [modelItem]="infosource"
+                                            [height]="mapHeight"
+                                            [featuresToHighlight]="highlightedFeatures"
+                                            [canClickOnGeometry]="true"
+                                            [notionType]="notionType"
+                                            [enableLayersShowHide]="!!infosource.surveyDetections?.length"
+                                            [showDetections]="!!infosource.surveyDetections?.length"
+                                            [popover]="shouldDisplayInfoOnHoverGeometry"
+                                            [shouldDisplayInfoOnHoverGeometry]="shouldDisplayInfoOnHoverGeometry"
+                                            (geometriesBeingClicked)="highlightFeaturePartOnClickOnGeometry($event)"
+                                            [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
+                                            >
+                    </infosource-details-map>
+                    <ng-template #noGeometryData>
+                      <div translate>detail.no-geometry-data</div>
+                    </ng-template>
+                  </div>
+                </div>
+
+                <div class="fr-col fr-col-md-4">
+                    <ng-template #noLocalisationData>
+                      <div translate>infosource.details.no-localisation-data</div>
+                    </ng-template>
+                    <infosource-modal-body #infosourceDetail
+                                        [infosource]="infosource"
+                                        (allFeaturesVisualized)="visualizeAllFeatures()"
+                                        (featurePartClicked)="selectFeaturePart($event)"
+                                        [shouldDisplayStatusByService]="shouldDisplayStatusByService"
+                                        [serviceSelectedId]="serviceSelectedId"
+                                        [issuingServiceId]="infosource.issuingServiceId"
+                                        [transferred]="transferred$.asObservable()"
+                    ></infosource-modal-body>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-overlayPanel [styleClass]="'clone-panel'" [appendTo]="'body'" #clonePanel>
+  <ng-template pTemplate>
+    <label for="clone-label" translate>infosource.details.clone.message</label>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancelClone()" [title]="'detail.clone-cancel' | translate" [label]="'detail.clone-cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmClone()" [title]="'detail.clone-confirm' | translate" [label]="'detail.clone-confirm' | translate"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel *ngIf="canSend" [styleClass]="'send-panel'" [appendTo]="'body'" #sendPanel>
+  <ng-template pTemplate>
+    <div>
+      <div *ngIf="infosource?.nature === 'BATHY'" class="send-panel-header" [innerHTML]="'detail.msg-send-confirm' | translate | replace:'{{nbGeomBathy}}':nbGeometries"></div>
+      <p-multiSelect
+        ngDefaultControl
+        [options]="availableMaritimeServicesRecipients"
+        [(ngModel)]="selectedMaritimeServicesRecipients"
+        optionValue="id"
+        [optionLabel]="'option-label-name' | translate"
+        [placeholder]="'detail.select-recipients' | translate"
+        [style]="{width: '250px'}"
+      ></p-multiSelect>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancelSend()" [title]="'detail.btn-send-cancel' | translate" [label]="'detail.btn-send-cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="send()" [title]="'detail.btn-send-confirm' | translate" [label]="'detail.btn-send-confirm' | translate" [disabled]="!selectedMaritimeServicesRecipients?.length"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel [styleClass]="'reject-panel'" [appendTo]="'body'" #rejectPanel>
+  <ng-template pTemplate>
+    <div class="reject-panel-content">
+      <label class="final-reject-label" for="final-reject-label" translate>infosource.details.reject.message</label>
+      <br/>
+      <span class="p-float-label">
+          <textarea inputId="optional-comment" class="textarea-style" rows="3"  cols="30" [(ngModel)]="optionalComment" pInputTextarea [class.p-filled]="optionalComment?.length"></textarea>
+          <label for="optional-comment" translate>infosource.details.reject.optional-comment</label>
+      </span>
+      <div class="p-fluid grid reject-optional-comment">
+        <div class="field col-12 md-col-4">
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancelReject()" [title]="'infosource.details.reject.cancel' | translate" [label]="'infosource.details.reject.cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmReject()" [title]="'infosource.details.reject.confirm' | translate" [label]="'infosource.details.reject.confirm' | translate"></button>
+      <button *ngIf="canEdit" pButton type="button" (click)="edit()" [title]="'detail.edit' | translate" [label]="'detail.edit' | translate"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel [styleClass]="'transfer-panel'" [appendTo]="'body'" #transferPanel>
+  <h3 translate>infosource.details.transfer.show-panel</h3>
+  <ng-template pTemplate>
+    <div>
+      <p-multiSelect
+        ngDefaultControl
+        [options]="availableTransferableServices"
+        [(ngModel)]="selectedTransferableServices"
+        optionValue="id"
+        [optionLabel]="'option-label-name' | translate"
+        [placeholder]="'detail.select-recipients' | translate"
+        [style]="{width: '250px'}"
+      ></p-multiSelect>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancelTransfer()" [title]="'infosource.details.transfer.cancel' | translate" [label]="'infosource.details.transfer.cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmTransfer()" [title]="'infosource.details.transfer.confirm' | translate" [label]="'infosource.details.transfer.confirm' | translate" [disabled]="!selectedTransferableServices?.length"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel [styleClass]="'create-warning-panel'" [appendTo]="'body'" #createWarningPanel>
+  <h3 translate>infosource.details.create-warning.show-panel</h3>
+  <ng-template pTemplate>
+    <div class="choices">
+      <div class="choices-serie">
+        <p-dropdown
+          ngDefaultControl
+          [options]="availableSeriesForCreatingWarning"
+          [(ngModel)]="selectedSerieIdForCreatingWarning"
+          optionValue="id"
+          [optionLabel]="'option-label-name' | translate"
+          [placeholder]="'detail.select-serie' | translate"
+          [style]="{width: '250px'}"
+        ></p-dropdown>
+      </div>
+      <div class="choices-clone-data">
+        <p-checkbox [(ngModel)]="copyDataFromInfosource" binary="true" inputId="copyDataFromInfosource"
+                    [label]="'infosource.details.create-warning.copy-data' | translate"
+        ></p-checkbox>
+      </div>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancelCreateWarning()" [title]="'infosource.details.create-warning.cancel' | translate" [label]="'infosource.details.create-warning.cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmCreateWarning()" [title]="'infosource.details.create-warning.confirm' | translate" [label]="'infosource.details.create-warning.confirm' | translate"
+              [disabled]="!selectedSerieIdForCreatingWarning"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #addToFolderPanel>
+  <ng-template pTemplate>
+    <shared-add-notion-to-folder-selection [notionId]="infosource?.id" (addingPanelClosed)="addingPanelClosed()" [notionType]="notionType">
+    </shared-add-notion-to-folder-selection>
+  </ng-template>
+</p-overlayPanel>

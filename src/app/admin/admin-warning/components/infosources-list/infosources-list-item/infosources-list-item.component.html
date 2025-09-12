@@ -1,0 +1,30 @@
+<p-scrollPanel [style]="{width: '100%', height: '200px'}" styleClass="custombar1">
+    <div class="infosources-list-item-container">
+        <div class="title">{{infosource | infosourceFormatListItemTitle}}</div>
+        <div class="informations-item"><strong>{{'admin-warning.creation.parts.infosources.nature' | translate}}</strong>{{infosourceNature | translate | capitalizeFirst}}</div>
+        <div class="informations-item"><strong>{{'admin-warning.creation.parts.infosources.timezone' | translate}}</strong>{{infosource.timezone}}</div>
+        <div *ngFor="let featurePart of infosource.featureParts; last as isLast" class="p-d-flex content-list">
+            <div class="p-mr-10 informations">
+                <div *ngIf="featurePart.object | mapHasContent">
+                    <ul *ngFor="let featurePartObject of featurePart.object | keyvalue" class="content-list">
+                        <li class="informations-item" [innerHTML]="(featurePartObject | infosourcePartFormatDetailsModalObject:featurePart.object:isNatureGeoregulation:infosource.timezone) | safeHtml"></li>
+                    </ul>
+                </div>
+                <div *ngIf="featurePart.description && !isNatureGeoregulation" class="informations-item"><strong>{{'admin-warning.creation.parts.infosources.description' | translate}}</strong>{{featurePart.description}}</div>
+            </div>
+            <div>
+                <hr class="infosource-feature-hr" *ngIf="!isLast">
+            </div>
+        </div>
+        <div *ngIf="infosource.attachments" class="informations-item"><strong>{{'admin-warning.creation.parts.infosources.attachments' | translate}}</strong>
+            <span *ngFor="let attachment of infosource.attachments; last as isLast">
+                <a (click)="openAttachment($event, attachment)" href="">{{attachment.filename}}</a>{{isLast ? '' : ', '}}
+            </span>
+        </div>
+        <div>
+            <a href="" (click)="displayInfosourceModal($event)" [pTooltip]="'admin-warning.creation.parts.infosources.display-infosource-modal' | translate">
+                <i class="fas fa-search-location"></i>
+            </a>
+        </div>
+    </div>
+</p-scrollPanel>

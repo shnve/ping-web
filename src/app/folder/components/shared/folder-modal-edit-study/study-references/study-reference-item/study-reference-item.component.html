@@ -1,0 +1,25 @@
+<p-dropdown class="select-reference-type"
+            [(ngModel)]="type"
+            [options]="availableReferenceTypes"
+            (ngModelChange)="referenceOnChange()"
+            optionLabel="label"
+            optionValue="type"
+            [appendTo]="'body'"
+            [ngClass]="{'ng-invalid ng-dirty': type === null}"
+            [placeholder]="'study.select-reference' | translate">
+</p-dropdown>
+
+<div class="p-input-icon-right reference-value">
+  <i class="pi pi-question-circle" (click)="placeholders ? panelPlaceholder.toggle($event) : null"></i>
+  <input type="text" [ngClass]="{'ng-invalid ng-dirty': !value?.length}"
+         [(ngModel)]="value"
+         pInputText
+         [placeholder]="placeholders?.inputText || ''">
+</div>
+
+<p-overlayPanel #panelPlaceholder>
+  <h2>{{ placeholders?.information.title || '' }}</h2>
+  <ul *ngIf="placeholders">
+      <li *ngFor="let line of placeholders.information.text">{{ line }}</li>
+  </ul>
+</p-overlayPanel>

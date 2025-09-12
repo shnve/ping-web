@@ -1,0 +1,48 @@
+<div *ngFor="let lang of langs; let index = index" class="div-info">
+  <label>
+    <span class="lang-label">{{lang | uppercase}}</span>
+    <textarea pInputTextarea [rows]="10" [(ngModel)]="informations[lang]" (ngModelChange)="informationsChanged()">
+    </textarea>
+  </label>
+  <div class="btn-toolbar">
+    <label>
+      <div class="line-form" >
+          <label for="circle-distance-unit" class="p-col-fixed no-margin">{{ 'admin-warning.creation.parts.information.radiusDistanceUnit' | translate }}</label>
+          <p-dropdown [options]="availableDistanceUnits"
+                      [(ngModel)]="selectedDistanceUnitsByLang[index].selectedDistanceUnit"
+                      ngDefaultControl>
+                      <ng-template pTemplate="item" let-item>
+                      {{item.name | translate}}
+                      </ng-template>
+                      <ng-template pTemplate="selectedItem" let-item>
+                      {{item.name | translate}}
+                      </ng-template>
+          </p-dropdown>
+      </div>
+    </label>
+    <label>
+      <div class="line-form" >
+          <label for="decimal-minute-precision" class="p-col-fixed no-margin">{{ 'admin-warning.creation.parts.information.decimal-minute-precision' | translate }}</label>
+          <p-dropdown [options]="availablePrecision"
+                      [(ngModel)]="selectedPrecisionByLang[index].selectedPrecision"
+                      ngDefaultControl>
+          </p-dropdown>
+      </div>
+    </label>
+    <!-- insert geometries to clip board -->
+    <button pButton class="button-add-geometries" type="button"
+            (click)="addGeometryToTextContent(lang)" translate [label]="'georegulation.information.add-geometry' | translate"
+            [title]="'georegulation.information.add-geometry' | translate"
+    ></button>
+  </div>
+  <label>
+    <span class="lang-label">{{lang | uppercase}}
+      <button class="btn-copy-to-clipboard" pButton type="button" icon="far fa-copy"
+              (click)="copyGeometriesLangToClipBoard($event, lang)"
+              [pTooltip]="('georegulation.information.btn-copy-to-clipboard' | translate) + lang"
+              tooltipPosition="left"
+      ></button>
+    </span>
+    <textarea pInputTextarea class="readonly" [rows]="10" [(ngModel)]="informationsClipBoard[lang]" [readonly]="true"></textarea>
+  </label>
+</div>

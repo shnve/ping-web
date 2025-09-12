@@ -1,0 +1,33 @@
+<div *ngIf="displayDiffusionTypePart" class="p-fluid">
+  <div class="p-field">
+    <div class="p-grid p-nogutter">
+      <div class="grp-btn-actions">
+        <p-button type="button" *ngIf="!this.isPrerequisitesStep; else visualizeTelex" (click)="copyDiffusionContent($event)"
+                  [pTooltip]="('admin-warning.creation.labels.btn-copy-' + diffusionType) | translate"><i class="far fa-copy"></i></p-button>
+        <ng-template #visualizeTelex>
+          <p-button type="button" (click)="refreshTelex()" [disabled]="isRefreshButtonDisabled"
+                    [pTooltip]="('admin-warning.creation.labels.btn-generate-' + diffusionType) | translate"><i class="pi pi-refresh"></i></p-button>
+
+          <p-messages *ngIf="(isDraft() || isModel()) && needRefresh" class="telex-message" [(value)]="alertMessageToRefreshTelex" [enableService]="false" [closable]="false">
+            <ng-template pTemplate>
+              <div class="message-container">
+                <span class="icon-message-container"><i class="icon">i</i></span><span class="text-message-container" translate>{{alertMessageToRefreshTelex[0].detail}}</span>
+              </div>
+            </ng-template>
+          </p-messages>
+          <p-messages *ngIf="canNotSavePrerequisitesForm" class="telex-message alert" [(value)]="alertMessageToRefreshTelex" [enableService]="false"
+                      [closable]="false">
+            <ng-template pTemplate>
+              <div class="message-container">
+                <span class="icon-message-container"><i class="pi pi-exclamation-triangle icon"></i></span>
+                <span class="text-message-container" translate>{{alertMessageToRefreshTelex[1].detail}}</span>
+              </div>
+            </ng-template>
+          </p-messages>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <textarea id="{{diffusionType}}" [(ngModel)]="diffusionContent" [disabled]="true"
+            type="text" rows="10" cols="140" pInputTextarea></textarea>
+</div>

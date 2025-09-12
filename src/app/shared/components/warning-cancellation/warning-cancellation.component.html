@@ -1,0 +1,42 @@
+<div class="cancel-panel-choices" [ngSwitch]="cancellationWorkflow">
+  <h3 translate>detail.manage-options.cancel-warning</h3>
+  <div class="p-field-checkbox" *ngSwitchCase="'NAVAREA_OR_COASTAL_WARNING'">
+    <p-checkbox [(ngModel)]="workflowCreationSettings.shouldCreateCancellationWarning" binary="true" inputId="shouldCreateCancellationWarning"
+                [label]="'detail.create-cancellation-warning-confirm' | translate"
+    ></p-checkbox>
+  </div>
+  <div class="form-group" *ngSwitchCase="'LOCAL_NAVIGATIONAL_WARNING'">
+    <div class="p-field-radiobutton">
+      <p-radioButton id="createReplacementNotice" name="cancellationChoice" value="createReplacementNotice"
+                     [label]="'detail.create-replacement-notice-choice' | translate"
+                     [(ngModel)]="workflowCreationSettings.cancellationChoice" ngDefaultControl
+      ></p-radioButton>
+    </div>
+    <div class="p-field-radiobutton">
+      <p-radioButton id="createCancellationWarning" name="cancellationChoice" value="createCancellationWarning"
+                     [label]="'detail.create-cancellation-warning-choice' | translate"
+                     [(ngModel)]="workflowCreationSettings.cancellationChoice" ngDefaultControl
+      ></p-radioButton>
+    </div>
+    <div class="p-field-radiobutton">
+      <p-radioButton id="cancelWarning" name="cancellationChoice" value="cancelWarning"
+                     [label]="'detail.cancel-warning-choice' | translate"
+                     [(ngModel)]="workflowCreationSettings.cancellationChoice" ngDefaultControl
+      ></p-radioButton>
+    </div>
+  </div>
+  <div class="p-field-checkbox" *ngSwitchCase="'NOTICE_OR_NOTICETP'">
+    <p-checkbox [(ngModel)]="workflowCreationSettings.shouldCreateReplacementNotice" binary="true" inputId="shouldCreateReplacementNotice"
+                [label]="'detail.create-replacement-notice-confirm' | translate"
+    ></p-checkbox>
+  </div>
+  <div *ngSwitchDefault></div>
+</div>
+<div class="actions">
+  <button pButton type="button" class="p-button-sm p-button-secondary" [label]="'detail.clone-cancel' | translate"
+          (click)="cancel()"
+  ></button>
+  <button pButton type="button" class="p-button-sm" [label]="'detail.clone-confirm' | translate"
+          (click)="confirm()"
+  ></button>
+</div>

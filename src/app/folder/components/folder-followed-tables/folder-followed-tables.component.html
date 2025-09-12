@@ -1,0 +1,64 @@
+<shared-select-button class="table-tabs-selector" 
+                      [ngClass]="tabsClass" 
+                      [options]="tabs" 
+                      [(ngModel)]="selectedState"
+                      (ngModelChange)="selectedStateChanged()">
+</shared-select-button>
+<folder-followed-table-filter-banner *ngIf="displayFilters" 
+                    [serviceSelected]="serviceSelected"
+                    [filterState]="filterState" 
+                    [services]="services" 
+                    (onFilterChange)="filterChange()"
+                    [chipGenerator]="generateFilterChipsText.bind(this)">
+  <ng-template #advancedFilter>
+    <folder-advanced-filter 
+                    [canShowFilterByareaIds]="serviceSelected.id.length" 
+                    [filterState]="filterState"
+                    [selectedState]="selectedState" 
+                    [maritimeEntities]="maritimeEntities" 
+                    [availableAreas]="areas"
+                    [selectedState]="selectedState">
+    </folder-advanced-filter>
+  </ng-template>
+</folder-followed-table-filter-banner>
+<folder-followed-paginated-table #FolderTable 
+                    [items]="folders" 
+                    [totalRecords]="totalFolders" 
+                    [loading]="tableLoading"
+                    [pageInfo]="tableState.pageInfo$ | async" 
+                    [columns]="columns[selectedState]"
+                    (onPageChange)="pageChange($event)"
+                    (onSort)="sortChange($event)" 
+                    (onModelItemSelect)="displayFolderModal([$event])" 
+                    class="table-screen-media">
+  <ng-template id="number" let-folder="modelItem">
+    {{folder | folderFormatNumber}}
+  </ng-template>
+  <ng-template id="issuingService" let-folder="modelItem">
+    {{folder.issuingService}}
+  </ng-template>
+  <ng-template id="locality" let-folder="modelItem">
+    {{folder.locality}}
+  </ng-template>
+  <ng-template id="area" let-folder="modelItem">
+    {{folder.sharedAreas?.length ? 
+      (folder.sharedAreas[0] | folderFormatDataName)?.length ? (folder.sharedAreas[0] | folderFormatDataName) : folder.sharedAreas[0].name
+      : ''}}
+  </ng-template>
+  <ng-template id="concernedMaritimeEntities" let-folder="modelItem">
+    <ul *ngIf="folder.concernedMaritimeEntities.length" class="dates-container">
+      <li *ngFor="let entity of folder.concernedMaritimeEntities" class="line recipient">
+        {{(entity | folderFormatDataName)?.length ? (entity | folderFormatDataName) : entity.name}}
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template id="object" let-folder="modelItem">
+    {{folder.object}}
+  </ng-template>
+  <ng-template id="lastUpdate" let-folder="modelItem">
+    {{folder.lastUpdate}}
+  </ng-template>
+</folder-followed-paginated-table>
+<folder-modal *ngIf="showModal" #modal [followerServiceId]="serviceSelected?.id" [folderIsFollowed]="isFolderToDisplayIsFollowed"
+  (followedFolderUpdated)="loadTableFolders()" (onStatusChangeAction)="onStatusChangeAction()" (onClose)="closeModal()" [mainFolders]="selectedFolders">
+</folder-modal>

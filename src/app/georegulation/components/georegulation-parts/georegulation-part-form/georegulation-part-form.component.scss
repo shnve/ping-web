@@ -1,0 +1,87 @@
+label, .label {
+  display: block;
+  margin: 15px 2px 15px 0;
+}
+
+.label-checkbox {
+  width: fit-content;
+}
+
+.title-label {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+georegulation-seasonal-periods {
+  padding: 0 0.5em;
+}
+
+.div-details {
+  display: flex;
+
+  & > span {
+    align-self: center;
+  }
+
+  & > span.form-asterisk {
+    align-self: baseline;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 5px 0 5px 0;
+  color: black;
+}
+
+.div-details.error {
+  color: red;
+}
+
+.formgroup-inline {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: first baseline;
+
+  > span {
+    white-space: nowrap;
+  }
+
+  > .input-vessel-restriction {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    
+    > .row {
+      flex-basis: 100%;
+    }
+  }
+}
+
+.p-field-checkbox {
+  margin-left: 0.5rem;
+}
+
+:host ::ng-deep {
+  .p-multiselect {
+    width: 350px;
+  }
+
+  p-multiSelect {
+    padding: 0.5rem;
+
+    .p-col {
+      flex-grow: 0;
+    }
+  }
+}

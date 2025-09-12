@@ -1,0 +1,16 @@
+@import 'variables';
+
+:host ::ng-deep .p-buttonset .p-button {
+  .options-icon {
+    display: none;
+  }
+
+  @media only screen and (max-width: 960px) {
+    .option-hidden {
+      display: none;
+    }
+    .options-icon {
+      display: inline-flex;
+    }
+  }
+}

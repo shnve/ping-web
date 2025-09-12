@@ -1,0 +1,29 @@
+@import 'variables';
+
+p-radiobutton {
+  margin: 0 0.5rem 0.5rem 0;
+}
+
+.p-field-checkbox {
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+.p-button.p-button-icon-only {
+  width: 1.5rem;
+  height: 1.4rem;
+  margin-right: 0.5rem;
+}
+
+.p-button.p-button-text {
+  color: #00489a;
+}
+
+.alert-message {
+  margin-left: 15px;
+  color: red;
+  font-weight: 700;
+  & > span {
+    margin-left: 5px;
+  }
+}

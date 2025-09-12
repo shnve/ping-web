@@ -1,0 +1,39 @@
+<!-- use [metaKeySelection]="true" from v17 to disable multiselection and avoid trouble with actual implementation -->
+<p-orderList *ngIf="!readonly" [value]="featureParts"
+             controlsPosition="right"
+             (onSelectionChange)="selectionChange($event)"
+             [selection]="selectedParts"
+             [dragdrop]="!readonly"
+             [metaKeySelection]="true"
+             [ngClass]="(readonly || !selectedParts?.length || selectedParts.length && !selectedParts[0]) ? 'style-readonly' : 'style-editable'"
+>
+  <ng-template let-featurePart let-i="index" pTemplate="item">
+    <div class="p-grid item-container" [ngClass]="{'error': !validFeaturePart.get(i)}">
+        <span class="p-col text-container">
+          {{ 'admin-warning.creation.parts.part-number' | translate:{number: getNumberForSearchedPart(featurePart)} }} -
+          {{ featurePart.information[currentLanguage] || featurePart.information['en'] }}
+        </span>
+        <div class="p-col-fixed button-container">
+          <button pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-text p-button-rounded p-button-danger"
+                  (click)="confirmDelete($event, featurePart)"
+                  [disabled]="readonly"
+          ></button>
+          <p-confirmPopup [key]="confirmRemovePart"></p-confirmPopup>
+        </div>
+    </div>
+  </ng-template>
+</p-orderList>
+
+<p-listbox *ngIf="readonly" [options]="featureParts" [disabled]="readonly">
+  <ng-template let-featurePart pTemplate="item">
+    <div class="p-grid item-container">
+        <div class="p-col-fixed text-container-read-only" >
+            {{ 'admin-warning.creation.parts.part-number' | translate:{number: getNumberForSearchedPart(featurePart)} }} -
+            {{ featurePart.information[currentLanguage] || featurePart.information['en'] }}
+        </div>
+    </div>
+  </ng-template>
+</p-listbox>

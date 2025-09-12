@@ -1,0 +1,5 @@
+<h1 translate *ngIf="disabled; else editTitle">area-list.title.show</h1>
+<ng-template #editTitle>
+ <h1 translate>area-list.title.edit</h1>
+</ng-template>
+<app-area-form *ngIf="area" [area]="area" [disabled]="disabled"></app-area-form>

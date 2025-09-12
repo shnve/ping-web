@@ -1,0 +1,79 @@
+<div class="table-container">
+  <button *ngIf="showPdfExport" pButton class="btn-generate" [pTooltip]="'table.export-pdf' | translate" (click)="generatePdf()"><i class="fas fa-file-pdf"></i></button>
+  <!-- Temporally removed: DO NOT REMOVE LINES BELOW
+  <button *ngIf="showS124Export" pButton class="btn-generate" [pTooltip]="'table.export-s124' | translate" (click)="generateS124()"><i class="fas fa-file-export"></i></button>
+  -->
+  <button *ngIf="showGpxZipExport" pButton class="btn-generate" [pTooltip]="'table.export-gpx' | translate" (click)="generateGpx()"><i class="fas fa-map-marked-alt"></i></button>
+  <div *ngIf="!hasRequiredSelection;else displayTable">{{msgHasNoRequiredSelection | translate}}</div>
+  <ng-template #displayTable>
+    <p-table #table
+              [value]="items"
+              [lazy]="true"
+              [paginator]="true"
+              [totalRecords]="totalRecords"
+              [rows]="pageInfo.rows"
+              [showCurrentPageReport]="true"
+              [first]="pageInfo.page * pageInfo.rows"
+              [rowsPerPageOptions]="rowPerPageOptions"
+              [currentPageReportTemplate]="'table.pagination' | translate"
+              [loading]="loading"
+              [columns]="columns"
+              [resetPageOnSort]="false"
+              (onPage)="pageChange($event)"
+              (onSort)="onSort.emit($event)"
+              [sortField]="defaultSortField"
+              [sortOrder]="defaultSortOrder"
+    >
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <ng-container *ngFor="let col of columns">
+              <th *ngIf="col.sortable; else notSortableColumn" [pSortableColumn]="col.field">
+                {{col.translateKey | translate}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </th>
+              <ng-template #notSortableColumn>
+                <th >
+                  {{col.translateKey | translate}}
+                </th>
+              </ng-template>
+
+            </ng-container>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-modelItem>
+          <tr class="table-item" (click)="onModelItemSelect.emit(modelItem)">
+            <td *ngFor="let col of columns">
+              <ng-container *ngIf="columnCellsMap.has(col.field); else simpleCell">
+                <ng-container *ngTemplateOutlet="columnCellsMap.get(col.field);
+                              context: {modelItem: modelItem}"
+                ></ng-container>
+              </ng-container>
+              <ng-template #simpleCell>
+                {{modelItem[col.field]}}
+              </ng-template>
+            </td>
+          </tr>
+        </ng-template>
+    </p-table>
+  </ng-template>
+</div>
+
+<p-overlayPanel [styleClass]="'download-panel'" [appendTo]="'body'" #downloadPanel>
+  <ng-template pTemplate>
+    <div>
+      <p-dropdown
+        ngDefaultControl
+        [options]="allowedFormatToDownload"
+        [(ngModel)]="selectedFormatToDownload"
+        optionValue="value"
+        optionLabel="label"
+        [placeholder]="'detail.select-download-format' | translate"
+        [style]="{width: '250px'}"
+      ></p-dropdown>
+    </div>
+    <div class="actions">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="downloadPanel.hide()" [label]="'detail.download-cancel' | translate"></button>
+      <button pButton type="button" class="p-button-sm" (click)="confirmDownload()" [label]="'detail.download-confirm' | translate" [disabled]="!selectedFormatToDownload"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>

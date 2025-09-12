@@ -1,0 +1,125 @@
+<div class="carto-map-container">
+  <div [id]="mapId" class="map-container"></div>
+  <sig-popover *ngIf="popover" #popover></sig-popover>
+  <p-overlayPanel #categoryPanel [appendTo]="'body'">
+    <ng-template pTemplate>
+      <div class="p-field-checkbox">
+        <div *ngIf="showLayers" class="p-col-12">
+          <p-checkbox
+            binary="true"
+            [label]="'admin-warning.creation.labels.lbl-general-areas' | translate"
+            [(ngModel)]="shouldShowSubAreas"
+            (onChange)="updateMapIfShouldShowSubAreas()"
+            inputId="shouldShowSubAreas">
+          </p-checkbox>
+        </div>
+        <div *ngIf="showZoneX" class="p-col-12">
+          <p-checkbox
+            binary="true"
+            [label]="'admin-warning.creation.labels.lbl-zone-x' | translate"
+            [(ngModel)]="shouldShowZoneX"
+            (onChange)="updateMapIfShouldShowZoneX()"
+            inputId="shouldShowZoneX">
+          </p-checkbox>
+        </div>
+        <div *ngIf="showWarnings" class="p-col-12">
+          <p-checkbox
+            binary="true"
+            [label]="'an-management.tabs.in-effect' | translate"
+            [(ngModel)]="shouldShowWarnings"
+            (onChange)="updateMapIfShouldShowWarnings()"
+            inputId="shouldShowWarnings">
+          </p-checkbox>
+        </div>
+        <div *ngIf="showMaritimesEntitiesManagedOrObservedByService" class="p-col-12">
+          <p-checkbox
+            binary="true"
+            [label]="'carto.entities-maritimes-managed-or-observed-by-service' | translate"
+            [(ngModel)]="shouldShowMaritimesEntitiesManagedOrObservedByService"
+            (onChange)="updateMapIfShouldShowMaritimesEntitiesManagedOrObservedByService()"
+            inputId="showMaritimesEntitiesManagedOrObservedByService">
+          </p-checkbox>
+        </div>
+        <div *ngIf="showInfosources" class="p-col-12">
+          <p-checkbox
+            binary="true"
+            [label]="!serviceName ? ('menu.admin.contributions' | translate) : 'menu.admin.service-contribution' | translate:{service: serviceName}"
+            [(ngModel)]="shouldShowInfosources"
+            (onChange)="updateMapIfShouldShowInfosources()"
+            inputId="shouldShowInfosources">
+          </p-checkbox>
+        </div>
+        <div *ngIf="showDetections" class="p-col-12">
+          <p-checkbox
+            binary="true"
+            [label]="'survey.details.layers.detections-layer' | translate"
+            [(ngModel)]="shouldShowDetections"
+            (onChange)="updateMapIfShouldShowDetections()"
+            inputId="shouldShowDetections">
+          </p-checkbox>
+        </div>
+        <div *ngIf="canShowRasterMarineLayer" class="p-col-12">
+          <p-checkbox
+            binary="true"
+            [label]="'carto.raster-marine' | translate"
+            [(ngModel)]="shouldShowRasterMarineLayer"
+            (onChange)="updateMapIfShouldShowRasterMarineLayer()"
+            inputId="shouldShowRasterMarineLayer">
+          </p-checkbox>
+        </div>
+        <div *ngIf="canShowOrthoIGNLayer" class="p-col-12">
+          <p-checkbox
+            binary="true"
+            [label]="'carto.ortho-ign' | translate"
+            [(ngModel)]="shouldShowOrthoGeoLittoralV2Layer"
+            (onChange)="updateMapIfshouldShowOrthoGeoLittoralV2Layer()"
+            inputId="shouldShowOrthoGeoLittoralV2Layer">
+          </p-checkbox>
+        </div>
+        <div *ngIf="canShowHideGeoregulationLayers">
+          <div class="p-col-12">
+            <p-checkbox
+              [disabled]="!georegulationIssuingServiceId"
+              binary="true"
+              [label]="'georegulation.layers.navigation' | translate"
+              [(ngModel)]="shouldShowGeoregulations['NAVIGATION']"
+              (onChange)="updateMapIfShouldShowGeoregulations('NAVIGATION')"
+              inputId="shouldShowGeoregulationsNavigation">
+            </p-checkbox>
+          </div>
+          <div class="p-col-12">
+            <p-checkbox
+              [disabled]="!georegulationIssuingServiceId"
+              binary="true"
+              [label]="'georegulation.layers.mpda' | translate"
+              [(ngModel)]="shouldShowGeoregulations['MARITIME_PUBLIC_DOMAIN_OCCUPANCY']"
+              (onChange)="updateMapIfShouldShowGeoregulations('MARITIME_PUBLIC_DOMAIN_OCCUPANCY')"
+              inputId="shouldShowGeoregulationsMpda">
+            </p-checkbox>
+          </div>
+          <div class="p-col-12">
+            <p-checkbox
+              [disabled]="!georegulationIssuingServiceId"
+              binary="true"
+              [label]="'georegulation.layers.others' | translate"
+              [(ngModel)]="shouldShowGeoregulations['OTHER']"
+              (onChange)="updateMapIfShouldShowGeoregulations('OTHER')"
+              inputId="shouldShowGeoregulationsOthers">
+            </p-checkbox>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-overlayPanel>
+  <div class="hidden-georegulations-message" *ngIf="numberHiddenGeoregulations">
+    <button pButton type="button"
+            [icon]="collapsedHiddenGeoregulationsMessage ? 'pi pi-plus' : 'pi pi-minus'"
+            (click)="changeCollapsedHiddenGeoregulationsMessage()">
+    </button>
+    {{ collapsedHiddenGeoregulationsMessage ?
+    ('georegulation.hidden-message.collapsed'| translate) :
+    (numberHiddenGeoregulations > 1 ?
+    ('georegulation.hidden-message.not-collapsed.many'| translate: {number: numberHiddenGeoregulations}) :
+    ('georegulation.hidden-message.not-collapsed.one'| translate)) }}
+  </div>
+</div>

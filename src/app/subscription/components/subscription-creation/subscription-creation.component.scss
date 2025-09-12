@@ -1,0 +1,97 @@
+.container {
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 80%;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.subscription-title {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.button {
+  margin-top: 10px;
+  margin-left: 296px;
+}
+
+:host ::ng-deep {
+  p-radiobutton {
+    margin-right: 0.5rem;
+  }
+
+  p-multiselect.readonly-mode {
+    & > .p-multiselect {
+      background:#969696;
+
+      .p-multiselect-label-container,
+      .p-multiselect-label,
+      .p-multiselect-trigger {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  p-multiselect.fullwidth {
+    > .p-multiselect.p-component.p-inputwrapper.p-multiselect-chip {
+      width: 100%;
+    }
+  }
+
+  p-multiselect {
+    .p-multiselect-label {
+      white-space: normal;
+    }
+  }
+
+  p-dropdown.readonly-mode {
+    & > .p-dropdown {
+      background: #969696;
+
+      .p-dropdown-label,
+      .p-dropdown-trigger {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .map-selected-sub-areas {
+    margin-top: 6px;
+  }
+
+  .p-multiselect-label {
+    flex-wrap: wrap;
+    width: 100%;
+    display: flex;
+  }
+
+  .p-multiselect-chip {
+    width: 100%;
+  }
+
+  .tooltip-about-sending-mail {
+    width: 80%;
+    float: right;
+    font-style: italic;
+    color: grey;
+  }
+}

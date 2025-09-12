@@ -1,0 +1,92 @@
+<div class="table-container">
+    <p-table [columns]="columns" [value]="studyTable" *ngIf="studyTable.length; else noData">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.translateKey | translate}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-study let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            <ng-container *ngIf="col.key === 'number'">
+              {{study['number']}}
+            </ng-container>
+            <ng-container *ngIf="col.key === 'studyDatas'">
+              <p-accordion *ngIf="study['notions'].length || study['attachments'].length">
+                <p-accordionTab [header]="formatHeaderStudyDatas(study['notions'].length, study['attachments'].length)">
+                  <ul>
+                    <li *ngFor="let notion of study['notions']">
+                      <a *ngIf="notion.type !== 'WARNING'" [href]="accessLinkToNotion(notion)" rel="noopener noreferrer" target="_blank">{{notion.number}}</a>
+                      <a *ngIf="notion.type === 'WARNING'" [href]="accessLinkToNotion(notion)" rel="noopener noreferrer" target="_blank">{{notion.warning | formatWarningNumber}}</a>
+                    </li>
+                    <li *ngFor="let attachment of study['attachments']">
+                      <a (click)="openAttachment($event, attachment)" rel="noopener noreferrer" target="_blank">{{attachment.attachmentFile.filename}}</a>
+                    </li>
+                  </ul>
+                </p-accordionTab>
+              </p-accordion>
+            </ng-container>
+            <ng-container *ngIf="col.key === 'references'">
+              <p-accordion *ngIf="study['references'].length">
+                <p-accordionTab [header]="study['references'].length + ' ' + ('folder-modal-study.references' | translate)">
+                  <ul>
+                    <li *ngFor="let reference of study['references']">
+                      {{reference.type | folderFormatReferenceTypeLabel}} : {{reference.value}}
+                    </li>
+                  </ul>
+                </p-accordionTab>
+              </p-accordion>
+            </ng-container>
+            <ng-container *ngIf="col.key === 'lastUpdate'">
+              {{formatLastupdate(study['lastUpdate'])}} ({{study['lastUpdateUser']}})
+            </ng-container>
+            <ng-container *ngIf="col.key === 'status'">
+                <p-dropdown id="status"
+                            [appendTo]="'body'"
+                            [(ngModel)]="study['status']"
+                            [options]="availableStatus"
+                            (onChange)="updateStatus(study['id'], study['status'])"
+                            optionLabel="value"
+                            optionValue="key"
+                            [placeholder]="'folder-creation.ph-status' | translate">
+                </p-dropdown>
+            </ng-container>
+            <ng-container *ngIf="col.key === 'action'">
+                <button pButton
+                        (click)="modifyStudy(study)"
+                        type="button"
+                        icon="pi pi-pencil"
+                        class="p-button-text p-button-rounded p-button-plain"
+                ></button>
+                <button pButton
+                        (click)="downloadStudyDatas($event, study['notions'], study['attachments'], study['number'])"
+                        type="button"
+                        icon="pi pi-download"
+                        class="p-button-text p-button-rounded p-button-plain"
+                ></button>
+                <button pButton
+                        (click)="confirmDelete($event, study)"
+                        type="button"
+                        icon="pi pi-trash"
+                        class="p-button-text p-button-rounded p-button-danger"
+                ></button>
+            </ng-container>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <ng-template #noData>
+      <div translate>folder.graph.no-data</div>
+    </ng-template>
+</div>
+
+<folder-modal-edit-study #modalEditStudy
+                         [folderNotions]="folder.notions"
+                         [folderAttachments]="folder.attachments"
+                         [folderStudies]="folder.studies"
+                         [folderId]="folder?.id"
+                         (studySaved)="onStudySaved()">
+
+</folder-modal-edit-study>

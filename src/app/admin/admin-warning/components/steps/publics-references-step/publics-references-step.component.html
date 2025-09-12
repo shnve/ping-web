@@ -1,0 +1,167 @@
+<div>
+  <div class="card">
+    <aw-stepper (moveStep)="jumpToStep($event)" [currentStep]="currentStep" [warning]="anInformation">
+    </aw-stepper>
+  </div>
+  <p-card class="step-p-card">
+    <ng-template pTemplate="content">
+      <div class="p-fluid">
+        <div class="p-field p-grid align">
+          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="warnings"
+            translate>admin-warning.creation.labels.references.warnings</label>
+          <div class="col-75">
+            <p-multiSelect [(ngModel)]="selectedWarningsReferences" [options]="optionsWarningsReferences"
+              class="p-multi-select-references" [disabled]="isWarningModel"
+              [placeholder]="'admin-warning.creation.labels.references.select-warnings' | translate"
+              id="warningsReferences" optionLabel="warningNumber" group="true"></p-multiSelect>
+            <p-accordion class="p-accordion">
+              <p-accordionTab
+                [header]="warningPublicReferenceType.WARNING | formatReferenceHeader: selectedWarningsReferences?.length">
+                <div *ngIf="selectedWarningsReferences.length">
+                  <ul *ngFor="let category of availableWarningReferenceCategories | orderBy">
+                    <div *ngIf="selectedWarningsReferencesByEntityCategory(category).length">
+                      {{category | translate}}
+                    </div>
+                    <li *ngFor="let warningId of selectedWarningsReferencesByEntityCategory(category)">
+                      <a [href]="accessLinkToReference(warningPublicReferenceType.WARNING, warningId)"
+                        rel="noopener noreferrer" target="_blank">{{warningReferenceNumberById(warningId)}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+        <div class="p-field p-grid align">
+          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="georegulations"
+            translate>admin-warning.creation.labels.references.georegulations</label>
+          <div class="col-75">
+            <p-multiSelect [(ngModel)]="selectedGeoregulations" [options]="availableGeoregulations"
+              [disabled]="isWarningModel"
+              [placeholder]="'admin-warning.creation.labels.references.select-georegulations' | translate"
+              class="p-multi-select-references" id="georegulations" optionLabel="number" optionValue="id">
+            </p-multiSelect>
+            <p-accordion class="p-accordion">
+              <p-accordionTab
+                [header]="warningPublicReferenceType.GEOREGULATION | formatReferenceHeader: selectedGeoregulations?.length">
+                <ul>
+                  <li *ngFor="let georegulationId of selectedGeoregulations">
+                    <a [href]="accessLinkToReference(warningPublicReferenceType.GEOREGULATION, georegulationId)"
+                      rel="noopener noreferrer" target="_blank">{{georegulationNumberById(georegulationId)}}</a>
+                  </li>
+                </ul>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+        <div class="p-field p-grid align">
+          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="maritimeEntities"
+            translate>admin-warning.creation.labels.references.entities</label>
+          <div class="col-75">
+            <p-multiSelect [(ngModel)]="selectedEntitiesReferences" [options]="optionsEntitiesReferences"
+              [disabled]="isWarningModel"
+              [placeholder]="'admin-warning.creation.labels.references.select-entities-references' | translate"
+              class="p-multi-select-references" id="maritimeEntities" optionLabel="referenceName" optionValue="key"
+              group="true"></p-multiSelect>
+            <p-accordion class="p-accordion">
+              <p-accordionTab
+                [header]="warningPublicReferenceType.ENTITY_REFERENCE | formatReferenceHeader: selectedEntitiesReferences?.length">
+                <div *ngIf="selectedEntitiesReferences.length">
+                  <ul *ngFor="let maritimeEntityName of availableMaritimeEntityNames">
+                    <div *ngIf="selectedEntitiesReferencesByEntityName(maritimeEntityName).length">
+                      {{maritimeEntityName}}
+                    </div>
+                    <li *ngFor="let referenceId of selectedEntitiesReferencesByEntityName(maritimeEntityName)">
+                      <a (click)="openAttachmentOrUrl($event, referenceId)">
+                        {{entityReferenceTitleById(referenceId)}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+        <div class="p-field p-grid align">
+          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="maritimeEntities"
+            translate>admin-warning.creation.labels.references.attachments</label>
+          <div class="col-75">
+            <p-multiSelect [(ngModel)]="selectedAttachments" [options]="availableAttachments"
+              [disabled]="isWarningModel"
+              [placeholder]="'admin-warning.creation.labels.references.select-attachments' | translate"
+              class="p-multi-select-references" id="attachments" optionLabel="filename" optionValue="id">
+            </p-multiSelect>
+            <p-accordion class="p-accordion">
+              <p-accordionTab
+                [header]="warningPublicReferenceType.ATTACHMENT | formatReferenceHeader: selectedAttachments?.length">
+                <ul>
+                  <li *ngFor="let attachmentId of selectedAttachments">
+                    <a href="" (click)="openAttachment($event, attachmentId)" rel="noopener noreferrer" target="_blank">
+                      {{attachmentFileNameById(attachmentId)}}
+                    </a>
+                  </li>
+                </ul>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+        <div class="p-field p-grid align">
+          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="links" translate>georegulation.links</label>
+          <button [disabled]="isWarningModel" pButton type="button" class="save-button no-margin" icon="pi pi-plus-circle" iconPos="center"
+            (click)="displayModal=true"></button>
+        </div>
+        <div class="url-link-list">
+          <ul *ngIf="warningLinksPublicsReferences?.length">
+            <li *ngFor="let link of warningLinksPublicsReferences | orderBy: ('option-label-title' | translate); let i = index" class="line">
+              <div class="url-link-item">
+                <a class="url-link-item-content" [href]="link.url" rel="noopener noreferrer" target="_blank">{{link.title}}</a>
+                <p-confirmPopup [key]="confirmDeleteLink"></p-confirmPopup>
+                <button pButton (click)="showEditModalDialog(link)" type="button" icon="pi pi-pencil"
+                  class="p-button-rounded p-button-plain p-button-text"></button>
+                <button pButton (click)="confirmDelete($event, link.id)" type="button" icon="pi pi-times-circle"
+                  class="p-button-rounded p-button-plain p-button-text"></button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <aw-step-save-button (savePageButton)="quickSave()"></aw-step-save-button>
+      <aw-step-transition-button (nextPageButton)="nextPage()" (prevPageButton)="prevPage()" (savePageButton)="save()"
+        [anInformation]="anInformation">
+      </aw-step-transition-button>
+    </ng-template>
+  </p-card>
+</div>
+
+<p-dialog [header]="'admin-warning.creation.labels.references.add-links' | translate" [(visible)]="displayModal"
+  [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+
+  <div class="p-fluid">
+    <div class="line-form p-field p-grid">
+      <label for="link-reference-title" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{'static-page.title' | translate }}
+        *</label>
+      <input id="link-reference-title" [(ngModel)]="linkReference.title" type="text">
+    </div>
+    <div class="line-form p-field p-grid">
+      <label for="link-reference-international-title"
+        class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{'static-page.internationalTitle' | translate }}</label>
+      <input id="link-reference-international-title" [(ngModel)]="linkReference.internationalTitle" type="text">
+    </div>
+    <div class="line-form p-field p-grid">
+      <label for="link-reference-url" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+        translate>maritime-entity.reference-url<span> *</span></label>
+      <textarea rows="5" cols="30" id="link-reference-url" [(ngModel)]="linkReference.url" pInputTextarea></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="p-fluid">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancel()"
+        [label]="'cancel' | translate"></button>
+      <button pButton type="button" [disabled]="!linkReference?.title.length || !linkReference?.url.length"
+        class="p-button-sm" (click)="onSaveLinkReference()" [label]="'save' | translate">
+      </button>
+    </div>
+  </ng-template>
+</p-dialog>

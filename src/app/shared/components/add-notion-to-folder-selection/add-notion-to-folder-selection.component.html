@@ -1,0 +1,28 @@
+<div class="choices">
+  <div class="choices-serie">
+    <h3 translate>detail.manage-options.add-to-folder</h3>
+    <p-dropdown ngDefaultControl [options]="availableFoldersToBeAdded" [(ngModel)]="selectedFolderIdToBeAdded"
+      optionValue="value" optionLabel="key"
+      [placeholder]="'folder.details.add-notion-to-folder.select-folder' | translate" [style]="{width: '250px'}"
+      [group]="true" [filter]="true" filterBy="key">
+      <ng-template let-group pTemplate="group">
+        <span>{{group.label === 'BY_ENTITY' ? ('folder.details.add-notion-to-folder.folders-linked-to-maritime-entities' | translate) : group.label}}</span>
+      </ng-template>
+      <ng-template let-item pTemplate="item">
+        <span>{{'folder.details.add-notion-to-folder.folder' | translate}} {{item.key}}</span>
+      </ng-template>
+      <ng-template let-item pTemplate="selectedItem">
+        <span>{{'folder.details.add-notion-to-folder.folder' | translate}} {{item.key}}</span>
+      </ng-template>
+    </p-dropdown>
+  </div>
+</div>
+<div class="actions">
+  <button pButton type="button" class="p-button-sm p-button-secondary" (click)="close()"
+    [label]="'folder.details.add-notion-to-folder.cancel' | translate">
+  </button>
+  <button pButton type="button" class="p-button-sm" (click)="confirm()"
+    [label]="'folder.details.add-notion-to-folder.confirm' | translate"
+    [disabled]="!selectedFolderIdToBeAdded">
+  </button>
+</div>

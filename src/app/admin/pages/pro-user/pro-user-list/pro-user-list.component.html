@@ -1,0 +1,48 @@
+<ng-container *ngIf="pageItem">
+<h1 translate>pro-user-list.title.list</h1>
+<button pButton *ngIf="canCreate" class="add-button p-button-sm" routerLink="./ajouter" [label]="'pro-user-list.add' | translate" icon="pi pi-plus"></button>
+<table class="administration-table">
+  <thead>
+  <tr>
+    <th>
+      <label translate>user-list.table.lastname</label>
+      <br/>
+      <input pInputText class="text-filter" [placeholder]="'user-list.table.filter.lastname' | translate" [(ngModel)]="filteredLastname"
+        (ngModelChange)="onFilterChange()" type="text" />
+    </th>
+    <th>
+      <label translate>user-list.table.firstName</label>
+      <br/>
+      <input pInputText class="text-filter" [placeholder]="'user-list.table.filter.firstname' | translate" [(ngModel)]="filteredFirstname"
+        (ngModelChange)="onFilterChange()" type="text" />
+    </th>
+    <th>
+      <label translate>user-list.table.mail</label>
+      <br/>
+      <input pInputText class="text-filter" [placeholder]="'user-list.table.filter.email' | translate" [(ngModel)]="filteredEmail"
+        (ngModelChange)="onFilterChange()" type="text" />
+    </th>
+    <th translate>user-list.table.status</th>
+    <th translate>user-list.table.action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of pageItem?.content">
+    <td>{{user.lastname}}</td>
+    <td>{{user.firstname}}</td>
+    <td>{{user.email}}</td>
+    <td>{{user.status}}</td>
+    <td>
+      <button pButton *ngIf="canPreviewModel" class="p-button-sm" routerLink="./{{user.id}}/details" [label]="'user-list.table.show' | translate" icon="pi pi-eye"></button>
+      <button pButton *ngIf="canEdit(user.id)" class="p-button-sm" routerLink="./{{user.id}}/edition" [label]="'user-list.table.edit' | translate" icon="pi pi-pencil"></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<app-ping-paginator
+  [page]="pageItem"
+  [currentSize]="this.currentSize"
+  [currentPage]="this.currentPage"
+  (changePage)="this.handlePageEvent($event)"
+></app-ping-paginator>
+</ng-container>

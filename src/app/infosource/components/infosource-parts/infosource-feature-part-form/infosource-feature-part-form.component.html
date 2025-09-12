@@ -1,0 +1,12 @@
+<form [formGroup]="form">
+  <div>
+    <div class="label">{{'admin-warning.creation.labels.date-ranges' | translate}} ({{ 'admin-warning.creation.labels.date-range-timezone' | translate}} : {{timezone}})</div>
+    <shared-input-date-ranges formControlName="dateRanges"></shared-input-date-ranges>
+  </div>
+  <div class="input-information">
+    <span class="information-label" translate>admin-warning.creation.labels.information</span>
+    <infosource-input-information [geometries]="geometries" [dateRanges]="featurePart?.dateRanges" [validFeaturePart]="validFeaturePart" [timezone]="timezone"
+      [partIndex]="partIndex" formControlName="information">
+    </infosource-input-information>
+  </div>
+</form>

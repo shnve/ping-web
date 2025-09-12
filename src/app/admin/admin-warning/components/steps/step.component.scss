@@ -1,0 +1,76 @@
+:host ::ng-deep {
+  .step-p-card {
+    .p-card {
+      width: 98%;
+      box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 2rem;
+    }
+
+    aw-last-update-infos {
+      display: flex;
+      align-items: center;
+    }
+
+    .row {
+      display: inline-flex;
+    }
+  }
+}
+
+.col-75 {
+  float: left;
+  margin-top: 6px;
+  display: inline-flex;
+
+  .p-accordion {
+    width: 500px;
+    margin-left: 6px;
+  }
+
+  .p-multi-select-references {
+    width: 400px;
+  }
+}
+
+.col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+
+.col-25.lbl-top {
+  display: flex;
+  align-self: start;
+}
+
+li {
+  margin: 10px 20px;
+  word-wrap: break-word;
+  list-style-type: circle;
+
+  a {
+    cursor: pointer;
+  }
+}
+
+.p-field.p-grid {
+  &.align {
+    align-items: baseline;
+  }
+}
+
+.url-link-list {
+  margin-left: 20rem;
+  
+  .url-link-item {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+  
+    .url-link-item-content {
+      margin-right: 10px;
+    }
+  }
+}

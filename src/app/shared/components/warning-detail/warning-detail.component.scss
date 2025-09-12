@@ -1,0 +1,99 @@
+@import 'variables';
+
+.warning-detail {
+  padding-block-start: 5px;
+
+  hr {
+    border-top: 1px solid #d9e3ef;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .warning-detail-header {
+    .warning-detail-header-actions {
+      margin-right: 20px;
+    }
+  }
+
+  .download-geometries {
+    flex-grow: 1;
+    text-align: right;
+    margin-left: 15px;
+    margin-right: 10px;
+  }
+
+  .warning-feature-item {
+    margin: 5px 0;
+    padding: 5px;
+    border: 1px solid $primaryColorLighten1;
+    line-height: 18px;
+    white-space: pre-wrap;
+
+    &.visualisable {
+      &:hover {
+        background-color: $tertiaryColorLighten2;
+      }
+
+      .visualisation-button-container {
+        flex-grow: 1;
+        text-align: right;
+        margin-left: 15px;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .warning-status {
+    margin-top: 5px;
+    margin-left: 20px;
+  }
+
+  .alert-message {
+    margin-left: 15px;
+    color: red;
+    font-weight: 700;
+    & > span {
+      margin-left: 5px;
+    }
+  }
+}
+
+:host ::ng-deep {
+  fieldset {
+    margin-top: 10px;
+  }
+
+  .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
+    padding: 0.5rem;
+    color: #495057;
+    border-radius: 3px;
+    transition: box-shadow 0.2s;
+  }
+
+  .p-d-flex {
+    flex-wrap: wrap;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  p-accordion {
+    margin: 1rem 1rem 0 0;
+    width: 300px;
+
+    li {
+      margin: 10px 20px;
+      list-style-type: circle;
+      word-wrap: break-word;
+    }
+  }
+
+  // Override style of primeng fieldset in order to avoid overflowing the displayed datas
+  .p-fieldset-toggleable.p-fieldset-expanded .p-toggleable-content:not(.ng-animating) {
+    overflow: hidden;
+  }
+}

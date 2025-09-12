@@ -1,0 +1,105 @@
+@import 'variables';
+
+$control-btn-size: 32px;
+$top-first-control-right: 50px;
+$bottom-first-control-left: 50px;
+$control-margin-right: 15px;
+$control-margin-left: 15px;
+
+:host ::ng-deep {
+  .carto-map-container {
+    .map-container {
+      height: initial;
+      width: initial;
+
+      &.sc-carto-map-container {
+        .button-control {
+          position: absolute;
+          right: $control-margin-right;
+          color: white;
+          background-color: $primaryColor;
+          border-radius: 6px;
+          padding: 0;
+
+          & > .ol-control-button {
+            margin: 0;
+            width: $control-btn-size;
+            height: $control-btn-size;
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: $primaryColorLighten1;
+              transform: scale(1.05);
+            }
+
+            &:focus {
+              outline: none;
+            }
+          }
+
+          &.control-btn-show-hide-legend {
+            bottom: 257px;
+            top: unset;
+          }
+
+          &.control-btn-show-hide-layers {
+            bottom: 220px;
+            top: unset;
+          }
+        }
+
+        .sc-bcm-zoom-control {
+          color: green;
+          bottom: 106px;
+          right: 10px;
+
+          .pan-zoom-button {
+            border-radius: 0;
+            transition:
+              background-color 0.1s ease-in,
+              transform 0.1s ease;
+            background-color: $primaryColor;
+
+            &:hover {
+              background-color: $primaryColorLighten1;
+              transform: scale(1.05);
+            }
+
+            &.zoom-in {
+              border-top-right-radius: 6px;
+              border-top-left-radius: 6px;
+              border-bottom: solid 1px $primaryColorLighten1;
+              right: 0;
+            }
+
+            &.zoom-out {
+              border-bottom-right-radius: 6px;
+              border-bottom-left-radius: 6px;
+              border-top: solid 1px $primaryColorLighten1;
+              top: 32px;
+              right: 0;
+            }
+          }
+        }
+
+        .sc-mouse-position-module.sc-mouse-position-bottom-right {
+          bottom: 10px;
+          right: 0;
+          width: auto;
+          min-width: 190px;
+          padding: 0;
+          margin: 0;
+          background: transparent;
+          color: black;
+
+          .sc-mouse-position {
+            background-color: #FFFFFFCC;
+            padding: 5px 5px;
+          }
+        }
+      }
+    }
+  }
+}
