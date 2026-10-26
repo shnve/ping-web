@@ -31,7 +31,7 @@ export class LocalBasemapService {
   private static readonly RIVER_LINES = new Set(['water_stream', 'water_river']);
   private static readonly POLITICAL_NAMES = new Set(['places_country', 'places_region']);
   private static readonly ATTRIBUTION_HTML =
-    '© SHN Venezuela · © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> · <a href="https://protomaps.com" target="_blank" rel="noopener noreferrer">Protomaps</a>';
+    '© SHN-OCHINA Venezuela · © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> · <a href="https://protomaps.com" target="_blank" rel="noopener noreferrer">Protomaps</a>';
 
   // Paleta base clara con agua ligeramente oscurecida y etiquetas legibles de alto contraste
   private static readonly FLAVOR = {
