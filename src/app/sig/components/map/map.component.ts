@@ -8,7 +8,7 @@ import TileLayer from 'ol/layer/Tile';
 import WMTS from 'ol/source/WMTS';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import { get as getProjection } from 'ol/proj';
-import { getWidth } from 'ol/extent';
+import { getWidth, boundingExtent } from 'ol/extent';
 import { Observable, Subject, Subscription, of, throwError } from 'rxjs';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '@app/auth/auth.service';
@@ -602,9 +602,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
             opacity: 1
           };
 
+          const wmtsExtent = boundingExtent([
+            fromLonLat([-76.1082, 0.5]),
+            fromLonLat([-54.8764, 21.1625])
+          ]);
+
           const fakeLayer = {
             name: 'Carta_Local',
             olLayer: new TileLayer({
+              extent: wmtsExtent,
               source: new WMTS({
                 url: environment.carto['localWmsUrl']?.replace('/wms', '/gwc/service/wmts') || 'http://localhost:8082/geoserver/gwc/service/wmts',
                 layer: environment.carto['baseLayerId'] || 'pisac_shn:cartografia_ve',

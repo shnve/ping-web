@@ -138,10 +138,15 @@ export class LayersFacade {
           matrixIds[z] = wmtsConfig.matrixSet + ':' + z;
         }
 
-        // 2. Capa WMTS Principal
+        // 2. Capa WMTS Principal (delimitada a la cobertura de la cartografía náutica del SHN para evitar 400 Out of Bounds)
+        const wmtsExtent = boundingExtent([
+          fromLonLat([-76.1082, 0.5]),
+          fromLonLat([-54.8764, 21.1625])
+        ]);
         const wmtsLayer = new CartoLayer({
           name: wmtsConfig.layerName,
           olLayer: new TileLayer({
+            extent: wmtsExtent,
             source: new WMTS({
               url: wmtsConfig.baseUrl,
               layer: wmtsConfig.layerName,
