@@ -68,7 +68,19 @@ export class LayersFacade {
     if (!this.layersState.isLoaded()) {
       return this.loadLayersFromGetCap();
     }
-    return this.layersState.getLayers$();
+    return this.layersState.getLayers$().pipe(
+      map(layers => layers.map(layer =>
+        layer.name === 'OSM'
+          ? new CartoLayer({
+              ...layer,
+              olLayer: this.localBasemapService.createBasemapLayer({
+                preserveDrawingBuffer: false,
+                zIndex: 0
+              })
+            })
+          : layer
+      ))
+    );
   }
 
   createBasemapLayer(options?: LocalBasemapLayerOptions) {

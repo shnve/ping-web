@@ -914,6 +914,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
         projection: environment.carto.projection,
         center: center3857,
         zoom: environment.carto.defaultZoom || 5,
+        extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244],
         multiWorld: false,
         maxZoom: 20
       })

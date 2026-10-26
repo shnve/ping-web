@@ -304,6 +304,7 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
         projection: environment.carto.projection,
         center: center3857,
         zoom: environment.carto.defaultZoom,
+        extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244],
         multiWorld: false,
         maxZoom: 20
       })

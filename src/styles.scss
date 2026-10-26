@@ -902,3 +902,17 @@ span.p-tag.p-component {
   opacity: 0.5;
   background: #CCC;
 }
+
+/* Capa de mapa base vectorial local (MapLibre GL + PMTiles sincronizado con OpenLayers) */
+.ol-local-basemap-layer,
+.ol-local-basemap-layer.maplibregl-map,
+.ol-local-basemap-layer .maplibregl-map,
+.ol-local-basemap-layer .maplibregl-canvas-container,
+.ol-local-basemap-layer canvas.maplibregl-canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+}
