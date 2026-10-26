@@ -7,6 +7,7 @@ import { layers, namedFlavor } from '@protomaps/basemaps';
 import Layer from 'ol/layer/Layer';
 import { FrameState } from 'ol/PluggableMap';
 import { toLonLat } from 'ol/proj';
+import Source from 'ol/source/Source';
 
 export interface LocalBasemapLayerOptions {
   preserveDrawingBuffer?: boolean;
@@ -29,6 +30,8 @@ export class LocalBasemapService {
   private static readonly RIVER_COLOR = '#7bbfdc';
   private static readonly RIVER_LINES = new Set(['water_stream', 'water_river']);
   private static readonly POLITICAL_NAMES = new Set(['places_country', 'places_region']);
+  private static readonly ATTRIBUTION_HTML =
+    '© SHN Venezuela · © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> · <a href="https://protomaps.com" target="_blank" rel="noopener noreferrer">Protomaps</a>';
 
   // Paleta base clara con agua ligeramente oscurecida y etiquetas legibles de alto contraste
   private static readonly FLAVOR = {
@@ -144,11 +147,13 @@ export class LocalBasemapService {
       sources: {
         world: {
           type: 'vector',
-          url: `pmtiles://${baseUrl}world.pmtiles`
+          url: `pmtiles://${baseUrl}world.pmtiles`,
+          attribution: LocalBasemapService.ATTRIBUTION_HTML
         },
         detail: {
           type: 'vector',
-          url: `pmtiles://${baseUrl}venezuela.pmtiles`
+          url: `pmtiles://${baseUrl}venezuela.pmtiles`,
+          attribution: LocalBasemapService.ATTRIBUTION_HTML
         }
       },
       layers: this.basemapLayers(lang)
@@ -336,8 +341,14 @@ export class LocalBasemapService {
       }
     };
 
+    const olSource = new Source({
+      attributions: LocalBasemapService.ATTRIBUTION_HTML,
+      state: 'ready'
+    });
+
     const olLayer = new Layer({
       zIndex,
+      source: olSource,
       render: (frameState: FrameState) => {
         if (!frameState) {
           return container;

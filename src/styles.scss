@@ -916,3 +916,27 @@ span.p-tag.p-component {
   height: 100% !important;
   pointer-events: none !important;
 }
+
+/* Atribución institucional y de datos cartográficos en la esquina inferior izquierda */
+.ol-attribution {
+  left: 8px !important;
+  right: auto !important;
+  bottom: 8px !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  z-index: 900;
+
+  ul {
+    display: inline-block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 11px !important;
+    color: #1a1a1a !important;
+  }
+
+  button {
+    display: none !important;
+  }
+}
