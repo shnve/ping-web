@@ -215,8 +215,8 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
         }))
       .subscribe(layers => {
         this.hasAtLeastOneLayerToShow = this.canShowRasterMarineLayer || this.canShowOrthoIGNLayer || this.showLayers || this.showZoneX || this.showDangers || this.showDetections;
-        // Deep clone carto layers
-        this.createCarto(layers.filter(layer => !layer.name?.startsWith(PING_LAYER_NAME_PREFIX))
+        // Deep clone carto layers (excluding OSM base layer which is instantiated locally with preserveDrawingBuffer: true)
+        this.createCarto(layers.filter(layer => !layer.name?.startsWith(PING_LAYER_NAME_PREFIX) && layer.name !== 'OSM')
           .map(
             layer => new CartoLayer({ name: layer.name, olLayer: new TileLayer({ ...layer.olLayer.getProperties(), source: layer.olLayer.getSource() }) })
           ));
@@ -284,9 +284,10 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     // 1. Extraemos las capas nativas
     const nativeLayers = layers.map(l => l.olLayer).filter(l => l);
 
-    // 2. Creamos la capa base de OpenStreetMap de respaldo (OSM)
-    const baseLayer = new TileLayer({
-      source: new OSM({ crossOrigin: 'anonymous' })
+    // 2. Creamos la capa base vectorial local autohospedada (con preserveDrawingBuffer: true para captura PDF)
+    const baseLayer = this.layersFacade.createBasemapLayer({
+      preserveDrawingBuffer: true,
+      zIndex: 0
     });
 
     const targetEl = this.element?.nativeElement?.querySelector('.map-container') || 'simple-map';
@@ -302,7 +303,9 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
       view: new View({
         projection: environment.carto.projection,
         center: center3857,
-        zoom: environment.carto.defaultZoom
+        zoom: environment.carto.defaultZoom,
+        multiWorld: false,
+        maxZoom: 20
       })
     });
 

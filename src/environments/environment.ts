@@ -32,7 +32,8 @@ export const environment = {
 
         // Configuracion Hibrida WMS y WFS
         localWmsUrl: 'http://localhost:8082/geoserver/pisac_shn/wms',
-        localWfsUrl: 'http://localhost:8082/geoserver/pisac_shn/wfs'
+        localWfsUrl: 'http://localhost:8082/geoserver/pisac_shn/wfs',
+        mapDataUrl: 'http://localhost:4200/map/'
     },
     wmts: {
         baseUrl: 'http://localhost:8082/geoserver/gwc/service/wmts',

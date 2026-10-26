@@ -18,6 +18,7 @@ import { LayersState } from '../states/layers.state';
 
 import { NauticalCartographyService } from '../services/nautical-cartography.service';
 import { S52CartographyStyleFactory } from '../core/s52-cartography-style.factory';
+import { LocalBasemapLayerOptions, LocalBasemapService } from '../services/local-basemap.service';
 
 // --- INYECCIÓN DE SEGURIDAD ---
 class Layer {
@@ -55,7 +56,8 @@ export class LayersFacade {
     private readonly layersApi: LayersApi,
     private readonly layersState: LayersState,
     private readonly nauticalCartographyService: NauticalCartographyService,
-    private readonly s52StyleFactory: S52CartographyStyleFactory
+    private readonly s52StyleFactory: S52CartographyStyleFactory,
+    private readonly localBasemapService: LocalBasemapService
   ) { }
 
   getBaseLayers$(showRasterMarineWithAdditionalLayerForWestAfrica = false): Observable<CartoLayer[]> {
@@ -67,6 +69,10 @@ export class LayersFacade {
       return this.loadLayersFromGetCap();
     }
     return this.layersState.getLayers$();
+  }
+
+  createBasemapLayer(options?: LocalBasemapLayerOptions) {
+    return this.localBasemapService.createBasemapLayer(options);
   }
 
   /**
@@ -87,6 +93,8 @@ export class LayersFacade {
         vectorLayer.getSource().clear();
         vectorLayer.getRenderer().dispose();
         vectorLayer.setSource(null);
+      } else if (layer && typeof (layer as any).disposeBasemap === 'function') {
+        (layer as any).disposeBasemap();
       }
       olMap.removeLayer(layer);
     }
@@ -97,11 +105,11 @@ export class LayersFacade {
   private loadLayersFromGetCap(showRasterMarineWithAdditionalLayerForWestAfrica = false) {
     return this.layersApi.getLayersFromGetCap(showRasterMarineWithAdditionalLayerForWestAfrica).pipe(
       map(getCapInfo => {
-        // 1. Capa Base: OpenStreetMap
+        // 1. Capa Base: Mapa Vectorial Local Autohospedado (MapLibre GL + PMTiles)
         const osmLayer = new CartoLayer({
           name: 'OSM',
-          olLayer: new TileLayer({
-            source: new OSM(),
+          olLayer: this.localBasemapService.createBasemapLayer({
+            preserveDrawingBuffer: false,
             zIndex: 0
           })
         });
@@ -134,7 +142,7 @@ export class LayersFacade {
                 matrixIds: matrixIds
               }),
               style: wmtsConfig.style,
-              wrapX: true,
+              wrapX: false,
               crossOrigin: 'anonymous'
             }),
             minZoom: 5,

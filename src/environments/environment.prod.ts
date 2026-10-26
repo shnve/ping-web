@@ -35,7 +35,8 @@ export const environment = {
     layerRegionalEsequiba: 'pisac_shn:VE300700',
     layerDetalleLocal: 'pisac_shn:cartografia_costera_ve',
     detalleMinZoom: 11,
-    localWfsUrl: `${origin}/geoserver/pisac_shn/wfs`
+    localWfsUrl: `${origin}/geoserver/pisac_shn/wfs`,
+    mapDataUrl: `${origin}/map/`
   },
   wmts: {
     baseUrl: `${origin}/geoserver/gwc/service/wmts`,

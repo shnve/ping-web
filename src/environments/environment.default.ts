@@ -109,7 +109,8 @@ export const environment = {
     kmlImport: {
       acceptableFileExtensions: '.kml,.xml'
     },
-    legendUrl: '/static/legende'
+    legendUrl: '/static/legende',
+    mapDataUrl: '/map/'
   },
   api: {
     areas: 'api/areas',

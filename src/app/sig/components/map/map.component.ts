@@ -43,6 +43,7 @@ import { PopoverComponent } from '@sig/components/popover/popover.component';
 import { BasicControl } from '@sig/core/controls/basic-control';
 import { WarningStyleFactory } from '@sig/core/warning-style.factory';
 import { LayersFacade } from '@sig/facades/layers.facade';
+import { LocalBasemapService } from '@sig/services/local-basemap.service';
 import { MousePositionFormatterService } from '@sig/services/mouse-position-formatter.service';
 import { Scavenger } from '@wishtack/rx-scavenger';
 import Feature, { FeatureLike } from 'ol/Feature';
@@ -386,7 +387,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     private readonly loader: LoaderService,
     private readonly maritimeEntityFactory: MaritimeEntityFactory,
     private readonly maritimeEntityService: MaritimeEntitiesService,
-    protected readonly surveyDangerFactory: SurveyDangerFactory
+    protected readonly surveyDangerFactory: SurveyDangerFactory,
+    private readonly localBasemapService: LocalBasemapService
   ) {
     this.mapId = MapComponent.generateMapHtmlUniqId();
     this.serviceName = this.authService.getAuthenticatedUser()?.serviceName;
@@ -590,6 +592,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
             matrixIds[z] = 'EPSG:900913:' + z;
           }
 
+          const localBaseLayer = {
+            name: 'OSM',
+            olLayer: this.localBasemapService.createBasemapLayer({
+              preserveDrawingBuffer: false,
+              zIndex: 0
+            }),
+            visible: true,
+            opacity: 1
+          };
+
           const fakeLayer = {
             name: 'Carta_Local',
             olLayer: new TileLayer({
@@ -605,15 +617,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
                   matrixIds: matrixIds
                 }),
                 style: '',
-                wrapX: true,
+                wrapX: false,
                 crossOrigin: 'anonymous'
               }),
-              zIndex: 0
+              minZoom: 5,
+              zIndex: 1
             }),
             visible: true,
             opacity: 1
           };
-          return of([fakeLayer] as any);
+          return of([localBaseLayer, fakeLayer] as any);
         })
       )
       .subscribe((baseLayers: any) => {
@@ -900,12 +913,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       view: new View({
         projection: environment.carto.projection,
         center: center3857,
-        zoom: environment.carto.defaultZoom || 5
+        zoom: environment.carto.defaultZoom || 5,
+        multiWorld: false,
+        maxZoom: 20
       })
     });
 
     // --- PUENTE ARQUITECTÃ“NICO TOTAL PARA PING ---
     this.map.view = this.map.olMap.getView();
+    this.map.changeLanguage = (lang: string) => {
+      this.localBasemapService.setLanguage(lang?.startsWith('en') ? 'en' : 'es');
+    };
     this.map.getView = () => this.map.olMap.getView();
     this.map.getLayers = () => this.map.olMap.getLayers();
     this.map.addLayer = (layer: any) => { if (this.map.olMap) this.map.olMap.addLayer(layer); };
@@ -1584,7 +1602,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
 
   onChangeLang({ lang }: LangChangeEvent): void {
     const cartoLanguage = lang === 'es' ? 'es-ES' : 'en-US';
-    this.map.changeLanguage(cartoLanguage);
+    this.localBasemapService.setLanguage(lang === 'en' ? 'en' : 'es');
+    if (this.map && typeof this.map.changeLanguage === 'function') {
+      this.map.changeLanguage(cartoLanguage);
+    }
     this.translateBtnTitle();
   }
 
@@ -1805,7 +1826,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.map.olMap.un('click', this.manageGeoregulationClickEventHandler);
       this.map.olMap.un('click', this.manageClickEventHandler);
 
-      // 3. Limpieza profunda de OpenLayers
+      // 3. Limpieza profunda de OpenLayers y capas WebGL
+      this.layersFacade.reinitializeLayers(this.map.olMap);
       this.map.olMap.setTarget(null); // Desvincula el DOM
       this.map.olMap.dispose();      // Libera memoria
     }
