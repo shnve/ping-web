@@ -52,4 +52,8 @@ export class CreationPageComponent implements OnInit, OnDestroy {
     if (this.warningSubscription) { this.warningSubscription.unsubscribe(); }
   }
 
+  onChangeLang(event: any): void {
+    // Método vacío implementado para cumplir con la interfaz de Angular
+  }
+
 }

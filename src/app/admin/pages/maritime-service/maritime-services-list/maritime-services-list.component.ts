@@ -54,7 +54,7 @@ export class MaritimeServicesListComponent extends AbstractSearchComponent<Marit
   }
 
   getDisplayedAreaLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   getDisplayedLabel(area: Area): string {

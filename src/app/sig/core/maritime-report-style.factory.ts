@@ -23,25 +23,39 @@ export abstract class MaritimeReportStyleFactory {
 
   protected getRollOverStyle(styles: Style[], geometryType: GeometryType): Style[] {
     if (geometryType === GeometryType.POINT) {
-      styles[0].setImage(new Icon({
-        anchor: [0, 0],
-        anchorOrigin: IconOrigin.BOTTOM_LEFT,
-        src: this.getRolloverIconFromIconSrc((styles[0].getImage() as Icon)?.getSrc()),
-        scale: 0.5,
-      }));
+      const iconImg = styles[0]?.getImage() as Icon;
+      if (iconImg?.getSrc()) {
+        const originalScale = iconImg.getScale() || 0.4;
+        styles[0].setImage(new Icon({
+          anchor: [0, 0],
+          anchorOrigin: IconOrigin.BOTTOM_LEFT,
+          src: this.getRolloverIconFromIconSrc(iconImg.getSrc()),
+          scale: typeof originalScale === 'number' ? originalScale * 1.25 : 0.5,
+        }));
+      }
     } else if (geometryType === GeometryType.LINE_STRING) {
-      styles[0].getStroke().setWidth(ROLLOVER_STROKE_WIDTH);
-      styles[1].setImage(new Icon({
-        src: this.getRolloverIconFromIconSrc((styles[1].getImage() as Icon)?.getSrc()),
-        scale: 0.5
-      }));
+      styles[0]?.getStroke()?.setWidth(ROLLOVER_STROKE_WIDTH);
+      const iconImg = styles[1]?.getImage() as Icon;
+      if (iconImg?.getSrc()) {
+        const originalScale = iconImg.getScale() || 0.4;
+        styles[1].setImage(new Icon({
+          src: this.getRolloverIconFromIconSrc(iconImg.getSrc()),
+          scale: typeof originalScale === 'number' ? originalScale * 1.25 : 0.5
+        }));
+      }
     } else if (geometryType === GeometryType.POLYGON || geometryType === GeometryType.CIRCLE) {
-      styles[0].getStroke().setWidth(ROLLOVER_STROKE_WIDTH);
-      styles[0].getFill().setColor(styles[0].getStroke().getColor() + ROLLOVER_FILL_OPACITY);
-      styles[1].setImage(new Icon({
-        src: this.getRolloverIconFromIconSrc((styles[1].getImage() as Icon)?.getSrc()),
-        scale: 0.5
-      }));
+      styles[0]?.getStroke()?.setWidth(ROLLOVER_STROKE_WIDTH);
+      if (styles[0]?.getFill() && styles[0]?.getStroke()) {
+        styles[0].getFill().setColor(styles[0].getStroke().getColor() + ROLLOVER_FILL_OPACITY);
+      }
+      const iconImg = styles[1]?.getImage() as Icon;
+      if (iconImg?.getSrc()) {
+        const originalScale = iconImg.getScale() || 0.4;
+        styles[1].setImage(new Icon({
+          src: this.getRolloverIconFromIconSrc(iconImg.getSrc()),
+          scale: typeof originalScale === 'number' ? originalScale * 1.25 : 0.5
+        }));
+      }
     }
     return styles;
   }
@@ -59,7 +73,7 @@ export abstract class MaritimeReportStyleFactory {
             anchor: [0, 0],
             anchorOrigin: IconOrigin.BOTTOM_LEFT,
             src: options.point.icon,
-            scale: 0.4,
+            scale: options.iconScale ?? 0.4,
           }) : null,
         })
       ],
@@ -73,7 +87,7 @@ export abstract class MaritimeReportStyleFactory {
         new Style({
           image: options.lineString.icon ? new Icon({
             src: options.lineString.icon,
-            scale: 0.4,
+            scale: options.iconScale ?? 0.4,
           }) : null,
           geometry: feature => new Point((feature.getGeometry() as LineString).getCoordinateAt(0.5))
         })
@@ -91,7 +105,7 @@ export abstract class MaritimeReportStyleFactory {
         new Style({
           image: options.polygon.icon ? new Icon({
             src: options.polygon.icon,
-            scale: 0.4,
+            scale: options.iconScale ?? 0.4,
           }) : null,
           geometry: feature => (feature.getGeometry() as Polygon).getInteriorPoint()
         })
@@ -109,7 +123,7 @@ export abstract class MaritimeReportStyleFactory {
         new Style({
           image: options.circle.icon ? new Icon({
             src: options.circle.icon,
-            scale: 0.4,
+            scale: options.iconScale ?? 0.4,
           }) : null,
           geometry: feature => new Point((feature.getGeometry() as Circle).getCenter())
         })

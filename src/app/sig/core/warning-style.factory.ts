@@ -9,7 +9,6 @@ import { GeometryType } from '../utils/geometry';
 import { MaritimeReportTypeStyle, MaritimeReportTypeStyleOptions } from '../utils/style';
 import { MaritimeReportStyleFactory, ROLLOVER_AFFECTED_AREA_STROKE_WIDTH, ROLLOVER_FILL_OPACITY } from './maritime-report-style.factory';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +24,7 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
     super();
     this.warningStyle = this.generateMaritimeReportTypeGeometryStyle({
       point: {
-        icon: './assets/images/icons/red-warning-queue.png',
+        icon: './assets/images/icons/red-warning.png',
         color: '#FF0000'
       },
       lineString: {
@@ -45,7 +44,7 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
     });
     this.noticeStyle = this.generateMaritimeReportTypeGeometryStyle({
       point: {
-        icon: './assets/images/icons/magenta-notice-queue.png',
+        icon: './assets/images/icons/magenta-notice.png',
         color: '#FF00FF'
       },
       lineString: {
@@ -65,16 +64,20 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
     });
     this.noticeTPStyle = this.generateMaritimeReportTypeGeometryStyle({
       point: {
+        icon: './assets/images/icons/magenta-notice.png',
         color: '#FF00FF'
       },
       lineString: {
+        icon: './assets/images/icons/magenta-notice.png',
         color: '#FF00FF'
       },
       polygon: {
+        icon: './assets/images/icons/magenta-notice.png',
         strokeColor: '#FF00FF',
         fillColor: '#FF00FF25'
       },
       circle: {
+        icon: './assets/images/icons/magenta-notice.png',
         strokeColor: '#FF00FF',
         fillColor: '#FF00FF25'
       }
@@ -109,9 +112,10 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
       return cloneDeep(this.warningStyle[geometryType]);
     } else if (warningType === 'NOTICE') {
       return cloneDeep(this.noticeStyle[geometryType]);
-    } else if (warningType === 'NOTICE_TP'){
+    } else if (warningType === 'NOTICE_TP') {
       return cloneDeep(this.noticeTPStyle[geometryType]);
     }
+
     console.error(`The warning type ${warningType} does not exist.`);
     return [new Style()];
   }
@@ -149,11 +153,6 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
     return style;
   }
 
-  /**
-   * Create global Style for all warnings of same 'globalWarningType'
-   * @param {MaritimeReportTypeStyleOptions} options
-   * @returns {MaritimeReportTypeStyle}
-   */
   private generateWarningTypeAffectedAreaStyle(options: MaritimeReportTypeStyleOptions): MaritimeReportTypeStyle {
     return {
       Polygon: new Style({

@@ -61,15 +61,20 @@ export class FolderModalGraphComponent implements OnInit, AfterViewInit, OnChang
     }
   }
 
+  private resolveLanguage(): string {
+    const lang = this.translate.currentLang || this.translate.defaultLang;
+    return FolderSvgConst[lang as keyof typeof FolderSvgConst] ? lang : 'es';
+  }
+
   ngAfterViewInit(): void {
     if (this.folderGraph.nodes.length) {
-      FolderModalGraphComponent.dateFormat = FolderSvgConst[this.translate.currentLang].DATE_FORMAT;
+      FolderModalGraphComponent.dateFormat = FolderSvgConst[this.resolveLanguage()].DATE_FORMAT;
       this.draw();
     }
   }
 
   onChangeLang(): void {
-    FolderModalGraphComponent.dateFormat = FolderSvgConst[this.translate.currentLang].DATE_FORMAT;
+    FolderModalGraphComponent.dateFormat = FolderSvgConst[this.resolveLanguage()].DATE_FORMAT;
     this.constructNode();
     this.redraw();
   }
@@ -149,7 +154,7 @@ export class FolderModalGraphComponent implements OnInit, AfterViewInit, OnChang
   }
 
   private createNodeForAttachment(index: number, object: FolderAttachment): SNode {
-    const displayedLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
+    const displayedLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
     return {
       nodeId: index,
       objectId: object.id,

@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {environment} from '../../environments/environment';
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -10,13 +10,13 @@ import {environment} from '../../environments/environment';
 export class LangService {
   constructor(
     private readonly translateService: TranslateService
-  ) {}
+  ) { }
 
   /**
    * Get user preferred language
    * Get browser language if preferred language is not defined or invalid
    */
-  getUserPreferredLang(): string {
+  /*getUserPreferredLang(): string {
     const availableLangs = environment.availableLanguages;
     const preferredLang = LangService.convertBCP47LangToISO639(localStorage.getItem('lang'));
     if(availableLangs.includes(preferredLang)) {
@@ -26,6 +26,24 @@ export class LangService {
     if(availableLangs.includes(browserLang)) {
       return browserLang;
     }
+    return this.translateService.getDefaultLang();
+  }*/
+
+  getUserPreferredLang(): string {
+    const availableLangs = environment.availableLanguages;
+
+    // 1. Mantiene la preferencia guardada por el usuario (útil si el usuario vuelve)
+    const preferredLang = LangService.convertBCP47LangToISO639(localStorage.getItem('lang'));
+    if (availableLangs.includes(preferredLang)) {
+      return preferredLang;
+    }
+
+    // 2. FORZAR ESPAÑOL: En lugar de consultar el navegador, retornamos 'es'
+    if (availableLangs.includes('es')) {
+      return 'es';
+    }
+
+    // 3. Respaldo final
     return this.translateService.getDefaultLang();
   }
 

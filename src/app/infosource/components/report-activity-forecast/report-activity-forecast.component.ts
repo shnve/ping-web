@@ -209,9 +209,9 @@ export class ReportActivityForecastComponent implements OnInit, OnDestroy {
   private convertToJsonInfosourceParts(featureParts: InfosourcePartForm[]): JsonInfosourcePart[] {
     if (!featureParts) { return []; }
     return convertFeaturePartsToJsonFeatureParts(featureParts.map(partForm => {
-      const fr = partForm.information['fr'];
-      const en = partForm.information['en'];
-      const description = !fr || fr === '' ? null : fr;
+      const es = partForm.information?.['es'] ?? partForm.information?.['fr'];
+      const en = partForm.information?.['en'];
+      const description = !es || es === '' ? null : es;
       const internationalDescription = !en || en === '' ? null : en;
       return {
         ...partForm,
@@ -226,11 +226,11 @@ export class ReportActivityForecastComponent implements OnInit, OnDestroy {
   }
 
   private hasMissingInformation(parts: InfosourcePartForm[]): boolean {
-    return parts.some(part => isEmpty(part.information['fr']));
+    return parts.some(part => isEmpty(part.information?.['es'] ?? part.information?.['fr']));
   }
 
   private hasWrongInformation(parts: InfosourcePartForm[]): boolean {
-    return parts.some(part => checkIfSpacesOnly(part.information['fr'])) || parts.some(part => checkIfSpacesOnly(part.information['en']));
+    return parts.some(part => checkIfSpacesOnly(part.information?.['es'] ?? part.information?.['fr'])) || parts.some(part => checkIfSpacesOnly(part.information?.['en']));
   }
 
   validate(): void {
@@ -504,7 +504,7 @@ export class ReportActivityForecastComponent implements OnInit, OnDestroy {
   }
 
   private getDisplayedMaritimeServiceLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   saveTag(tag: Tag): void {

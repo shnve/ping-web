@@ -49,7 +49,7 @@ export class MaritimeEntityListComponent extends AbstractSearchComponent<Maritim
   }
 
   getDisplayedAreaLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   loadMaritimeEntityTranslatedLabels(): void {

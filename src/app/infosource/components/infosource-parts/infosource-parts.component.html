@@ -22,6 +22,7 @@
     <div *ngIf="featureParts?.length" class="p-col part-map-container">
       <div *ngIf="selectedPart">
         <infosource-parts-map #geometriesForm [featurePart]="selectedPart" [featureParts]="featureParts"
+                              [disabled]="disabled"
                               (eventOnFeature)="onGeometryFormFeatureChange($event)">
         </infosource-parts-map>
         <small *ngIf="isMissingLocalisation && submitted" class="p-error error-message-localization"

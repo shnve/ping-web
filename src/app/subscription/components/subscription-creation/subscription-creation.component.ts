@@ -152,7 +152,7 @@ export class SubscriptionCreationComponent implements OnInit, OnDestroy, OnChang
   }
 
   private getDisplayedLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   saveForm(): void {

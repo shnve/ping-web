@@ -30,7 +30,7 @@ export abstract class AbstractGeoregulationService {
     return this.georegulationApi.getFilteredMapGeoregulations$(AbstractGeoregulationService.convertMapFilterToRequestParams(filter));
   }
 
-  downloadGeometries$(georegulationId: string, format: string, lang = 'fr'): Observable<Blob> {
+  downloadGeometries$(georegulationId: string, format: string, lang = 'es'): Observable<Blob> {
     return this.georegulationApi.downloadGeometries$(georegulationId, format, lang);
   }
 

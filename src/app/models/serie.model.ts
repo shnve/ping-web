@@ -27,9 +27,7 @@ export const GlobalWarningTypeBySerieType = {
 };
 
 export enum DiffusionNavtexSource {
-  B = 'B', // "NAVTEX Corsen"
-  N = 'N', // "NAVTEX Niton"
-  T = 'T' // "NAVTEX La Garde"
+  N4 = 'N4' // "NAVAREA IV"
 }
 
 export interface Serie {

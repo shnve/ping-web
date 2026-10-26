@@ -40,7 +40,7 @@ export class ProUserFormComponent implements OnInit, OnDestroy, OnChangeLang {
   serviceRoles = Object.keys(ServiceRole).map(k => ServiceRole[k as any]);
   innerSubToDelete = new Subscription();
   form: UntypedFormGroup;
-  preferredCountries = [CountryISO.France, CountryISO.UnitedKingdom];
+  preferredCountries = [CountryISO.Venezuela, CountryISO.UnitedKingdom];
   SearchCountryField = SearchCountryField;
   CountryISO = CountryISO;
   PhoneNumberFormat = PhoneNumberFormat;
@@ -111,7 +111,7 @@ export class ProUserFormComponent implements OnInit, OnDestroy, OnChangeLang {
   }
 
   private getDisplayedLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   onChangeLang(event): void {

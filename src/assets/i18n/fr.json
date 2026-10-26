@@ -1,7 +1,11 @@
 {
+  "COORDINATES": {
+    "LATITUDE": "Latitude",
+    "LONGITUDE": "Longitude"
+  },
   "lang": "fr",
-  "title": "PING",
-  "title.description": "PING - La plateforme nationale de l'information nautique",
+  "title": "PISAC",
+  "title.description": "PISAC - La plateforme nationale de l'information nautique",
   "logo.french-republic": "République Française",
   "logo.shom": "SHOM L'océan en référence",
   "logo.mer": "Logo du SE Mer et biodiversité",
@@ -14,7 +18,7 @@
   "not-public": "Non public",
   "preposition-for": "pour",
   "confirm-remove-part": "Supprimer la partie ?",
-  "meta-description": "Consultez sur PING les avis aux navigateurs (NAVAREA, AVURNAV, AVINAV) et les réglementations maritimes. Contribuez vous aussi à l'information nautique !",
+  "meta-description": "Consultez sur PISAC les avis aux navigateurs (NAVAREA, AVURNAV, AVINAV) et les réglementations maritimes. Contribuez vous aussi à l'information nautique !",
   "account-panel": {
     "welcome": "Bonjour",
     "create-button.title": "Créer un compte",
@@ -73,6 +77,7 @@
       "static-file": "Liste des fichiers statiques",
       "static-logo": "Liste des images statiques",
       "static-section": "Liste des sections statiques",
+      "cartography": "Gestion de la cartographie (GeoPDF / TIFF)",
       "add": "Ajouter",
       "edit": "Editer",
       "show": "Visualiser",
@@ -163,7 +168,8 @@
   },
   "paginator": {
       "next-page": "Page suivante",
-      "previous-page": "Page précédente"
+      "previous-page": "Page précédente",
+      "items-per-page": "Éléments par page"
   },
   "pages": {
     "not-found": {
@@ -2076,9 +2082,7 @@
     "K": "Messages concernant d'autres aides électroniques à la navigation"
   },
   "diffusion-navtex-source": {
-    "B": "NAVTEX Corsen",
-    "N": "NAVTEX Niton",
-    "T": "NAVTEX La Garde"
+    "N4": "NAVAREA IV"
   },
   "enum": {
     "warning-hazard-type-details": {
@@ -2993,7 +2997,7 @@
     "maritime-notice-producer": "Producteur d'AN",
     "folder-manager": "Gestionnaire d'affaire",
     "survey-owner": "Détenteur levé",
-    "shom-service": "Service du SHOM",
+    "shom-service": "Service du SHN",
     "areas": "Régions d'appartenance",
     "all-areas": "Sélectionnez les régions d'appartenance",
     "tags": "Tags",

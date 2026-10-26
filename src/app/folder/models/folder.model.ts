@@ -75,6 +75,9 @@ export const FolderSvgConst = {
   en: {
     DATE_FORMAT: 'YYYY-MM-DD'
   },
+  es: {
+    DATE_FORMAT: 'DD/MM/YYYY'
+  },
   NODE_ATTRIBUTES: {
     INFOSOURCE: {
       name: 'INFOSOURCE',

@@ -27,7 +27,7 @@ export class EditUserFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
   innerSubToDelete = new Subscription();
   form: UntypedFormGroup;
-  preferredCountries = [CountryISO.France, CountryISO.UnitedKingdom];
+  preferredCountries = [CountryISO.Venezuela, CountryISO.UnitedKingdom];
   SearchCountryField = SearchCountryField;
   CountryISO = CountryISO;
   PhoneNumberFormat = PhoneNumberFormat;

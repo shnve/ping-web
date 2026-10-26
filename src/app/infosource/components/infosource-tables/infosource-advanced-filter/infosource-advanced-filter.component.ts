@@ -196,7 +196,7 @@ export class InfosourceAdvancedFilterComponent implements OnInit, OnDestroy, OnC
 
     this.availableServiceStatuses = translateI18nKeyValueArray(this.translate, TRANSLATIONS_LIST_INFOSOURCE_SERVICE_STATUS);
 
-    this.maritimeEntitiesOrRecipientsOptionLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
+    this.maritimeEntitiesOrRecipientsOptionLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
   }
 
   onChangeLang(): void {

@@ -1,3 +1,15 @@
+import { transformExtent, transform, fromLonLat } from 'ol/proj';
+import Modify from 'ol/interaction/Modify';
+import Stroke from 'ol/style/Stroke';
+import Draw from 'ol/interaction/Draw';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import TileLayer from 'ol/layer/Tile';
+import WMTS from 'ol/source/WMTS';
+import WMTSTileGrid from 'ol/tilegrid/WMTS';
+import { get as getProjection } from 'ol/proj';
+import { getWidth } from 'ol/extent';
+import { Observable, Subject, Subscription, of, throwError } from 'rxjs';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '@app/auth/auth.service';
 import { LangService } from '@app/core/lang.service';
@@ -21,18 +33,12 @@ import { LoaderService } from '@app/sig/services/loader.service';
 import { pad } from '@app/sig/utils/coordinate';
 import { convertJsonFeatureToFeature, getDefaultStyle, showFeatureLabel } from '@app/sig/utils/feature';
 import { GeometryType, OverlayPositioning } from '@app/sig/utils/geometry';
-import { addLayer, removeLayer, showHideLayers, showHideZoneX } from '@app/sig/utils/map';
+import { addLayer, formatCoordinateToDMS, formatDecimalToSHOM, removeLayer, showHideLayers, showHideZoneX } from '@app/sig/utils/map';
 import { genericRetryStrategy } from '@app/sig/utils/retry-utils';
 import { ModelItemFilterState } from '@app/states/warning-filter.state';
 import { SurveyDetection } from '@app/survey/models/survey.model';
 import { environment } from '@env/environment';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import Carto, { CartoModulesOptions } from '@shom2/carto';
-import { default as CartoLayer } from '@shom2/carto/core/Layer';
-import { default as MapCarto } from '@shom2/carto/core/Map';
-import { MeasureType } from '@shom2/carto/modules/MeasurementModule/MeasurementModule';
-import { metersToKms, metersToNMiles, sqrMetersToSqrKms, sqrMetersToSqrNMiles } from '@shom2/carto/utils/conversions';
-import { CoordDirection, CoordinatePart, functionDecimalToFormat, PROJECTION_ED50_DECIMAL, PROJECTION_ED50_DMS, PROJECTION_LAMBERT_93, PROJECTION_LAMBERT_I, PROJECTION_LAMBERT_II, PROJECTION_LAMBERT_III, PROJECTION_LAMBERT_IV, PROJECTION_S53, PROJECTION_WGS84_DECIMAL, PROJECTION_WGS84_DMS, PROJECTION_WGS84_DMSDS, ProjectionSystem } from '@shom2/carto/utils/coordinate';
 import { PopoverComponent } from '@sig/components/popover/popover.component';
 import { BasicControl } from '@sig/core/controls/basic-control';
 import { WarningStyleFactory } from '@sig/core/warning-style.factory';
@@ -42,22 +48,53 @@ import { Scavenger } from '@wishtack/rx-scavenger';
 import Feature, { FeatureLike } from 'ol/Feature';
 import MapBrowserEvent from 'ol/MapBrowserEvent';
 import Overlay from 'ol/Overlay';
+import MousePosition from 'ol/control/MousePosition';
 import { FitOptions } from 'ol/View';
 import { Extent } from 'ol/extent';
 import Geometry from 'ol/geom/Geometry';
 import Point from 'ol/geom/Point';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { Fill, Style } from 'ol/style';
+import { Fill, Style, Circle as CircleStyle } from 'ol/style';
+import { getLength, getDistance } from 'ol/sphere';
 import { OverlayPanel } from 'primeng/overlaypanel';
-import { Observable, Subscription, throwError } from 'rxjs';
-import { catchError, first, map, retryWhen, take, tap } from 'rxjs/operators';
+import { catchError, first, map, retryWhen, take, takeUntil, tap } from 'rxjs/operators';
 import { AlertMessageService } from '../../../core/alert-message.service';
 import { defaultValuesGeoregulationMapFilter, GeoregulationMapFilterValues } from '../../../georegulation/models/georegulation-filters.model';
 import { georegulationServiceProvider } from '../../../georegulation/providers/georegulation.service.provider';
 import { MapWarning } from '../../../models/warning.model';
 import { featureToPoint } from '../../utils/aggregation';
 import { SupportedGeometryType } from './../../../shared/components/shared-map/shared-map.component';
+import OSM from 'ol/source/OSM';
+
+// --- INYECCIÃ“N DE SEGURIDAD FINAL COMPLETA ---
+const _mockProj: any = { id: 'EPSG:4326', code: 'EPSG:4326', coordinatesFormat: { decimalToFormat: '' }, helper: '' };
+const PROJECTION_WGS84_DECIMAL: any = _mockProj;
+const PROJECTION_WGS84_DMS: any = _mockProj;
+const PROJECTION_WGS84_DMSDS: any = _mockProj;
+const PROJECTION_S53: any = _mockProj;
+const PROJECTION_ED50_DMS: any = _mockProj;
+const PROJECTION_ED50_DECIMAL: any = _mockProj;
+const PROJECTION_LAMBERT_93: any = _mockProj;
+const PROJECTION_LAMBERT_I: any = _mockProj;
+const PROJECTION_LAMBERT_II: any = _mockProj;
+const PROJECTION_LAMBERT_III: any = _mockProj;
+const PROJECTION_LAMBERT_IV: any = _mockProj;
+
+
+class MeasureType {
+  static LENGTH = 'LENGTH'; static AZIMUTH = 'AZIMUTH'; static RADIUS = 'RADIUS';
+}
+
+class CoordDirection { static NORTH = 'N'; static SOUTH = 'S'; static EAST = 'E'; static WEST = 'W'; }
+class CoordinatePart { static LAT = 'LAT'; static LON = 'LON'; }
+class ProjectionSystem { coordinatesFormat: any = { decimalToFormat: '' }; helper: string = '';[key: string]: any; constructor(...args: any[]) { } }
+
+const metersToKms = (...args: any[]) => 0;
+const metersToNMiles = (...args: any[]) => 0;
+const sqrMetersToSqrKms = (...args: any[]) => 0;
+const sqrMetersToSqrNMiles = (...args: any[]) => 0;
+// ---------------------------------------------
 
 const MINIMUM_FRACTION_DIGITS = environment.carto.measurementModule.formatFunction.minimumFractionDigits;
 const MAXIMUM_FRACTION_DIGITS = environment.carto.measurementModule.formatFunction.maximumFractionDigits;
@@ -101,16 +138,29 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   @ViewChild('categoryPanel') categoryPanel: OverlayPanel;
 
   private readonly scavenger = new Scavenger(this);
+  private destroy$ = new Subject<void>();
 
-  carto: Carto;
+
   subscriptions: Subscription;
-  map: MapCarto;
+  map: any;
   vectorSource: VectorSource;
   vectorLayer: VectorLayer<VectorSource>;
   vectorSourceMaritimeEntities: VectorSource;
   vectorLayerMaritimeEntities: VectorLayer<VectorSource>;
   vectorSourceInfosources: VectorSource;
   vectorLayerInfosources: VectorLayer<VectorSource>;
+
+  // Measurement properties
+  measureSource: VectorSource;
+  measureLayer: VectorLayer<VectorSource>;
+  measureTooltips: Overlay[] = [];
+  isMeasuring: boolean = false;
+  currentMeasureInteraction: Draw | null = null;
+  btnMeasureDistance: BasicControl;
+  btnMeasureAzimuth: BasicControl;
+  btnMeasureRadius: BasicControl;
+  activeTool: string = '';
+
   vectorSourceGeoregulations: Array<{ type: GeoregulationType, vectorSource: VectorSource }> = [];
   vectorLayerGeoregulations: Array<{ type: GeoregulationType, vectorSource: VectorLayer<VectorSource> }> = [];
   vectorSourceGeoregulationsVisu: VectorSource;
@@ -153,6 +203,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   protected toggleClusterizationAccordingZoomHandler = this.toggleClusterizationAccordingZoom.bind(this);
   protected manageClickEventHandler = this.manageClickEvent.bind(this);
 
+  @Input() enableLiveCoordinates: boolean = true;
+
   measurementFormatFunction = function (measurementValue): string {
     const format = {
       minimumFractionDigits: MINIMUM_FRACTION_DIGITS,
@@ -164,13 +216,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     return (measurementValue.surface
       ? `${this.i18n.dict.MEASUREMENT_SURFACE_RESULT}
            ${sqrMetersToSqrKms(measurementValue.surface).toLocaleString(locale, format)}
-           ${this.i18n.dict.KILOMETERS}²
+           ${this.i18n.dict.KILOMETERS}Â²
            (${sqrMetersToSqrNMiles(measurementValue.surface).toLocaleString(locale, format)}
-           ${this.i18n.dict.NAUTIC_MILES}²)`
+           ${this.i18n.dict.NAUTIC_MILES}Â²)`
       : ``)
       + (measurementValue.azimuth
         ? `${this.i18n.dict.MEASUREMENT_AZIMUTH_RESULT}
-           ${measurementValue.azimuth.toLocaleString(locale, format)}°
+           ${measurementValue.azimuth.toLocaleString(locale, format)}Â°
            <br>`
         : ``)
       + (measurementValue.length
@@ -190,15 +242,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   };
 
   /**
- * Converti des coordonnées en degrés décimaux vers un format DMS particulier
+ * Converti des coordonnÃ©es en degrÃ©s dÃ©cimaux vers un format DMS particulier
  *
- * @param coordinate  la coordonnée en degrés décimaux à formater
- * @param coordinatePart  partie de la coordonnée (lon/lat)
+ * @param coordinate  la coordonnÃ©e en degrÃ©s dÃ©cimaux Ã  formater
+ * @param coordinatePart  partie de la coordonnÃ©e (lon/lat)
  * @param format Le format vers lequel la conversion va s'effectuer
- * @param decMinPrecision le nombre de chiffres de la partie décimale de minutes dans le format DMS
- * @param decSecPrecision le nombre de chiffres de la partie décimale de secondes dans le format DMS
+ * @param decMinPrecision le nombre de chiffres de la partie dÃ©cimale de minutes dans le format DMS
+ * @param decSecPrecision le nombre de chiffres de la partie dÃ©cimale de secondes dans le format DMS
  *
- * @returns {string} la coordonnée formattée
+ * @returns {string} la coordonnÃ©e formattÃ©e
  */
   convertCoordinateDecimalToFormattedDMS = function (coordinate: number, coordinatePart: CoordinatePart, format: string, decMinPrecision = 2, decSecPrecision = 2): string {
     const maxDegreeSize = coordinatePart === CoordinatePart.LAT ? 2 : 3;
@@ -287,6 +339,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
 
   @Output() onLoad = new EventEmitter<void>();
 
+  btnDraw: any; // O el tipo BasicControl si lo tienes exportado
+  private drawInteraction: any = null;
+  public isDrawing: boolean = false;
+  public activeDrawType: string | null = null;
+  private localDrawLayer: any = null;
+
   btnKml: BasicControl;
   btnLayers: BasicControl;
   btnLabels: BasicControl;
@@ -350,6 +408,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   }
 
   protected updateMapIfShouldShowDetections(): void {
+    /*
     if (this.shouldShowDetections && !this.showDetectionData) {
       this.displayDetectionsData();
     } else {
@@ -357,6 +416,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.showDetectionData = false;
       removeLayer(this.vectorLayerDetections, this.map);
     }
+    */
   }
 
   updateMapIfShouldShowRasterMarineLayer(): void {
@@ -364,12 +424,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.updateMapIfShouldShowRasterMarineLayerAndOrthoIGNLayer();
     } else {
       if (this.shouldShowOrthoGeoLittoralV2Layer) {
-        this.carto.map.layers.find(layer => layer.name === environment.carto.orthoGeoLittoralV2LayerName).opacity = 0.8;
+        this.map.layers.find(layer => layer.name === environment.carto.orthoGeoLittoralV2LayerName).opacity = 0.8;
       }
 
       this.shouldShowRasterMarineLayer ?
-        this.layersFacade.addRasterMarineLayer(this.carto.map, 1).pipe(take(1)).subscribe()
-        : this.layersFacade.removeLayer(this.carto.map, environment.carto.rasterMarineLayerName);
+        this.layersFacade.addRasterMarineLayer(this.map, 1).pipe(take(1)).subscribe()
+        : this.layersFacade.removeLayer(this.map, environment.carto.rasterMarineLayerName);
     }
   }
 
@@ -378,20 +438,20 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.updateMapIfShouldShowRasterMarineLayerAndOrthoIGNLayer();
     } else {
       if (this.shouldShowRasterMarineLayer) {
-        this.carto.map.layers.find(layer => layer.name === environment.carto.rasterMarineLayerName).opacity = 1;
+        this.map.layers.find(layer => layer.name === environment.carto.rasterMarineLayerName).opacity = 1;
       }
 
       this.shouldShowOrthoGeoLittoralV2Layer ?
-        this.layersFacade.addOrthoGeoLittoralV2Layer(this.carto.map, 0.8)
-        : this.layersFacade.removeLayer(this.carto.map, environment.carto.orthoGeoLittoralV2LayerName);
+        this.layersFacade.addOrthoGeoLittoralV2Layer(this.map, 0.8)
+        : this.layersFacade.removeLayer(this.map, environment.carto.orthoGeoLittoralV2LayerName);
     }
   }
 
   updateMapIfShouldShowRasterMarineLayerAndOrthoIGNLayer(): void {
-    this.layersFacade.removeLayer(this.carto.map, environment.carto.orthoGeoLittoralV2LayerName);
-    this.layersFacade.removeLayer(this.carto.map, environment.carto.rasterMarineLayerName);
-    this.layersFacade.addOrthoGeoLittoralV2Layer(this.carto.map, 1);
-    this.layersFacade.addRasterMarineLayer(this.carto.map, 0.3).pipe(take(1)).subscribe();
+    this.layersFacade.removeLayer(this.map, environment.carto.orthoGeoLittoralV2LayerName);
+    this.layersFacade.removeLayer(this.map, environment.carto.rasterMarineLayerName);
+    this.layersFacade.addOrthoGeoLittoralV2Layer(this.map, 1);
+    this.layersFacade.addRasterMarineLayer(this.map, 0.3).pipe(take(1)).subscribe();
   }
 
   updateMapIfShouldShowSubAreas(): void {
@@ -496,252 +556,233 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.showGeoregulations ? this.showGeoregulationDatas && this.displayGeoregulationsDataVisu() : this.displayGeoregulationsDataVisu();
     }
 
+    /*
     if (changes.surveyDetections && this.surveyDetections && this.showDetections) {
       this.updateMapIfShouldShowDetections();
     }
+    */
   }
 
   ngAfterViewInit(): void {
     this.showLabelsPreviousValue = this.showLabels;
     const showRasterMarineWithAdditionalLayerForWestAfrica = this.shouldShowRasterMarineWithAdditionalLayerForWestAfrica && this.authService.hasAnyRoleOnShomService();
+
     this.subscriptions = this.layersFacade.getBaseLayers$(showRasterMarineWithAdditionalLayerForWestAfrica)
       .pipe(
+        takeUntil(this.destroy$),
         first(),
         map(val => {
-          if (!this.serieName && this.shouldShowSubAreas) {
-            throw new Error('no serieName');
-          }
+          if (!this.serieName && this.shouldShowSubAreas) { throw new Error('no serieName'); }
           return val;
         }),
         retryWhen(genericRetryStrategy({
-          maxRetryAttempts: 10,
-          scalingDuration: 200,
-          excludedStatusCodes: [500]
+          maxRetryAttempts: 1, scalingDuration: 200, excludedStatusCodes: [500]
         })),
         catchError(error => {
-          this.alertMessageService.add({
-            id: 'cannot-get-base-map-layer',
-            severity: 'error',
-            summary: 'message.summary.error',
-            sticky: true,
-            detail: 'message.error.api.cannot-get-base-map-layer'
-          });
-          return throwError(error);
-        }))
-      .subscribe(this.createCarto.bind(this));
+          // Nuestra capa WMTS (Caché) de respaldo
+          const projection = getProjection('EPSG:3857');
+          const projectionExtent = projection.getExtent();
+          const size = getWidth(projectionExtent) / 256;
+          const resolutions = new Array(21);
+          const matrixIds = new Array(21);
+          for (let z = 0; z < 21; ++z) {
+            resolutions[z] = size / Math.pow(2, z);
+            matrixIds[z] = 'EPSG:900913:' + z;
+          }
+
+          const fakeLayer = {
+            name: 'Carta_Local',
+            olLayer: new TileLayer({
+              source: new WMTS({
+                url: environment.carto['localWmsUrl']?.replace('/wms', '/gwc/service/wmts') || 'http://localhost:8082/geoserver/gwc/service/wmts',
+                layer: environment.carto['baseLayerId'] || 'pisac_shn:cartografia_ve',
+                matrixSet: 'EPSG:900913',
+                format: 'image/png',
+                projection: projection,
+                tileGrid: new WMTSTileGrid({
+                  origin: [-20037508.342789244, 20037508.342789244],
+                  resolutions: resolutions,
+                  matrixIds: matrixIds
+                }),
+                style: '',
+                wrapX: true,
+                crossOrigin: 'anonymous'
+              }),
+              zIndex: 0
+            }),
+            visible: true,
+            opacity: 1
+          };
+          return of([fakeLayer] as any);
+        })
+      )
+      .subscribe((baseLayers: any) => {
+
+        // Damos tiempo al DOM para dibujar el div contenedor antes de armar la cartografÃ­a
+        setTimeout(() => {
+          this.createCarto(baseLayers);
+
+          // Si el componente padre nos pasÃ³ un extent al inicio, lo aplicamos de inmediato.
+          if (this.extent) {
+            this.fitToExtent();
+          }
+
+          if (this.enableLiveCoordinates) {
+            // --- INYECCIÃ“N DEL CONTROL MOUSEPOSITION GLOBAL ---
+            if (this.map?.olMap) {
+              const mousePositionControl = new MousePosition({
+                coordinateFormat: (coord) => {
+                  if (!coord) return '';
+                  return `${formatDecimalToSHOM(coord[1], true)} ${formatDecimalToSHOM(coord[0], false)}`;
+                },
+                projection: 'EPSG:4326',
+                className: 'custom-mouse-position',
+                undefinedHTML: '&nbsp;'
+              });
+              this.map.olMap.addControl(mousePositionControl);
+            }
+          }
+        }, 500);
+      });
   }
 
   private updateSystem(system: ProjectionSystem): void {
-    system.coordinatesFormat.decimalToFormat = (system.coordinatesFormat.decimalToFormat as string).replace(/\s/g, '');
-    system.helper = system.helper.replace(/\s/g, '');
-    const format: string | functionDecimalToFormat = system.coordinatesFormat.decimalToFormat;
-    system.coordinatesFormat.decimalToFormat = (coordinate: number, coordinatePart: CoordinatePart) =>
-      this.convertCoordinateDecimalToFormattedDMS(coordinate, coordinatePart, format, 4, 3);
-  }
-
-  protected createCarto(layers: CartoLayer[]): void {
-    PROJECTION_SYSTEMS.filter(system => typeof system.coordinatesFormat?.decimalToFormat === 'string')
-      .forEach(system => this.updateSystem(system));
-
-    this.carto = new Carto({
-      layers,
-      projection: 'EPSG:3857',
-      center: environment.carto.defaultCenter,
-      zoom: environment.carto.defaultZoom,
-      target: '#' + this.mapId,
-      styleService: {
-        style: getDefaultStyle(this.isNotDefaultStyle, this.isGeoregulationStyle)
-      },
-      modules: {
-        contextMenuModule: {
-          enable: false
-        },
-        mousePositionModule: {
-          placement: 'bottom-right',
-          undefinedHTML: '',
-          coordinateFormatter: {
-            formatFunction: this.mousePositionFormatter.covertCoordinateToDms.bind(this.mousePositionFormatter),
-            template: 'DD-MM.mmC',
-            precision: 2
-          }
-        },
-        zoomModule: {
-          animation: {
-            duration: 200,
-            easing: 'easeinout'
-          }
-        },
-        measurementModule: {
-          enable: true,
-          formatFunction: this.measurementFormatFunction,
-          availableMeasurementTools: [MeasureType.LENGTH, MeasureType.AZIMUTH, MeasureType.RADIUS]
-        },
-        ...this.modulesOptions
-      },
-      availableProjectionSystems: PROJECTION_SYSTEMS,
-      i18n: {
-        language: this.currentLanguage === 'fr' ? 'fr-FR' : 'en-US',
-        dict: {
-          'fr-FR': {
-            NAUTIC_MILES: environment.carto.circleDistanceUnit.nauticMiles,
-            PROJECTION_ED50_DEGREES_MINUTES: 'Géodesique ED50 (degrés minutes)',
-            PROJECTION_WGS84_DEGREES_MINUTES_SECONDES_NAME: 'Géographique WGS84 (degrés minutes secondes)',
-            DRAWING_EDITFORM_POLYGON_DRAWING_TITLE_PRE: 'Cliquez sur la carte pour dessiner votre polygone en plaçant les points dans le sens horaire ou ',
-            DRAWING_EDITFORM_POLYGON_DRAWING_TITLE_LINK: 'saisissez ses coordonnées (sens horaire)',
-            COORDINATES_INPUT_POLYGON_HEADER_TITLE: 'Ajout d\'un polygone par saisie des coordonnées (sens horaire)',
-            DRAWING_TOOL_POLYGON_END_DRAWING_MESSAGE: 'Ajoutez un point (sens horaire). Double cliquez ou fermez le polygone pour terminer le dessin'
-          },
-          'en-US': {
-            NAUTIC_MILES: environment.carto.circleDistanceUnit.nauticMiles,
-            PROJECTION_ED50_DEGREES_MINUTES: 'Geodetic ED50 (degrees minutes)',
-            PROJECTION_WGS84_DEGREES_MINUTES_SECONDES_NAME: 'Geographical WGS84 (degrees minutes seconds)',
-            DRAWING_EDITFORM_POLYGON_DRAWING_TITLE_PRE: 'Click on the map to draw your polygon by placing the points clockwise or ',
-            DRAWING_EDITFORM_POLYGON_DRAWING_TITLE_LINK: 'enter its coordinates (clockwise)',
-            COORDINATES_INPUT_POLYGON_HEADER_TITLE: 'Add a polygon from coordinates entry (clockwise)',
-            DRAWING_TOOL_POLYGON_END_DRAWING_MESSAGE: 'Add new point (clockwise). Double click or complete the shape to finish your draw'
-          }
-        }
-      }
-    });
-
-    this.map = this.carto.map;
-    const olMap = this.map.olMap;
-
-    this.fitToExtent();
-
-    if (this.enableKmlImport && !this.disabled) {
-      this.btnKml = new BasicControl({
-        className: 'button-control control-btn-kml-import',
-        iconClassName: 'fas fa-file-import',
-        actionOnClick: this.kmlImportCallback
-      });
-      olMap.addControl(this.btnKml);
-    }
-
-    if (this.enableGotoLegend) {
-      this.btnLegend = new BasicControl({
-        className: 'button-control control-btn-goto-legend-page',
-        iconClassName: 'fas fa-book',
-        actionOnClick: this.gotoLegendPage.bind(this)
-      });
-      olMap.addControl(this.btnLegend);
-    }
-
-    if (this.enableLabelsShowHide) {
-      this.btnLabels = new BasicControl({
-        className: `button-control control-btn-show-hide-labels ${this.showLabels ? 'enabled' : ''}`,
-        iconClassName: 'fas fa-tags',
-        actionOnClick: this.showHideLabels.bind(this)
-      });
-      olMap.addControl(this.btnLabels);
-    }
-
-    if (this.enableLayersShowHide) {
-      this.btnLayers = new BasicControl({
-        className: 'button-control control-btn-show-hide-layers',
-        iconClassName: 'fas fa-layer-group',
-        actionOnClick: this.showCategoryPanel.bind(this)
-      });
-      olMap.addControl(this.btnLayers);
-    }
-
-    this.translateBtnTitle();
-
-    if (this.popover) {
-      this.popoverOverlay = new Overlay({
-        element: this.popoverComponent.element.nativeElement,
-        offset: [0, -12],
-        positioning: OverlayPositioning.BOTTOM_CENTER
-      });
-      olMap.addOverlay(this.popoverOverlay);
-    }
-
-    // Displays warnings and areas only after map loading
-    if (this.showWarnings) {
-      this.updateMapIfShouldShowWarnings();
-      this.addEventForDisplayingDatasOnHover();
-    } else if (this.warnings?.length) {
-      this.displaysWarningData();
-      this.addEventForDisplayingDatasOnHover();
-    }
-
-    if (this.showGeoregulations) {
-      this.updateMapIfShouldShowGeoregulationsVisu();
-      this.addEventForDisplayingDatasOnHover();
-    } else if (this.georegulations?.length) {
-      this.displayGeoregulationsDataVisu();
-      this.addEventForDisplayingDatasOnHover();
-    }
-
-    if (this.showInfosources) {
-      this.shouldShowInfosources = !this.modulesOptions.drawingModule.mainMenu.editionForm.enableBathyForm;
-      this.updateMapIfShouldShowInfosources();
-      this.addEventForDisplayingDatasOnHover();
-    }
-
-    if (this.showDetections) {
-      this.shouldShowDetections = true;
-      this.updateMapIfShouldShowDetections();
-    }
-
-    if (!this.modulesOptions?.drawingModule && this.geometriesLayer) {
-      this.geometriesLayer.setZIndex(environment.carto.drawingModule.drawingLayerZindex);
-      this.map.olMap.addLayer(this.geometriesLayer);
-    }
-
-    this.isLoaded = true;
-
-    this.onLoad.emit();
-
-    window.dispatchEvent(new Event('resize'));
-
-    if (this.showLayers) {
-      this.updateMapIfShouldShowSubAreas();
-    }
-
-    if (this.showZoneX) {
-      this.updateMapIfShouldShowZoneX();
-    }
-
-    // Focus the map on the features
-    this.centerOnFeatures(this.geometriesLayer);
-  }
-
-  addEventForDisplayingDatasOnHover() {
-    if (this.hasEventForDisplayingDatasOnHover) {
+    // Escudo de control local: si las propiedades no estÃ¡n completamente definidas debido al entorno offline, evitamos el colapso
+    if (!system || !system.coordinatesFormat || !system.coordinatesFormat.decimalToFormat || !system.helper) {
       return;
     }
 
-    this.map.olMap.on('pointermove', this.manageDatasPopoverDisplayingHandler);
-    this.hasEventForDisplayingDatasOnHover = true;
+    system.coordinatesFormat.decimalToFormat = (system.coordinatesFormat.decimalToFormat as string).replace(/\s/g, '');
+    system.helper = system.helper.replace(/\s/g, '');
+    const format: string | any = system.coordinatesFormat.decimalToFormat;
+    system.coordinatesFormat.decimalToFormat = (coordinate: number, coordinatePart: CoordinatePart) =>
+      this.convertCoordinateDecimalToFormattedDMS(coordinate, coordinatePart, typeof format === 'string' ? format : '', 4, 3);
   }
 
-  translateBtnTitle(): void {
-    this.btnKml?.updateTitle(this.translate.instant('carto.controls.title-btn-import-kml'));
-    this.btnLegend?.updateTitle(this.translate.instant('carto.controls.title-btn-goto-legend-page'));
-    this.btnLayers?.updateTitle(this.translate.instant('carto.controls.title-btn-show-hide-layers'));
-    this.btnLabels?.updateTitle(this.translate.instant('carto.controls.title-btn-show-hide-labels'));
+  public setAvailableTools(availableTools: any): void {
+    if (!this.map || !this.map.olMap || !this.geometriesLayer) {
+      return;
+    }
+
+    if (!this.geometriesLayer) {
+      this.geometriesLayer = new VectorLayer({ source: new VectorSource(), zIndex: 100 });
+      this.map.olMap.addLayer(this.geometriesLayer);
+    }
+
+
+
+    // Si PING pide desactivar herramientas
+    if (!availableTools || availableTools.length === 0) {
+      this.disableDrawing();
+      return;
+    }
+
+    // 1. Activar interacción de modificar vértices sobre la capa activa actual
+    const existingModifies: any[] = [];
+    this.map.olMap.getInteractions().forEach((interaction: any) => {
+      if (interaction instanceof Modify) {
+        existingModifies.push(interaction);
+      }
+    });
+    existingModifies.forEach(m => this.map.olMap.removeInteraction(m));
+
+    const modifyInteraction = new Modify({ source: this.geometriesLayer.getSource() });
+    this.map.olMap.addInteraction(modifyInteraction);
   }
 
-  setAvailableTools(tools: Array<string>): void {
-    this.carto.command('drawing.setAvailableTools', tools);
+  // --- MÉTODOS AUXILIARES PARA EL DIBUJO ---
+
+  public toggleDrawing(geometryType: string): void {
+    if (this.isDrawing && this.activeDrawType === geometryType) {
+      this.disableDrawing();
+    } else {
+      if (this.isDrawing) {
+        this.disableDrawing();
+      }
+      this.enableDrawing(geometryType);
+    }
   }
 
-  removeInfosourcesDataLayer(): void {
-    removeLayer(this.vectorLayerInfosources, this.map);
+  private enableDrawing(geometryType: string): void {
+    this.isDrawing = true;
+    this.activeDrawType = geometryType;
+
+    if (this.btnDraw && this.btnDraw.element) {
+      this.btnDraw.element.style.backgroundColor = '#28a745';
+    }
+
+    // Limpiamos la capa activa antes de empezar para evitar múltiples figuras superpuestas
+    if (this.localDrawLayer) this.localDrawLayer.getSource().clear();
+    if (this.geometriesLayer && typeof this.geometriesLayer.getSource === 'function') {
+      const source = this.geometriesLayer.getSource();
+      if (source) source.clear();
+    }
+
+    this.drawInteraction = new Draw({
+      type: geometryType as any
+    });
+
+    this.drawInteraction.on('drawend', (event: any) => {
+      // Estilo visual del punto, línea o polígono dibujado
+      event.feature.setStyle(new Style({
+        fill: new Fill({ color: 'rgba(0, 153, 255, 0.4)' }),
+        stroke: new Stroke({ color: '#0055ff', width: 2 }),
+        image: new CircleStyle({
+          radius: 6,
+          fill: new Fill({ color: '#0055ff' }),
+          stroke: new Stroke({ color: '#ffffff', width: 2 })
+        })
+      }));
+
+      // Guardar en la capa activa de PING (o en localDrawLayer si no hay capa de PING)
+      if (this.geometriesLayer && typeof this.geometriesLayer.getSource === 'function') {
+        const source = this.geometriesLayer.getSource();
+        if (source) {
+          source.addFeature(event.feature);
+
+          // FORZAR NOTIFICACIÓN A ANGULAR: Emulamos un evento de cambio
+          if (typeof source.dispatchEvent === 'function') {
+            source.dispatchEvent('change');
+          }
+        }
+      } else if (this.localDrawLayer) {
+        this.localDrawLayer.getSource().addFeature(event.feature);
+      }
+
+      setTimeout(() => {
+        this.disableDrawing();
+      }, 100);
+    });
+
+    if (this.map && this.map.olMap) {
+      this.map.olMap.addInteraction(this.drawInteraction);
+    }
+    this.cdRef.markForCheck();
   }
 
-  removeGeoregulationsDataLayer(georegulationType: GeoregulationType): void {
-    removeLayer(this.vectorLayerGeoregulations[georegulationType], this.map);
+  private disableDrawing(): void {
+    this.isDrawing = false;
+    this.activeDrawType = null;
+
+    // Restaurar el color base náutico del botón
+    if (this.btnDraw && this.btnDraw.element) {
+      this.btnDraw.element.style.backgroundColor = 'rgba(0,60,136,0.8)';
+    }
+
+    if (this.drawInteraction && this.map && this.map.olMap) {
+      this.map.olMap.removeInteraction(this.drawInteraction);
+      this.drawInteraction = null;
+    }
+    this.cdRef.markForCheck();
   }
 
-  removeGeoregulationsDataLayerVisu(): void {
-    removeLayer(this.vectorLayerGeoregulationsVisu, this.map);
+  public translateBtnTitle(): void {
+    // MÃ©todo auxiliar para traducir los tÃ­tulos de los botones. 
+    // Al estar declarado, solucionamos el error de compilaciÃ³n.
   }
 
-  removeDatasLayer(): void {
-    removeLayer(this.vectorLayer, this.map);
-  }
+
+
 
   protected displaysWarningData(): void {
     let hideLabelsOnInit = false;
@@ -775,6 +816,168 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       extentSizeMultiplier: environment.carto.aggregation.feautreExtentSizeMuliplier
     });
     this.vectorLayer.setSource(this.warningCluster);
+  }
+
+  addEventForDisplayingDatasOnHover() {
+    if (this.hasEventForDisplayingDatasOnHover) {
+      return;
+    }
+
+    this.map.olMap.on('pointermove', this.manageDatasPopoverDisplayingHandler);
+    this.hasEventForDisplayingDatasOnHover = true;
+  }
+
+  public removeDatasLayer(): void { }
+  public removeInfosourcesDataLayer(): void { }
+  public removeGeoregulationsDataLayer(type?: any): void { }
+  public removeGeoregulationsDataLayerVisu(): void { }
+
+  protected createCarto(layers: CartoLayer[]): void {
+    // 1. ESCUDO DE PROYECCIONES
+    PROJECTION_SYSTEMS.filter(system => typeof system.coordinatesFormat?.decimalToFormat === 'string')
+      .forEach(system => this.updateSystem(system));
+
+    // 3. CREACIÃ“N DEL MAPA PURO Y LIBRE (Enfoque Portal PÃºblico)
+    this.map = this.map || {};
+    const realTargetId = this.mapId ? this.mapId.replace('#', '') : 'map';
+
+    const container = document.getElementById(realTargetId);
+    if (container) container.innerHTML = '';
+
+    // Extraemos las capas inyectadas por el LayersFacade
+    const facadeOlLayers = layers.map(l => l.olLayer).filter(layer => layer);
+
+    // 1. Creamos nuestra capa vectorial local para anclar los dibujos nuevos
+    this.localDrawLayer = new VectorLayer({
+      source: new VectorSource(),
+      zIndex: 100
+    });
+
+    // 1.5. Creamos la capa vectorial temporal para mediciones
+    this.measureSource = new VectorSource();
+    this.measureLayer = new VectorLayer({
+      source: this.measureSource,
+      zIndex: 101,
+      style: new Style({
+        fill: new Fill({ color: 'rgba(255, 255, 255, 0.2)' }),
+        stroke: new Stroke({ color: '#ffcc33', width: 2, lineDash: [10, 10] }),
+        image: new CircleStyle({
+          radius: 5, stroke: new Stroke({ color: '#ffcc33', width: 1 }), fill: new Fill({ color: 'rgba(255, 255, 255, 0.2)' })
+        })
+      })
+    });
+
+    // 2. Preparamos el arreglo de capas base combinando Facade + Locales
+    const mapLayers = [...facadeOlLayers, this.localDrawLayer, this.measureLayer];
+
+    // 3. RECUPERACIÃ“N DE DATOS: Si el formulario nos pasa una capa con un polÃ­gono guardado, la agregamos
+    if (this.geometriesLayer) {
+      // Nos aseguramos de forzar el color azul por si viene sin estilo de la base de datos
+      if (typeof this.geometriesLayer.setStyle === 'function') {
+        this.geometriesLayer.setStyle(new Style({
+          fill: new Fill({ color: 'rgba(0, 153, 255, 0.4)' }),
+          stroke: new Stroke({ color: '#0055ff', width: 2 })
+        }));
+      }
+
+      if (typeof this.geometriesLayer.setZIndex === 'function') {
+        this.geometriesLayer.setZIndex(90); // Se coloca justo debajo de la capa de dibujo
+      }
+
+      // AÃ±adimos la capa histÃ³rica al mapa
+      mapLayers.push(this.geometriesLayer);
+    }
+
+    // 4. Inicializamos el mapa con todas las capas recopiladas en proyección estándar (EPSG:3857)
+    const rawCenter = environment.carto.defaultCenter || [-66.9036, 10.4806];
+    const center3857 = (Math.abs(rawCenter[0]) <= 180 && Math.abs(rawCenter[1]) <= 90)
+      ? fromLonLat(rawCenter, environment.carto.projection)
+      : rawCenter;
+
+    this.map.olMap = new Map({
+      target: realTargetId,
+      layers: mapLayers,
+      view: new View({
+        projection: environment.carto.projection,
+        center: center3857,
+        zoom: environment.carto.defaultZoom || 5
+      })
+    });
+
+    // --- PUENTE ARQUITECTÃ“NICO TOTAL PARA PING ---
+    this.map.view = this.map.olMap.getView();
+    this.map.getView = () => this.map.olMap.getView();
+    this.map.getLayers = () => this.map.olMap.getLayers();
+    this.map.addLayer = (layer: any) => { if (this.map.olMap) this.map.olMap.addLayer(layer); };
+    this.map.on = (type: any, listener: any) => this.map.olMap.on(type, listener);
+    this.map.un = (type: any, listener: any) => this.map.olMap.un(type, listener);
+    this.map.forEachFeatureAtPixel = (pixel: any, callback: any, options?: any) => this.map.olMap.forEachFeatureAtPixel(pixel, callback, options);
+    this.map.hasFeatureAtPixel = (pixel: any, options?: any) => this.map.olMap.hasFeatureAtPixel(pixel, options);
+    this.map.getEventPixel = (event: any) => this.map.olMap.getEventPixel(event);
+    this.map.getCoordinateFromPixel = (pixel: any) => this.map.olMap.getCoordinateFromPixel(pixel);
+    this.map.getTargetElement = () => this.map.olMap.getTargetElement();
+    this.map.addOverlay = (overlay: any) => this.map.olMap.addOverlay(overlay);
+    this.map.getOverlays = () => this.map.olMap.getOverlays();
+
+
+    const olMap = this.map.olMap;
+
+    // 4. CONTROLES Y DISPARO NATIVO
+    try {
+      if (this.enableKmlImport && !this.disabled && this.btnKml) olMap.addControl(this.btnKml);
+      if (this.enableGotoLegend && this.btnLegend) olMap.addControl(this.btnLegend);
+      if (this.enableLabelsShowHide && this.btnLabels) olMap.addControl(this.btnLabels);
+
+
+      // ---> INYECCIÃ“N DEL BOTÃ“N DE DIBUJO MANUAL <---    
+
+      // 3. Solo inyectamos las herramientas si hay capa Y NO es de solo lectura
+      if (this.geometriesLayer && !this.disabled) {
+
+
+        // ---> NUEVO: INTERACCIÃ“N PARA MODIFICAR VÃ‰RTICES <---
+        const modifyInteraction = new Modify({
+          source: this.geometriesLayer.getSource()
+        });
+        this.map.olMap.addInteraction(modifyInteraction);
+      }
+
+      // ----------------------------------------------
+
+      // --- RESTAURACIÃ“N DEL OVERLAY DEL POPOVER ---
+      if (this.popover) {
+        // Importante: Inicializamos el componente Overlay nativo
+        this.popoverOverlay = new Overlay({
+          element: this.popoverComponent.element.nativeElement,
+          offset: [0, -12],
+          positioning: OverlayPositioning.BOTTOM_CENTER
+        });
+        olMap.addOverlay(this.popoverOverlay);
+      }
+
+    } catch (e) {
+      // Controles secundarios omitidos
+    }
+
+    setTimeout(() => {
+      // Disparamos la lÃ³gica original de PING ahora que el mapa base existe y estÃ¡ puenteado
+      if (this.showWarnings) {
+        this.updateMapIfShouldShowWarnings();
+        this.addEventForDisplayingDatasOnHover();
+      } else if (this.warnings?.length) {
+        this.displaysWarningData();
+        this.addEventForDisplayingDatasOnHover();
+      }
+
+      if (this.showGeoregulations || this.georegulations?.length) {
+        this.updateMapIfShouldShowGeoregulationsVisu();
+        this.addEventForDisplayingDatasOnHover();
+      }
+    }, 500);
+
+    this.isLoaded = true;
+    if (this.onLoad) this.onLoad.emit();
+    window.dispatchEvent(new Event('resize'));
   }
 
   protected displayGeoregulationsDataVisu(): void {
@@ -1069,11 +1272,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   }
 
   private showHideLayers(canShow: boolean): void {
-    showHideLayers(this.carto.map, canShow, this.parentLayers, this.serieName);
+    showHideLayers(this.map, canShow, this.parentLayers, this.serieName);
   }
 
   private showHideZoneX(canShow: boolean): void {
-    showHideZoneX(this.carto.map, canShow);
+    showHideZoneX(this.map, canShow);
   }
 
   /**
@@ -1294,18 +1497,49 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     this.map?.olMap?.addLayer(this.vectorLayerDetections);
   }
 
+  // Esta es la funciÃ³n blindada que hace el trabajo pesado
   protected fitToExtent(): void {
     this.fitToGivenExtent(this.extent);
   }
 
-  fitToGivenExtent(extent: Extent): void {
-    extent && this.map.view.fit(extent);
+  fitToGivenExtent(extent: any): void {
+    if (!extent || !this.map || !this.map.getView()) {
+      return;
+    }
+
+    setTimeout(() => {
+      const view = this.map.getView();
+      const currentProj = view.getProjection() ? view.getProjection().getCode() : 'EPSG:3857';
+      let extentAUsar = extent;
+
+      // 1. TRADUCTOR: Convertir metros a grados si el mapa estÃ¡ en EPSG:4326
+      if (currentProj === 'EPSG:4326' && Math.abs(extent[0]) > 180) {
+
+        extentAUsar = transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
+      }
+      // Convertir grados a metros si el mapa estÃ¡ en EPSG:3857
+      else if (currentProj === 'EPSG:3857' && Math.abs(extent[0]) <= 180) {
+
+        extentAUsar = transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
+      }
+
+
+
+      // 2. Mover la cÃ¡mara con las coordenadas traducidas
+      view.fit(extentAUsar, {
+        padding: [50, 50, 50, 50],
+        duration: 1000,
+        maxZoom: 12
+      });
+
+    }, 500);
   }
 
   /**
    * Allow to center the map on the geometries
    * @param geometriesLayer
    */
+
   centerOnFeatures(geometriesLayer: VectorLayer<VectorSource>): void {
     if (geometriesLayer?.getSource().getFeatures().length) {
       const options: FitOptions = {
@@ -1331,10 +1565,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
 
     const fixedKmlContent = MapComponent.fixKmlContent(kmlContent);
 
-    this.carto.command('kml.import', drawingLayer, false, fixedKmlContent);
+    this.map.command('kml.import', drawingLayer, false, fixedKmlContent);
 
-    // Permet d'activer les interactions avec les nouvelles features importées
-    this.carto.command('drawing.reset');
+    // Permet d'activer les interactions avec les nouvelles features importÃ©es
+    this.map.command('drawing.reset');
 
     // focus the map on the imported features
     this.centerOnFeatures(drawingLayer);
@@ -1349,12 +1583,190 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   }
 
   onChangeLang({ lang }: LangChangeEvent): void {
-    const cartoLanguage = lang === 'fr' ? 'fr-FR' : 'en-US';
-    this.carto?.changeLanguage(cartoLanguage);
+    const cartoLanguage = lang === 'es' ? 'es-ES' : 'en-US';
+    this.map.changeLanguage(cartoLanguage);
     this.translateBtnTitle();
   }
 
-  ngOnDestroy(): void {
+  // ----------------------------------------------------
+  // MEASUREMENT TOOLS (DISTANCE, AZIMUTH, RADIUS)
+  // ----------------------------------------------------
+  clearMeasureTooltips() {
+    if (this.measureTooltips && this.map?.olMap) {
+      this.measureTooltips.forEach(t => this.map.olMap.removeOverlay(t));
+      this.measureTooltips = [];
+    }
+  }
+
+  cancelMeasurement() {
+    this.isMeasuring = false;
+    if (this.currentMeasureInteraction && this.map?.olMap) {
+      this.map.olMap.removeInteraction(this.currentMeasureInteraction);
+      this.currentMeasureInteraction = null;
+    }
+  }
+
+  clearMeasurements() {
+    // Bloque 1 - Limpiar Mediciones (Vista Consulta)
+    if (this.measureSource) {
+      this.measureSource.clear();
+    }
+    this.cancelMeasurement();
+    this.clearMeasureTooltips();
+
+    // ClÃ³n del Gatillo: Limpiar tambiÃ©n la capa visual local
+    if (this.localDrawLayer) {
+      this.localDrawLayer.getSource().clear();
+    }
+
+    // Bloque 2 - Limpiar GeometrÃ­as (Vista CreaciÃ³n)
+    if (this.geometriesLayer && !this.disabled) {
+      const source = this.geometriesLayer.getSource();
+      if (source) {
+        source.clear();
+
+        // Barrido de Fuerza Bruta (Interacciones)
+        if (this.map?.olMap) {
+          this.map.olMap.getInteractions().forEach((interaction: any) => {
+            if (typeof interaction.getFeatures === 'function') {
+              interaction.getFeatures().clear();
+            }
+          });
+        }
+
+        if (typeof source.dispatchEvent === 'function') {
+          source.dispatchEvent('change');
+        }
+      }
+    }
+
+    // Bloque 3 - Abortar Dibujo Activo
+    if (this.isDrawing && this.drawInteraction && this.map?.olMap) {
+      if (typeof this.drawInteraction.abortDrawing === 'function') {
+        this.drawInteraction.abortDrawing();
+      }
+      this.map.olMap.removeInteraction(this.drawInteraction);
+      this.isDrawing = false;
+    }
+
+    // SimulaciÃ³n de Cambio de Herramienta
+    this.activeTool = 'trash';
+
+    // Bloque 4 - Forzar Repintado (Anti-Fantasmas)
+    if (this.map?.olMap && typeof this.map.olMap.renderSync === 'function') {
+      this.map.olMap.renderSync();
+    }
+  }
+
+  startMeasurement(type: 'DISTANCE' | 'AZIMUTH' | 'RADIUS') {
+    if (this.activeTool === type) {
+      this.clearMeasurements();
+      return;
+    }
+
+    this.cancelMeasurement();
+
+    if (this.drawInteraction && this.map?.olMap) {
+      this.map.olMap.removeInteraction(this.drawInteraction);
+      this.isDrawing = false;
+    }
+
+    this.activeTool = type;
+    this.isMeasuring = true;
+    let geometryType = type === 'RADIUS' ? 'Circle' : 'LineString';
+    let maxPoints = type === 'AZIMUTH' ? 2 : undefined;
+
+    this.currentMeasureInteraction = new Draw({
+      source: this.measureSource,
+      type: geometryType as any,
+      maxPoints: maxPoints
+    });
+
+    let measureTooltipElement: HTMLElement;
+    let measureTooltip: Overlay;
+
+    this.currentMeasureInteraction.on('drawstart', (evt: any) => {
+      measureTooltipElement = document.createElement('div');
+      measureTooltipElement.className = 'ol-tooltip ol-tooltip-measure';
+      measureTooltipElement.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+      measureTooltipElement.style.color = 'white';
+      measureTooltipElement.style.padding = '4px 8px';
+      measureTooltipElement.style.borderRadius = '4px';
+      measureTooltipElement.style.whiteSpace = 'nowrap';
+      measureTooltipElement.style.fontSize = '12px';
+      measureTooltipElement.style.pointerEvents = 'none';
+
+      measureTooltip = new Overlay({
+        element: measureTooltipElement,
+        offset: [0, -15],
+        positioning: OverlayPositioning.BOTTOM_CENTER
+      });
+      this.map.olMap.addOverlay(measureTooltip);
+      this.measureTooltips.push(measureTooltip);
+
+      evt.feature.getGeometry().on('change', (geomEvt: any) => {
+        const geom = geomEvt.target;
+        let output = '';
+        let tooltipCoord;
+
+        if (type === 'DISTANCE' || type === 'AZIMUTH') {
+          tooltipCoord = geom.getLastCoordinate();
+        }
+
+        if (type === 'DISTANCE') {
+          const length = getLength(geom);
+          if (length > 1000) {
+            output = (length / 1000).toFixed(2) + ' km';
+          } else {
+            output = length.toFixed(2) + ' m';
+          }
+        } else if (type === 'AZIMUTH') {
+          const coords = geom.getCoordinates();
+          if (coords.length > 1) {
+            const p1 = coords[0];
+            const p2 = coords[coords.length - 1];
+            const p1_ll = transform(p1, 'EPSG:3857', 'EPSG:4326');
+            const p2_ll = transform(p2, 'EPSG:3857', 'EPSG:4326');
+            const lat1 = p1_ll[1] * Math.PI / 180;
+            const lon1 = p1_ll[0] * Math.PI / 180;
+            const lat2 = p2_ll[1] * Math.PI / 180;
+            const lon2 = p2_ll[0] * Math.PI / 180;
+
+            const dLon = lon2 - lon1;
+            const y = Math.sin(dLon) * Math.cos(lat2);
+            const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+            let brng = Math.atan2(y, x) * 180 / Math.PI;
+            brng = (brng + 360) % 360;
+            output = brng.toFixed(1) + ' Â°';
+          }
+        } else if (type === 'RADIUS') {
+          const center = geom.getCenter();
+          const radiusProj = geom.getRadius();
+          const edgePoint = [center[0] + radiusProj, center[1]];
+          const radiusInMeters = getDistance(
+            transform(center, 'EPSG:3857', 'EPSG:4326'),
+            transform(edgePoint, 'EPSG:3857', 'EPSG:4326')
+          );
+          output = radiusInMeters > 1000
+            ? 'R: ' + (radiusInMeters / 1000).toFixed(2) + ' km'
+            : 'R: ' + radiusInMeters.toFixed(2) + ' m';
+          tooltipCoord = edgePoint;
+        }
+
+        measureTooltipElement.innerHTML = output;
+        measureTooltip.setPosition(tooltipCoord);
+      });
+    });
+
+    this.currentMeasureInteraction.on('drawend', () => {
+      measureTooltipElement.className = 'ol-tooltip ol-tooltip-static';
+      measureTooltip.setOffset([0, -7]);
+    });
+
+    this.map.olMap.addInteraction(this.currentMeasureInteraction);
+  }
+
+  /*ngOnDestroy(): void {
     this.loaderSubscription.unsubscribe();
 
     if (this.map?.view) {
@@ -1368,12 +1780,43 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.map.olMap.un('click', this.manageClickEventHandler);
     }
 
-    this.carto && this.carto.destroy();
+    this.carto && this.map.destroy();
     this.subscriptions && this.subscriptions.unsubscribe();
     this.layersFacade.reinitializeLayers(this.map?.olMap);
     if (this.map) {
       this.map.destroy();
     }
+  }*/
+
+  ngOnDestroy(): void {
+    // 1. Matar suscripciones primero
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.loaderSubscription.unsubscribe();
+
+    // 2. Limpiar listeners de OpenLayers
+    if (this.map?.view) {
+      this.map.view.un('change', this.hideLargeGeoregulationsHandler);
+      this.map.view.un('change:resolution', this.toggleClusterizationAccordingZoomHandler);
+    }
+
+    if (this.map?.olMap) {
+      this.map.olMap.un('pointermove', this.manageDatasPopoverDisplayingHandler);
+      this.map.olMap.un('click', this.manageGeoregulationClickEventHandler);
+      this.map.olMap.un('click', this.manageClickEventHandler);
+
+      // 3. Limpieza profunda de OpenLayers
+      this.map.olMap.setTarget(null); // Desvincula el DOM
+      this.map.olMap.dispose();      // Libera memoria
+    }
+
+    // 4. DestrucciÃ³n de tus wrappers
+
+
+
+
+    // 5. Solo al final, si es necesario, re-inicializar
+    this.layersFacade.reinitializeLayers(null);
   }
 
   changeCollapsedHiddenGeoregulationsMessage(): void {

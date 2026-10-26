@@ -6,9 +6,9 @@ import { FEATURE_LABEL_PROPERTY, FEATURE_PROPERTY_DEPTH, FEATURE_PROPERTY_DIFFER
 import { checkIfLayoutIsNotValid, convertLayoutCoordinatesToXY, GeometryType } from '@app/sig/utils/geometry';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
-import { metersToNMiles } from '@shom2/carto/utils/conversions';
-import { convertMercatToLonLat } from '@shom2/carto/utils/coordinate';
-import { getSphereRadius } from '@shom2/carto/utils/spheremeasure';
+//import { metersToNMiles } from '@shom2/carto/utils/conversions';
+//import { convertMercatToLonLat } from '@shom2/carto/utils/coordinate';
+//import { getSphereRadius } from '@shom2/carto/utils/spheremeasure';
 import { MousePositionFormatterService } from '@sig/services/mouse-position-formatter.service';
 import { format, formatInTimeZone } from 'date-fns-tz';
 import { Feature } from 'ol';
@@ -18,12 +18,22 @@ import LineString from 'ol/geom/LineString';
 import Point from 'ol/geom/Point';
 import Polygon from 'ol/geom/Polygon';
 import SimpleGeometry from 'ol/geom/SimpleGeometry';
+import { toLonLat } from 'ol/proj';
 import { formatModelItemDatetime, UTC_TIMEZONE_ZERO } from '../date-utils';
 import { CapitalizeFirstPipe } from '../pipes/capitalize-first.pipe';
 
 export const RADIUS_INPUT_VALUE_LABEL = 'radiusInputValue';
 
 export const DEFAULT_PRECISION = 4;
+
+// --- INYECCI�N DE SEGURIDAD ---
+const metersToNMiles = (meters: number): number => meters / 1852;
+const convertMercatToLonLat = (coord: number[]): number[] => {
+  if (!coord || coord.length < 2) { return [0, 0]; }
+  return Math.abs(coord[0]) > 180 ? toLonLat(coord) : coord;
+};
+const getSphereRadius = (geom?: any): number => geom?.getRadius ? geom.getRadius() : 6378137;
+// -----------------------------
 
 export interface DistanceUnit {
   name: string,

@@ -240,6 +240,11 @@ export abstract class StepComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (err && err.status === 500 && err.error?.message?.includes('Incompatible SerieType')) {
+      this.alertMessageService.add({ severity: 'error', detail: 'La categoría de peligro seleccionada no es compatible con esta serie.' });
+      return throwError(err);
+    }
+
     let toastMessageKey = `message.error.api.cannot-${saveKey}-warning`;
 
     if (this.isDraft()) {

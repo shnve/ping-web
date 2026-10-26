@@ -1,7 +1,7 @@
 <div class="card-customed">
     <div class="header">
         <div *ngIf="warning.status !== listWarningStatus.NOT_SAVED">
-            <span>{{warning.prerequisites | formatWarningNumber:true}} - {{warning.status}}</span>
+            <span>{{warning.prerequisites | formatWarningNumber:true}} - {{('enum.warning-status.' + (warning.status | lowercase)) | translate}}</span>
         </div>
     </div>
     <div class="md-stepper-horizontal">

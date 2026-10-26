@@ -1,7 +1,7 @@
 <form [formGroup]="maritimeServiceForm" class="form" (ngSubmit)="saveMaritimeService()">
   <div class="line-form p-field p-grid">
     <label for="maritime-service-urn" class="label p-col-fixed" translate>maritime-service.urn</label>
-    <input id="maritime-service-urn" type="text" formControlName="urn">
+    <input id="maritime-service-urn" type="text" formControlName="urn" placeholder="urn:mrn:s124:service:...">
   </div>
   <div class="line-form p-field p-grid">
     <label for="maritime-service-name" class="label p-col-fixed">{{ 'maritime-service.name' | translate }} *</label>
@@ -183,10 +183,6 @@
         </p-chip>
       </div>
     </div>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-sissy-id" class="label p-col-fixed" translate>maritime-service.sissy-id</label>
-    <input id="maritime-service-sissy-id" type="text" formControlName="sissyId">
   </div>
   <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="!maritimeServiceForm.valid"></button>
   <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times" routerLink="/administration/service-maritime" ></button>

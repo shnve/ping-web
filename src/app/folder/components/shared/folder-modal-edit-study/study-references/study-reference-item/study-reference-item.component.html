@@ -1,4 +1,5 @@
 <p-dropdown class="select-reference-type"
+            name="type"
             [(ngModel)]="type"
             [options]="availableReferenceTypes"
             (ngModelChange)="referenceOnChange()"
@@ -12,6 +13,7 @@
 <div class="p-input-icon-right reference-value">
   <i class="pi pi-question-circle" (click)="placeholders ? panelPlaceholder.toggle($event) : null"></i>
   <input type="text" [ngClass]="{'ng-invalid ng-dirty': !value?.length}"
+         name="value"
          [(ngModel)]="value"
          pInputText
          [placeholder]="placeholders?.inputText || ''">

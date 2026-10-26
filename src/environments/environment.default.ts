@@ -6,8 +6,8 @@ import packageInfo from '../../package.json';
  */
 export const environment = {
   production: false,
-  availableLanguages: ['fr', 'en'],
-  defaultLanguage: 'en',
+  availableLanguages: ['es', 'en'],
+  defaultLanguage: 'es',
   defaultToasterLifetimeInMilliseconds: 10000,
   sseEventsTimeout: 900000,
   sseHeartbeatTimeout: 35000,
@@ -30,7 +30,7 @@ export const environment = {
   tableRowsPerPageOptions: [5, 10, 15],
   staticPageEditorConfig: {
     height: '320px',
-    styleTags: [ 'p', 'h1', 'h2', 'h3' ],
+    styleTags: ['p', 'h1', 'h2', 'h3'],
     toolbar: [
       ['para', ['style', 'ul', 'ol', 'paragraph']],
       ['fontsize', ['fontsize', 'color']],
@@ -51,9 +51,9 @@ export const environment = {
     baseLayerId: 'XXXX',
     orthoGeoLittoralV2Id: 'ortholittorale_v2_rvb',
     orthoGeoLittoralV2LayerName: 'Ortho Geolittoral v2',
-    rasterMarineLayerName:'Raster Marine',
-    westAfricaRasterMarineId:'XXXX',
-    westAfricaRasterMarineLayerName:'Assemblage des cartes marines Afrique de l\'Ouest',
+    rasterMarineLayerName: 'Raster Marine',
+    westAfricaRasterMarineId: 'XXXX',
+    westAfricaRasterMarineLayerName: 'Assemblage des cartes marines Afrique de l\'Ouest',
     detectionLayerOpacity: 0.9,
     getCapBaseMapUrl: 'https://XXXX/{{key}}/wmts?service=wmts&version=1.0.0&request=GetCapabilities',
     getWmsImage: {
@@ -137,7 +137,7 @@ export const environment = {
     },
     attachments: {
       uploadChunk: 'attachments/chunk',
-      chunkSize: 4*1024*1024,
+      chunkSize: 4 * 1024 * 1024,
       delete: 'attachments/{{id}}',
       create: 'attachments',
       download: 'attachments/{{id}}',
@@ -348,9 +348,9 @@ export const environment = {
     }
   },
   keycloak: {
-    urlLogin: '{{root_url}}/auth/realms/{{realm}}/protocol/openid-connect/auth?client_id=ping-web&response_type=code&state={{state}}&nonce={{nonce}}&redirect_uri={{redirect_uri}}&ui_locales={{lang}}&scope=openid',
-    urlLogout: '{{root_url}}/auth/realms/{{realm}}/protocol/openid-connect/logout?id_token_hint={{id_token_hint}}&post_logout_redirect_uri={{redirect_uri}}&ui_locales={{lang}}',
-    urlToken: '{{root_url}}/auth/realms/{{realm}}/protocol/openid-connect/token',
+    urlLogin: '{{root_url}}/realms/{{realm}}/protocol/openid-connect/auth?client_id=ping-web&response_type=code&state={{state}}&nonce={{nonce}}&redirect_uri={{redirect_uri}}&ui_locales={{lang}}&scope=openid',
+    urlLogout: '{{root_url}}/realms/{{realm}}/protocol/openid-connect/logout?id_token_hint={{id_token_hint}}&post_logout_redirect_uri={{redirect_uri}}&ui_locales={{lang}}',
+    urlToken: '{{root_url}}/realms/{{realm}}/protocol/openid-connect/token',
     publicRealm: 'ping-public',
     proRealm: 'ping-pro',
     clientId: 'ping-web',
@@ -401,6 +401,13 @@ export const environment = {
     }
   },
   version: packageInfo.version,
+  wmts: {
+    baseUrl: 'http://localhost:8082/geoserver/gwc/service/wmts',
+    layerName: 'pisac_shn:cartografia_ve',
+    matrixSet: 'EPSG:900913',
+    style: '',
+    format: 'image/png'
+  },
   localStorageKey: 'XXXX',
   loadingSpinnerTimeout: 200
 };

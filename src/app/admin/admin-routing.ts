@@ -27,6 +27,7 @@ import { StaticPageListComponent } from './pages/static-page/static-page-list/st
 import { SubAreaCreationComponent } from './pages/sub-area/sub-area-creation/sub-area-creation.component';
 import { SubAreaDetailsComponent } from './pages/sub-area/sub-area-details/sub-area-details.component';
 import { SubAreaListComponent } from './pages/sub-area/sub-area-list/sub-area-list.component';
+import { CartographyManagementComponent } from './pages/cartography/cartography-management.component';
 
 const routes = [
   // Area
@@ -364,6 +365,23 @@ const routes = [
     data: {
       breadcrumb: 'menu.admin.static-logo'
     }
+  },
+  {
+    path: 'cartographie',
+    component: AdminComponent,
+    canActivate: [FunctionalAdminGuard],
+    data: {
+      breadcrumb: 'menu.admin.cartography'
+    },
+    children: [
+      {
+        path: '',
+        component: CartographyManagementComponent,
+        data: {
+          breadcrumb: undefined
+        }
+      }
+    ]
   }
 ];
 

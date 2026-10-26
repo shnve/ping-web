@@ -47,22 +47,28 @@ export function getGeometryType(type: Type): GeometryType {
 
 export function createOlGeometryFrom(geometry: JsonGeometry): Geometry {
   const geomType = geometry.type;
+  let olGeom: Geometry;
   if (geomType === GeometryType.POINT) {
-    return new Point(geometry.coordinates as Coordinate);
+    olGeom = new Point(geometry.coordinates as Coordinate);
+  } else if (geomType === GeometryType.LINE_STRING) {
+    olGeom = new LineString(geometry.coordinates as Coordinate[]);
+  } else if (geomType === GeometryType.POLYGON) {
+    olGeom = new Polygon(geometry.coordinates as Coordinate[][]);
+  } else if (geomType === GeometryType.MULTI_POLYGON) {
+    olGeom = new MultiPolygon(geometry.coordinates as Coordinate[][][]);
+  } else if (geomType === GeometryType.CIRCLE) {
+    olGeom = new Circle(geometry.coordinates as Coordinate);
+  } else {
+    throw new Error(`Cannot create geometry for type ${geomType}`);
   }
-  if (geomType === GeometryType.LINE_STRING) {
-    return new LineString(geometry.coordinates as Coordinate[]);
+
+  if (environment.carto.projection === 'EPSG:3857') {
+    const ext = olGeom.getExtent();
+    if (ext && Math.abs(ext[0]) <= 180 && Math.abs(ext[1]) <= 90 && Math.abs(ext[2]) <= 180 && Math.abs(ext[3]) <= 90 && (ext[0] !== 0 || ext[1] !== 0)) {
+      olGeom.transform('EPSG:4326', 'EPSG:3857');
+    }
   }
-  if (geomType === GeometryType.POLYGON) {
-    return new Polygon(geometry.coordinates as Coordinate[][]);
-  }
-  if (geomType === GeometryType.MULTI_POLYGON) {
-    return new MultiPolygon(geometry.coordinates as Coordinate[][][]);
-  }
-  if (geomType === GeometryType.CIRCLE) {
-    return new Circle(geometry.coordinates as Coordinate);
-  }
-  throw new Error(`Cannot create geometry for type ${geomType}`);
+  return olGeom;
 }
 
 /**

@@ -45,6 +45,7 @@ import { SubAreaCreationComponent } from './pages/sub-area/sub-area-creation/sub
 import { SubAreaDetailsComponent } from './pages/sub-area/sub-area-details/sub-area-details.component';
 import { SubAreaFormComponent } from './pages/sub-area/sub-area-form/sub-area-form.component';
 import { SubAreaListComponent } from './pages/sub-area/sub-area-list/sub-area-list.component';
+import { CartographyManagementComponent } from './pages/cartography/cartography-management.component';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { SubAreaListComponent } from './pages/sub-area/sub-area-list/sub-area-li
     StaticPageCreationComponent,
     StaticPageFormComponent,
     ViewGeometryComponent,
-    MaritimeServiceFilterComponent
+    MaritimeServiceFilterComponent,
+    CartographyManagementComponent
   ],
   imports: [
     SharedModule,

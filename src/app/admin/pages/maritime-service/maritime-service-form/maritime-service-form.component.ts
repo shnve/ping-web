@@ -86,7 +86,6 @@ export class MaritimeServiceFormComponent implements OnInit, OnDestroy, OnChange
       areas: [{ value: this.maritimeService?.areas, disabled: this.disabled }],
       newTagName: [{ value: '', disabled: this.disabled }],
       tags: [{ value: this.maritimeService?.tags, disabled: this.disabled }],
-      sissyId: [{ value: this.maritimeService?.sissyId, disabled: this.disabled }],
       ihoProducerCode: [{ value: this.maritimeService?.ihoProducerCode, disabled: this.disabled }],
     });
     this.isProductionAgencyRequired = this.maritimeService?.maritimeNoticeProducer;
@@ -259,7 +258,7 @@ export class MaritimeServiceFormComponent implements OnInit, OnDestroy, OnChange
   }
 
   private getDisplayedAreaLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   onChangeLang(event: LangChangeEvent): void {

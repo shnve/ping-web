@@ -55,7 +55,7 @@ export class AreaFormComponent implements OnInit, OnDestroy, OnChangeLang {
   }
 
   private getDisplayedAreaLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   onChangeLang(event: LangChangeEvent): void {
@@ -113,7 +113,7 @@ export class AreaFormComponent implements OnInit, OnDestroy, OnChangeLang {
 
   private buildForm(): UntypedFormGroup {
     return this.fb.group({
-      urn: [{ value: this.area?.urn, disabled: this.disabled }],
+      urn: [{ value: this.area?.urn, disabled: this.disabled }, [Validators.pattern(/^urn:[a-z0-9-]+:[a-zA-Z0-9()+,-.:=@$_!*%?#]+$/)]],
       name: [{ value: this.area?.name, disabled: this.disabled }, Validators.required],
       internationalName: [{ value: this.area?.internationalName, disabled: this.disabled }],
       information: [{ value: this.area?.information, disabled: this.disabled }],

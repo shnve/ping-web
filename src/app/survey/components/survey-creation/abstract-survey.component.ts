@@ -148,7 +148,7 @@ export abstract class AbstractSurveyCreationComponent<T extends SurveyBase> impl
   }
 
   protected getDisplayedAreaLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   protected isCreationMode(): boolean {

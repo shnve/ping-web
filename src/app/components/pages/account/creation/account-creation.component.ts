@@ -30,7 +30,7 @@ export class AccountCreationComponent implements OnInit, OnDestroy {
   SearchCountryField = SearchCountryField;
   CountryISO = CountryISO;
   PhoneNumberFormat = PhoneNumberFormat;
-  preferredCountries: CountryISO[] = [CountryISO.France, CountryISO.UnitedKingdom];
+  preferredCountries: CountryISO[] = [CountryISO.Venezuela, CountryISO.UnitedKingdom];
   captchaConfig = {
     length: 6,
     cssClass: 'ngx-captcha-custom',
@@ -57,12 +57,12 @@ export class AccountCreationComponent implements OnInit, OnDestroy {
   captcha: CaptchaComponent;
 
   constructor(private readonly formBuilder: UntypedFormBuilder,
-              private captchaService: NgxCaptchaService,
-              private authService: AuthService,
-              private userService: UsersApi,
-              private readonly areaApi: AreasApi) { }
+    private captchaService: NgxCaptchaService,
+    private authService: AuthService,
+    private userService: UsersApi,
+    private readonly areaApi: AreasApi) { }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   ngOnInit(): void {
     this.initForm();

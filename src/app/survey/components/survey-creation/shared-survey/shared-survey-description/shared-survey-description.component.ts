@@ -92,7 +92,7 @@ export class SharedSurveyDescriptionComponent implements ControlValueAccessor, O
   }
 
   private getDisplayedAreaLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   protected initForm(): void {

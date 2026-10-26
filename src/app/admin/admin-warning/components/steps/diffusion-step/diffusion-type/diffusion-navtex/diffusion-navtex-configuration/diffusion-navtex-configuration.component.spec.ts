@@ -95,24 +95,11 @@ describe('DiffusionNavtexConfigurationComponent', () => {
     done();
   });
 
-  it('should call addNightonControls if currentNavtexSource is N', done => {
-    // Given
-    const spyCreationService = spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.N);
 
-    // When
-    component['buildNavtexConfigurationForm']();
-
-    // Then
-    expect(spyCreationService).toHaveBeenCalled();
-    expect(component.displayEndDayHour).toBeFalsy();
-    expect(component.displayNitonNumber).toBeTruthy();
-    expect(spyAddEndDayHourControls).not.toHaveBeenCalled();
-    done();
-  });
 
   it('should raise error if endDay not conform min value', done => {
     // Given
-    const spyCreationService = spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.B);
+    const spyCreationService = spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.N4);
     component['buildNavtexConfigurationForm']();
 
     // When
@@ -127,7 +114,7 @@ describe('DiffusionNavtexConfigurationComponent', () => {
 
   it('should raise error if endDay not conform max value', done => {
     // Given
-    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.B);
+    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.N4);
     component['buildNavtexConfigurationForm']();
 
     // When
@@ -140,7 +127,7 @@ describe('DiffusionNavtexConfigurationComponent', () => {
 
   it('should raise error if endHour not conform min value', done => {
     // Given
-    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.B);
+    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.N4);
     component['buildNavtexConfigurationForm']();
 
     // When
@@ -153,7 +140,7 @@ describe('DiffusionNavtexConfigurationComponent', () => {
 
   it('should raise error if endHour not conform max value', done => {
     // Given
-    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.B);
+    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.N4);
 
     // When
     component['buildNavtexConfigurationForm']();
@@ -166,7 +153,7 @@ describe('DiffusionNavtexConfigurationComponent', () => {
 
   it('should raise error if endDay and endHour are not filled together', done => {
     // Given
-    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.B);
+    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.N4);
     component['buildNavtexConfigurationForm']();
 
     // When
@@ -181,7 +168,7 @@ describe('DiffusionNavtexConfigurationComponent', () => {
 
   it('should not raise error if endDay and endHour are all null', done => {
     // Given
-    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.B);
+    spyOn(creationService, 'getNavtexSource').and.returnValue(DiffusionNavtexSource.N4);
     component.warning.navtexConfig.endDay = 2;
     component.warning.navtexConfig.endHour = 2;
     component['buildNavtexConfigurationForm']();

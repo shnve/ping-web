@@ -404,7 +404,7 @@ export class SharedReportFormComponent extends ValueAccessorBase<SharedReportFor
   }
 
   private getDisplayedMaritimeServiceLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   get concernedMaritimeEntityIds(): AbstractControl {
@@ -486,7 +486,7 @@ export class SharedReportFormComponent extends ValueAccessorBase<SharedReportFor
 
   isFormSaveable(): boolean {
     // fix geometries no more editable after saving if drawing tool is opened
-    this.geometriesForm.map.carto.command('drawing.reset');
+    
     this.isMissingLocalisation = !this.getGeometries()?.length;
     return !(this.isMissingLocalisation || !this.sharedReportForm.valid);
   }

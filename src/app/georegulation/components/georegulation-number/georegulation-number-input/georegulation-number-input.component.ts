@@ -162,7 +162,7 @@ export class GeoregulationNumberInputComponent implements ControlValueAccessor, 
   }
 
   private buildLocalizedItems(): void {
-    this.authoritiesOptionLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
+    this.authoritiesOptionLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
   }
 
   onChangeLang(): void {

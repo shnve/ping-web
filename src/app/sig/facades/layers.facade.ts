@@ -1,19 +1,51 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import Layer, { default as CartoLayer } from '@shom2/carto/core/Layer';
-import { default as MapCarto } from '@shom2/carto/core/Map';
+//import Layer, { default as CartoLayer } from '@shom2/carto/core/Layer';
+//import { default as MapCarto } from '@shom2/carto/core/Map';
 import { Map } from 'ol';
-import { boundingExtent } from 'ol/extent';
+import { boundingExtent, getWidth } from 'ol/extent';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
-import { fromLonLat } from 'ol/proj';
-import { OSM, TileWMS } from 'ol/source';
+import { fromLonLat, get as getProjection } from 'ol/proj';
+import { OSM, TileWMS, XYZ } from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS';
+import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LayersApi } from '../api/layers.api';
 import { LayersState } from '../states/layers.state';
+
+import { NauticalCartographyService } from '../services/nautical-cartography.service';
+import { S52CartographyStyleFactory } from '../core/s52-cartography-style.factory';
+
+// --- INYECCIÓN DE SEGURIDAD ---
+class Layer {
+  opacity?: any;
+  [key: string]: any;
+  constructor(initData?: any) {
+    Object.assign(this, initData);
+  }
+}
+
+class CartoLayer {
+  opacity?: any;
+  name?: string;
+  olLayer?: any;
+  [key: string]: any;
+  constructor(initData?: any) {
+    Object.assign(this, initData);
+  }
+}
+
+class MapCarto {
+  map: any = { layers: [] };
+  [key: string]: any;
+  constructor(initData?: any) {
+    Object.assign(this, initData);
+  }
+}
+// -----------------------------
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +53,9 @@ import { LayersState } from '../states/layers.state';
 export class LayersFacade {
   constructor(
     private readonly layersApi: LayersApi,
-    private readonly layersState: LayersState
+    private readonly layersState: LayersState,
+    private readonly nauticalCartographyService: NauticalCartographyService,
+    private readonly s52StyleFactory: S52CartographyStyleFactory
   ) { }
 
   getBaseLayers$(showRasterMarineWithAdditionalLayerForWestAfrica = false): Observable<CartoLayer[]> {
@@ -63,36 +97,52 @@ export class LayersFacade {
   private loadLayersFromGetCap(showRasterMarineWithAdditionalLayerForWestAfrica = false) {
     return this.layersApi.getLayersFromGetCap(showRasterMarineWithAdditionalLayerForWestAfrica).pipe(
       map(getCapInfo => {
-        // Filter only 'base layer' from the getCap
-        const baseLayerOptions = optionsFromCapabilities(getCapInfo,
-          {
-            layer: environment.carto.baseLayerId,
-            crossOrigin: 'anonymous'
-          }
-        );
-
-        const layersToAdd = [
-          new CartoLayer(
-            {
-              name: 'OSM',
-              olLayer: new TileLayer({
-                source: new OSM()
-              })
-            }
-          ),
-          new CartoLayer({
-            name: environment.carto.rasterMarineLayerName,
-            olLayer: new TileLayer({
-              source: new WMTS(baseLayerOptions)
-            })
+        // 1. Capa Base: OpenStreetMap
+        const osmLayer = new CartoLayer({
+          name: 'OSM',
+          olLayer: new TileLayer({
+            source: new OSM(),
+            zIndex: 0
           })
-        ];
+        });
 
-        if (showRasterMarineWithAdditionalLayerForWestAfrica) {
-          this.addWestAfricaRasterMarineLayer(layersToAdd, getCapInfo);
+        // Configuración de la cuadrícula de teselas para EPSG:3857
+        const projection = getProjection('EPSG:3857');
+        const projectionExtent = projection.getExtent();
+        const size = getWidth(projectionExtent) / 256;
+        const wmtsConfig = (environment as any).wmts;
+        const resolutions = new Array(21);
+        const matrixIds = new Array(21);
+        for (let z = 0; z < 21; ++z) {
+          resolutions[z] = size / Math.pow(2, z);
+          matrixIds[z] = wmtsConfig.matrixSet + ':' + z;
         }
 
-        return this.layersState.addLayers(layersToAdd);
+        // 2. Capa WMTS Principal
+        const wmtsLayer = new CartoLayer({
+          name: wmtsConfig.layerName,
+          olLayer: new TileLayer({
+            source: new WMTS({
+              url: wmtsConfig.baseUrl,
+              layer: wmtsConfig.layerName,
+              matrixSet: wmtsConfig.matrixSet,
+              format: wmtsConfig.format,
+              projection: projection,
+              tileGrid: new WMTSTileGrid({
+                origin: [-20037508.342789244, 20037508.342789244], // Top left corner of the EPSG:3857 extent
+                resolutions: resolutions,
+                matrixIds: matrixIds
+              }),
+              style: wmtsConfig.style,
+              wrapX: true,
+              crossOrigin: 'anonymous'
+            }),
+            minZoom: 5,
+            zIndex: 1
+          })
+        });
+
+        return this.layersState.addLayers([osmLayer, wmtsLayer]);
       })
     );
   }
@@ -123,7 +173,7 @@ export class LayersFacade {
     }));
   }
 
-  addRasterMarineLayer(mapCarto: MapCarto, opacity: number): Observable<void> {
+  addRasterMarineLayer(mapCarto: any, opacity: number): Observable<void> {
     return this.layersApi.getLayersFromGetCap().pipe(
       map(getCapInfo => {
         const baseLayerOptions = optionsFromCapabilities(getCapInfo, {
@@ -143,7 +193,7 @@ export class LayersFacade {
     );
   }
 
-  addOrthoGeoLittoralV2Layer(mapCarto: MapCarto, opacity: number): void {
+  addOrthoGeoLittoralV2Layer(mapCarto: any, opacity: number): void {
     const mandatoryParams = { 'LAYERS': environment.carto.orthoGeoLittoralV2Id };
     const optionalParams = {};
     const layer = new Layer({
@@ -160,7 +210,7 @@ export class LayersFacade {
     mapCarto.addLayer(layer);
   }
 
-  removeLayer(mapCarto: MapCarto, layerName: string): void {
+  removeLayer(mapCarto: any, layerName: string): void {
     const findLayer = name => mapCarto.layers.find(layer => layer.name === name);
     const layerToRemove = findLayer(layerName);
     if (layerToRemove) {

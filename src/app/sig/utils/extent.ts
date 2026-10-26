@@ -36,7 +36,10 @@ export function isPointExtent(extent: Extent): boolean {
  */
 export function scaleExtentForPoint(extent: Extent, scale: number): Extent {
   const [first, second, _] = extent;
-  const circle = new Circle([first, second], Math.pow(scale, environment.carto.defaultRadiusForPointExtent));
+  const baseRadiusMeters = Math.pow(scale, environment.carto.defaultRadiusForPointExtent);
+  const isDegrees = Math.abs(first) <= 180 && Math.abs(second) <= 90;
+  const radius = isDegrees ? (baseRadiusMeters / 111319.49) : baseRadiusMeters;
+  const circle = new Circle([first, second], radius);
   circle.scale(scale);
   return circle.getExtent();
 }

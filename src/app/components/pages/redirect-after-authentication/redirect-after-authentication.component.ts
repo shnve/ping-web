@@ -8,7 +8,7 @@ import { ProfileMode } from '@app/types/profile';
 import { environment } from '@env/environment';
 import { Scavenger } from '@wishtack/rx-scavenger';
 import { throwError } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import { flatMap, take } from 'rxjs/operators';
 import { stateKey } from '../../../auth/auth.service';
 
 @Component({
@@ -33,6 +33,9 @@ export class RedirectAfterAuthenticationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.queryParams
       .pipe(
+
+        take(1),
+
         this.scavenger.collect(),
         flatMap(params => {
           let bulkProfileMode = params.profileMode;

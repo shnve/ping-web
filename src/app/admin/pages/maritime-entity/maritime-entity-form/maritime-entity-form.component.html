@@ -1,7 +1,13 @@
 <form [formGroup]="maritimeEntityForm" class="form" (ngSubmit)="saveMaritimeEntity()" *ngIf="maritimeEntityForm">
   <div class="line-form p-field p-grid">
     <label for="maritime-entity-urn" class="label p-col-fixed" translate>maritime-entity.urn</label>
-    <input id="maritime-entity-urn" type="text" formControlName="urn">
+    <div style="padding: 0; margin: 0;">
+      <input id="maritime-entity-urn" type="text" formControlName="urn" class="form-control" placeholder="urn:mrn:s124:entity:...">
+      <div *ngIf="maritimeEntityForm.get('urn')?.errors?.['pattern']"
+        style="font-size: 0.8rem; color: #dc3545; margin-top: 4px;">
+        El URN debe tener formato valido (ej. urn:mrn:shn:entidad:01). No se permiten espacios ni acentos.
+      </div>
+    </div>
   </div>
   <div class="line-form p-field p-grid">
     <label for="maritime-entity-name" class="label p-col-fixed">{{ 'maritime-entity.name' | translate }} *</label>
@@ -17,163 +23,149 @@
   </div>
   <div class="line-form p-field p-grid">
     <label for="maritime-entity-englishInfo" class="label p-col-fixed" translate>maritime-entity.englishInfo</label>
-    <textarea rows="5" cols="30" id="maritime-entity-englishInfo" formControlName="localizedInformation" pInputTextarea></textarea>
+    <textarea rows="5" cols="30" id="maritime-entity-englishInfo" formControlName="localizedInformation"
+      pInputTextarea></textarea>
   </div>
   <div class="line-form p-field p-grid">
     <label for="maritime-entity-type" class="label p-col-fixed">{{ 'maritime-entity.type' | translate }} *</label>
-    <p-dropdown id="maritime-entity-type"
-                [options]="maritimeEntityTypes"
-                [placeholder]="'maritime-service.select-type' | translate"
-                formControlName="type">
-      <ng-template let-item  pTemplate="item">
+    <p-dropdown id="maritime-entity-type" [options]="maritimeEntityTypes"
+      [placeholder]="'maritime-service.select-type' | translate" formControlName="type">
+      <ng-template let-item pTemplate="item">
         <span class="p-button-label">{{'maritime-entity-type.'+item | translate}}</span>
       </ng-template>
-      <ng-template let-item  pTemplate="selectedItem">
+      <ng-template let-item pTemplate="selectedItem">
         <span class="p-button-label">{{'maritime-entity-type.'+item | translate}}</span>
       </ng-template>
     </p-dropdown>
   </div>
-  <div class="line-form p-field p-grid" >
+  <div class="line-form p-field p-grid">
     <label for="maritime-service" class="label p-col-fixed">{{ 'serie.maritimeService' | translate }} *</label>
-    <p-dropdown id="maritime-service" *ngIf="maritimeServices$ | async as services"
-                class="user-service"
-                [options]="services"
-                [optionLabel]="displayedMaritimeServiceLabel"
-                optionValue="id"
-                [placeholder]="'maritime-entity.select-service' | translate"
-                formControlName="maritimeServiceId">
+    <p-dropdown id="maritime-service" *ngIf="maritimeServices$ | async as services" class="user-service"
+      [options]="services" [optionLabel]="displayedMaritimeServiceLabel" optionValue="id"
+      [placeholder]="'maritime-entity.select-service' | translate" formControlName="maritimeServiceId">
     </p-dropdown>
   </div>
-  <div class="line-form p-field p-grid" >
-    <label for="additional-maritime-service" class="label p-col-fixed" translate>maritime-entity.additional-services</label>
-    <p-multiSelect *ngIf="availableAdditionalServices.length"
-                   id="additional-maritime-service"
-                   formControlName="additionalServices"
-                   [options]="availableAdditionalServices"
-                   [optionLabel]="displayedMaritimeServiceLabel"
-                   [maxSelectedLabels]="availableAdditionalServices.length"
-                   optionValue="id"
-                   [placeholder]="'maritime-entity.all-services' | translate"
-                   display="chip">
+  <div class="line-form p-field p-grid">
+    <label for="additional-maritime-service" class="label p-col-fixed"
+      translate>maritime-entity.additional-services</label>
+    <p-multiSelect *ngIf="availableAdditionalServices.length" id="additional-maritime-service"
+      formControlName="additionalServices" [options]="availableAdditionalServices"
+      [optionLabel]="displayedMaritimeServiceLabel" [maxSelectedLabels]="availableAdditionalServices.length"
+      optionValue="id" [placeholder]="'maritime-entity.all-services' | translate" display="chip">
     </p-multiSelect>
   </div>
   <div class="line-form p-field p-grid">
     <label for="maritime-entity-areas" class="label p-col-fixed" translate>maritime-entity.areas</label>
-    <p-multiSelect *ngIf="areas$ | async as areas"
-                   id="maritime-entity-areas"
-                   formControlName="areas"
-                   [options]="areas"
-                   [maxSelectedLabels]="areas.length"
-                   [optionLabel]="displayedAreaLabel"
-                   optionValue="id"
-                   [placeholder]="'maritime-entity.all-areas' | translate"
-                   display="chip">
+    <p-multiSelect *ngIf="areas$ | async as areas" id="maritime-entity-areas" formControlName="areas" [options]="areas"
+      [maxSelectedLabels]="areas.length" [optionLabel]="displayedAreaLabel" optionValue="id"
+      [placeholder]="'maritime-entity.all-areas' | translate" display="chip">
 
     </p-multiSelect>
   </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-entity-sissy-id" class="label p-col-fixed" translate>maritime-entity.sissy-id</label>
-    <input id="maritime-entity-sissy-id" type="text" formControlName="sissyId">
-  </div>
+
   <div class="line-form p-field p-grid" *ngIf="maritimeEntity.id">
     <label for="maritime-entity-reference" class="label p-col-fixed" translate>maritime-entity.reference</label>
-    <button *ngIf="hasPermissionToManageReference()" pButton type="button" class="save-button no-margin" icon="pi pi-plus-circle" iconPos="center" (click)="displayModal=true"></button>
+    <button *ngIf="hasPermissionToManageReference()" pButton type="button" class="save-button no-margin"
+      icon="pi pi-plus-circle" iconPos="center" (click)="displayModal=true"></button>
   </div>
   <div class="table-wrapper" *ngIf="maritimeEntityReferences?.length">
     <table class="fl-table">
       <thead>
-      <tr>
-        <th translate>static-page.title</th>
-        <th translate>static-page.internationalTitle</th>
-        <th translate>maritime-entity.reference-attachment-or-url</th>
-        <th *ngIf="hasPermissionToManageReference()" translate>infosource.details.update-service-status.action</th>
-      </tr>
+        <tr>
+          <th translate>static-page.title</th>
+          <th translate>static-page.internationalTitle</th>
+          <th translate>maritime-entity.reference-attachment-or-url</th>
+          <th *ngIf="hasPermissionToManageReference()" translate>infosource.details.update-service-status.action</th>
+        </tr>
       </thead>
       <tbody>
         <tr *ngFor="let reference of maritimeEntityReferences">
-          <td>{{reference.title}} <i *ngIf="!reference.isPublic" class="fas fa-lock fa-lg" title="{{'not-public' | translate}}"></i></td>
+          <td>{{reference.title}} <i *ngIf="!reference.isPublic" class="fas fa-lock fa-lg"
+              title="{{'not-public' | translate}}"></i></td>
           <td>{{reference.internationalTitle}}</td>
           <td>
             <div *ngIf="!!reference.attachmentFile?.filename">
-              <div class="p-fileupload-filename"><a (click)="openAttachment($event, reference.attachmentFile)" href="">{{reference.attachmentFile.filename}}</a></div>
+              <div class="p-fileupload-filename"><a (click)="openAttachment($event, reference.attachmentFile)"
+                  href="">{{reference.attachmentFile.filename}}</a></div>
             </div>
-            <a *ngIf="reference.url" [href]="reference.url" rel="noopener noreferrer" target="_blank">{{reference.url}}</a>
+            <a *ngIf="reference.url" [href]="reference.url" rel="noopener noreferrer"
+              target="_blank">{{reference.url}}</a>
           </td>
           <td *ngIf="hasPermissionToManageReference()">
             <p-confirmPopup [key]="confirmDeleteReference"></p-confirmPopup>
-            <button pButton (click)="showEditModalDialog(reference)" type="button" icon="pi pi-pencil" class="p-button-rounded p-button-plain p-button-text"></button>
-            <button pButton (click)="confirmDelete($event,reference.id)" type="button" icon="pi pi-times-circle" class="p-button-rounded p-button-plain p-button-text"></button>
+            <button pButton (click)="showEditModalDialog(reference)" type="button" icon="pi pi-pencil"
+              class="p-button-rounded p-button-plain p-button-text"></button>
+            <button pButton (click)="confirmDelete($event,reference.id)" type="button" icon="pi pi-times-circle"
+              class="p-button-rounded p-button-plain p-button-text"></button>
           </td>
         </tr>
       <tbody>
     </table>
   </div>
   <div class="p-col part-map-container">
-    <app-view-geometry #viewGeometry [isEditionMode]="!disabled"
-                       [geometry]="maritimeEntity.geom"
-    ></app-view-geometry>
+    <app-view-geometry #viewGeometry [isEditionMode]="!disabled" [geometry]="maritimeEntity.geom"></app-view-geometry>
   </div>
-  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="!maritimeEntityForm.valid"></button>
-  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times" routerLink="/administration/entites-maritime" ></button>
-  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left" routerLink="/administration/entites-maritime" ></button>
+  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
+    [disabled]="!maritimeEntityForm.valid"></button>
+  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times"
+    routerLink="/administration/entites-maritime"></button>
+  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left"
+    routerLink="/administration/entites-maritime"></button>
 </form>
 
-<p-dialog [header]="'maritime-entity.add-reference' | translate"
-          [(visible)]="displayModal" [modal]="true" [style]="{width: '90vw'}"
-          [draggable]="false" [resizable]="false">
+<p-dialog [header]="'maritime-entity.add-reference' | translate" [(visible)]="displayModal" [modal]="true"
+  [style]="{width: '90vw'}" [draggable]="false" [resizable]="false">
 
-        <div class="line-form p-field p-grid">
-          <label for="maritime-entity-reference-title" class="label p-col-fixed no-font-weight">{{'static-page.title' | translate }} *</label>
-          <input id="maritime-entity-reference-title" [(ngModel)]="referenceTitle" type="text">
-        </div>
-        <div class="line-form p-field p-grid">
-          <label for="maritime-entity-reference-international-title" class="label p-col-fixed no-font-weight">{{'static-page.internationalTitle' | translate }}</label>
-          <input id="maritime-entity-reference-international-title" [(ngModel)]="referenceInternationalTitle" type="text">
-        </div>
-        <div class="line-form p-field p-grid">
-          <label class="label p-col-fixed no-font-weight">{{'georegulation.is-public' | translate }} *</label>
-          <div>
-            <p-radioButton ngDefaultControl name="referenceIsPublic" [value]="true" [label]="'georegulation-table.columns.true-value' | translate" [(ngModel)]="referenceIsPublic"></p-radioButton>
-            <p-radioButton ngDefaultControl name="referenceIsPublic" [value]="false" [label]="'georegulation-table.columns.false-value' | translate" [(ngModel)]="referenceIsPublic"></p-radioButton>
-          </div>
-        </div>
-        <div class="line-form p-field p-grid">
-          <label for="maritime-entity-reference-attachments" class="label p-col-fixed no-font-weight">{{'maritime-entity.reference-datas' | translate}} *</label>
-          <p-dropdown id="maritime-entity-reference-attachments"
-                (onChange)="changeDataType()"
-                [options]="referenceDataType"
-                [(ngModel)]="selectedType"
-                optionLabel="type"
-                [ngModelOptions]="{standalone: true}">
+  <div class="line-form p-field p-grid">
+    <label for="maritime-entity-reference-title"
+      class="label p-col-fixed no-font-weight">{{'static-page.title' | translate }} *</label>
+    <input id="maritime-entity-reference-title" [(ngModel)]="referenceTitle" type="text">
+  </div>
+  <div class="line-form p-field p-grid">
+    <label for="maritime-entity-reference-international-title"
+      class="label p-col-fixed no-font-weight">{{'static-page.internationalTitle' | translate }}</label>
+    <input id="maritime-entity-reference-international-title" [(ngModel)]="referenceInternationalTitle" type="text">
+  </div>
+  <div class="line-form p-field p-grid">
+    <label class="label p-col-fixed no-font-weight">{{'georegulation.is-public' | translate }} *</label>
+    <div>
+      <p-radioButton ngDefaultControl name="referenceIsPublic" [value]="true"
+        [label]="'georegulation-table.columns.true-value' | translate" [(ngModel)]="referenceIsPublic"></p-radioButton>
+      <p-radioButton ngDefaultControl name="referenceIsPublic" [value]="false"
+        [label]="'georegulation-table.columns.false-value' | translate" [(ngModel)]="referenceIsPublic"></p-radioButton>
+    </div>
+  </div>
+  <div class="line-form p-field p-grid">
+    <label for="maritime-entity-reference-attachments"
+      class="label p-col-fixed no-font-weight">{{'maritime-entity.reference-datas' | translate}} *</label>
+    <p-dropdown id="maritime-entity-reference-attachments" (onChange)="changeDataType()" [options]="referenceDataType"
+      [(ngModel)]="selectedType" optionLabel="type" [ngModelOptions]="{standalone: true}">
 
-          </p-dropdown>
-        </div>
-        <div *ngIf="displayOptionUrl" class="line-form p-field p-grid">
-          <label for="maritime-entity-reference-url" class="label p-col-fixed no-font-weight" translate>maritime-entity.reference-url</label>
-          <textarea rows="5" cols="30" id="maritime-entity-reference-url" [(ngModel)]="referenceUrl" pInputTextarea></textarea>
-        </div>
-        <div *ngIf="displayOptionAttachment" class="line-form p-field p-grid">
-          <label for="attachments" class="label p-col-fixed no-font-weight" translate>maritime-entity.reference-attachment</label>
-          <div class="attachments">
-            <app-attachments id="attachments"
-                             [manageManyAttachments]="false"
-                             [attachmentFiles]="referenceAttachmentFile"
-                             [attachmentIds]="referenceAttachmentId"
-                             [showChooseFile]="!referenceAttachmentId"
-                             [inputId]="'maritime-entity-attachments'"
-                             (onChange)="setAttachmentsIds($event)">
-            </app-attachments>
-          </div>
-        </div>
-        <ng-template pTemplate="footer" >
-          <div class="p-fluid">
-            <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancel()" [label]="'cancel' | translate"></button>
-            <button pButton type="button"
-                    [disabled]="disableModalSaveButton()"
-                    class="p-button-sm"
-                    (click)="onSaveNewReference()"
-                    [label]="'save' | translate">
-            </button>
-          </div>
-        </ng-template>
+    </p-dropdown>
+  </div>
+  <div *ngIf="displayOptionUrl" class="line-form p-field p-grid">
+    <label for="maritime-entity-reference-url" class="label p-col-fixed no-font-weight"
+      translate>maritime-entity.reference-url</label>
+    <textarea rows="5" cols="30" id="maritime-entity-reference-url" [(ngModel)]="referenceUrl"
+      pInputTextarea></textarea>
+  </div>
+  <div *ngIf="displayOptionAttachment" class="line-form p-field p-grid">
+    <label for="attachments" class="label p-col-fixed no-font-weight"
+      translate>maritime-entity.reference-attachment</label>
+    <div class="attachments">
+      <app-attachments id="attachments" [manageManyAttachments]="false" [attachmentFiles]="referenceAttachmentFile"
+        [attachmentIds]="referenceAttachmentId" [showChooseFile]="!referenceAttachmentId"
+        [inputId]="'maritime-entity-attachments'" (onChange)="setAttachmentsIds($event)">
+      </app-attachments>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="p-fluid">
+      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancel()"
+        [label]="'cancel' | translate"></button>
+      <button pButton type="button" [disabled]="disableModalSaveButton()" class="p-button-sm"
+        (click)="onSaveNewReference()" [label]="'save' | translate">
+      </button>
+    </div>
+  </ng-template>
 </p-dialog>

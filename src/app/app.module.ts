@@ -184,7 +184,7 @@ export class AppModule {
 }
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', environment.production ? `.json?v=${environment.version}` : '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', `.json?v=${environment.version}`);
 }
 
 export function permissionsProviderFactory(provider: PermissionsProvider): () => Promise<any> {

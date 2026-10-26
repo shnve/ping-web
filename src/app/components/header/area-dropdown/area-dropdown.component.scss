@@ -33,6 +33,29 @@
     left: unset!important;
     right: 0;
 
+    .area-group-header {
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #0f3261;
+      padding: 0.4rem 0.6rem 0.25rem 0.6rem;
+      margin: 0.2rem 0 0 0;
+      border-bottom: 1px solid #e2e8f0;
+      background: transparent;
+    }
+
+    .area-item-option {
+      font-size: 0.88rem;
+      padding: 0.3rem 0.5rem;
+      color: #1e293b;
+
+      &.subarea-option {
+        padding-left: 1.35rem;
+        color: #475569;
+      }
+    }
+
     .p-dropdown-items .p-dropdown-item {
       color: black;
 

@@ -11,7 +11,7 @@ import { StaticLogoDirective } from './static-logo.directive';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @Component({
-  template: `<span [staticLogoDirective]="'logo-shom'"></span>`
+  template: `<span [staticLogoDirective]="'logo-armada'"></span>`
 })
 class TestStaticLogoDirectiveComponent {
 }
@@ -34,7 +34,7 @@ describe('StaticLogoDirective', () => {
             findOneByKey$(key: string): Observable<StaticLogo> {
                 return of({
                     id: '1',
-                    key: 'logo-shom',
+                    key: 'logo-armada',
                     description: 'logo shom',
                     locked: false,
                     content: 'contenu base64',
@@ -56,9 +56,9 @@ describe('StaticLogoDirective', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should load logo-shom', () => {
+  it('should load logo-armada', () => {
     fixture.detectChanges();
     const htmlElement = divEl.nativeElement as HTMLElement;
-    expect(htmlElement.innerHTML).toEqual('<span><img class="logo-shom" src="contenu base64" alt="altEn" title=""></span>');
+    expect(htmlElement.innerHTML).toEqual('<span><img class="logo-armada" src="contenu base64" alt="altEn" title=""></span>');
   });
 });

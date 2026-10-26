@@ -30,6 +30,7 @@ export class GeoregulationStyleFactory extends MaritimeReportStyleFactory {
     super();
 
     this.georegulationStyleBase = this.generateMaritimeReportTypeGeometryStyle({
+      iconScale: 1,
       point: {
         icon: ICON_GEOREGULATION_BASE,
         color: GEOREGLEMENT_COLOR
@@ -54,6 +55,7 @@ export class GeoregulationStyleFactory extends MaritimeReportStyleFactory {
     });
 
     this.georegulationStyleNew = this.generateMaritimeReportTypeGeometryStyle({
+      iconScale: 1,
       point: {
         icon: ICON_GEOREGULATION_NEW,
         color: GEOREGLEMENT_COLOR
@@ -75,6 +77,7 @@ export class GeoregulationStyleFactory extends MaritimeReportStyleFactory {
     });
 
     this.georegulationStyleTemporary = this.generateMaritimeReportTypeGeometryStyle({
+      iconScale: 1,
       point: {
         icon: ICON_GEOREGULATION_TEMPORARY,
         color: GEOREGLEMENT_COLOR
@@ -96,6 +99,7 @@ export class GeoregulationStyleFactory extends MaritimeReportStyleFactory {
     });
 
     this.georegulationStyleTemporaryNew = this.generateMaritimeReportTypeGeometryStyle({
+      iconScale: 1,
       point: {
         icon: ICON_GEOREGULATION_TEMPORARY_NEW,
         color: GEOREGLEMENT_COLOR

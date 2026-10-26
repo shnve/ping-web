@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Localize } from '@app/core/localize';
+import { Localize, OnChangeLang } from '@app/core/localize';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { AreaSelectOption } from '@app/facades/areas.facade';
 import { MaritimeServiceFilterValues } from './model/maritime-service-filter-values';
 
@@ -9,7 +10,7 @@ import { MaritimeServiceFilterValues } from './model/maritime-service-filter-val
   styleUrls: ['./maritime-service-filter.component.scss']
 })
 @Localize()
-export class MaritimeServiceFilterComponent implements OnInit {
+export class MaritimeServiceFilterComponent implements OnInit, OnChangeLang {
 
   @Input() areas: AreaSelectOption[];
   @Input() values: string[] | AreaSelectOption[];
@@ -20,7 +21,13 @@ export class MaritimeServiceFilterComponent implements OnInit {
   @Output() filterSelected = new EventEmitter<MaritimeServiceFilterValues>();
   maritimeServiceFilterValues: MaritimeServiceFilterValues;
 
-  constructor() { }
+  constructor(
+    public translate: TranslateService
+  ) { }
+
+  onChangeLang(event: LangChangeEvent): void {
+
+  }
 
   ngOnInit(): void {
     if (this.maritimeServiceTypes) {

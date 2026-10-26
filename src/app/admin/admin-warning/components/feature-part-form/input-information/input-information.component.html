@@ -39,6 +39,16 @@
       </p-dropdown>
     </div>
   </label>
+  <label class="no-margin">
+    <div class="line-form">
+      <label for="affected-charts-input" class="p-col-fixed margin-label">{{ 'admin-warning.creation.parts.information.affected-charts' | translate }}</label>
+      <input id="affected-charts-input" type="text" pInputText
+             [(ngModel)]="affectedChartsText"
+             [ngModelOptions]="{standalone: true}"
+             [placeholder]="'admin-warning.creation.parts.information.affected-charts-placeholder' | translate"
+             style="width: 190px; height: 34px; padding: 4px 8px;" />
+    </div>
+  </label>
 </div>
 <div class="div-info">
   <div *ngFor="let lang of langs">
@@ -58,6 +68,10 @@
       <!-- insérer l'expression type -->
       <button pButton type="button" [icon]="wasClicked('typeExpression', lang)" iconPos="right"
               (click)="addTypeExpression(lang)" translate [label]="'admin-warning.creation.parts.information.add-type-expression' | translate"
+      ></button>
+      <!-- insertar cartas afectadas -->
+      <button pButton type="button" [icon]="wasClicked('affectedCharts', lang)" iconPos="right"
+              (click)="addAffectedCharts(lang)" translate [label]="'admin-warning.creation.parts.information.add-affected-charts' | translate"
       ></button>
       <label [ngClass]="{'error': !validFeaturePart && (isMandatoryLanguage(lang) && containsNonEmptyInformation(lang))}">
         <span class="lang-label">{{lang}}</span><span *ngIf="isMandatoryLanguage(lang)" class="form-asterisk ">(*)</span>

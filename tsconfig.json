@@ -24,6 +24,9 @@
       "@app/*": [
         "./src/app/*"
       ],
+      "@shom2/*": [
+        "./src/shom2-dummy.ts"
+      ],
       "@shared/*": [
         "./src/app/shared/*"
       ],

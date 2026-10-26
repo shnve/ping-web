@@ -103,7 +103,7 @@ export class MaritimeEntityFormComponent implements OnInit, OnDestroy, OnChangeL
 
   ngOnInit(): void {
     this.maritimeEntityForm = this.fb.group({
-      urn: [{ value: this.maritimeEntity?.urn, disabled: this.disabled }],
+      urn: [{ value: this.maritimeEntity?.urn, disabled: this.disabled }, [Validators.pattern(/^urn:[a-z0-9-]+:[a-zA-Z0-9()+,-.:=@$_!*%?#]+$/)]],
       name: [{ value: this.maritimeEntity?.name, disabled: this.disabled }, Validators.required],
       internationalName: [{ value: this.maritimeEntity?.name, disabled: this.disabled }],
       information: [{ value: this.maritimeEntity?.information, disabled: this.disabled }],
@@ -111,8 +111,7 @@ export class MaritimeEntityFormComponent implements OnInit, OnDestroy, OnChangeL
       type: [{ value: this.maritimeEntity?.type, disabled: this.disabled }, Validators.required],
       maritimeServiceId: [{ value: this.maritimeEntity?.maritimeServiceId, disabled: this.disabled }, Validators.required],
       areas: [{ value: this.maritimeEntity?.areas, disabled: this.disabled }],
-      additionalServices: [{ value: this.maritimeEntity?.additionalServices, disabled: this.disabled }],
-      sissyId: [{ value: this.maritimeEntity?.sissyId, disabled: this.disabled }]
+      additionalServices: [{ value: this.maritimeEntity?.additionalServices, disabled: this.disabled }]
     });
     this.formSubscription = this.subscribeToFormChanges();
     this.areas$ = this.areasFacade.getAreaSelectOptions$();
@@ -154,11 +153,11 @@ export class MaritimeEntityFormComponent implements OnInit, OnDestroy, OnChangeL
   }
 
   private getDisplayedMaritimeServiceLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   private getDisplayedAreaLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   onChangeLang(event: LangChangeEvent): void {

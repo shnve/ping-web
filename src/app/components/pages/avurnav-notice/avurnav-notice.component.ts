@@ -80,18 +80,18 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
   private staticSectionDisclaimer: StaticSection;
 
   constructor(private readonly mapWarningsFacade: MapWarningsFacade,
-              private readonly alertMessages: AlertMessageService,
-              private readonly warningTableFacade: WarningTableFacade,
-              private readonly tableState: TableState,
-              private readonly areasFacade: AreasFacade,
-              private readonly seriesFacade: SeriesFacade,
-              private readonly route: ActivatedRoute,
-              private readonly translate: TranslateService,
-              private readonly disclaimerService: DisclaimerService,
-              private readonly notificationState: NotificationState,
-              private readonly deviceDetectorService: DeviceDetectorService,
-              private readonly authService: AuthService,
-              private readonly staticSectionApi: StaticSectionApi
+    private readonly alertMessages: AlertMessageService,
+    private readonly warningTableFacade: WarningTableFacade,
+    private readonly tableState: TableState,
+    private readonly areasFacade: AreasFacade,
+    private readonly seriesFacade: SeriesFacade,
+    private readonly route: ActivatedRoute,
+    private readonly translate: TranslateService,
+    private readonly disclaimerService: DisclaimerService,
+    private readonly notificationState: NotificationState,
+    private readonly deviceDetectorService: DeviceDetectorService,
+    private readonly authService: AuthService,
+    private readonly staticSectionApi: StaticSectionApi
   ) {
     this.mapFilterState = new ModelItemFilterState<MapFilterValues>();
     this.tableFilterState = new ModelItemFilterState<TableFilterValues>();
@@ -137,6 +137,7 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
     }
     this.mapWarnings$ = this.mapWarningsFacade.getFiltredMapWarnings$(filterValues).pipe(
       tap(filteredWarnings => {
+
         if (!filteredWarnings.length && !this.mapFilterState.getValues().disableFilter) {
           this.alertMessages.add({
             severity: 'warn',

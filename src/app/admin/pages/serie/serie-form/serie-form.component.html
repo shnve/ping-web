@@ -1,7 +1,13 @@
 <form [formGroup]="serieForm" class="form" (ngSubmit)="saveSerie()">
   <div class="line-form p-field p-grid">
     <label for="serie-urn" class="label p-col-fixed" translate>serie.urn</label>
-    <input id="serie-urn" type="text" formControlName="urn">
+    <div style="padding: 0; margin: 0;">
+      <input id="serie-urn" type="text" formControlName="urn" class="form-control" placeholder="urn:mrn:s124:serie:...">
+      <div *ngIf="serieForm.get('urn')?.errors?.['pattern']"
+        style="font-size: 0.8rem; color: #dc3545; margin-top: 4px;">
+        El URN debe tener formato valido (ej. urn:ping:serie:01). No se permiten espacios ni acentos.
+      </div>
+    </div>
   </div>
   <div class="line-form p-field p-grid">
     <label for="serie-name" class="label p-col-fixed">{{ 'serie.name' | translate }} *</label>
@@ -13,10 +19,8 @@
   </div>
   <div class="line-form p-field p-grid">
     <label for="serie-type" class="label p-col-fixed">{{ 'serie.type' | translate }} *</label>
-    <p-dropdown id="serie-type"
-                [options]="serieTypes"
-                [placeholder]="'serie.select-type' | translate"
-                formControlName="type">
+    <p-dropdown id="serie-type" [options]="serieTypes" [placeholder]="'serie.select-type' | translate"
+      formControlName="type">
       <ng-template let-item pTemplate="item">
         <span class="p-button-label">{{'serie-type.' + item | translate}}</span>
       </ng-template>
@@ -27,21 +31,16 @@
   </div>
   <div class="p-error" *ngIf="hasInvalidLanguageSize" translate>serie.only-two-languages</div>
   <div class="line-form p-field p-grid">
-    <label for="serie-mandatory-languages" class="label p-col-fixed">{{ 'serie.mandatoryLanguages' | translate }} *</label>
-    <p-multiSelect id="serie-mandatory-languages"
-                   [options]="languages"
-                   formControlName="mandatoryLanguages"
-                   display="chip"
-                   [placeholder]="'serie.select-mandatory-language' | translate">>
+    <label for="serie-mandatory-languages" class="label p-col-fixed">{{ 'serie.mandatoryLanguages' | translate }}
+      *</label>
+    <p-multiSelect id="serie-mandatory-languages" [options]="languages" formControlName="mandatoryLanguages"
+      display="chip" [placeholder]="'serie.select-mandatory-language' | translate">>
     </p-multiSelect>
   </div>
   <div class="line-form p-field p-grid">
     <label for="serie-optional-languages" class="label p-col-fixed" translate>serie.optionalLanguages</label>
-    <p-multiSelect id="serie-optional-languages"
-                   [options]="languages"
-                   formControlName="optionalLanguages"
-                   display="chip"
-                   [placeholder]="'serie.select-optional-language' | translate">
+    <p-multiSelect id="serie-optional-languages" [options]="languages" formControlName="optionalLanguages"
+      display="chip" [placeholder]="'serie.select-optional-language' | translate">
     </p-multiSelect>
   </div>
   <div class="line-form p-field p-grid">
@@ -51,56 +50,46 @@
   <div class="line-form p-field p-grid">
     <label for="serie-englishInfo" class="label p-col-fixed" translate>serie.englishInfo</label>
     <textarea rows="5" cols="30" id="serie-englishInfo" formControlName="localizedInformation"
-              pInputTextarea></textarea>
+      pInputTextarea></textarea>
   </div>
   <div class="line-form p-field p-grid">
     <label for="serie-service" class="label p-col-fixed">{{ 'serie.maritimeService' | translate }} *</label>
-    <p-dropdown *ngIf="maritimeServices$ | async as services"
-                id="serie-service"
-                formControlName="maritimeService"
-                [options]="services | orderBy: (displayedLabel)"
-                [optionLabel]="displayedLabel"
-                optionValue="id"
-                [placeholder]="'serie.select-maritime-service' | translate">
+    <p-dropdown *ngIf="maritimeServices$ | async as services" id="serie-service" formControlName="maritimeService"
+      [options]="services | orderBy: (displayedLabel)" [optionLabel]="displayedLabel" optionValue="id"
+      [placeholder]="'serie.select-maritime-service' | translate">
 
     </p-dropdown>
   </div>
   <div class="line-form p-field p-grid">
     <label for="serie-sub-areas" class="label p-col-fixed" translate>serie.subAreas</label>
-    <p-multiSelect *ngIf="subAreas$ | async as subareas"
-                   class="serie-sub-areas"
-                   id="serie-sub-areas"
-                   formControlName="subAreas"
-                   [options]="subareas | orderBy: (displayedLabel)"
-                   [optionLabel]="displayedLabel"
-                   [maxSelectedLabels]="subareas.length"
-                   optionValue="id"
-                   display="chip"
-                   [placeholder]="'serie.select-sub-area' | translate">
+    <p-multiSelect *ngIf="subAreas$ | async as subareas" class="serie-sub-areas" id="serie-sub-areas"
+      formControlName="subAreas" [options]="subareas | orderBy: (displayedLabel)" [optionLabel]="displayedLabel"
+      [maxSelectedLabels]="subareas.length" optionValue="id" display="chip"
+      [placeholder]="'serie.select-sub-area' | translate">
 
     </p-multiSelect>
   </div>
   <div class="line-form p-field p-grid">
     <label class="label p-col-fixed" translate>serie.ranges</label>
     <div>
-      <div *ngFor="let range of serie.ranges;  let i = index; trackBy: trackByFn" class="form-group p-grid p-formgrid p-fluid space-between">
-        <label class="p-col-12 p-mb-2 p-lg-5 p-mb-lg-0" *ngFor="let limit of serie.ranges[i]; let j = index; trackBy: trackByFn">
+      <div *ngFor="let range of serie.ranges;  let i = index; trackBy: trackByFn"
+        class="form-group p-grid p-formgrid p-fluid space-between">
+        <label class="p-col-12 p-mb-2 p-lg-5 p-mb-lg-0"
+          *ngFor="let limit of serie.ranges[i]; let j = index; trackBy: trackByFn">
           <input type="number" [(ngModel)]="range[j]" [ngModelOptions]="{standalone: true}" class="serie-range"
-                 [disabled]="disabled" min="1" [ngClass]="{'error': isWrongValue(i, j)}" [id]="'range-'+i+'-'+j"
-          >
+            [disabled]="disabled" min="1" [ngClass]="{'error': isWrongValue(i, j)}" [id]="'range-'+i+'-'+j">
           <span *ngIf="isWrongValue(i, j)" class="field-validation-error">
             <span translate>serie.wrong-value</span>
           </span>
         </label>
         <div class="p-col-12 p-mb-2 p-lg-1 p-mb-lg-0 button-delete-div">
-          <button *ngIf="!disabled" pButton pRipple type="button"
-                  (click)="removeRange(i)"
-                  [disabled]="serie.ranges.length === 1"
-                  icon="pi pi-times"
-                  class="button-delete p-button-outlined p-button-sm"></button>
+          <button *ngIf="!disabled" pButton pRipple type="button" (click)="removeRange(i)"
+            [disabled]="serie.ranges.length === 1" icon="pi pi-times"
+            class="button-delete p-button-outlined p-button-sm"></button>
         </div>
       </div>
-    <p-button class="add-range" [label]="'serie.addRange' | translate" type="button" icon="pi pi-plus" (onClick)="addRange()" [disabled]="disabled"></p-button>
+      <p-button class="add-range" [label]="'serie.addRange' | translate" type="button" icon="pi pi-plus"
+        (onClick)="addRange()" [disabled]="disabled"></p-button>
     </div>
   </div>
 
@@ -111,16 +100,15 @@
 
   <!-- Diffusion NAVTEX -->
   <div>
-    <hr/>
+    <hr />
     <span class="sub-section-title" translate>serie.diffusionNavtex.title</span>
 
     <div class="line-form p-field p-grid">
-      <label for="navtex-source" class="label p-col-fixed">{{ 'serie.diffusionNavtex.broadcastingStation' | translate }}</label>
-      <p-dropdown id="navtex-source"
-                  [options]="navtexSources"
-                  [placeholder]="'serie.diffusionNavtex.select-broadcasting-station' | translate"
-                  formControlName="navtexSource"
-                  [showClear]="navtexSource.value?.length">
+      <label for="navtex-source"
+        class="label p-col-fixed">{{ 'serie.diffusionNavtex.broadcastingStation' | translate }}</label>
+      <p-dropdown id="navtex-source" [options]="navtexSources"
+        [placeholder]="'serie.diffusionNavtex.select-broadcasting-station' | translate" formControlName="navtexSource"
+        [showClear]="navtexSource.value?.length">
         <ng-template let-item pTemplate="item">
           <span>{{'diffusion-navtex-source.' + item | translate}}</span>
         </ng-template>
@@ -132,8 +120,10 @@
   </div>
   <div class="form-buttons">
     <p-button *ngIf="!disabled" class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
-              [disabled]="!serieForm.valid || hasInvalidLanguageSize"></p-button>
-    <p-button *ngIf="disabled" [label]="'return-to-list' | translate" icon="pi pi-chevron-left" routerLink="/administration/series"></p-button>
-    <p-button *ngIf="!disabled" [label]="'cancel' | translate" icon="pi pi-times" routerLink="/administration/series"></p-button>
+      [disabled]="!serieForm.valid || hasInvalidLanguageSize"></p-button>
+    <p-button *ngIf="disabled" [label]="'return-to-list' | translate" icon="pi pi-chevron-left"
+      routerLink="/administration/series"></p-button>
+    <p-button *ngIf="!disabled" [label]="'cancel' | translate" icon="pi pi-times"
+      routerLink="/administration/series"></p-button>
   </div>
 </form>

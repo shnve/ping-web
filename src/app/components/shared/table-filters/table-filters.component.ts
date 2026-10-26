@@ -94,7 +94,7 @@ export class TableFiltersComponent implements OnChanges, OnDestroy, OnChangeLang
   }
 
   onChangeLang(): void {
-    this.serieOptionLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
+    this.serieOptionLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
   }
 
   ngOnDestroy(): void {

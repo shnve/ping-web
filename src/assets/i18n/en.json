@@ -1,11 +1,25 @@
 {
+  "COORDINATES": {
+    "LATITUDE": "Latitude",
+    "LONGITUDE": "Longitude"
+  },
+  "MAP": {
+    "LAYERS": "Layers",
+    "MEASURE_DISTANCE": "Measure Distance",
+    "MEASURE_AZIMUTH": "Measure Azimuth",
+    "MEASURE_RADIUS": "Measure Radius",
+    "DRAW_POINT": "Draw Point",
+    "DRAW_LINE": "Draw Line",
+    "DRAW_POLYGON": "Draw Polygon",
+    "CLEAR_MEASUREMENTS": "Clear Measurements"
+  },
   "lang": "en",
-  "title": "PING",
-  "title.description": "PING - The national nautical information platform",
-  "logo.french-republic": "French Republic",
-  "logo.shom": "SHOM L'océan en référence",
+  "title": "PISAC",
+  "title.description": "PISAC - The Water Safety Information Platform.",
+  "logo.french-republic": "Bolivarian Republic of Venezuela",
+  "logo.shom": "Science and Fatherland",
   "logo.mer": "SS Sea and biodiversity logo",
-  "lang.french": "French",
+  "lang.spanish": "Spanish",
   "lang.english": "English",
   "save": "Save",
   "cancel": "Cancel",
@@ -14,7 +28,7 @@
   "not-public": "Not public",
   "confirm-remove-part": "Remove part ?",
   "preposition-for": "for",
-  "meta-description": "Consult notices to mariners (NAVAREA, AVURNAV, AVINAV) and maritime regulations on PING. You too can contribute to nautical information!",
+  "meta-description": "Consult notices to mariners (NAVAREA, AVURNAV, AVINAV) and maritime regulations on PISAC. You too can contribute to nautical information!",
   "account-panel": {
     "welcome": "Welcome",
     "create-button.title": "Register an account",
@@ -31,7 +45,7 @@
     }
   },
   "home-page": {
-    "title": "Welcome to the national nautical information portal",
+    "title": "Welcome to the Water Safety Information Platform",
     "disclaimer": {
       "title": "Warning on use",
       "neverShowAgain": "Do not show this again on this device"
@@ -76,6 +90,7 @@
       "static-file": "Static files list",
       "static-logo": "Static images list",
       "static-section": "Static sections list",
+      "cartography": "Cartography Management (GeoPDF / TIFF)",
       "contributions": "Contributions",
       "new-contribution": "New contribution",
       "service-contribution": "{{service}} contributions",
@@ -164,7 +179,8 @@
   },
   "paginator": {
     "next-page": "Next page",
-    "previous-page": "Previous page"
+    "previous-page": "Previous page",
+    "items-per-page": "Items per page"
   },
   "pages": {
     "not-found": {
@@ -251,7 +267,7 @@
       },
       "new-danger-confirmation": {
         "header": "Warning on use",
-        "message": "If you are at sea, contact the nearest semaphore by VHF on canal 16.",
+        "message": "If you are at sea, contact the nearest Coast Guard Station by VHF on channel 16.",
         "rejectLabel": "Quit",
         "acceptLabel": "Report"
       }
@@ -267,7 +283,7 @@
       },
       "bathy": {
         "title": "Creation of the bathymetric contribution",
-        "description": "<p>The detection of dangerous deviations is carried out by CARTONAUT.<br/>This is an automatic test of bathymetric data against current SHOM nautical charts to detect dangerous deviations that could be subject to an AN.<br/>Depending on the holder's choice, an infosource based on dangerous deviations will be created, intended for producers of nautical information, in particular for the producer of AN concerned.<br/>Here are the possible actions :<br/><ul><li>Test:<br/>data are not retained beyond the strict need for traceability of the data test by CARTONAUT</li><li>Transmission :<br/>deposit (transmit) data lead to the definitive recording of these data in the IS of SHOM, with an internal validation of these data by SHOM, as well as an expertise of these data and their contribution for the updating of the nautical charts</li></ul></p>",
+        "description": "<p>The detection of dangerous deviations is carried out by CARTONAUT.<br/>This is an automatic test of bathymetric data against current SHOM nautical charts to detect dangerous deviations that could be subject to an AN.<br/>Depending on the holder's choice, an information source based on dangerous deviations will be created, intended for producers of nautical information, in particular for the producer of AN concerned.<br/>Here are the possible actions :<br/><ul><li>Test:<br/>data are not retained beyond the strict need for traceability of the data test by CARTONAUT</li><li>Transmission :<br/>deposit (transmit) data lead to the definitive recording of these data in the IS of SHOM, with an internal validation of these data by SHOM, as well as an expertise of these data and their contribution for the updating of the nautical charts</li></ul></p>",
         "report-danger": {
           "new-report-danger": "New report of dangerous depth",
           "danger-location": "Danger location",
@@ -353,7 +369,7 @@
           "georegulationMaritimeEntity": "Maritime entities",
           "georegulationSummary": "Summary",
           "georegulationAdditionNumbers": "Additional numbers",
-          "ping-id": "PING id",
+          "ping-id": "PISAC id",
           "shom-id": "SHOM id",
           "producer-organization": "Project manager",
           "owner-organization": "Project owner",
@@ -365,7 +381,7 @@
       }
     },
     "details": {
-      "no-localisation-data": "No localisation data in this infosource",
+      "no-localisation-data": "No localisation data in this information source",
       "status-sent": "sent at ",
       "contributor": {
         "title": "Contributor",
@@ -463,7 +479,7 @@
       },
       "create-warning": {
         "show-panel": "Create warning",
-        "copy-data": "Copy data from infosource",
+        "copy-data": "Copy data from information source",
         "cancel": "Cancel",
         "confirm": "Confirm",
         "success": "Warning has been created",
@@ -643,7 +659,7 @@
     },
     "type": {
       "warnings": "ANs",
-      "infosources": "Infosources",
+      "infosources": "Information sources",
       "georegulations": "Georegulations"
     },
     "select-notions": "Select notions",
@@ -821,7 +837,7 @@
       }
     },
     "modal": {
-      "warning": "The areas plotted in PING have only an indicative value. The official boundaries are those given in the decree.",
+      "warning": "The areas plotted in PISAC have only an indicative value. The official boundaries are those given in the decree.",
       "details-fieldset": "Details",
       "numbers": "Number(s)",
       "secondary-numbers": "Other number(s)",
@@ -852,7 +868,7 @@
       "status-fieldset": "State",
       "status-published": "Published from",
       "status-repealed": "Expired from",
-      "last-update": "Last update in PING",
+      "last-update": "Last update in PISAC",
       "issuing-service": "Issuing service",
       "is-public": "This GR is public",
       "is-not-public": "This GR is not public",
@@ -989,8 +1005,8 @@
         "technical-metadata": "Technical metadata (PDF file)",
         "misc-attachments": "Other documents",
         "activities-and-restrictions": "Activity and broadcast restriction",
-        "selected-activity" :  "Selected activity",
-        "broadcast-restriction" : "Broadcast restriction",
+        "selected-activity": "Selected activity",
+        "broadcast-restriction": "Broadcast restriction",
         "additional-information": "Comment (optional)",
         "global-stats": {
           "probes-qty": "Probes quantity",
@@ -1172,7 +1188,7 @@
         "homeport": "Homeport (optional)",
         "registration-number": "Registration number (optional)",
         "preferred-area": "Preferred area (optional)",
-        "notification": "I would also like to receive PING notifications by email (subscription creation, etc.).",
+        "notification": "I would also like to receive PISAC notifications by email (subscription creation, etc.).",
         "notification-nautiques": "For notification of new nautical information as part of a subscription, please refer to your subscription.",
         "terms-of-service": "I accept Terms Of Service",
         "notifications-sound": "Sound notifications on your terminal when you are connected to your account",
@@ -1340,7 +1356,7 @@
   },
   "folder-modal-table": {
     "type": {
-      "INFOSOURCE": "Infosource",
+      "INFOSOURCE": "Information source",
       "GEOREGULATION": "Georegulation",
       "WARNING": "Warning",
       "WARNING_TP": "Warning T&P",
@@ -1384,7 +1400,7 @@
     "study-update": "Study update",
     "references": "Publication(s) in the GAN"
   },
-  "folder-modal-reference" : {
+  "folder-modal-reference": {
     "columns": {
       "type": "Reference type",
       "value": "Reference number",
@@ -1419,7 +1435,7 @@
   "subscription-table": {
     "columns": {
       "title": "Title",
-      "maritimeServiceSubscriber" : "Maritime service subscriber",
+      "maritimeServiceSubscriber": "Maritime service subscriber",
       "creation-date": "Creation date",
       "area-name": "Area",
       "sending-mail": "Sending by mail"
@@ -1463,7 +1479,7 @@
     "english-language": "English"
   },
   "info-table": {
-    "no-service-selected": "You must first select a service before displaying list of infosources",
+    "no-service-selected": "You must first select a service before displaying the list of information sources",
     "columns": {
       "nature": "Nature",
       "description": "Description",
@@ -1633,7 +1649,7 @@
     "send-success": "The contribution has been sent",
     "send-welcome-contribution": "Thank you for your contribution",
     "send-error": "The contribution failed to send",
-    "infosource-rejected": "This information is out of PING service areas; it cannot be taken care of.",
+    "infosource-rejected": "This information is out of PISAC service areas; it cannot be taken care of.",
     "select-recipients": "Select recipients",
     "btn-send-cancel": "Cancel",
     "btn-send-confirm": "Confirm",
@@ -1758,7 +1774,7 @@
           "is-expired-no": "Not expired"
         },
         "survey": {
-          "identifier": "PING ID {{identifier}}",
+          "identifier": "PISAC ID {{identifier}}",
           "name-and-location": "Name/location",
           "transmission-period": "Transmission {{period}}",
           "shom-id": "Shom ID {{shomId}}",
@@ -1797,7 +1813,7 @@
       "avurnav-types": "Avurnav types: ",
       "start": "Start: ",
       "end": "End: ",
-      "published-since": "Published in PING since: ",
+      "published-since": "Published in PISAC since: ",
       "to-do": "To do:",
       "usual-number": "Number: ",
       "model": "Model: ",
@@ -2004,7 +2020,7 @@
     "success.api.add-warning-link-reference": "The link has been successfully added",
     "success.api.edit-warning-link-reference": "The link has been successfully updated",
     "success.api.delete-warning-link-reference": "The link has been successfully deleted",
-    "success.api.delete-service-tag": "The tag has been successfully removed from the service and from all linked infosources",
+    "success.api.delete-service-tag": "The tag has been successfully removed from the service and from all linked information sources",
     "success.api.create-sub-area": "Sub-area has been created",
     "success.api.edit-sub-area": "Sub-area has bean updated",
     "success.api.delete-locality": "Locality has bean deleted",
@@ -2019,11 +2035,11 @@
     "success.api.survey-test.created": "Survey analysis has been created",
     "success.api.survey-test.updated": "Survey analysis has been updated",
     "error.api.reset-password": "Failed to send email",
-    "warn.filter.no-infosource-found": "No infosource found with this filter",
+    "warn.filter.no-infosource-found": "No information source found with this filter",
     "warn.filter.no-folder-found": "No folder found with this filter",
     "warn.filter.no-georegulation-found": "No georegulation found with this filter",
     "warn.filter.no-survey-found": "No survey found with this filter",
-    "error.api.filter.cannot-get-infosources": "Unable to load infosources corresponding to this filter",
+    "error.api.filter.cannot-get-infosources": "Unable to load information sources corresponding to this filter",
     "error.api.filter.cannot-get-folders": "Unable to load folders corresponding to this filter",
     "error.api.filter.cannot-get-subscriptions": "Unable to load subscriptions",
     "error.api.filter.cannot-get-surveys": "Failed to load surveys",
@@ -2078,9 +2094,7 @@
     "K": "Messages concernant d'autres aides électroniques à la navigation"
   },
   "diffusion-navtex-source": {
-    "B": "NAVTEX Corsen",
-    "N": "NAVTEX Niton",
-    "T": "NAVTEX La Garde"
+    "N4": "NAVAREA IV"
   },
   "enum": {
     "warning-hazard-type-details": {
@@ -2427,6 +2441,7 @@
       "cancelled": "Cancelled"
     },
     "warning-part-type-expression": {
+      "MARINERS_ARE_ADVISED_THAT": "Mariners are advised that",
       "IN_PROGRESS": "In progress",
       "UNTIL_FURTHER_NOTICE": "Until further notice",
       "WIDE_BERTH_REQUESTED": "Wide berth requested",
@@ -2438,8 +2453,8 @@
       "PROHIBITED_AREA": "Prohibited area",
       "RESTRICTED_AREA": "Restricted area",
       "ACTION_WITHIN_THIS_AREA": "No fishing, trawling, dredging, anchoring and diving within this area",
-      "FULL_TEXT_PREFECTORAL": "Full text of prefectoral decree available on prefecture maritime website",
-      "PREFECTORAL_RESPECTED": "Prefectoral decree to be respected",
+      "FULL_TEXT_PREFECTORAL": "Full text of the Port Captaincy decree available on the Port Captaincy website",
+      "PREFECTORAL_RESPECTED": "Port Captaincy decree to be respected",
       "REPORT_INFORMATION": "Report any information to"
     },
     "infosource-nature": {
@@ -2635,9 +2650,9 @@
       "national_delegated_coordinator": "National delegated coordinator",
       "shom_geographic_area": "SHOM geographic area",
       "navarea_coordinator": "NAVAREA coordinator",
-      "semaphore": "Semaphore",
+      "semaphore": "Coast guard",
       "lighthouses_and_beacons": "Lighthouses & beacons",
-      "captaincy": "Captaincy",
+      "captaincy": "Port Captaincy",
       "authority": "Authority",
       "cross": "CROSS",
       "cross_vts": "CROSS VTS",
@@ -2991,11 +3006,11 @@
     "select-type": "Select a service type",
     "select-network": "Select a service network",
     "network": "Service network",
-    "ping-partner": "PING partner",
+    "ping-partner": "PISAC partner",
     "maritime-notice-producer": "AN producer",
     "folder-manager": "Folder manager",
     "survey-owner": "Survey owner",
-    "shom-service": "SHOM service",
+    "shom-service": "SHN service",
     "areas": "Areas",
     "all-areas": "Select areas",
     "tags": "Tags",
@@ -3225,10 +3240,10 @@
         "height-out-of-range": "Enter height between {{minRange}}px and {{maxRange}}px"
       }
     },
-    "edit" : {
+    "edit": {
       "title": "Edit static image"
     },
-    "show" : {
+    "show": {
       "title": "Show static image"
     },
     "delete": {
@@ -3304,7 +3319,7 @@
         "lbl-available-warning-number": "next available: {{availableWarningNumber}}",
         "lbl-select-year": "Year",
         "lbl-timezone": "Timezone",
-        "lbl-timezone-info" : "to display event periods with local hour in PING",
+        "lbl-timezone-info": "to display event periods with local hour in PISAC",
         "lbl-add-cancellation-date-to-telex": "Add self-cancellation date in TELEX",
         "lbl-rb-not-display-cancellation-date": "No, print 'CANCEL THIS MSG' in TELEX",
         "btn-next": "Next",
@@ -3355,7 +3370,7 @@
         "cancelled-warnings": "Cancelled warnings",
         "replaced-warnings": "Replaced warnings",
         "referenced-warnings": "Parent warnings",
-        "linked-infosources": "Linked infosources",
+        "linked-infosources": "Linked information sources",
         "linked-entities": "Linked maritime entities",
         "linked-georegulations": "Linked georegulations",
         "information": "Information",
@@ -3408,6 +3423,9 @@
           "add-periods": "Insert periods",
           "add-in-effect-warnings": "Insert in-effect warnings",
           "add-type-expression": "Insert type expression",
+          "add-affected-charts": "Insert affected charts",
+          "affected-charts": "Affected charts",
+          "affected-charts-placeholder": "Ex: DHN-100, DHN-301",
           "select-type-expression": "Select type expression",
           "radiusDistanceUnit": "Circle radius unit",
           "decimal-minute-precision": "Accuracy of minute decimals",
@@ -3458,11 +3476,11 @@
           }
         },
         "infosources": {
-          "title": "Informations sources linked to warning",
+          "title": "Information sources linked to warning",
           "sent-by": "Sent by",
           "sent-at": "at",
           "nature": "Nature : ",
-          "display-infosource-modal": "Display infosource details on map",
+          "display-infosource-modal": "Display information source details on map",
           "description": "Description : ",
           "attachments": "Attachments : ",
           "timezone": "Timezone : "

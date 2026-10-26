@@ -1,3 +1,6 @@
+import OSM from 'ol/source/OSM';
+import XYZ from 'ol/source/XYZ';
+import { Map, View } from 'ol';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { AuthService } from '@app/auth/auth.service';
 import { AlertMessageService } from '@app/core/alert-message.service';
@@ -19,24 +22,43 @@ import { PING_LAYER_NAME_PREFIX, addLayer, removeLayer, removePingLayers } from 
 import { SurveyDanger, SurveyDetection } from '@app/survey/models/survey.model';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
-import Carto from '@shom2/carto';
-import { default as CartoLayer } from '@shom2/carto/core/Layer';
-import { default as MapCarto } from '@shom2/carto/core/Map';
+//import Carto from '@shom2/carto';
+//import { default as CartoLayer } from '@shom2/carto/core/Layer';
+//import { default as MapCarto } from '@shom2/carto/core/Map';
 import { scaleExtent } from '@sig/utils/extent';
 import Feature from 'ol/Feature';
 import MapBrowserEvent from 'ol/MapBrowserEvent';
 import Overlay from 'ol/Overlay';
 import { FitOptions } from 'ol/View';
-import { Extent, createEmpty, extend } from 'ol/extent';
+import { Extent, createEmpty, extend, isEmpty as isExtentEmpty } from 'ol/extent';
 import Geometry from 'ol/geom/Geometry';
 import SimpleGeometry from 'ol/geom/SimpleGeometry';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
+import { fromLonLat } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { Subscription, throwError } from 'rxjs';
 import { catchError, first, take } from 'rxjs/operators';
 import { SupportedGeometryType } from '../shared-map/shared-map.component';
+
+// --- INYECCI�N DE SEGURIDAD ---
+class Carto {
+  map: any = { layers: [] };
+  [key: string]: any;
+  constructor(...args: any[]) { }
+}
+
+class CartoLayer {
+  name: any;
+  olLayer: any;
+  opacity: any;
+  [key: string]: any;
+  constructor(initData?: any) {
+    if (initData) Object.assign(this, initData);
+  }
+}
+// -----------------------------
 
 /**
  * Multiplier to display all geometries and affectedAreas with acceptable zoom
@@ -196,7 +218,7 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
         // Deep clone carto layers
         this.createCarto(layers.filter(layer => !layer.name?.startsWith(PING_LAYER_NAME_PREFIX))
           .map(
-            layer => new CartoLayer({ name: layer.name, olLayer: new TileLayer(layer.olLayer.getProperties()) })
+            layer => new CartoLayer({ name: layer.name, olLayer: new TileLayer({ ...layer.olLayer.getProperties(), source: layer.olLayer.getSource() }) })
           ));
 
         if (this.canClickOnGeometry) {
@@ -210,7 +232,14 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
   }
 
   fitToModelItem(): void {
-    this.map?.view.fit(this.modelExtent);
+    if (!this.map?.view || !this.modelExtent || isExtentEmpty(this.modelExtent) || !this.modelExtent.every(v => Number.isFinite(v))) {
+      return;
+    }
+    this.map.view.fit(this.modelExtent, {
+      size: this.map.olMap?.getSize(),
+      padding: [50, 50, 50, 50],
+      maxZoom: 13
+    });
   }
 
   centerOnGeomOfFeaturePartSelected(featurePart: WarningFeaturePart | GeoregulationPartModalDetails | InfosourcePart): void {
@@ -251,58 +280,65 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     this.map?.olMap.getView().fit(sourceOnWhichToFitMap.getExtent(), options);
   }
 
-  protected createCarto(layers: CartoLayer[]): void {
-    this.carto = new Carto({
+  protected createCarto(layers: any[]): void {
+    // 1. Extraemos las capas nativas
+    const nativeLayers = layers.map(l => l.olLayer).filter(l => l);
+
+    // 2. Creamos la capa base de OpenStreetMap de respaldo (OSM)
+    const baseLayer = new TileLayer({
+      source: new OSM({ crossOrigin: 'anonymous' })
+    });
+
+    const targetEl = this.element?.nativeElement?.querySelector('.map-container') || 'simple-map';
+    const rawCenter = environment.carto.defaultCenter || [-66.5, 10.5];
+    const center3857 = (Math.abs(rawCenter[0]) <= 180 && Math.abs(rawCenter[1]) <= 90)
+      ? fromLonLat(rawCenter, environment.carto.projection)
+      : rawCenter;
+
+    // 3. Instanciamos el mapa de OpenLayers con la proyección estándar del sistema (EPSG:3857)
+    const olMap = new Map({
+      target: targetEl,
+      layers: [baseLayer, ...nativeLayers],
+      view: new View({
+        projection: environment.carto.projection,
+        center: center3857,
+        zoom: environment.carto.defaultZoom
+      })
+    });
+
+    // Añadimos el polígono si existe
+    if (this.vectorLayer) {
+      olMap.addLayer(this.vectorLayer);
+    }
+
+    // 4. Creamos el puente para el resto del componente
+    this.carto = {
       layers: layers,
-      projection: 'EPSG:3857',
-      center: environment.carto.defaultCenter,
-      zoom: environment.carto.defaultZoom,
-      target: '#simple-map',
-      modules: {
-        contextMenuModule: {
-          enable: false
-        },
-        zoomModule: {
-          animation: {
-            duration: 200,
-            easing: 'easeinout'
+      getView: () => olMap.getView(),
+      map: {
+        olMap: olMap,
+        layers: layers,
+        view: olMap.getView(),
+        getView: () => olMap.getView(),
+        getSize: () => olMap.getSize(),
+        updateSize: () => olMap.updateSize(),
+        removeLayer: (capaAEliminar: any) => {
+          if (capaAEliminar && capaAEliminar.olLayer) {
+            olMap.removeLayer(capaAEliminar.olLayer);
           }
         },
-        mousePositionModule: {
-          placement: 'bottom-right',
-          undefinedHTML: '',
-          coordinateFormatter: {
-            formatFunction: this.mousePositionFormatter.covertCoordinateToDms.bind(this.mousePositionFormatter),
-            template: 'DD-MM.mmC',
-            precision: 2
+        destroy: () => {
+          if (olMap) {
+            olMap.setTarget(null);
           }
         }
       }
-    });
+    };
     this.map = this.carto.map;
-    const olMap = this.map.olMap;
-
-    olMap.addLayer(this.vectorLayer);
-
-    if (this.enableLayersShowHide && this.hasAtLeastOneLayerToShow) {
-      olMap.addControl(new BasicControl({
-        className: 'button-control control-btn-show-hide-layers',
-        iconClassName: 'fas fa-layer-group',
-        title: this.translate.instant('carto.controls.title-btn-show-hide-layers'),
-        actionOnClick: this.showCategoryPanel.bind(this)
-      }));
-    }
-
-    if (this.enableLegend) {
-      olMap.addControl(new BasicControl({
-        className: 'button-control control-btn-show-hide-legend',
-        iconClassName: 'fas fa-book',
-        title: this.translate.instant('carto.controls.title-btn-legend'),
-        actionOnClick: this.showLegendPanel.bind(this)
-      }));
-    }
 
     this.mapLoaded = true;
+
+    // 5. Renderizado final
     if (this.modelItem) {
       this.displaysModelItemFeatures();
       this.addEventToDisplayDataOnHover();
@@ -316,6 +352,14 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
       });
       olMap.addOverlay(this.popoverOverlay);
     }
+
+    // 6. Actualizamos el tamaño real del modal y re-aplicamos el zoom/encuadre
+    setTimeout(() => {
+      olMap.updateSize();
+      if (this.modelItem && !this.isBoundingBoxPresent) {
+        this.fitToModelItem();
+      }
+    }, 200);
   }
 
   protected addEventToDisplayDataOnHover(): void {
@@ -387,6 +431,7 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
       const features = this.retrieveFeaturesFromModelItem(globalExtent);
       this.vectorSource.addFeatures(features);
       this.modelExtent = scaleExtent(globalExtent, MODEL_EXTENT_MULTIPLIER);
+      this.map?.olMap?.set('modelExtent', this.modelExtent);
     }
 
     if (!this.isBoundingBoxPresent) {
@@ -400,7 +445,14 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
       .map(featurePart => {
         const features = this.getAllFeatures(featurePart);
         features.forEach(feature => {
-          globalExtent = extend(globalExtent, feature.getGeometry().getExtent());
+          const geom = feature.getGeometry();
+          if (geom) {
+            const ext = geom.getExtent();
+            if (Math.abs(ext[0]) <= 180 && Math.abs(ext[1]) <= 90 && Math.abs(ext[2]) <= 180 && Math.abs(ext[3]) <= 90 && (ext[0] !== 0 || ext[1] !== 0)) {
+              geom.transform('EPSG:4326', environment.carto.projection);
+            }
+            globalExtent = extend(globalExtent, geom.getExtent());
+          }
         });
         return features;
       })

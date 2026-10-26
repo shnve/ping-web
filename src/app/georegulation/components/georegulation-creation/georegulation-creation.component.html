@@ -3,7 +3,8 @@
         <h2 class="georegulation-title">
             <span *ngIf="!georegulationId; else editTitle">{{'georegulation.creation.title' | translate}}</span>
             <ng-template #editTitle>
-                <span>{{'georegulation.edition.title' | translate}} ({{('enum.georegulation-status.' + (georegulation.status | lowercase) | translate) | lowercase}})</span>
+                <span>{{'georegulation.edition.title' | translate}}
+                    ({{('enum.georegulation-status.' + (georegulation.status | lowercase) | translate) | lowercase}})</span>
             </ng-template>
         </h2>
 
@@ -16,10 +17,10 @@
                 <div class="col-75">
                     <p-dropdown *ngIf="issuingServices$ | async as issuingServices"
                         [ngClass]="{'ng-dirty': issuingServiceId.invalid || issuingServiceId.dirty}"
-                        [options]="issuingServices" [showClear]="!readonly" [disabled]="disabled"
+                        [options]="issuingServices" [showClear]="!readonly"
                         [placeholder]="'georegulation.issuing-service-placeholder' | translate" resetFilterOnHide="true"
-                        filter="true" [optionLabel]="'option-label-name' | translate" optionValue="id" formControlName="issuingServiceId"
-                        id="issuingServiceId" ngDefaultControl>
+                        filter="true" [optionLabel]="'option-label-name' | translate" optionValue="id"
+                        formControlName="issuingServiceId" id="issuingServiceId" ngDefaultControl>
                     </p-dropdown>
                 </div>
             </div>
@@ -38,10 +39,9 @@
                     <label for="type" translate>georegulation.type.title<span> *</span></label>
                 </div>
                 <div class="col-75">
-                    <p-dropdown
-                        [ngClass]="{'ng-dirty': type.invalid && (submitted || type.dirty)}"
+                    <p-dropdown [ngClass]="{'ng-dirty': type.invalid && (submitted || type.dirty)}"
                         [options]="availableTypes" [placeholder]="'georegulation.type.placeholder' | translate"
-                        formControlName="type" id="type" [disabled]="disabled" ngDefaultControl>
+                        formControlName="type" id="type" ngDefaultControl>
                         <ng-template let-item pTemplate="item">
                             <span class="p-button-label">{{'georegulation.type.' + item | translate}}</span>
                         </ng-template>
@@ -66,9 +66,10 @@
                     <label for="timezone" translate>georegulation.timezone<span> *</span></label>
                 </div>
                 <div class="col-75">
-                    <p-dropdown [ngClass]="{'ng-dirty': timezone.invalid || timezone.dirty}" optionValue="label" optionLabel="label"
-                        [options]="timezones" [placeholder]="'admin-warning.creation.labels.ph-timezone' | translate"
-                        filter="true" formControlName="timezone" id="timezone" [disabled]="disabled" ngDefaultControl>
+                    <p-dropdown [ngClass]="{'ng-dirty': timezone.invalid || timezone.dirty}" optionValue="label"
+                        optionLabel="label" [options]="timezones"
+                        [placeholder]="'admin-warning.creation.labels.ph-timezone' | translate" filter="true"
+                        formControlName="timezone" id="timezone" ngDefaultControl>
                     </p-dropdown>
                 </div>
             </div>
@@ -85,12 +86,10 @@
             <div class="row">
                 <div class="col-25" translate>georegulation.number<span> *</span></div>
                 <div class="col-75">
-                    <georegulation-number-input [(ngModel)]="georegulation.mainNumber"
-                        [availableYears]="availableYears"
-                        [availableAuthorities]="availableAuthorities"
-                        [yearRange]="yearRange"
-                        [ngModelOptions]="{standalone: true}"
-                        (numberValidated)="mainNumberValidated($event)"
+                    <!-- Componente custom: usa ngModel (standalone), el disabled aquí está OK -->
+                    <georegulation-number-input [(ngModel)]="georegulation.mainNumber" [availableYears]="availableYears"
+                        [availableAuthorities]="availableAuthorities" [yearRange]="yearRange"
+                        [ngModelOptions]="{standalone: true}" (numberValidated)="mainNumberValidated($event)"
                         [disabled]="disabled">
                     </georegulation-number-input>
                 </div>
@@ -104,24 +103,23 @@
                 </div>
             </div>
 
-            <div class="row" *ngIf="(isMainNumberUnavailable && submitted) || (mainNumber.dirty && isMainNumberUnavailable)">
-              <div class="col-25"></div>
-              <div class="col-75">
-                  <small class="p-error" translate>georegulation.creation.errors.main-number-unavailable</small>
-              </div>
-          </div>
+            <div class="row"
+                *ngIf="(isMainNumberUnavailable && submitted) || (mainNumber.dirty && isMainNumberUnavailable)">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <small class="p-error" translate>georegulation.creation.errors.main-number-unavailable</small>
+                </div>
+            </div>
 
             <!-- Additional numbers -->
             <div class="row">
                 <div class="col-25 lbl-additional-numbers" translate>georegulation.additional-numbers</div>
                 <div class="col-75">
+                    <!-- Componente custom: usa ngModel (standalone), el disabled aquí está OK -->
                     <georegulation-number-list [(ngModel)]="georegulation.additionalNumbers"
-                        [availableYears]="availableYears"
-                        [availableAuthorities]="availableAuthorities"
-                        [yearRange]="yearRange"
-                        [ngModelOptions]="{standalone: true}"
-                        (allNumbersValidated)="additionalNumbersValidated($event)"
-                        [disabled]="disabled">
+                        [availableYears]="availableYears" [availableAuthorities]="availableAuthorities"
+                        [yearRange]="yearRange" [ngModelOptions]="{standalone: true}"
+                        (allNumbersValidated)="additionalNumbersValidated($event)" [disabled]="disabled">
                     </georegulation-number-list>
                 </div>
             </div>
@@ -147,17 +145,11 @@
                         </li>
                     </ul>
                     <ng-template #activitiesSelect>
-                        <p-multiSelect class="p-col" *ngIf="availableActivities"
-                            formControlName="activities"
-                            resetFilterOnHide="true"
-                            [options]="availableActivities"
+                        <p-multiSelect class="p-col" *ngIf="availableActivities" formControlName="activities"
+                            resetFilterOnHide="true" [options]="availableActivities"
                             [placeholder]="'georegulation.activities-placeholder' | translate"
-                            [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
-                            [disabled]="disabled"
-                            optionLabel="value"
-                            optionValue="key"
-                            [ngClass]="{'ng-dirty': activities.invalid || activities.dirty}"
-                        >
+                            [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate" optionLabel="value"
+                            optionValue="key" [ngClass]="{'ng-dirty': activities.invalid || activities.dirty}">
                         </p-multiSelect>
                     </ng-template>
                 </div>
@@ -167,7 +159,8 @@
             <div class="row" *ngIf="activities.invalid && (submitted || activities.dirty)">
                 <div class="col-25"></div>
                 <div class="col-75">
-                    <small class="p-error" translate>infosource.report-hazard.errors.concerned-maritime-entities-invalid</small>
+                    <small class="p-error"
+                        translate>infosource.report-hazard.errors.concerned-maritime-entities-invalid</small>
                 </div>
             </div>
 
@@ -179,14 +172,16 @@
                 <div class="col-75 textareas" id="object-id">
                     <div class="div-textareas">
                         <label>
-                            <span class="lang-label">FR</span>
+                            <span class="lang-label">ES</span>
+                            <!-- readonly es legal en Formularios Reactivos, lo dejamos -->
                             <textarea pInputTextarea rows="10" [readonly]="disabled" formControlName="title"></textarea>
                         </label>
                     </div>
                     <div class="div-textareas">
                         <label>
                             <span class="lang-label">EN</span>
-                            <textarea pInputTextarea rows="10" [readonly]="disabled" formControlName="internationalTitle"></textarea>
+                            <textarea pInputTextarea rows="10" [readonly]="disabled"
+                                formControlName="internationalTitle"></textarea>
                         </label>
                     </div>
                 </div>
@@ -195,7 +190,8 @@
             <!-- Concerned maritime entities -->
             <div class="row">
                 <div class="col-25">
-                    <label for="concernedMaritimeEntityIds" translate>infosource.report-hazard.concerned-maritime-entities</label>
+                    <label for="concernedMaritimeEntityIds"
+                        translate>infosource.report-hazard.concerned-maritime-entities</label>
                 </div>
                 <div class="col-75">
                     <ul *ngIf="disabled; else entitiesSelect">
@@ -204,17 +200,13 @@
                         </li>
                     </ul>
                     <ng-template #entitiesSelect>
-                        <p-multiSelect class="p-col" *ngIf="availableMaritimeEntities; else showEmptyAvailableMaritimeEntities"
-                            formControlName="concernedMaritimeEntityIds"
-                            id="concernedMaritimeEntityIds"
-                            [options]="availableMaritimeEntities"
-                            resetFilterOnHide="true"
+                        <p-multiSelect class="p-col"
+                            *ngIf="availableMaritimeEntities; else showEmptyAvailableMaritimeEntities"
+                            formControlName="concernedMaritimeEntityIds" id="concernedMaritimeEntityIds"
+                            [options]="availableMaritimeEntities" resetFilterOnHide="true"
                             [placeholder]="'infosource.report-hazard.concerned-maritime-entities' | translate"
                             [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
-                            [disabled]="disabled"
-                            [optionLabel]="'option-label-name' | translate"
-                            optionValue="id"
-                        >
+                            [optionLabel]="'option-label-name' | translate" optionValue="id">
                         </p-multiSelect>
                         <ng-template #showEmptyAvailableMaritimeEntities>
                             <span class="p-error" translate>georegulation.empty-available-maritime-entities</span>
@@ -231,7 +223,7 @@
                 <div class="col-75 textareas" id="summary-id">
                     <div class="div-textareas">
                         <label>
-                            <span class="lang-label">FR</span>
+                            <span class="lang-label">ES</span>
                             <textarea pInputTextarea [rows]="10" formControlName="summary"></textarea>
                         </label>
                     </div>
@@ -250,8 +242,10 @@
                     <label for="isTemporary" translate>georegulation.is-temporary<span> *</span></label>
                 </div>
                 <div class="col-75 p-field-checkbox">
-                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="isTemporary" [disabled]="disabled"></p-radioButton>
-                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="isTemporary" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate"
+                        formControlName="isTemporary"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate"
+                        formControlName="isTemporary"></p-radioButton>
                 </div>
             </div>
 
@@ -267,24 +261,25 @@
             <div class="row" *ngIf="temporary">
                 <div class="col-25 lbl-top">
                     <label for="calendar-periods">
-                        {{'georegulation.calendar-periods' | translate}} ({{ 'admin-warning.creation.labels.date-range-timezone' | translate}} : {{timezone.value}})
+                        {{'georegulation.calendar-periods' | translate}}
+                        ({{ 'admin-warning.creation.labels.date-range-timezone' | translate}} : {{timezone.value}})
                     </label>
                 </div>
                 <div class="col-75">
                     <shared-input-date-ranges id="calendar-periods" formControlName="calendarPeriods"
-                        [showDateTimeToggleButton]="false" [disabled]="disabled"
-                    ></shared-input-date-ranges>
+                        [showDateTimeToggleButton]="false"></shared-input-date-ranges>
                 </div>
             </div>
 
             <!-- Seasonal periods -->
             <div class="row">
-              <div class="col-25 lbl-top">
-                  <label for="seasonal-periods">{{'georegulation.seasonal-periods' | translate}}</label>
-              </div>
-              <div class="col-75">
-                  <georegulation-seasonal-periods id="seasonal-periods" formControlName="seasonalPeriods" [disabled]="disabled"></georegulation-seasonal-periods>
-              </div>
+                <div class="col-25 lbl-top">
+                    <label for="seasonal-periods">{{'georegulation.seasonal-periods' | translate}}</label>
+                </div>
+                <div class="col-75">
+                    <georegulation-seasonal-periods id="seasonal-periods"
+                        formControlName="seasonalPeriods"></georegulation-seasonal-periods>
+                </div>
             </div>
 
             <!-- Coastline limit 300m -->
@@ -293,19 +288,24 @@
                     <label for="hasCoastlineLimit" translate>georegulation.coastline-limit<span> *</span></label>
                 </div>
                 <div class="col-75 p-field-checkbox">
-                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="hasCoastlineLimit" [disabled]="disabled"></p-radioButton>
-                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="hasCoastlineLimit" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate"
+                        formControlName="hasCoastlineLimit"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate"
+                        formControlName="hasCoastlineLimit"></p-radioButton>
                 </div>
             </div>
 
             <!-- All Territorial Sea -->
-             <div class="row">
+            <div class="row">
                 <div class="col-25">
-                    <label for="isAllTerritorialSea" translate>georegulation.is-all-territorial-sea<span> *</span></label>
+                    <label for="isAllTerritorialSea" translate>georegulation.is-all-territorial-sea<span>
+                            *</span></label>
                 </div>
                 <div class="col-75 p-field-checkbox">
-                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="isAllTerritorialSea" [disabled]="disabled"></p-radioButton>
-                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="isAllTerritorialSea" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate"
+                        formControlName="isAllTerritorialSea"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate"
+                        formControlName="isAllTerritorialSea"></p-radioButton>
                 </div>
             </div>
 
@@ -313,40 +313,40 @@
             <div class="row" *ngIf="isAllTerritorialSea.invalid && (submitted || isAllTerritorialSea.dirty)">
                 <div class="col-25"></div>
                 <div class="col-75">
-                    <small class="p-error" translate>georegulation.creation.errors.is-all-territorial-sea-invalid</small>
+                    <small class="p-error"
+                        translate>georegulation.creation.errors.is-all-territorial-sea-invalid</small>
                 </div>
             </div>
 
             <!-- Announced by avurnav avirade -->
-             <div class="row">
+            <div class="row">
                 <div class="col-25">
-                    <label for="isAnnouncedByAvurnavAvirade" translate>georegulation.is-announcement-by-avurnav-avirade<span> *</span></label>
+                    <label for="isAnnouncedByAvurnavAvirade"
+                        translate>georegulation.is-announcement-by-avurnav-avirade<span> *</span></label>
                 </div>
                 <div class="col-75 p-field-checkbox">
-                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="isAnnouncedByAvurnavAvirade" [disabled]="disabled"></p-radioButton>
-                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="isAnnouncedByAvurnavAvirade" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate"
+                        formControlName="isAnnouncedByAvurnavAvirade"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate"
+                        formControlName="isAnnouncedByAvurnavAvirade"></p-radioButton>
                 </div>
             </div>
 
             <!-- message if invalid isAnnouncedByAvurnavAvirade selection -->
-            <div class="row" *ngIf="isAnnouncedByAvurnavAvirade.invalid && (submitted || isAnnouncedByAvurnavAvirade.dirty)">
+            <div class="row"
+                *ngIf="isAnnouncedByAvurnavAvirade.invalid && (submitted || isAnnouncedByAvurnavAvirade.dirty)">
                 <div class="col-25"></div>
                 <div class="col-75">
-                    <small class="p-error" translate>georegulation.creation.errors.is-announced-by-avurnav-avirade-invalid</small>
+                    <small class="p-error"
+                        translate>georegulation.creation.errors.is-announced-by-avurnav-avirade-invalid</small>
                 </div>
             </div>
         </div>
 
         <!-- Parts -->
-        <georegulation-parts #georegulationParts
-                             [featureParts]="featurePartsConverted"
-                             [timezone]="timezone.value"
-                             [showRestrictionCategories]="showRestrictionCategories"
-                             [showCalendarPeriods]="temporary"
-                             formControlName="parts"
-                             [disabled]="disabled"
-                             [submitted]="submitted"
-                             [issuingServiceId]="issuingServiceId.value">
+        <georegulation-parts #georegulationParts [featureParts]="featurePartsConverted" [timezone]="timezone.value"
+            [showRestrictionCategories]="showRestrictionCategories" [showCalendarPeriods]="temporary"
+            formControlName="parts" [submitted]="submitted" [issuingServiceId]="issuingServiceId.value">
         </georegulation-parts>
 
         <div class="common">
@@ -354,15 +354,13 @@
             <!-- message if missing part -->
             <div>
                 <small *ngIf="isSavedWithoutPart && !form.get('parts').value.length"
-                    class="p-error error-message-localization"
-                    translate>georegulation.creation.errors.missing-part
+                    class="p-error error-message-localization" translate>georegulation.creation.errors.missing-part
                 </small>
             </div>
 
             <!-- message if at least on invalid part -->
             <div>
-                <small *ngIf="hasAtLeastOnePartWithoutGeometry"
-                    class="p-error error-message-localization"
+                <small *ngIf="hasAtLeastOnePartWithoutGeometry" class="p-error error-message-localization"
                     translate>georegulation.creation.errors.at-least-one-missing-geometry
                 </small>
             </div>
@@ -373,7 +371,7 @@
                     <label for="links" translate>georegulation.links</label>
                 </div>
                 <div class="col-75">
-                    <shared-url-links id="links" formControlName="links" [disabled]="disabled"></shared-url-links>
+                    <shared-url-links id="links" formControlName="links"></shared-url-links>
                 </div>
             </div>
 
@@ -383,8 +381,11 @@
                     <label for="attachments" translate>infosource.report-hazard.attachments</label>
                 </div>
                 <div class="col-75">
-                    <app-attachments id="attachments" [manageManyAttachments]="true" [attachmentFiles]="georegulation.attachmentFiles"
-                        [attachmentIds]="georegulation.attachmentIds" [inputId]="'georegulation-attachments'" [disabled]="disabled" (onChange)="setAttachmentsIds($event)">
+                    <!-- Este no tiene formControlName, así que su [disabled] sí es correcto aquí -->
+                    <app-attachments id="attachments" [manageManyAttachments]="true"
+                        [attachmentFiles]="georegulation.attachmentFiles" [attachmentIds]="georegulation.attachmentIds"
+                        [inputId]="'georegulation-attachments'" [disabled]="disabled"
+                        (onChange)="setAttachmentsIds($event)">
                     </app-attachments>
                 </div>
             </div>
@@ -395,8 +396,10 @@
                     <label for="isPublic" translate>georegulation.is-public<span> *</span></label>
                 </div>
                 <div class="col-75 p-field-checkbox">
-                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate" formControlName="isPublic" [disabled]="disabled"></p-radioButton>
-                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate" formControlName="isPublic" [disabled]="disabled"></p-radioButton>
+                    <p-radioButton [value]="true" [label]="'georegulation-table.columns.true-value' | translate"
+                        formControlName="isPublic"></p-radioButton>
+                    <p-radioButton [value]="false" [label]="'georegulation-table.columns.false-value' | translate"
+                        formControlName="isPublic"></p-radioButton>
                 </div>
             </div>
 
@@ -414,7 +417,8 @@
                     <label for="markAsNewInMonths" translate>georegulation.mark-new-during</label>
                 </div>
                 <div class="col-75">
-                    <p-dropdown [options]="availableMonths" formControlName="markAsNewInMonths" id="markAsNewInMonths" [disabled]="disabled" ngDefaultControl>
+                    <p-dropdown [options]="availableMonths" formControlName="markAsNewInMonths" id="markAsNewInMonths"
+                        ngDefaultControl>
                     </p-dropdown>
                 </div>
             </div>
@@ -425,7 +429,9 @@
                     <label for="internalComment" translate>infosource.report-hazard.internal-comment</label>
                 </div>
                 <div class="col-75">
-                    <textarea cols="100" formControlName="internalComment" id="internalComment" pInputTextarea rows="10" [readonly]="disabled">
+                    <!-- El readonly es permitido, lo conservamos para bloquear la edición -->
+                    <textarea cols="100" formControlName="internalComment" id="internalComment" pInputTextarea rows="10"
+                        [readonly]="disabled">
                     </textarea>
                 </div>
             </div>
@@ -438,14 +444,11 @@
             (georegulation.status === 'PUBLISHED' ?
             ('georegulation.edition.save' | translate) :
             ('georegulation.edition.save-draft' | translate)) :
-            ('georegulation.creation.save-draft' | translate)"
-            ></button>
-            <button pButton type="button" class="p-button-danger" [title]="'detail.cancel' | translate" [label]="'detail.cancel' | translate"
-                (click)="confirmCancel($event)"
-            >
+            ('georegulation.creation.save-draft' | translate)"></button>
+            <button pButton type="button" class="p-button-danger" [title]="'detail.cancel' | translate"
+                [label]="'detail.cancel' | translate" (click)="confirmCancel($event)">
             </button>
         </div>
-      <shared-warning-modal *ngIf="submitted" #modal
-      ></shared-warning-modal>
+        <shared-warning-modal *ngIf="submitted" #modal></shared-warning-modal>
     </form>
 </div>

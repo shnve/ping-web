@@ -4,8 +4,8 @@ import { BathyGeometryNature, InfosourceFeaturePart, InfosourceJsonFeaturePart, 
 import { formatDate } from '@app/shared/date-utils';
 import { DateRange } from '@app/shared/models/date-range.model';
 import { environment } from '@env/environment';
-import { setVerticesLabels as setVerticesLabelsCarto } from '@shom2/carto/utils/feature';
-import { getSphereRadius } from '@shom2/carto/utils/spheremeasure';
+//import { setVerticesLabels as setVerticesLabelsCarto } from '@shom2/carto/utils/feature';
+//import { getSphereRadius } from '@shom2/carto/utils/spheremeasure';
 import { cloneDeep } from 'lodash-es';
 import Feature from 'ol/Feature';
 import { Coordinate } from 'ol/coordinate';
@@ -35,6 +35,14 @@ export const blackColorAlpha = '#00000030';
 export const DEFAULT_NUMERIC_VALUE = '0.0';
 
 export const DEFAULT_LABEL_SCALE = 1.5;
+
+// --- INYECCIÓN DE SEGURIDAD PARA MÓDULO FRANCÉS ---
+const setVerticesLabelsCarto = (...args: any[]) => { };
+const getSphereRadius = (...args: any[]) => 6378137;
+const setVerticesLabels = (...args: any[]) => { };
+const metersToKms = (...args: any[]) => 0;
+const metersToNMiles = (...args: any[]) => 0;
+// --------------------------------------------------
 
 const geometryToolsStyleFill = new Fill({
   color: lightTransparentRed

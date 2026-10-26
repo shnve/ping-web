@@ -95,6 +95,10 @@ export class HazardReportFormComponent extends SharedReportFormComponent impleme
     });
   }
 
+  onChangeLang(): void {
+    // Método requerido por la interfaz de internacionalización
+  }
+
   get markupType(): AbstractControl {
     return this.reportMapAnoForm.get('markupType');
   }

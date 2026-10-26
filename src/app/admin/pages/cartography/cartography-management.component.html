@@ -1,0 +1,310 @@
+<div class="carto-page">
+  <!-- ENCABEZADO PRINCIPAL -->
+  <div class="carto-header">
+    <div class="header-info">
+      <div class="header-icon">
+        <i class="pi pi-compass"></i>
+      </div>
+      <div>
+        <h1>Automatización de Cartografía Náutica</h1>
+        <p>Conversión desatendida de GeoPDF y GeoTIFF a Cloud Optimized GeoTIFF (EPSG:3395) y sincronización con GeoServer</p>
+      </div>
+    </div>
+    <div>
+      <button pButton
+              type="button"
+              label="Actualizar Estado"
+              icon="pi pi-refresh"
+              class="btn-header-refresh"
+              (click)="refreshBandsStatus()">
+      </button>
+    </div>
+  </div>
+
+  <!-- PASO 1: CONFIGURACIÓN DE DESTINO -->
+  <div class="carto-card">
+    <div class="card-title-row">
+      <div class="step-title">
+        <span class="step-number">1</span>
+        <span>Selección de Banda Náutica y Opciones</span>
+      </div>
+    </div>
+
+    <div class="band-config-grid">
+      <div class="config-field">
+        <label for="bandSelect">
+          <i class="pi pi-layers" style="color: #0284c7; margin-right: 4px;"></i> Banda Destino en GeoServer:
+        </label>
+        <p-dropdown id="bandSelect"
+                    [options]="bands"
+                    [(ngModel)]="selectedBand"
+                    optionLabel="name"
+                    [style]="{'width': '100%'}"
+                    styleClass="w-full">
+          <ng-template pTemplate="selectedItem">
+            <div style="display: flex; align-items: center; gap: 8px;" *ngIf="selectedBand">
+              <span class="band-dot" [style.background-color]="selectedBand.colorBadge"></span>
+              <strong>{{ selectedBand.name }}</strong>
+            </div>
+          </ng-template>
+          <ng-template let-band pTemplate="item">
+            <div style="padding: 4px 0;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="band-dot" [style.background-color]="band.colorBadge"></span>
+                <strong>{{ band.name }}</strong>
+              </div>
+              <div style="font-size: 0.78rem; color: #64748b; margin-left: 20px; margin-top: 2px;">
+                {{ band.scaleDescription }}
+              </div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+
+        <div class="band-details-box" *ngIf="selectedBand">
+          <span>Capa: <code>{{ selectedBand.layerName }}</code></span> &bull;
+          <span>Directorio: <code>{{ selectedBand.storageFolder }}</code></span>
+        </div>
+      </div>
+
+      <div class="options-box">
+        <div class="option-item">
+          <p-checkbox [(ngModel)]="autoReloadGeoServer"
+                      [binary]="true"
+                      inputId="autoReloadCheckbox">
+          </p-checkbox>
+          <div class="option-text">
+            <label for="autoReloadCheckbox">Recarga Automática en GeoServer</label>
+            <small>
+              Al completar la conversión a COG (EPSG:3395), se enviará una orden REST a GeoServer para reindexar el ImageMosaic inmediatamente.
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 2: ZONA DRAG & DROP -->
+  <div class="carto-card">
+    <div class="card-title-row">
+      <div class="step-title">
+        <span class="step-number">2</span>
+        <span>Cargar Cartas Náuticas (GeoPDF o GeoTIFF)</span>
+      </div>
+    </div>
+
+    <!-- Input file nativo 100% oculto -->
+    <input type="file"
+           #fileInput
+           multiple
+           accept=".pdf,.tif,.tiff"
+           style="display: none;"
+           (change)="onFileInputChange($event)">
+
+    <div class="drop-zone"
+         [class.dragging]="isDraggingOver"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)"
+         (click)="fileInput.click()">
+
+      <div class="drop-icon-circle">
+        <i class="pi pi-cloud-upload"></i>
+      </div>
+
+      <div class="drop-title">Arrastra y suelta tus archivos aquí</div>
+      <div class="drop-desc">
+        Sube uno o varios archivos en formato <strong>GeoPDF (.pdf)</strong> o <strong>GeoTIFF (.tif / .tiff)</strong>.
+        El sistema validará su georreferenciación automáticamente con GDAL.
+      </div>
+
+      <button pButton
+              type="button"
+              label="Explorar Archivos en el Equipo"
+              icon="pi pi-folder-open"
+              class="btn-browse"
+              (click)="$event.stopPropagation(); fileInput.click()">
+      </button>
+
+      <div class="drop-badges">
+        <span class="badge-pill pill-pdf">
+          <i class="pi pi-file-pdf"></i> GeoPDF (.pdf)
+        </span>
+        <span class="badge-pill pill-tiff">
+          <i class="pi pi-image"></i> GeoTIFF (.tif / .tiff)
+        </span>
+        <span class="badge-pill pill-target">
+          <i class="pi pi-check-circle"></i> Destino: COG Deflate EPSG:3395
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 3: COLA DE PROCESAMIENTO (VISIBLE AL AGREGAR ARCHIVOS) -->
+  <div class="carto-card queue-card" *ngIf="fileQueue.length > 0">
+    <div class="card-title-row">
+      <div class="step-title">
+        <span class="step-number">3</span>
+        <span>Cola de Conversión y Despliegue ({{ selectedFilesCount }} archivos &bull; {{ totalSizeMb }} MB)</span>
+      </div>
+
+      <div class="queue-header-actions">
+        <button pButton
+                type="button"
+                label="Limpiar Cola"
+                icon="pi pi-trash"
+                class="p-button-outlined p-button-danger p-button-sm"
+                [disabled]="isProcessingBatch"
+                (click)="clearQueue()">
+        </button>
+
+        <button pButton
+                type="button"
+                [label]="isProcessingBatch ? 'Procesando Lote...' : 'Procesar Todo el Lote'"
+                [icon]="isProcessingBatch ? 'pi pi-spin pi-spinner' : 'pi pi-play'"
+                class="p-button-success p-button-sm"
+                [disabled]="isProcessingBatch || fileQueue.length === 0"
+                (click)="processBatch()">
+        </button>
+      </div>
+    </div>
+
+    <p-table [value]="fileQueue" responsiveLayout="scroll" styleClass="p-datatable-sm p-datatable-striped">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 70px; text-align: center;">Formato</th>
+          <th>Nombre del Archivo</th>
+          <th style="width: 100px;">Tamaño</th>
+          <th style="width: 160px;">Banda Asignada</th>
+          <th>Progreso de Conversión</th>
+          <th style="width: 140px; text-align: center;">Estado</th>
+          <th style="width: 90px; text-align: center;">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <!-- Formato -->
+          <td style="text-align: center;">
+            <span class="file-format-badge" [class.pdf]="item.format === 'pdf'" [class.tiff]="item.format === 'tiff'">
+              {{ item.format }}
+            </span>
+          </td>
+
+          <!-- Nombre -->
+          <td>
+            <div class="file-name-cell">
+              <div class="file-name">{{ item.name }}</div>
+              <div class="file-meta" *ngIf="item.message">{{ item.message }}</div>
+            </div>
+          </td>
+
+          <!-- Tamaño -->
+          <td>
+            <span style="font-size: 0.85rem; color: #475569;">{{ formatBytes(item.size) }}</span>
+          </td>
+
+          <!-- Banda -->
+          <td>
+            <p-dropdown [options]="bands"
+                        [(ngModel)]="item.targetBand"
+                        optionValue="id"
+                        optionLabel="code"
+                        [disabled]="item.status === 'UPLOADING' || item.status === 'CONVERTING'"
+                        [style]="{'width': '100%'}">
+            </p-dropdown>
+          </td>
+
+          <!-- Progreso -->
+          <td>
+            <div class="progress-bar-cell">
+              <div class="progress-label-row">
+                <span class="progress-msg">{{ item.message }}</span>
+                <span class="progress-val">{{ item.progress }}%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill"
+                     [style.width.%]="item.progress"
+                     [class.success]="item.status === 'SUCCESS'"
+                     [class.error]="item.status === 'ERROR'">
+                </div>
+              </div>
+            </div>
+          </td>
+
+          <!-- Estado -->
+          <td style="text-align: center;">
+            <p-tag [value]="getStatusLabel(item.status)"
+                   [severity]="getStatusSeverity(item.status)">
+            </p-tag>
+          </td>
+
+          <!-- Acciones -->
+          <td style="text-align: center;">
+            <div style="display: flex; justify-content: center; gap: 4px;">
+              <button pButton
+                      *ngIf="item.status === 'QUEUED' || item.status === 'ERROR'"
+                      type="button"
+                      icon="pi pi-play"
+                      class="p-button-rounded p-button-text p-button-success p-button-sm"
+                      pTooltip="Procesar individualmente"
+                      (click)="processFile(item)">
+              </button>
+
+              <button pButton
+                      *ngIf="item.status !== 'UPLOADING' && item.status !== 'CONVERTING'"
+                      type="button"
+                      icon="pi pi-times"
+                      class="p-button-rounded p-button-text p-button-danger p-button-sm"
+                      pTooltip="Quitar de la lista"
+                      (click)="removeFile(item)">
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- MONITOREO DE CAPAS GEOSERVER -->
+  <div class="carto-card geoserver-section">
+    <div class="card-title-row">
+      <div class="step-title">
+        <i class="pi pi-server" style="color: #0284c7;"></i>
+        <span>Capas Náuticas en GeoServer (GeoTIFF / ImageMosaic)</span>
+      </div>
+    </div>
+
+    <div class="bands-grid">
+      <div class="band-tile" *ngFor="let band of bands">
+        <div>
+          <div class="tile-top">
+            <div class="tile-band-title">
+              <span class="band-dot" [style.background-color]="band.colorBadge"></span>
+              <span>{{ band.name }}</span>
+            </div>
+            <div class="tile-badges-wrap">
+              <span class="store-type-pill" [class.single]="band.isSingleChart">
+                {{ band.isSingleChart ? 'GeoTIFF (1 carta)' : 'ImageMosaic' }}
+              </span>
+              <span class="tile-status-pill" [class.inactive]="!bandsStatus[band.id]?.active">
+                {{ bandsStatus[band.id]?.active ? 'Activa' : 'Pendiente' }}
+              </span>
+            </div>
+          </div>
+
+          <p class="tile-desc">{{ band.scaleDescription }}</p>
+          <code class="tile-layer-code">{{ band.layerName }}</code>
+        </div>
+
+        <button pButton
+                type="button"
+                label="Recargar Capa"
+                [icon]="bandsStatus[band.id]?.reloading ? 'pi pi-spin pi-spinner' : 'pi pi-sync'"
+                class="p-button-outlined p-button-sm tile-btn-reload"
+                [disabled]="bandsStatus[band.id]?.reloading"
+                (click)="reloadBand(band)">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

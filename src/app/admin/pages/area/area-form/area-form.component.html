@@ -1,7 +1,12 @@
 <form [formGroup]="areaForm" class="form" (ngSubmit)="saveArea()">
   <div class="line-form p-field p-grid">
     <label for="area-urn" class="label p-col-fixed" translate>area.urn</label>
-    <input id="area-urn" type="text" formControlName="urn">
+    <div style="padding: 0; margin: 0;">
+      <input id="area-urn" type="text" formControlName="urn" class="form-control" placeholder="urn:mrn:s124:area:..." />
+      <div *ngIf="areaForm.get('urn')?.errors?.['pattern']" style="font-size: 0.8rem; color: #dc3545; margin-top: 4px;">
+        El URN debe tener formato valido (ej. urn:ping:area:01). No se permiten espacios ni acentos.
+      </div>
+    </div>
   </div>
   <div class="line-form p-field p-grid">
     <label for="area-name" class="label p-col-fixed">{{'area.name' | translate }} *</label>
@@ -29,42 +34,33 @@
   <!-- international disclaimer -->
   <div class="line-form p-field p-grid">
     <label for="area-international-disclaimer" class="label p-col-fixed" translate>area.internationalDisclaimer</label>
-    <textarea rows="5" cols="30" id="area-international-disclaimer" formControlName="internationalDisclaimer" pInputTextarea>
+    <textarea rows="5" cols="30" id="area-international-disclaimer" formControlName="internationalDisclaimer"
+      pInputTextarea>
     </textarea>
   </div>
 
   <div class="line-form p-field p-grid">
     <label for="area-country" class="label p-col-fixed" translate>area.country</label>
-    <p-dropdown id="area-country"
-                [options]="countryCodes"
-                optionLabel="value"
-                optionValue="value"
-                formControlName="country"
-                [placeholder]="'maritime-service.select-country' | translate"
-                showClear="true">
+    <p-dropdown id="area-country" [options]="countryCodes" optionLabel="value" optionValue="value"
+      formControlName="country" [placeholder]="'maritime-service.select-country' | translate" showClear="true">
 
     </p-dropdown>
   </div>
   <div class="line-form p-field p-grid">
     <label for="area-borders" class="label p-col-fixed" translate>area.borderAreas</label>
-    <p-multiSelect *ngIf="areas$ | async as areas" id="area-borders"
-                   formControlName="borderAreas"
-                   [options]="areas"
-                   [optionLabel]="displayedAreaLabel"
-                   [maxSelectedLabels]="areas.length"
-                   optionValue="id"
-                   [placeholder]="'area.all-areas' | translate"
-                   display="chip">
+    <p-multiSelect *ngIf="areas$ | async as areas" id="area-borders" formControlName="borderAreas" [options]="areas"
+      [optionLabel]="displayedAreaLabel" [maxSelectedLabels]="areas.length" optionValue="id"
+      [placeholder]="'area.all-areas' | translate" display="chip">
 
     </p-multiSelect>
   </div>
   <div class="p-col part-map-container">
-    <app-view-geometry #viewGeometry [isEditionMode]="!disabled"
-                       [geometry]="area.geom"
-    ></app-view-geometry>
+    <app-view-geometry #viewGeometry [isEditionMode]="!disabled" [geometry]="area.geom"></app-view-geometry>
   </div>
-  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="!areaForm.valid"></button>
-  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left" routerLink="/administration/regions"></button>
-  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times" routerLink="/administration/regions"></button>
+  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
+    [disabled]="!areaForm.valid"></button>
+  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left"
+    routerLink="/administration/regions"></button>
+  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times"
+    routerLink="/administration/regions"></button>
 </form>
-

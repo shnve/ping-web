@@ -1,7 +1,7 @@
 
 <form [formGroup]="form">
   <label>
-    <div class="formgroup-inline">
+    <div class="formgroup-inline" *ngIf="optionsWarningTypeDetails?.length > 0">
       <div class="p-field div-details" [ngClass]="{'error': !validFeaturePart}">
         <span translate>admin-warning.creation.labels.warning-type-details</span>
         <p-multiSelect class="p-col"
@@ -34,6 +34,7 @@
     <span class="information-label" translate>admin-warning.creation.labels.information</span>
     <aw-input-information [anInformation]="anInformation" [geometries]="geometries"
                           [affectedAreas]="affectedAreas"
+                          [selectedAreas]="selectedAreas" [selectedLocalities]="selectedLocalities"
                           [typeDetails]="featurePart?.typeDetails" [validFeaturePart]="validFeaturePart"
                           [partIndex]="partIndex" [isBathy]="isBathy" formControlName="information">
     </aw-input-information>

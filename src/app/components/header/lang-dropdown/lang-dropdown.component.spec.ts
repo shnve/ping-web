@@ -25,7 +25,7 @@ describe('LangDropdownComponent', () => {
     mockTranslateService = TestBed.inject(TranslateService);
     mockTranslateService.currentLang = 'fr';
     spyOn(mockTranslateService, 'instant').and.callFake(() =>
-      mockTranslateService.currentLang === 'fr' ? 'meta description fr' : 'meta description en'
+      mockTranslateService.currentLang === 'es' ? 'meta description fr' : 'meta description en'
     );
     fixture = TestBed.createComponent(LangDropdownComponent);
     component = fixture.componentInstance;

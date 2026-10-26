@@ -39,6 +39,7 @@ const HR_HTML = '<hr/>';
 export class ExportPdfService {
 
   pdfMake: any;
+  private logoBase64Promise: Promise<string> | null = null;
 
   async loadPdfMaker() {
     if (!this.pdfMake) {
@@ -47,6 +48,27 @@ export class ExportPdfService {
       this.pdfMake = pdfMakeModule.default;
       this.pdfMake.vfs = pdfFontsModule.default.pdfMake.vfs;
     }
+  }
+
+  private getLogoBase64(): Promise<string> {
+    if (!this.logoBase64Promise) {
+      this.logoBase64Promise = fetch('assets/images/logo_pdf.png')
+        .then(response => {
+          if (!response.ok) {
+            return fetch('assets/images/logos_pdf.png');
+          }
+          return response;
+        })
+        .then(response => response.blob())
+        .then(blob => new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve((reader.result as string) || '');
+          reader.onerror = () => resolve('');
+          reader.readAsDataURL(blob);
+        }))
+        .catch(() => '');
+    }
+    return this.logoBase64Promise;
   }
 
   constructor(private readonly formatWarningNumberPipe: FormatWarningNumberPipe,
@@ -74,8 +96,7 @@ export class ExportPdfService {
   }
 
   async exportWarningModal(warning: Warning, olMap: Map): Promise<void> {
-    const cartoMapCanvasCssSelectors = 'sig-warning-detail-map > .carto-map-container > .sc-carto-map-container >'
-      + '.map-container > .ol-viewport > .ol-layers .ol-layer canvas';
+    const cartoMapCanvasCssSelectors = 'sig-warning-detail-map .map-container .ol-viewport .ol-layers .ol-layer canvas';
     const pdfName = `${this.formatWarningNumberForPrinting(warning)}.pdf`;
     const title = `${this.formatWarningNumberPipe.transform(warning)} ${this.translate.instant('detail.title')}`;
     const sharedLinkUrl = getSharedLinkUrl(warning.id, window.location.href);
@@ -83,8 +104,7 @@ export class ExportPdfService {
   }
 
   exportSurveyModal(survey: SurveyDetails, olMap: Map): void {
-    const cartoMapCanvasCssSelectors = 'sig-warning-detail-map > .carto-map-container > .sc-carto-map-container >'
-      + '.map-container > .ol-viewport > .ol-layers .ol-layer canvas';
+    const cartoMapCanvasCssSelectors = 'sig-warning-detail-map .map-container .ol-viewport .ol-layers .ol-layer canvas';
     const pdfName = `${survey.nameAndLocation ?? 'document'}.pdf`;
     const title = `${survey.nameAndLocation ?? ''} ${this.translate.instant('detail.title')}`;
 
@@ -92,8 +112,7 @@ export class ExportPdfService {
   }
 
   exportInfosourceModal(infosource: InfosourceWithParts, olMap: Map): void {
-    const cartoMapCanvasCssSelectors = 'infosource-details-map > .carto-map-container > .sc-carto-map-container >'
-      + '.map-container > .ol-viewport > .ol-layers .ol-layer canvas';
+    const cartoMapCanvasCssSelectors = 'infosource-details-map .map-container .ol-viewport .ol-layers .ol-layer canvas';
     const pdfName = `${infosource.number ?? 'document'}.pdf`;
     const title = `${infosource.number ?? ''} ${this.translate.instant('detail.title')}`;
     const Infosourcenumber = infosource.number ? `<li>${this.translate.instant('detail.number')} : ${infosource.number}</li>` : ``;
@@ -103,34 +122,52 @@ export class ExportPdfService {
 
   async exportModal(cartoMapCanvasCssSelectors: string, pdfName: string, title: string | Object[], olMap: Map, builtHtmlItem: string, linkUrl?: string): Promise<void> {
     await this.loadPdfMaker();
+    const logoDataUrl = await this.getLogoBase64();
 
     let mapImage = '';
     if (olMap) {
       const imageOptions = { backgroundColor: 'white', quality: 1.0 };
-      const mapElement = document.querySelector(cartoMapCanvasCssSelectors);
-      const displayRatio = 0.55;
-      const width = +mapElement.getAttribute('width') * displayRatio;
+
+      olMap.updateSize();
+      const modelExtent = olMap.get('modelExtent');
+      if (modelExtent && Array.isArray(modelExtent) && modelExtent.every(v => Number.isFinite(v))) {
+        olMap.getView().fit(modelExtent, {
+          size: olMap.getSize(),
+          padding: [50, 50, 50, 50],
+          maxZoom: 13
+        });
+      }
+      olMap.renderSync();
+
+      const size = olMap.getSize();
+      const mapWidthPx = size && size[0] > 0 ? size[0] : 600;
+      const width = Math.min(460, Math.round(mapWidthPx * 0.65));
+
       const imageData = this.getMapAsImage(cartoMapCanvasCssSelectors, olMap, mime, imageOptions);
-      mapImage = olMap ? `<img src="${imageData}" width="${width}" style="text-align: center;">` : '';
+      mapImage = imageData ? `<img src="${imageData}" width="${width}" style="text-align: center;">` : '';
     }
+
+    const logoHtml = logoDataUrl ? `<p data-pdfmake='{"margin": [0, 0, 0, 6]}'><img src="${logoDataUrl}" width="160"></p>` : '';
+    const titleContent = title instanceof Array
+      ? title.map(item => `<p>${item}</p>`).join('\n')
+      : `<p data-pdfmake='{"margin": [0, 6, 0, 0]}'>${title}</p>`;
 
     let htmlTitle = '';
-    if (title instanceof Array) {
-      htmlTitle = title.map(item => `<p>${item}</p>`).join('\n');
-    }
-
     if (linkUrl) {
       const imageQrcode = QrCodeService.getImageQrcode(linkUrl, 90);
-      htmlTitle = `<table data-pdfmake='{"widths": ["*", 60]}'>
+      htmlTitle = `<table data-pdfmake='{"widths": ["*", 65]}'>
                   <tr>
                     <td style="border: none;">
-                      <p data-pdfmake='{"margin": [0, 25, 0, 0]}'>${title}</p>
+                      ${logoHtml}
+                      ${titleContent}
                     </td>
                     <td style="border: none;" class="qrCode">
                       ${imageQrcode}
                     </td>
                   </tr>
                 </table>`;
+    } else {
+      htmlTitle = `${logoHtml}${titleContent}`;
     }
 
     const htmlContent = `${htmlTitle}<hr data-pdfmake='{"margin": [0, 0, 0, 0]}'>
@@ -417,6 +454,8 @@ export class ExportPdfService {
 
   async exportWarningTableDetailsFromWarningList(warnings: TableWarning[], pdfName: string, headerTitle: string[]): Promise<void> {
     await this.loadPdfMaker();
+    const logoDataUrl = await this.getLogoBase64();
+    const logoHtml = logoDataUrl ? `<p data-pdfmake='{"margin": [0, 0, 0, 6]}'><img src="${logoDataUrl}" width="160"></p>` : '';
 
     // warnings content
     const warningsHtml = warnings.reduce((acc, warning, index) => {
@@ -427,12 +466,13 @@ export class ExportPdfService {
       return acc;
     }, '');
 
-    const htmlContent = `${this.getWarningListPdfHeader(headerTitle)}<hr/>
+    const htmlContent = `${logoHtml}${this.getWarningListPdfHeader(headerTitle)}<hr/>
                       <div>${warningsHtml}</div>`;
     this.createPdf(htmlContent, pdfName);
   }
 
-  exportWarningTableFromJsData(jsData: Array<Array<string>>, headers: Array<Array<string>>, pdfName: string, title: string, appliedFilters: string): void {
+  async exportWarningTableFromJsData(jsData: Array<Array<string>>, headers: Array<Array<string>>, pdfName: string, title: string, appliedFilters: string): Promise<void> {
+    const logoDataUrl = await this.getLogoBase64();
     const pdf = new jsPDF('portrait', 'px', 'a4');
     const totalPagesExp = '{total_pages_count_string}';
     const pageSize = pdf.internal.pageSize;
@@ -445,17 +485,21 @@ export class ExportPdfService {
     pdf.setTextColor('#000000');
 
     // header
+    let yPos = 12;
+    if (logoDataUrl) {
+      pdf.addImage(logoDataUrl, 'PNG', marginHorizontal, 8, 110, 38);
+      yPos = 56;
+    }
+
     // title
-    const titleY = 10;
     pdf.setFontSize(12);
-    pdf.text(title, marginHorizontal, titleY);
+    pdf.text(title, marginHorizontal, yPos);
 
     // applied filters
     pdf.setFontSize(11);
     const lineHeight = pdf.getLineHeight() / pdf.internal.scaleFactor;
     const appliedFiltersSplittedText = pdf.splitTextToSize(appliedFilters, pageWidth - 35, {});
-    const appliedFiltersY = 20;
-    let yPos = appliedFiltersY;
+    yPos += 12;
     pdf.text(appliedFiltersSplittedText, marginHorizontal, yPos);
 
     const blockHeight = appliedFiltersSplittedText.length * lineHeight;
@@ -498,13 +542,13 @@ export class ExportPdfService {
   }
 
   private buildWarningTablePdfTitle(serie: Serie, isDetails = false): string {
-    const inForce = this.isFrLang() ? 'en vigueur' : 'in force';
-    const tableContext = isDetails ? (this.isFrLang() ? 'Détails' : 'Details') : (this.isFrLang() ? 'Liste' : 'List');
+    const inForce = this.isFrLang() ? 'en vigor' : 'in force';
+    const tableContext = isDetails ? (this.isFrLang() ? 'Detalles' : 'Details') : (this.isFrLang() ? 'Lista' : 'List');
     return `${this.getSerieNameForCurrentLang(serie)} ${inForce} (${tableContext})`;
   }
 
   private isFrLang(): boolean {
-    return this.translate.currentLang === 'fr';
+    return this.translate.currentLang === 'es';
   }
 
   private buildWarningTablePdfNameFromSerie(serie: Serie): string {
@@ -618,26 +662,39 @@ export class ExportPdfService {
     const mapCanvas = document.createElement('canvas');
 
     const size = olMap.getSize();
-    mapCanvas.width = size[0];
-    mapCanvas.height = size[1];
+    mapCanvas.width = size && size[0] > 0 ? size[0] : 600;
+    mapCanvas.height = size && size[1] > 0 ? size[1] : 400;
     const context = mapCanvas.getContext('2d');
 
-    // Select all map canvas and exlude overview map
+    const viewport = olMap.getViewport ? olMap.getViewport() : null;
+    let canvases: NodeListOf<HTMLCanvasElement> = viewport
+      ? viewport.querySelectorAll('.ol-layer canvas, canvas.ol-layer')
+      : document.querySelectorAll(cssSelectors);
+    if (!canvases || canvases.length === 0) {
+      canvases = viewport ? viewport.querySelectorAll('canvas') : document.querySelectorAll(cssSelectors);
+    }
+
+    // Select all map canvas from the target olMap viewport and exclude overview map
     Array.prototype.forEach.call(
-      document.querySelectorAll(cssSelectors),
-      canvas => {
+      canvases,
+      (canvas: HTMLCanvasElement) => {
         if (canvas.width > 0) {
-          const opacity = canvas.parentNode.style.opacity;
+          const opacity = (canvas.parentNode as HTMLElement)?.style?.opacity || canvas.style.opacity;
           context.globalAlpha = opacity === '' ? 1 : Number(opacity);
           const transform = canvas.style.transform;
-          // Get the transform parameters from the style's transform matrix
-          const matrix = transform.match(/^matrix\(([^\(]*)\)$/)[1].split(',').map(Number);
-          // Apply the transform to the export map context
-          CanvasRenderingContext2D.prototype.setTransform.apply(context, matrix);
+          const matrixMatch = transform ? transform.match(/^matrix\(([^\(]*)\)$/) : null;
+          if (matrixMatch) {
+            const matrix = matrixMatch[1].split(',').map(Number);
+            CanvasRenderingContext2D.prototype.setTransform.apply(context, matrix);
+          } else {
+            context.setTransform(1, 0, 0, 1, 0, 0);
+          }
           context.drawImage(canvas, 0, 0);
         }
       }
     );
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.globalAlpha = 1;
 
     const w = mapCanvas.width;
     const h = mapCanvas.height;

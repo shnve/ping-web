@@ -1,8 +1,9 @@
 <p-dropdown
-  [options]="areas$ | async"
+  [options]="groupedAreas$ | async"
+  [group]="true"
   class="area-dropdown"
   [optionLabel]="displayedOptionLabel"
-  optionValue="id"
+  optionValue="value"
   filter="true"
   [filterLocale]="'lang' | translate"
   resetFilterOnHide="true"
@@ -13,4 +14,14 @@
   [title]="'menu.area.select-area' | translate"
   [appendTo]="'body'"
 >
+  <ng-template let-group pTemplate="group">
+    <div class="area-group-header">
+      <span>{{ group.label }}</span>
+    </div>
+  </ng-template>
+  <ng-template let-item pTemplate="item">
+    <div class="area-item-option" [class.subarea-option]="item.isSubArea">
+      <span>{{ item[displayedOptionLabel] || item.name || item.label }}</span>
+    </div>
+  </ng-template>
 </p-dropdown>

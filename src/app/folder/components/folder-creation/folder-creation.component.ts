@@ -207,7 +207,7 @@ export class FolderCreationComponent implements OnInit, OnDestroy, OnChangeLang 
   }
 
   private getDisplayedAreaLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   buildLocalizedItems(): void {

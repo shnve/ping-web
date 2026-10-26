@@ -89,7 +89,7 @@ export class SubscriptionModalComponent extends DetailsModalComponent implements
   private displaySubAreasFromWarningSubscriptionOnMap(subscription: Subscription): void {
     this.geometriesLayer.getSource().clear();
     subscription.subAreas?.filter(subArea => subArea.geom !== null).forEach((subArea: SubArea) => {
-      this.addSubAreaFeatureOnGeomLayer(subArea.geom, subArea[this.translate.currentLang === 'fr' ? 'name' : 'internationalName']);
+      this.addSubAreaFeatureOnGeomLayer(subArea.geom, subArea[this.translate.currentLang === 'es' ? 'name' : 'internationalName']);
     });
   }
 

@@ -5,6 +5,13 @@ import { CalendarPeriod, GeoregulationPartForm, SeasonalPeriodFormElement } from
 import { isDateRangeValid } from '@app/shared/date-utils';
 import Feature from 'ol/Feature';
 import { GeoregulationPartsMapComponent } from './georegulation-parts-map/georegulation-parts-map.component';
+import { fromLonLat } from 'ol/proj';
+import Point from 'ol/geom/Point';
+import LineString from 'ol/geom/LineString';
+import Polygon from 'ol/geom/Polygon';
+import { Style, Circle as CircleStyle, Fill, Stroke } from 'ol/style';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
 
 @Component({
   selector: 'georegulation-parts',

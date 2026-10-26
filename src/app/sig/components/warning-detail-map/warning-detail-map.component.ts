@@ -18,6 +18,14 @@ import { MousePositionFormatterService } from '@sig/services/mouse-position-form
 import Feature from 'ol/Feature';
 import Style from 'ol/style/Style';
 
+// --- INYECCI�N DE SEGURIDAD ---
+class Carto {
+  map: any = { layers: [] };
+  [key: string]: any;
+  constructor(...args: any[]) { }
+}
+// -----------------------------
+
 @Component({
   selector: 'sig-warning-detail-map',
   templateUrl: '../../../shared/components/details-map/details-map.component.html',

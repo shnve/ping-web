@@ -984,6 +984,7 @@ export const listWarningStatus = {
 };
 
 export const listTypeExpression = {
+  MARINERS_ARE_ADVISED_THAT: 'MARINERS_ARE_ADVISED_THAT',
   IN_PROGRESS: 'IN_PROGRESS',
   UNTIL_FURTHER_NOTICE: 'UNTIL_FURTHER_NOTICE',
   WIDE_BERTH_REQUESTED: 'WIDE_BERTH_REQUESTED',
@@ -1001,6 +1002,7 @@ export const listTypeExpression = {
 };
 
 export const TRANSLATE_LIST_TYPE_EXPRESSION = {
+  [listTypeExpression.MARINERS_ARE_ADVISED_THAT]: 'enum.warning-part-type-expression.MARINERS_ARE_ADVISED_THAT',
   [listTypeExpression.IN_PROGRESS]: 'enum.warning-part-type-expression.IN_PROGRESS',
   [listTypeExpression.UNTIL_FURTHER_NOTICE]: 'enum.warning-part-type-expression.UNTIL_FURTHER_NOTICE',
   [listTypeExpression.WIDE_BERTH_REQUESTED]: 'enum.warning-part-type-expression.WIDE_BERTH_REQUESTED',

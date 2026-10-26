@@ -8,6 +8,7 @@ export type MaritimeReportTypeStyle = {
 };
 
 export interface MaritimeReportTypeStyleOptions {
+  iconScale?: number;
   point?: {
     icon?: string,
     color: string

@@ -41,7 +41,7 @@ export class SerieFormComponent implements OnInit, OnDestroy, OnChangeLang {
   maritimeServices$: Observable<MaritimeService[]>;
   subAreas$: Observable<SubArea[]>;
   displayedLabel: string;
-  languages = ['fr', 'en'];
+  languages = ['es', 'en'];
 
   serieTypes: string[];
 
@@ -55,8 +55,8 @@ export class SerieFormComponent implements OnInit, OnDestroy, OnChangeLang {
     private readonly maritimeServicesApi: MaritimeServicesApi,
     private readonly seriesAdminApi: SeriesAdminApi,
     private readonly alertMessageService: AlertMessageService) {
-      this.updateLists();
-    }
+    this.updateLists();
+  }
 
   ngOnInit(): void {
     this.maritimeServices$ = this.maritimeServicesApi.getMaritimeServices();
@@ -69,7 +69,7 @@ export class SerieFormComponent implements OnInit, OnDestroy, OnChangeLang {
   }
 
   private getDisplayedLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   private subscribeToFormChanges(): Subscription {
@@ -115,7 +115,7 @@ export class SerieFormComponent implements OnInit, OnDestroy, OnChangeLang {
 
   private buildForm(): UntypedFormGroup {
     return this.fb.group({
-      urn: [{ value: this.serie?.urn, disabled: this.disabled }],
+      urn: [{ value: this.serie?.urn, disabled: this.disabled }, [Validators.pattern(/^urn:[a-z0-9-]+:[a-zA-Z0-9()+,-.:=@$_!*%?#]+$/)]],
       name: [{ value: this.serie?.name, disabled: this.disabled }, Validators.required],
       internationalName: [{ value: this.serie?.internationalName, disabled: this.disabled }],
       information: [{ value: this.serie?.information, disabled: this.disabled }],
@@ -136,7 +136,7 @@ export class SerieFormComponent implements OnInit, OnDestroy, OnChangeLang {
   }
 
   protected updateLists(): void {
-    this.serieTypes = _.sortBy(Object.keys(SerieType).map(k => SerieType[k as any]), [(o) => this.translate.instant('serie-type.' + o) ]);
+    this.serieTypes = _.sortBy(Object.keys(SerieType).map(k => SerieType[k as any]), [(o) => this.translate.instant('serie-type.' + o)]);
   }
 
   addRange(): void {

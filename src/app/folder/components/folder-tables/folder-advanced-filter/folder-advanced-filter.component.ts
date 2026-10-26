@@ -168,8 +168,8 @@ export class FolderAdvancedFilterComponent implements OnInit, AfterViewInit, OnD
   }
 
   protected buildLocalizedItems(): void {
-    this.maritimeEntitiesOptionLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
-    this.areasOptionLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
+    this.maritimeEntitiesOptionLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
+    this.areasOptionLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
   }
 
   onChangeLang(): void {

@@ -169,7 +169,7 @@ export class TableAdvancedFilterComponent implements OnInit, OnDestroy, OnChange
       })
       );
 
-    this.sectorOptionLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
+    this.sectorOptionLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
   }
 
   ngOnDestroy(): void {

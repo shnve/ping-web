@@ -33,7 +33,7 @@
                             [showClear]="true"
                             [placeholder]="'infosource.report-hazard.contributor-service-placeholder' | translate" filter="true"
                             [optionLabel]="'option-label-name' | translate" optionValue="id" formControlName="contributorServiceId" id="contributorServiceId"
-                            [disabled]="isNotDraftStatus()" ngDefaultControl
+                            ngDefaultControl
                             (ngModelChange)="handleInput('contributorServiceId', $event)">
                 </p-dropdown>
             </div>

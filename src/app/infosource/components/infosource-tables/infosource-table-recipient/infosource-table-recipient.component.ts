@@ -29,7 +29,7 @@ export class InfosourceTableRecipientComponent implements OnInit, OnChangeLang {
   }
 
   private getDisplayedRecipientInformation(lang: string): string {
-    return lang === 'fr' ? this.recipient.information : this.recipient.localizedInformation;
+    return lang === 'es' ? this.recipient.information : this.recipient.localizedInformation;
   }
 
   onChangeLang(event: LangChangeEvent): void {

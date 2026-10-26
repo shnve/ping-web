@@ -1,0 +1,3552 @@
+{
+  "COORDINATES": {
+    "LATITUDE": "Latitud",
+    "LONGITUDE": "Longitud"
+  },
+  "MAP": {
+    "LAYERS": "Capas",
+    "MEASURE_DISTANCE": "Medir Distancia",
+    "MEASURE_AZIMUTH": "Medir Azimut",
+    "MEASURE_RADIUS": "Medir Radio",
+    "DRAW_POINT": "Dibujar punto",
+    "DRAW_LINE": "Dibujar línea",
+    "DRAW_POLYGON": "Dibujar polígono",
+    "CLEAR_MEASUREMENTS": "Limpiar Mediciones"
+  },
+  "lang": "es",
+  "title": "PISAC",
+  "title.description": "PISAC - Plataforma de información de seguridad acuática",
+  "logo.french-republic": "República Bolivariana de Venezuela",
+  "logo.shom": "Ciencia y Patria",
+  "logo.mer": "Logo SS Mar y biodiversidad",
+  "lang.spanish": "Español",
+  "lang.english": "Inglés",
+  "save": "Guardar",
+  "cancel": "Cancelar",
+  "remove": "Eliminar",
+  "return-to-list": "Volver a la lista",
+  "not-public": "No público",
+  "confirm-remove-part": "¿Eliminar parte?",
+  "preposition-for": "para",
+  "meta-description": "Consulta avisos a los navegantes (NAVAREA, AVURNAV, AVINAV) y regulaciones marítimas en PISAC. ¡Tú también puedes contribuir a la información náutica!",
+  "account-panel": {
+    "welcome": "Bienvenido",
+    "create-button.title": "Registrar una cuenta",
+    "logout-button.title": "Cerrar sesión",
+    "edit-user-button": "Actualizar mi cuenta",
+    "not-already-registered": {
+      "description": "¿Aún no estás registrado?"
+    },
+    "already-registered": {
+      "description": "¿Ya estás registrado?",
+      "button.title": "Iniciar sesión",
+      "button.my-account": "Mi cuenta",
+      "button.title.pro": "Acceso privado"
+    }
+  },
+  "home-page": {
+    "title": "Bienvenido a la Plataforma de Información de Seguridad Acuática",
+    "disclaimer": {
+      "title": "Advertencia de uso",
+      "neverShowAgain": "No volver a mostrar esto en este dispositivo"
+    }
+  },
+  "menu": {
+    "home": "Inicio",
+    "avurnav-notice": "Advertencias y avisos",
+    "contributions": "Mis contribuciones",
+    "subscriptions": "Mis suscripciones",
+    "folders": "Expedientes",
+    "georegulation-visu": "Regulaciones",
+    "data-services": "Servicios de Datos",
+    "anchor": {
+      "title": {
+        "data-services": "Soporte para servicios de datos y feeds OGC"
+      }
+    },
+    "area": "Área:",
+    "area.dropdown.not-found": "No se encontraron resultados",
+    "area.select-area": "Seleccionar área",
+    "account-creation": "Crear cuenta",
+    "account-edition": "Editar cuenta",
+    "sign-in-up": "Conexión o creación de cuenta",
+    "sign-in-up-subscription": "Conexión o creación de cuenta",
+    "not-logged-in": "Mi cuenta",
+    "logged-in": "Iniciar sesión",
+    "survey-map-legend": "Leyenda de sondas detectadas y geometrías-batimetría con significado de escritos",
+    "admin": {
+      "title": "Administración",
+      "area": "Lista de áreas",
+      "serie": "Lista de series",
+      "maritime-entity": "Lista de entidades marítimas",
+      "maritime-service": "Lista de servicios marítimos",
+      "sub-area": "Lista de subáreas",
+      "public-user": "Lista de usuarios públicos",
+      "pro-user": "Lista de usuarios profesionales",
+      "add": "Añadir",
+      "edit": "Editar",
+      "show": "Detalles",
+      "static-page": "Lista de páginas estáticas",
+      "static-file": "Lista de archivos estáticos",
+      "static-logo": "Lista de imágenes estáticas",
+      "static-section": "Lista de secciones estáticas",
+      "cartography": "Gestión de Cartografía (GeoPDF / TIFF)",
+      "contributions": "Contribuciones",
+      "new-contribution": "Nueva contribución",
+      "service-contribution": "Contribuciones de {{service}}",
+      "folders": "Gestión de Expedientes",
+      "new-folder": "Nuevo expediente",
+      "folders-followed": "Expedientes seguidos",
+      "georegulations": "Georregulaciones",
+      "surveys": "Levantamientos hidrográficos"
+    },
+    "admin-warning": {
+      "management": "Gestionar AN",
+      "creation": "Crear AN",
+      "edit": "Editar AN",
+      "tables": "Tablas",
+      "edition": {
+        "prerequisites": "Redacción de advertencia",
+        "links-and-attachments": "Enlaces y adjuntos de AN",
+        "parts": "Partes de AN",
+        "publics-references": "Referencias públicas",
+        "diffusion": "Difusión",
+        "finalization": "Información de gestión"
+      }
+    },
+    "infosource": {
+      "title": "Mis contribuciones",
+      "home": "Inicio",
+      "choice": "Elección de reporte",
+      "creation": "Creación",
+      "report-hazard": "Reportar un nuevo peligro",
+      "report-other": "Reportar otro",
+      "map-anomaly-report": "Reportar carta náutica",
+      "future-updates": "Nueva información para futuras actualizaciones",
+      "report-publication": "Reportar anomalía en publicación",
+      "report-activity-forecast": "Reportar previsión de actividades en el mar",
+      "report-bathy-danger": "Reportar profundidades peligrosas",
+      "report-bathy-data": "Nuevos datos batimétricos",
+      "table": "Tabla",
+      "disclaimer": {
+        "title": "Modo horizontal",
+        "description": "Para una mejor experiencia de usuario, cambia al modo horizontal"
+      },
+      "how-to": "¿Cómo contribuir?",
+      "my-contributions": "Mis contribuciones",
+      "new-contribution": "Nueva contribución"
+    },
+    "subscription": {
+      "title": "Suscripción",
+      "warning": "Suscripciones de advertencias",
+      "georegulation": "Suscripciones de georregulaciones",
+      "creation": "Creación",
+      "delete": "Eliminar una suscripción"
+    },
+    "survey": {
+      "title": "Levantamientos hidrográficos",
+      "tables": "Tablas",
+      "my-surveys": "Mis levantamientos",
+      "new-test": "Analizar información náutica de un levantamiento",
+      "new-deposit": "Enviar un levantamiento al SHN",
+      "edit-deposit": "Editar transmisión de levantamiento",
+      "edit-test": "Editar análisis de levantamiento"
+    },
+    "folder": {
+      "title": "Expedientes",
+      "home": "Inicio",
+      "creation": "Creación",
+      "table": "Tabla",
+      "modification": "Modificación",
+      "folders-followed": "Expedientes seguidos",
+      "attachment-download": "Descarga de adjuntos del expediente"
+    },
+    "georegulation": {
+      "manage": "Gestionar GR",
+      "tables": "Tablas",
+      "creation": "Crear nueva GR",
+      "edition": "Editar GR"
+    },
+    "redirect": "Redirección",
+    "accessibilite": "Accesibilidad",
+    "cgu": "Términos de Servicio",
+    "contact": "Contacto",
+    "legende": "Leyenda",
+    "mentions-legales": "Aviso legal"
+  },
+  "redirect": {
+    "description": "Finalizar autenticación."
+  },
+  "paginator": {
+    "next-page": "Página siguiente",
+    "previous-page": "Página anterior",
+    "items-per-page": "Elementos por página"
+  },
+  "pages": {
+    "not-found": {
+      "title": "Página no encontrada",
+      "text": "La página solicitada no se puede mostrar.",
+      "home-link": "Volver a la página de inicio"
+    }
+  },
+  "footer": {
+    "directory-of-information": "Directorio de información pública",
+    "contact": "Contacto",
+    "sitemap": "Mapa del sitio",
+    "legal-notice": "Aviso legal",
+    "cgu": "Términos de Servicio",
+    "accessibility": "Accesibilidad",
+    "collection-opinions": "Recopilación de opiniones",
+    "external-link-title": "Ir a {{site}} se abre en una nueva ventana"
+  },
+  "an-management": {
+    "tabs": {
+      "models": "Modelos de ANs",
+      "drafts": "Borradores de ANs",
+      "in-effect": "ANs en vigor",
+      "canceled": "ANs cancelados"
+    }
+  },
+  "info-management": {
+    "tabs": {
+      "drafts": "Borradores de reportes de información",
+      "sent": "Reportes de información enviados",
+      "received": "Reportes de información recibidos"
+    }
+  },
+  "folder-management": {
+    "tabs": {
+      "open": "Expedientes abiertos",
+      "closed": "Expedientes cerrados"
+    }
+  },
+  "georegulation-management": {
+    "tabs": {
+      "draft": "Borrador",
+      "published": "Publicado",
+      "repealed": "Derogado"
+    }
+  },
+  "survey-management": {
+    "tabs": {
+      "test": "Levantamientos analizados",
+      "draft": "Transmisiones en borrador",
+      "transmitted": "Levantamientos transmitidos",
+      "transmitted-bri": "Levantamientos transmitidos (BRI)"
+    }
+  },
+  "pro-user-role": {
+    "FUNCTIONAL_ADMIN": "Administrador funcional",
+    "SERVICE_USER": "Usuario del servicio"
+  },
+  "service-role": {
+    "SERVICE_ADMIN": "Administrador del servicio",
+    "SERVICE_OPERATOR": "Operador del servicio",
+    "SERVICE_VISITOR": "Visitante del servicio"
+  },
+  "infosource": {
+    "home": {
+      "title": "Mis contribuciones",
+      "description": "Ahora puedes acceder a tus contribuciones o crear una nueva.",
+      "buttons": {
+        "list": "Contribuciones",
+        "new": "Nueva contribución"
+      }
+    },
+    "choice": {
+      "title": "Hacer una nueva contribución",
+      "description": "<p>Contribuye enviando nueva información que tenga un impacto en la navegación.<br/><br/>Si sientes que tu información es urgente y es probable que sea objeto de una advertencia de navegación, selecciona Reportar un nuevo peligro.<br/><br/><b>Advertencia:</b> Este servicio de transmisión de información es procesado por las autoridades nacionales (SHN). En caso de emergencia inminente en el mar, contacte inmediatamente a la Estación de Guardacostas más cercana por radio VHF Canal 16.<br/><br/>Tu contribución concierne a:</p>",
+      "buttons": {
+        "new-danger": "Reportar un nuevo peligro",
+        "forecast": "Una previsión de actividades en el mar",
+        "update": "Actualizar una carta náutica o publicación náutica de SHN",
+        "shom-map-anomaly": "Anomalía en una carta náutica de SHN",
+        "shom-publication-anomaly": "Anomalía en una publicación náutica de SHN",
+        "futur-update-information": "Información para futuras actualizaciones de las cartas y publicaciones náuticas de SHN",
+        "bathy-data": "Nueva batimetría u otros datos recopilados"
+      },
+      "new-danger-confirmation": {
+        "header": "Advertencia de uso",
+        "message": "Si estás en la mar contacta a la Estación de Guardacostas más cercana por VHF en el canal 16.",
+        "rejectLabel": "Salir",
+        "acceptLabel": "Reportar"
+      }
+    },
+    "creation": {
+      "title": "Creación de la contribución",
+      "description": "Tu reporte concierne a:",
+      "buttons": {
+        "hazard": "Una anomalía en el balizamiento",
+        "another-hazard": "Otro peligro",
+        "bathy-test": "Prueba",
+        "bathy-deposit": "Transmisión"
+      },
+      "bathy": {
+        "title": "Creación de la contribución batimétrica",
+        "description": "<p>La detección de desviaciones peligrosas es realizada por CARTONAUT.<br/>Esta es una prueba automática de datos batimétricos contra las cartas náuticas actuales del SHN para detectar desviaciones peligrosas que podrían ser objeto de un AN.<br/>Dependiendo de la elección del titular, se creará una fuente de información basada en desviaciones peligrosas, destinada a productores de información náutica, en particular para el productor de AN en cuestión.<br/>Aquí están las acciones posibles :<br/><ul><li>Prueba:<br/>los datos no se conservan más allá de la estricta necesidad de trazabilidad de la prueba de datos por CARTONAUT</li><li>Transmisión :<br/>el depósito (transmisión) de datos conduce al registro definitivo de estos datos en el SI del SHN, con una validación interna de estos datos por el SHN, así como una experiencia de estos datos y su contribución para la actualización de las cartas náuticas</li></ul></p>",
+        "report-danger": {
+          "new-report-danger": "Nuevo reporte de profundidad peligrosa",
+          "danger-location": "Ubicación del peligro",
+          "survey-period": "Período del levantamiento",
+          "additional-informations": "Informaciones adicionales",
+          "producer-service": "Servicio productor",
+          "producer-service-choice": "Elección del servicio productor"
+        }
+      },
+      "examples": {
+        "hazard": "<li>Boya desaparecida o fuera de posición</li><li>Luz apagada</li><li>Pecio, objeto a la deriva</li><li>etc.</li>",
+        "another-hazard": "<li>Objeto a la deriva...</li><li>Pecio, bajo fondo...</li><li>Trabajos/Obras...</li><li>etc.</li>"
+      }
+    },
+    "report-hazard": {
+      "label-form": {
+        "map": "1. Localiza la información en el mapa",
+        "information": "2. Añade tu información"
+      },
+      "new-report-hazard": "Nuevo reporte de anomalía en el balizamiento",
+      "hazard-location": "Ubicación del peligro",
+      "anomaly-location": "Localización de la anomalía",
+      "contributor-service": "Servicio colaborador",
+      "contributor-service-placeholder": "Por favor, selecciona el servicio colaborador",
+      "concerned-maritime-entities-placeholder": "Selecciona las entidades marítimas afectadas",
+      "concerned-maritime-entities": "Entidades marítimas afectadas",
+      "internal-comment": "Comentario interno",
+      "observation-date": "Fecha de observación",
+      "markup-type": {
+        "title": "Tipo de balizamiento",
+        "placeholder": "Selecciona un tipo de balizamiento",
+        "LIGHTHOUSE": "Faro",
+        "BUOY": "Boya",
+        "TURRET_BEACON": "Baliza de torreta",
+        "OTHER": "Otro",
+        "inputName": {
+          "LIGHTHOUSE": "del faro",
+          "BUOY": "de la boya",
+          "TURRET_BEACON": "de la baliza de torreta",
+          "OTHER": ""
+        }
+      },
+      "timezone": "Zona horaria",
+      "object-name": "Nombre {{objectName}}",
+      "anomaly-description": "Descripción",
+      "attachments": "Archivos adjuntos (fotos, etc... máximo 50 MB por archivo)",
+      "contribution-information-message": "Puedes guardar tu borrador, mantenido por 30 días, para completarlo más tarde, o enviar tu contribución",
+      "buttons": {
+        "save-draft": "Guardar borrador",
+        "send-contribution": "Enviar la contribución"
+      },
+      "errors": {
+        "anomaly-description-invalid": "Descripción (obligatorio)",
+        "internal-comment-invalid": "El comentario interno no debe contener solo espacios en blanco",
+        "observation-date-invalid": "Fecha de observación (obligatorio)",
+        "localization-invalid": "Localización (obligatorio)",
+        "markupType-invalid": "Tipo de balizamiento (obligatorio)",
+        "concerned-maritime-entities-invalid": "Entidades marítimas afectadas (obligatorio)"
+      }
+    },
+    "sign-in-up-contribute-message": "Para transmitir nueva información que afecte la navegación, por favor crea tu cuenta o inicia sesión.",
+    "objects": {
+      "object-map": {
+        "label": {
+          "indication": "Indicación",
+          "level": "Nivel",
+          "noticeNumber": "Naturaleza del aviso",
+          "incidentTitle": "Título",
+          "cmsTitle": "Título",
+          "recoveryTime": "Tiempo de recuperación",
+          "comment": "Comentario",
+          "costalService": "Servicio costero",
+          "territorialDivision": "División territorial",
+          "previousNoticeNumber": "Aviso previo",
+          "naturalNoticeCode": "Código natural del aviso",
+          "georegulationNumber": "Número(s) GR",
+          "georegulationTemporary": "Temporal",
+          "georegulationCalendarPeriods": "Período(s) de aplicación",
+          "georegulationSeasonalPeriods": "Períodos estacionales",
+          "georegulationType": "Tipo",
+          "georegulationActivities": "Actividad(es) afectada(s)",
+          "georegulationTitle": "Objeto",
+          "georegulationMaritimeEntity": "Entidades marítimas",
+          "georegulationSummary": "Resumen",
+          "georegulationAdditionNumbers": "Números adicionales",
+          "ping-id": "ID de PISAC",
+          "shom-id": "ID de SHN",
+          "producer-organization": "Gestor del proyecto",
+          "owner-organization": "Propietario del proyecto",
+          "name-and-location": "Nombre/ubicación",
+          "period": "Fechas de inicio/fin",
+          "transmission-date": "Fecha/hora de transmisión",
+          "survey-id": "Enlace a los detalles del levantamiento"
+        }
+      }
+    },
+    "details": {
+      "no-localisation-data": "No hay datos de localización en esta fuente de información",
+      "status-sent": "enviado a las ",
+      "contributor": {
+        "title": "Colaborador",
+        "firstname": "Nombre",
+        "lastname": "Apellido",
+        "email": "Correo electrónico",
+        "mobilePhoneNumber": "Número de teléfono móvil",
+        "phoneNumbers": "Números de teléfono",
+        "mixedPhoneNumbers": "Números de teléfono mixtos"
+      },
+      "nature": "Naturaleza",
+      "status": "Estado",
+      "comment": "Comentario",
+      "add-comment": "Añadir un comentario",
+      "lastUpdate": "Fecha de modificación",
+      "creationDate": "Fecha de creación",
+      "attachments": "Archivos adjuntos",
+      "object-map": {
+        "label": {
+          "markupType": "Tipo de balizamiento",
+          "observationDate": "Fecha de observación",
+          "objectName": "Nombre",
+          "mapNumber": "Número de carta afectada",
+          "editionNumber": "Número de edición",
+          "lastPatchNumber": "Número del último parche",
+          "dateRanges": "Períodos de actividades",
+          "issueReference": "Referencia de la publicación afectada",
+          "upToDateAt": "Actualizado hasta",
+          "chapterOrPage": "Capítulo o página",
+          "objectFutureInfo": "Objeto",
+          "information": "Información",
+          "number": "Número",
+          "heritageName": "Nombre",
+          "baptismName": "Nombre",
+          "fireBookNumber": "Libro de faros",
+          "mark": "Marca",
+          "department": "Departamento",
+          "geographicalZone": "Zona",
+          "contact": "Contacto"
+        },
+        "label-suffix": {
+          "LIGHTHOUSE": " del faro",
+          "BUOY": " de la boya",
+          "TURRET_BEACON": " de la baliza de torreta",
+          "LIGHTHOUSE_AND_BEACON": " de faro y baliza",
+          "OTHER": ""
+        }
+      },
+      "reject": {
+        "show-panel": "Rechazar",
+        "optional-comment": "Comentario (opcional)",
+        "message": "El rechazo es definitivo, ¿estás seguro de que quieres rechazar esta contribución?",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "success": "La contribución fue rechazada exitosamente",
+        "error": "Error al rechazar la contribución"
+      },
+      "clone": {
+        "message": "¿Te gustaría copiar la contribución?"
+      },
+      "delete": {
+        "delete-confirm": "Estás a punto de eliminar esta contribución, ¿estás seguro?",
+        "delete-success": "La contribución ha sido eliminada",
+        "delete-error": "No se pudo eliminar la contribución"
+      },
+      "update-service-status": {
+        "title": "Estado por servicio",
+        "service": "Servicio",
+        "status": "Estado",
+        "action": "Acción",
+        "new-service-status": "Nuevo estado",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "show-panel": "Actualizar estado del servicio",
+        "success": "El estado del servicio ha sido actualizado",
+        "error": "Error al actualizar el estado del servicio",
+        "tag-name": "Nombre de la etiqueta",
+        "add-new-tag": "Añadir nueva etiqueta y vincular directamente a la contribución",
+        "link-tags": "Vincular etiquetas",
+        "success-add-link-infosource-tag": "Las etiquetas han sido vinculadas",
+        "success-del-link-infosource-tag": "Las etiquetas han sido eliminadas",
+        "error-link-infosource-tag": "No se pudieron vincular las etiquetas"
+      },
+      "update-comment": {
+        "success": "El comentario ha sido actualizado",
+        "error": "Error al actualizar el comentario"
+      },
+      "transfer": {
+        "show-panel": "Transferir",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "success": "La contribución se transfirió exitosamente",
+        "error": "Error al transferir la contribución",
+        "no-transferable-services": "No hay servicios transferibles"
+      },
+      "create-warning": {
+        "show-panel": "Crear advertencia",
+        "copy-data": "Copiar datos de la fuente de información",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "success": "Se ha creado la advertencia",
+        "error": "Error al crear la advertencia"
+      }
+    },
+    "report-other-title": "Nuevo reporte",
+    "map-anomaly-report": {
+      "title": "Nueva anomalía en una carta náutica del SHN",
+      "map-number": "Número de carta",
+      "edition-number": "Número de edición",
+      "last-patch-number": "Número del último parche",
+      "errors": {
+        "map-number-invalid": "Número de carta (obligatorio)",
+        "edition-number-invalid": "El número de edición no debe contener solo espacios en blanco",
+        "last-patch-number-invalid": "El número del último parche no debe contener solo espacios en blanco"
+      }
+    },
+    "publication-report": {
+      "title": "Nueva anomalía en una publicación náutica del SHN",
+      "issue-reference": "Referencia de la publicación afectada",
+      "up-to-date-at": "Actualizado hasta",
+      "chapter-or-page": "Capítulo o página",
+      "errors": {
+        "issue-reference-invalid": "Referencia de la publicación afectada (obligatorio)",
+        "chapter-or-page-invalid": "El capítulo o página no debe contener solo espacios en blanco"
+      }
+    },
+    "future-updates": {
+      "title": "Nueva información para futuras actualizaciones de las cartas y publicaciones náuticas del SHN",
+      "information-location": "Ubicación de la información",
+      "object-future-info": "Objeto",
+      "errors": {
+        "future-info-invalid": "Objeto (obligatorio)"
+      }
+    },
+    "activity-forecast": {
+      "title": "Previsión de actividades en el mar",
+      "errors": {
+        "missing-part": "Al menos una parte del IS es obligatoria"
+      }
+    },
+    "information": {
+      "add-geometry": "Insertar geometría",
+      "add-periods": "Insertar períodos",
+      "templates": {
+        "fullPeriods": "del {{startPeriod}} al {{endPeriod}}",
+        "startPeriod": "desde el {{startPeriod}}",
+        "endPeriod": "hasta el {{endPeriod}}",
+        "polylineWithoutLabel": "línea que une {{content}}",
+        "polylineWithLabel": "línea {{featureLabel}} que une {{content}}",
+        "polygonWithoutLabel": "área delimitada por:\n{{content}}",
+        "polygonWithLabel": "área {{featureLabel}} delimitada por:\n{{content}}",
+        "circleWithoutLabelInNq": "área dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}.",
+        "circleWithLabelInNq": "área {{featureLabel}} dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}."
+      }
+    }
+  },
+  "subscription": {
+    "sign-in-up-subscription-message": "Para ser notificado de nuevas advertencias o avisos de tu interés y para acceder a tus suscripciones, por favor crea tu cuenta o inicia sesión.",
+    "choice": {
+      "title": "Crear o gestionar suscripciones",
+      "description": "<p>Para recibir notificaciones de nuevas advertencias, avisos o regulaciones.</p>",
+      "buttons": {
+        "warning": "Advertencias y avisos",
+        "georegulation": "Regulaciones"
+      }
+    },
+    "buttons": {
+      "new": "Crear nueva suscripción"
+    },
+    "modal": {
+      "service": "Servicio marítimo suscriptor",
+      "maritime-entities-geographic-extent": "Entidades marítimas por extensión geográfica",
+      "area": "Área",
+      "serie": "Series",
+      "lang": "Idioma",
+      "fr": "Francés",
+      "en": "Inglés",
+      "sub-areas": "Subáreas",
+      "map-selected-sub-areas": "Mapa de subáreas seleccionadas",
+      "warning-hazard-type-generals": "Tipos generales de peligro",
+      "maritime-entities-in-area": "Entidades marítimas en el área",
+      "georegulation-types": "Tipos de regulación",
+      "sending-mail": "Envío por correo"
+    },
+    "details": {
+      "delete": {
+        "delete-confirm": "Estás a punto de eliminar esta suscripción, ¿estás seguro?",
+        "delete-success": "La suscripción ha sido eliminada",
+        "delete-error": "No se pudo eliminar la suscripción"
+      }
+    },
+    "delete-from-link": {
+      "message": "Haz clic en el botón de abajo para confirmar la eliminación de la suscripción:",
+      "type-warning": "Suscripción de advertencia:",
+      "type-georegulation": "Suscripción de georregulación:"
+    }
+  },
+  "folder": {
+    "graph": {
+      "no-data": "No hay datos disponibles",
+      "notion-georegulation-code": "GR",
+      "attachment-code": "Adjunto",
+      "notion-warning-code": "AN",
+      "notion-warning-tp-code": "Advertencia TP",
+      "notion-infosource-code": "IS",
+      "notion-study-code": "Estudio",
+      "notion-georegulation-date-title": "Fecha de publicación - Fecha de derogación",
+      "attachment-reception-date-title": "Fecha de recepción o de depósito",
+      "notion-warning-date-title": "Fecha de publicación - Fecha de cancelación",
+      "notion-infosource-date-title": "Tiempo de validación",
+      "notion-study-last-update-title": "Última actualización"
+    },
+    "details": {
+      "locality": "Localidad",
+      "concernedMaritimeEntities": "Entidades marítimas afectadas",
+      "object": "Objeto",
+      "sharedMaritimeServices": "Servicios marítimos compartidos",
+      "status": "Estado",
+      "lastUpdate": "Última actualización",
+      "delete": {
+        "delete-confirm": "Estás a punto de eliminar este expediente, ¿estás seguro?",
+        "delete-success": "El expediente ha sido eliminado",
+        "delete-error": "No se pudo eliminar el expediente"
+      },
+      "follow": {
+        "message": "Los servicios seleccionados podrán seguir este expediente en la tabla de expedientes seguidos.",
+        "follow-success": "El expediente se ha añadido al seguimiento de los servicios seleccionados",
+        "follow-error": "No se pudo añadir el expediente al seguimiento de los servicios seleccionados"
+      },
+      "un-follow": {
+        "un-follow-confirm": "Estás a punto de dejar de seguir este expediente, ¿estás seguro?",
+        "un-follow-success": "El expediente se ha eliminado del seguimiento del servicio",
+        "un-follow-error": "No se pudo eliminar el expediente del seguimiento del servicio"
+      },
+      "add-notion-to-folder": {
+        "show-panel": "Añadir a un expediente",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "select-folder": "Seleccionar un expediente",
+        "success": "La noción se ha añadido al expediente",
+        "error": "No se pudo añadir la noción al expediente",
+        "folders-linked-to-maritime-entities": "Expedientes vinculados a entidades marítimas",
+        "folder": "Expediente"
+      },
+      "create-study": "Crear estudio",
+      "clone": {
+        "clone-confirm": "Estás a punto de clonar este expediente, ¿estás seguro?",
+        "clone-success": "El expediente ha sido clonado",
+        "clone-error": "No se pudo clonar el expediente"
+      }
+    }
+  },
+  "notion": {
+    "delete": {
+      "delete-confirm": "Estás a punto de eliminar esta noción, ¿estás seguro?",
+      "delete-success": "La noción ha sido eliminada",
+      "delete-error": "No se pudo eliminar la noción"
+    }
+  },
+  "study": {
+    "create": {
+      "create-success": "El estudio ha sido creado.",
+      "create-error": "No se pudo crear el estudio"
+    },
+    "delete": {
+      "delete-confirm": "Estás a punto de eliminar este estudio, ¿estás seguro?",
+      "delete-success": "El estudio ha sido eliminado",
+      "delete-error": "No se pudo eliminar el estudio"
+    },
+    "update": {
+      "update-success": "El estudio ha sido actualizado.",
+      "status-update-success": "El estado del estudio ha sido actualizado.",
+      "update-error": "No se pudo actualizar el estudio",
+      "status-update-error": "No se pudo actualizar el estado del estudio"
+    },
+    "type": {
+      "warnings": "ANs",
+      "infosources": "Fuentes de información",
+      "georegulations": "Georregulaciones"
+    },
+    "select-notions": "Seleccionar nociones",
+    "select-attachments": "Seleccionar adjuntos",
+    "select-reference": "Por favor, selecciona un tipo de referencias",
+    "header-study-datas": "{{notionsLength}} noción/nociones y {{attachmentsLength}} adjunto(s)",
+    "errors": {
+      "invalid-infonaut-number-pattern": "la sintaxis del número infonaut debe ser dddd/aa",
+      "infonaut-number-already-exist": "El número infonaut ya existe en este expediente",
+      "reference-invalid": "Referencia inválida"
+    },
+    "button": {
+      "add-reference": "Añadir una publicación al GAN"
+    },
+    "message": {
+      "confirm-remove-reference": "¿Eliminar referencia?"
+    },
+    "form": {
+      "references": {
+        "nautical-map-correction": {
+          "input-placeholder": "Aviso 25 51 33, 7412 (10), 7523 (24)",
+          "info-placeholder": {
+            "title": "Corrección de carta náutica:",
+            "text": [
+              "Número de aviso en el GAN en formato \"Aviso AA SS NN,\"",
+              "Número de carta y su número de corrección en formato \"7412 (12)\" (múltiples posibles)",
+              "Ejemplo: Aviso 25 51 33, 7412 (10), 7523 (24)"
+            ]
+          }
+        },
+        "nautical-map-edition": {
+          "input-placeholder": "GAN 25 51, 7419 edición 3",
+          "info-placeholder": {
+            "title": "Edición de carta náutica:",
+            "text": [
+              "Número GAN en formato \"GAN AA SS,\"",
+              "Mención a la carta y su número de edición en formato \"7419 edición 3\"",
+              "Ejemplo: GAN 25 51, 7419 edición 3"
+            ]
+          }
+        },
+        "nautical-publication-correction": {
+          "input-placeholder": "GAN 25 51, IN C2.2",
+          "info-placeholder": {
+            "title": "Corrección de obra náutica:",
+            "text": [
+              "Número GAN en formato \"GAN AA SS,\"",
+              "Mención a la obra corregida en formato \"IN C2.2\"",
+              "Ejemplo: GAN 25 51, IN C2.2"
+            ]
+          }
+        },
+        "warning-t-or-p": {
+          "input-placeholder": "Aviso 25 51-T-02",
+          "info-placeholder": {
+            "title": "Aviso T o P:",
+            "text": [
+              "Número de aviso T o P en formato \"Aviso AA SS-T/P-NN\"",
+              "Ejemplo: Aviso 25 51-T-02"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "georegulation": {
+    "layers": {
+      "navigation": "GR (navegación)",
+      "mpda": "GR (Ocupación DPM)",
+      "others": "GR (otros)"
+    },
+    "creation": {
+      "title": "Creación de nueva georregulación",
+      "save-draft": "Guardar borrador",
+      "number": {
+        "year-placeholder": "aaaa",
+        "text-placeholder": "texto corto",
+        "date-placeholder": "ddmmaaaa",
+        "authorities-default-label": "Autoridades"
+      },
+      "links": {
+        "url-placeholder": "Introduce una URL válida",
+        "add-link": "Añadir enlace",
+        "remove-link": "Eliminar enlace"
+      },
+      "errors": {
+        "issuing-service-invalid": "Servicio emisor inválido",
+        "type-invalid": "Tipo inválido",
+        "timezone-invalid": "Zona horaria inválida",
+        "is-temporary-invalid": "Elige si la GR es temporal o no",
+        "is-all-territorial-sea-invalid": "Elige si la GR afecta a todo el mar territorial",
+        "is-announced-by-avurnav-avirade-invalid": "Elige si la GR fue anunciada previamente como Aviso (AN)",
+        "is-public-invalid": "Elige si la GR es pública o no",
+        "required-field": "Campo obligatorio",
+        "incomplete-number": "Número incompleto",
+        "missing-part": "Al menos una parte es obligatoria",
+        "missing-part-error": "Al menos una parte contiene un campo con error",
+        "missing-main-number": "El número principal es obligatorio",
+        "missing-commercial-ship": "La información sobre buques comerciales es obligatoria",
+        "missing-choice-restriction-vessel": "La elección de restricción de buque es obligatoria",
+        "missing-length-restriction-vessel": "La eslora del buque es obligatoria",
+        "missing-gross-tonnage-restriction-vessel": "El tonelaje bruto del buque es obligatorio",
+        "missing-unit-gross-tonange-restriction-vessel": "La unidad de tonelaje bruto del buque es obligatoria",
+        "main-number-unavailable": "El número principal ya está en uso",
+        "invalid-additional-number": "Al menos un número adicional es inválido",
+        "at-least-one-missing-geometry": "Falta la geometría en al menos una parte",
+        "at-least-one-invalid-seasonal-period": "Al menos un período estacional es inválido",
+        "form-invalid": "Algunos campos obligatorios no han sido completados"
+      },
+      "add-seasonal-period": "Añadir un período estacional"
+    },
+    "edition": {
+      "title": "Edición de georregulación",
+      "save-draft": "Actualizar borrador",
+      "save": "Actualizar GR publicada",
+      "cancel-message": "Todos los cambios se perderán. ¿Continuar?"
+    },
+    "issuing-service": "Servicio emisor",
+    "issuing-service-placeholder": "Seleccionar servicio emisor",
+    "type": {
+      "title": "Tipo",
+      "placeholder": "Seleccionar tipo de georregulación",
+      "NAVIGATION": "Navegación",
+      "MARITIME_PUBLIC_DOMAIN_OCCUPANCY": "Ocupación de DPM",
+      "OTHER": "Otros"
+    },
+    "timezone": "Zona horaria",
+    "is-temporary": "¿Temporal?",
+    "is-all-territorial-sea": "¿Afecta a todo el mar territorial?",
+    "is-announcement-by-avurnav-avirade": "¿Anunciado previamente como Aviso (AN)?",
+    "number": "Número",
+    "additional-numbers": "Números adicionales",
+    "add-additional-number": "Añadir número",
+    "activities": "Actividades",
+    "activities-placeholder": "Seleccionar actividades",
+    "object": "Objeto",
+    "summary": "Resumen SHN",
+    "calendar-periods": "Períodos calendarios",
+    "seasonal-periods": "Períodos estacionales",
+    "seasonal-periods-select-day": "Seleccionar un día",
+    "seasonal-periods-select-month": "Seleccionar un mes",
+    "seasonal-periods-from": "Desde",
+    "seasonal-periods-to": "hasta",
+    "seasonal-periods-invalid": "El período estacional es inválido",
+    "coastline-limit": "Plano de balizamiento",
+    "is-public": "¿Público?",
+    "mark-new-during": "Marcar como nuevo durante (meses)",
+    "links": "Enlaces",
+    "concerned-by-restriction-vessel": "Buques ",
+    "concerned-by-restriction-exclusively": "exclusivamente",
+    "concerned-by-restriction": " afectados por las disposiciones en la zona",
+    "restriction-length-vessel": "Restricción de buques con una eslora",
+    "unit-restriction-length-vessel": "metros",
+    "unit-gross-tonnage-vessel": "Seleccionar unidad de tonelaje bruto",
+    "restriction-gross-tonnage-vessel": "Buque con un tonelaje bruto",
+    "restriction-length-vessel-placholder": "Restricción de eslora del buque",
+    "length-vessel-placholder": "Introduce la eslora del buque",
+    "restriction-gross-tonnage-vessel-placholder": "Selecciona restricción de tonelaje",
+    "gross-tonnage-vessel-placholder": "Introduce el tonelaje bruto",
+    "commercial-ship": "Buques comerciales",
+    "restriction-categories": "Categorías de restricción",
+    "restriction-categories-placeholder": "Seleccionar categorías de restricción",
+    "empty-available-maritime-entities": "Selecciona primero el servicio emisor",
+    "information": {
+      "add-geometry": "Generar geometrías",
+      "btn-copy-to-clipboard": "Copiar contenido de texto en ",
+      "copy-content-success": "¡El contenido del texto en el campo de información en {{lang}} se ha copiado con éxito!",
+      "templates": {
+        "polylineWithoutLabel": "línea que une {{content}}",
+        "polylineWithLabel": "línea {{featureLabel}} que une {{content}}",
+        "polygonWithoutLabel": "área delimitada por:\n{{content}}",
+        "polygonWithLabel": "área {{featureLabel}} delimitada por:\n{{content}}",
+        "circleWithoutLabelInNq": "área dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}.",
+        "circleWithLabelInNq": "área {{featureLabel}} dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}."
+      }
+    },
+    "modal": {
+      "warning": "Las áreas trazadas en PISAC solo tienen un valor indicativo. Los límites oficiales son los dados en el decreto.",
+      "details-fieldset": "Detalles",
+      "numbers": "Número(s)",
+      "secondary-numbers": "Otro(s) número(s)",
+      "periods": "Período(s) de aplicación",
+      "temporary": "Temporal",
+      "calendar-periods-start": "fecha de inicio",
+      "calendar-periods-end": "fecha de fin",
+      "seasonal-periods": "Períodos estacionales",
+      "seasonal-periods-start": "desde",
+      "seasonal-periods-end": "hasta",
+      "period": {
+        "start-label": "desde",
+        "start-label-without-end": "desde",
+        "end-label": "hasta",
+        "end-label-without-start": "hasta"
+      },
+      "type": "Tipo",
+      "activities": "Actividad(es) afectada(s)",
+      "title": "Objeto",
+      "entities": "Entidades marítimas",
+      "summary": "Resumen SHN",
+      "areas": "Área(s)",
+      "no-part-information": "Sin información de partes",
+      "part-fieldset": "Parte",
+      "part-types": "Categoría(s) de restricción",
+      "attachments-fieldset": "Archivos adjuntos",
+      "links-fieldset": "Acceso al texto regulatorio",
+      "status-fieldset": "Estado",
+      "status-published": "Publicado desde",
+      "status-repealed": "Expirado desde",
+      "last-update": "Última actualización en PISAC",
+      "issuing-service": "Servicio emisor",
+      "is-public": "Esta GR es pública",
+      "is-not-public": "Esta GR no es pública",
+      "internal-comment-fieldset": "Comentario interno",
+      "cloned-number": "Nuevo número de GR:",
+      "link-number": "Enlace {{number}}"
+    },
+    "hidden-message": {
+      "collapsed": "El área del mapa...",
+      "not-collapsed": {
+        "one": "El área del mapa está cubierta por una georregulación no mostrada en la pantalla. Es accesible haciendo clic en el mapa.",
+        "many": "El área del mapa está cubierta por {{number}} georregulaciones no mostradas en la pantalla. Son accesibles haciendo clic en el mapa."
+      }
+    }
+  },
+  "survey": {
+    "files": {
+      "cartonaut": "Cartonaut",
+      "controls": "Controles",
+      "data-consistency": "Consistencia de datos",
+      "observed-separator": "separador observado",
+      "requested-separator": "separador solicitado",
+      "size": "Tamaño",
+      "statistics": "Estadísticas",
+      "archive-content": "Contenido del archivo",
+      "errors": {
+        "label": "Errores",
+        "exceed-attempts-or-wrong-separator": "No se encontró separador, se excedieron los intentos para encontrar el separador. Quizás el encabezado es demasiado largo o el separador es incorrecto.",
+        "wrong-nb-of-separator": "Número incorrecto de separadores encontrados. Quizás falta un valor o un separador es incorrecto.",
+        "not-numeric-value": "Valor no numérico detectado",
+        "out-of-bounds": "El valor está fuera de los límites",
+        "failed-to-retrieve-stats": "Error al recuperar estadísticas: valor Z no encontrado",
+        "failed-to-analyze": "Error al analizar el archivo",
+        "failed-to-analyze-in-archive": "Error al analizar el archivo desde el contenedor"
+      }
+    },
+    "detect-analysis": "Análisis DETECT",
+    "bathy-files": {
+      "detect-results": "Resultados de DETECT",
+      "files-with-errors-list": "Lista de archivos con errores",
+      "result-files": "Archivos de resultados",
+      "enc-processed": {
+        "label-list": "Lista de ENC procesados",
+        "update-date": "Última fecha de actualización",
+        "update-number": "Número de actualización",
+        "comments": "Comentarios"
+      },
+      "processing-result-errors-label": "Errores planteados por el análisis",
+      "global-errors-label": "Errores encontrados por Calhypso",
+      "file-errors": {
+        "message-error-invalid-filepath": "el archivo no existe, no fue encontrado.",
+        "message-error-no-point": "no se leyó ningún punto: el archivo está vacío o es inválido (separador incorrecto, imposible identificar las 3 columnas x,y,z).",
+        "message-error-transform": "ocurrió un error al convertir a wgs84: el epsg no parece coincidir con los datos.",
+        "message-error-format": "los datos tienen un error de formato (lat/lon invertido, o problema con el separador decimal), las coordenadas no coinciden con wgs84 lon-lat tras la lectura/conversión.",
+        "message-error-any-enc-in-dir": "ningún enc cruza el conjunto de datos.",
+        "message-end-error": "calhypso-detect ha encontrado un error.",
+        "message-error-no-depare": "para 1 enc dado: el enc no presenta datos que se crucen con los datos (ej: los datos solo están en lndare u otro, etc.)"
+      },
+      "processing-result-errors": {
+        "src-dir-list-files-failure": "Error al listar archivos en el directorio de origen.",
+        "zip-filename-not-matching-pattern": "Al menos un enlace de descarga no coincide con el patrón correcto.",
+        "no-zip-file-found": "No se encontró ningún archivo .zip en el directorio de origen.",
+        "missing-file-on-disk": "Al menos un archivo zip no se encontró en el directorio.",
+        "wrong-idfile-provided": "Al menos un archivo zip tiene un id diferente al id extraído del enlace de descarga.",
+        "unknown-idfile": "Al menos un archivo zip tiene un idFile desconocido en el directorio.",
+        "virus-check-failure": "Error al comprobar virus en algunos archivos.",
+        "malicious-file-detected": "Se podría haber encontrado un archivo malicioso en el directorio de origen.",
+        "zip-content-files-list-failure": "Error al listar archivos en algunos archivos zip.",
+        "invalid-zip-content": "algunos archivos zip no son válidos.",
+        "target-dir-list-xml-files-failure": "Error al listar archivos XML de enc en el directorio de destino.",
+        "parse-xml-failure": "Error al analizar enc para algunos archivos XML.",
+        "target-dir-list-gml-files-failure": "Error al listar archivos GML de peligros en el directorio de destino.",
+        "parse-gml-failure": "Error al analizar peligros para algunos archivos GML.",
+        "target-dir-list-csv-files-failure": "Error al listar archivos CSV de detecciones en el directorio de destino.",
+        "parse-csv-failure": "Error al analizar detecciones para algunos archivos CSV."
+      },
+      "global-errors": {
+        "message-error-zip": "error al descomprimir, no se encontraron archivos de datos.",
+        "message-error-disk": "espacio insuficiente en el disco.",
+        "message-error-internal": "ocurrió un error durante el análisis de DETECT.",
+        "message-error-sftp": "error durante la transmisión SFTP de los datos."
+      }
+    },
+    "status": {
+      "not-available": "No disponible",
+      "pending": "Pendiente",
+      "compliant": "Conforme",
+      "not-compliant": "No conforme"
+    },
+    "no-survey": "Ningún levantamiento proporcionado",
+    "no-localisation-data": "No hay datos de localización en este levantamiento",
+    "form": {
+      "header": {
+        "contact": "En caso de dificultad, por favor contacta a <a href=\"mailto:bri@shom.fr\">bri@shom.fr</a>"
+      },
+      "sections": {
+        "survey-description": "Descripción del levantamiento",
+        "personal-data-privacy": "Confidencialidad",
+        "general-metadata-description": "Descripción general de metadatos",
+        "bathy-data-description": "Descripción de datos batimétricos",
+        "your-bathy-data": "Tus datos batimétricos",
+        "technical-metadata": "Metadatos técnicos",
+        "misc-attachments": "Otros documentos del levantamiento"
+      },
+      "fields": {
+        "name-and-location": "Nombre y ubicación del levantamiento",
+        "area": "Área",
+        "achievement-period": "Período de realización del levantamiento",
+        "contributor-service": "Servicio colaborador",
+        "bathymetry-data-format": "Formato de datos de batimetría",
+        "internal-comment": "Comentario interno",
+        "issuer-types": "Tipos de emisor del levantamiento",
+        "owner-organization": "Nombre de la organización propietaria del proyecto",
+        "owner-email": "Punto de contacto del propietario",
+        "producer-organization": "Nombre de la organización gestora del proyecto",
+        "organization-name": "Nombre de la organización",
+        "technical-manager-email": "Punto de contacto del gestor del proyecto",
+        "goal": "Objetivo del levantamiento",
+        "global-statistics": "Estadísticas globales",
+        "geographic-format": "Tipo de coordenadas",
+        "geographic-format-choice": "Coordenadas geográficas (equiparables a WGS84)",
+        "projection-choice": "Coordenadas proyectadas",
+        "epsg": "Sistema de coordenadas",
+        "coordinates-order": "Orden de coordenadas",
+        "z-direction": "Dirección Z",
+        "vertical-reference": "Referencia vertical",
+        "state": "Estado",
+        "last-modified-date": "Fecha de última modificación",
+        "to-analyze-by-cartonaut": "¿Deseas solicitar asistencia en la detección de información náutica batimétrica?",
+        "file-separator": "Separador de archivos",
+        "bathy-attachments": "Archivos batimétricos",
+        "start-date": "Fecha de inicio del levantamiento",
+        "end-date": "Fecha de fin del levantamiento",
+        "technical-metadata": "Metadatos técnicos (Archivo PDF)",
+        "misc-attachments": "Otros documentos",
+        "activities-and-restrictions": "Actividad y restricción de difusión",
+        "selected-activity": "Actividad seleccionada",
+        "broadcast-restriction": "Restricción de difusión",
+        "additional-information": "Comentario (opcional)",
+        "global-stats": {
+          "probes-qty": "Cantidad de sondas",
+          "bounds": "Campos de datos mínimo y máximo",
+          "upper-corner": "Esquina NO (Y máx, X mín)",
+          "lower-corner": "Esquina SE (Y mín, X máx)",
+          "shortest-probe": "Sonda más corta",
+          "deepest-probe": "Sonda más profunda"
+        }
+      },
+      "placeholders": {
+        "name-and-location": "Levantamiento del canal este - Puerto comercial de Brest",
+        "goal": "Levantamiento de control batimétrico después del dragado",
+        "area": "Seleccionar área",
+        "contributor-service": "Seleccionar servicio colaborador",
+        "issuer-types": "Seleccionar tipo de emisor",
+        "email-address": "Dirección de correo electrónico",
+        "epsg": "Seleccionar código EPSG",
+        "coordinates-order": "Seleccionar orden de coordenadas",
+        "z-direction": "Seleccionar dirección Z",
+        "vertical-reference": "Seleccionar referencia vertical",
+        "file-separator": "Elegir o añadir nuevo separador"
+      },
+      "buttons": {
+        "save-test": "Analizar",
+        "save-draft": "Guardar borrador",
+        "delete-draft": "Eliminar borrador",
+        "transmit-deposit": "Iniciar transmisión del levantamiento a SHN",
+        "transmit-deposit-title": "Guardar el borrador para enviar el levantamiento a SHN"
+      },
+      "transmit-popup": {
+        "header": "Transmisión del levantamiento",
+        "enable-analysis": "Herramienta de asistencia para la detección de información náutica batimétrica"
+      },
+      "errors": {
+        "field-invalid": "Al menos un campo es inválido",
+        "internal-comment-invalid": "El comentario interno no debe contener solo espacios en blanco",
+        "producer-organization-invalid": "La organización gestora del proyecto no debe contener solo espacios en blanco",
+        "vertical-ref-warning-message": "Incompatible con la asistencia en la detección de información náutica batimétrica",
+        "technical-metadata-file-missing": "Falta el archivo de metadatos técnicos",
+        "bathy-file-missing": "El levantamiento de prueba debe tener al menos un archivo batimétrico",
+        "name-and-location-invalid": "Nombre y ubicación inválidos",
+        "goal-missing": "Objetivo inválido",
+        "epsg-missing": "El sistema de coordenadas es obligatorio",
+        "z-direction-missing": "La dirección Z es obligatoria",
+        "vertical-ref-missing": "La referencia vertical es obligatoria",
+        "file-separator-missing": "El separador de archivos es obligatorio",
+        "coordinates-order-missing": "El orden de coordenadas es obligatorio",
+        "achievement-period-missing-or-invalid": "El período de realización falta o es inválido",
+        "activity-broadcast-restriction-missing": "La actividad y la restricción de difusión son obligatorias",
+        "area-missing": "El área es obligatoria",
+        "issuer-types-missing": "El tipo de emisor es obligatorio",
+        "organization-missing": "La organización es obligatoria",
+        "owner-organization-missing": "La organización propietaria del proyecto es obligatoria",
+        "producer-organization-missing": "La organización gestora del proyecto es obligatoria",
+        "email-invalid": "Por favor, introduce un correo electrónico válido",
+        "required-field": "Campo obligatorio",
+        "not-empty": "El campo no debe contener solo espacios en blanco",
+        "file-size-exceed": "El tamaño del archivo no debe exceder 10 GB. Póngase en contacto con la oficina de recolección de información del SHN en bri@shom.fr, quienes se encargarán de encontrar las soluciones adecuadas (envío de disco duro, depósito en la nube...).",
+        "cannot-transmit-because-not-compliant": "Datos no conformes, no puedes iniciar la transmisión, por favor revisa, corrige y guarda de nuevo"
+      },
+      "confirm": {
+        "cancel-message": "Todos los cambios se perderán. ¿Continuar?",
+        "delete-message": "El borrador será eliminado. ¿Continuar?",
+        "transmit-message": "El levantamiento será transmitido a SHN. ¿Continuar?",
+        "report-message": "¿Estás seguro de que quieres enviar un reporte urgente?"
+      },
+      "transmission-information-message": "Puedes guardar tu borrador, mantenido por 30 días, para completarlo más tarde, o transmitir tu levantamiento"
+    },
+    "details": {
+      "state": {
+        "test": "Sujeto a análisis",
+        "draft": "Borrador",
+        "transmitted": "Transmitido"
+      },
+      "clone": {
+        "clone-confirm": "Estás a punto de clonar este levantamiento, ¿estás seguro?",
+        "clone-success": "El levantamiento ha sido clonado",
+        "clone-error": "No se pudo clonar el levantamiento"
+      },
+      "layers": {
+        "dangers-layer": "Geometrías batimétricas",
+        "detections-layer": "Sondas"
+      },
+      "report": {
+        "button-label-report-dangerous-depths": "Reportar profundidades peligrosas",
+        "report-success": "El borrador de alerta se creó con éxito",
+        "report-error": "No se pudo crear el borrador de alerta"
+      },
+      "overlay": {
+        "detection-info": "Sonda de {{depth}}m de profundidad",
+        "danger-type-point-info-depth": "profundidad de {{value}}m",
+        "danger-type-point-info-shoal": "banco de arena : profundidad de {{value}}m",
+        "danger-type-point-info-wreck": "naufragio : profundidad de {{value}}m",
+        "danger-type-point-info-obstruction": "obstrucción : profundidad de {{value}}m",
+        "danger-type-polygon-info-depth": "profundidad : desviación de hasta {{value}}m",
+        "danger-type-polygon-info-obstruction": "obstrucción : desviación de hasta {{value}}m"
+      },
+      "legend": {
+        "critical-probe-indication": "sonda con desviación muy significativa en las profundidades indicadas en la carta náutica",
+        "important-probe-indication": "sonda con desviación significativa en las profundidades indicadas en la carta náutica",
+        "proven-probe-indication": "sonda con desviación probada en las profundidades indicadas en la carta náutica",
+        "significant-deviation-probe-indication": "sonda con desviación significativa (sugerencia de reporte)",
+        "lesser-fund-zone-indication": "zonas de fondos menores con indicación de la desviación máxima (sugerencia de señal)",
+        "show-more": "Mostrar más"
+      }
+    }
+  },
+  "notification": {
+    "title": "Mis notificaciones",
+    "button": "Mis notificaciones",
+    "no-data": "No hay notificaciones",
+    "action-read": {
+      "error": "Error al cambiar el estado de lectura de la notificación"
+    },
+    "delete": {
+      "delete-confirm": "Estás a punto de eliminar esta notificación, ¿estás seguro?",
+      "delete-success": "La notificación ha sido eliminada",
+      "delete-error": "No se pudo eliminar la notificación"
+    },
+    "delete-all": {
+      "delete-confirm": "Estás a punto de eliminar estas notificaciones, ¿estás seguro?",
+      "delete-success": "Estas notificaciones han sido eliminadas",
+      "delete-error": "No se pudieron eliminar estas notificaciones"
+    },
+    "type": {
+      "warning-subscription-creation": "Nueva suscripción a advertencias",
+      "georegulation-subscription-creation": "Nueva suscripción a georregulaciones",
+      "folder": "Expediente",
+      "warning-publication": "Suscripción - Advertencia publicada",
+      "georegulation-published": "Suscripción - GR publicada",
+      "georegulation-updated": "Suscripción - GR actualizada",
+      "georegulation-repealed": "Suscripción - GR derogada",
+      "lighthouse-and-beacon-previous-notice-number": "Aviso L&B a revisar",
+      "lighthouse-and-beacon-folder-to-review": "Expediente a revisar",
+      "infosource-received": "IS recibido",
+      "survey-analysis-in-progress": "Análisis del levantamiento en progreso",
+      "survey-analysis-success": "Análisis finalizado: levantamiento conforme",
+      "survey-analysis-failure": "Análisis finalizado: levantamiento no conforme",
+      "survey-external-analysis-end-with-critical-probes": "Análisis Cartonaut finalizado: sondas críticas a reportar",
+      "survey-external-analysis-end-without-critical-probe": "Análisis Cartonaut finalizado: no hay sondas críticas",
+      "survey-external-analysis-end-with-failure": "Análisis Cartonaut fallido: verifica tus datos batimétricos"
+    },
+    "mark-as-read": "Marcar como leída",
+    "mark-as-unread": "Marcar como no leída",
+    "see-subscription": "Ver suscripción",
+    "linked-warnings": "Advertencias afectadas : ",
+    "linked-folders": "Expedientes afectados : "
+  },
+  "account": {
+    "creation": {
+      "title": "Creación de cuenta",
+      "credentials": {
+        "title": "Tus credenciales:",
+        "email": "Dirección de correo electrónico (obligatorio)",
+        "password": "Contraseña (obligatorio)",
+        "identifier": "Identificador (apodo)"
+      },
+      "information": {
+        "title": "Tu información personal:",
+        "gender": {
+          "mr": "Sr.",
+          "mrs": "Sra."
+        },
+        "firstname": "Nombre (obligatorio)",
+        "lastname": "Apellido (obligatorio)",
+        "phone-numbers": "Números de teléfono (mínimo uno requerido)",
+        "mobile-phone": "Teléfono móvil",
+        "phone": "Número de teléfono (uno obligatorio)",
+        "phone-description": "Descripción",
+        "role": "Rol (obligatorio)",
+        "service": "Servicio marítimo (obligatorio)",
+        "service-role": "Rol en el servicio (obligatorio)",
+        "addPhone": "Añadir un número de teléfono",
+        "home-phone": "Teléfono fijo",
+        "organization": "Organización (opcional)",
+        "organization-mandatory": "Organización (obligatorio)",
+        "ship-name": "Nombre del buque (opcional)",
+        "homeport": "Puerto base (opcional)",
+        "registration-number": "Número de matrícula (opcional)",
+        "preferred-area": "Área de preferencia (opcional)",
+        "notification": "También me gustaría recibir notificaciones de PISAC por correo electrónico (creación de suscripción, etc.).",
+        "notification-nautiques": "Para notificaciones de nueva información náutica como parte de una suscripción, consulta tu suscripción.",
+        "terms-of-service": "Acepto los Términos de Servicio",
+        "notifications-sound": "Notificaciones sonoras en tu terminal cuando estás conectado a tu cuenta",
+        "subscription-email-notifications": "Notificación de suscripción por correo (GR, advertencias)",
+        "is-pro-account": "Soy un profesional",
+        "user-status": "Actualizar estado del usuario",
+        "user-status.true": "Activado",
+        "user-status.false": "Desactivado",
+        "user-status-update-confirm": "¿Estás seguro de que quieres actualizar el estado del usuario?"
+      },
+      "submit": "Enviar",
+      "errors": {
+        "email-invalid": "Por favor, introduce un correo electrónico válido",
+        "password-invalid": "Por favor, introduce una contraseña válida",
+        "firstName-invalid": "Por favor, introduce tu nombre",
+        "lastName-invalid": "Por favor, introduce tu apellido",
+        "role-invalid": "Por favor, introduce un rol",
+        "service-invalid": "Por favor, introduce un servicio marítimo",
+        "hasAcceptedTos-invalid": "Por favor, acepta los Términos de Servicio para crear tu cuenta",
+        "organization-invalid": "La organización es obligatoria para usuarios profesionales",
+        "phonenumber-invalid": "Se requiere al menos un número de teléfono válido",
+        "captcha-invalid": "Por favor, introduce una respuesta válida para el captcha",
+        "enum.user-creation-error-message": {
+          "user-already-exists": "Ya existe una cuenta con este correo",
+          "password-policy-not-met": "La contraseña no está autorizada o ya ha sido utilizada",
+          "unknown-error": "Error desconocido durante la creación"
+        },
+        "network-error": "Error del lado del cliente o de la red",
+        "unhandled-error": "Error desconocido no manejado del lado del servidor"
+      },
+      "p-password-component": {
+        "prompt-label": "...",
+        "weak-label": "Débil",
+        "medium-label": "Media",
+        "strong-label": "Fuerte",
+        "footer": {
+          "tip1": "Al menos una minúscula",
+          "tip2": "Al menos una mayúscula",
+          "tip3": "Al menos un número",
+          "tip4": "Mínimo 10 caracteres"
+        }
+      },
+      "modal": {
+        "title": "¡Felicidades!",
+        "content": "Tu cuenta ha sido creada. Serás redirigido a la página de inicio de sesión para finalizar la creación de tu cuenta.",
+        "edit-content": "Tu cuenta ha sido modificada. Serás redirigido a la página de inicio."
+      }
+    },
+    "edition": {
+      "title": "Editar un usuario público",
+      "security-title": "Información de seguridad",
+      "email-changed-modal": {
+        "title": "Cambio de correo electrónico del usuario",
+        "content": "Tu correo electrónico ha sido modificado. Tu sesión se cerrará. Deberás iniciar sesión nuevamente para validar este cambio."
+      }
+    },
+    "validation": {
+      "title": "Validando tu cuenta...",
+      "retry": "Volver al formulario de creación de cuenta",
+      "errors": {
+        "invalid-grant": {
+          "invalid-code": "Código no válido",
+          "missing-code": "Falta el código"
+        },
+        "enum.user-creation-error-message": {
+          "unhandled-error": "Error desconocido no manejado del lado del servidor"
+        }
+      },
+      "modal": {
+        "title": "¡Felicidades!",
+        "content": "Tu cuenta ha sido validada. Serás redirigido a la página de inicio como usuario conectado."
+      }
+    },
+    "contributions": {
+      "description": "Tu identificador único para tus contribuciones : {{identifier}}<br/><br/>Este identificador ha sido generado automáticamente en la creación de la cuenta. Se utiliza como identificador único para tus contribuciones.",
+      "submit": "Ver mis contribuciones"
+    },
+    "reset-password": {
+      "description": "¿Quieres actualizar tu contraseña actual?<br />Envía el formulario para inicializar el proceso.",
+      "submit": "Enviar correo de actualización de contraseña"
+    },
+    "delete-account": {
+      "description": "¿Quieres eliminar tu perfil?<br />Envía el formulario para inicializar el proceso.",
+      "submit": "Eliminar cuenta"
+    }
+  },
+  "carto": {
+    "manual-coords": {
+      "title": "Ingreso Manual de Coordenadas",
+      "lat": "Latitud (Ej: 10.59)",
+      "lon": "Longitud (Ej: -66.93)",
+      "lat-placeholder": "Latitud",
+      "lon-placeholder": "Longitud",
+      "add-vertex": "Añadir Vértice",
+      "clear": "Limpiar",
+      "alert-title": "Atención",
+      "alert-detail": "Por favor ingrese Latitud y Longitud"
+    },
+    "popover": {
+      "and-more": "y {{number}} más"
+    },
+    "layers": {
+      "no-layer-available": "No hay capa disponible"
+    },
+    "controls": {
+      "title-btn-show-hide-labels": "Mostrar/ocultar todas las etiquetas",
+      "title-btn-show-hide-layers": "Mostrar/ocultar capas",
+      "title-btn-import-kml": "Importar un KML",
+      "title-btn-goto-legend-page": "Ir a la página de leyenda",
+      "title-btn-legend": "Leyenda"
+    },
+    "error-import-multigeometry": "Imposible importar uno o más tipos de geometría",
+    "error-import-polygon": "Imposible importar polígonos no cerrados o con menos de 3 vértices",
+    "bathy": {
+      "invalid-geometry-type": "Al menos una geometría inválida para batimetría IS",
+      "invalid-polygon-vertices-number": "Al menos un polígono contiene demasiados vértices para batimetría IS"
+    },
+    "raster-marine": "Raster Marine",
+    "ortho-ign": "Ortho littorale_v2 GéoLittoral",
+    "entities-maritimes-managed-or-observed-by-service": "Entidad(es) marítima(s) gestionada(s) u observada(s)"
+  },
+  "table": {
+    "no-area-selected": "Primero debes seleccionar un área antes de mostrar la lista de ANs",
+    "no-serie-selected": "Primero debes seleccionar una serie antes de mostrar la lista de ANs",
+    "columns": {
+      "number": "Número",
+      "model": "Modelo",
+      "title": "Título",
+      "state": "Estado",
+      "lastUpdate": "Última actualización",
+      "references": "Cancelado/Reemplazado",
+      "publicationDate": "Publicación",
+      "estimatedPublicationDate": "Fecha estimada de publicación",
+      "cancellationDate": "Cancelación",
+      "endOfBroadcastDate": "Fin de difusión",
+      "reviewDate": "Revisión",
+      "internalComment": "Comentario interno",
+      "entities": "Entidades marítimas",
+      "folders": "Expedientes"
+    },
+    "pagination": "Mostrando del {first} al {last} de {totalRecords} registros",
+    "export-pdf": "Exportar a PDF",
+    "export-s124": "Exportar a S-124",
+    "export-gpx": "Exportar GPX",
+    "warning-state": {
+      "ACTIVE": "Activo",
+      "END_OF_BROADCAST": "Fin de difusión",
+      "OUTDATED": "Desactualizado",
+      "TO_REVIEW": "A revisar",
+      "DAY_OF_PUBLICATION": "Día de publicación"
+    },
+    "folder-review-status": {
+      "ACTIVE": "Activo",
+      "OUTDATED": "Desactualizado",
+      "TO_REVIEW": "A revisar"
+    },
+    "day": "día",
+    "days": "días",
+    "today": "Hoy"
+  },
+  "folder-table": {
+    "columns": {
+      "number": "Número",
+      "area": "Área",
+      "folderManager": "Gestor del expediente",
+      "locality": "Localidad",
+      "concernedMaritimeEntities": "Entidades marítimas afectadas",
+      "object": "Objeto",
+      "sharedMaritimeServices": "Servicios marítimos compartidos",
+      "reviewDate": "Fecha de revisión",
+      "reviewStatus": "Estado",
+      "comment": "Comentario",
+      "lastUpdate": "Última actualización",
+      "studies": "Estudios"
+    }
+  },
+  "folder-modal-table": {
+    "type": {
+      "INFOSOURCE": "Fuente de información",
+      "GEOREGULATION": "Georregulación",
+      "WARNING": "Advertencia",
+      "WARNING_TP": "Advertencia T&P",
+      "STUDY": "Estudio"
+    },
+    "columns": {
+      "type": "Tipo",
+      "number": "Número",
+      "creationDate": "Fecha de creación",
+      "endDate": "Fecha de fin",
+      "action": "Acción"
+    },
+    "folder-notions": "Nociones del expediente ({{number}} nociones)"
+  },
+  "folder-modal-attachments": {
+    "title-max-one-attachment": "Adjuntos del expediente ({{number}} adjunto)",
+    "title-many-attachments": "Adjuntos del expediente ({{number}} adjuntos)",
+    "columns": {
+      "filename": "Archivo",
+      "comment": "Comentario",
+      "receptionDate": "Fecha de recepción",
+      "maritimeService": "Servicio marítimo",
+      "action": "Acción"
+    },
+    "maritime-services-of-folder-area": "Servicios marítimos del área del expediente",
+    "other-maritime-services": "Otros servicios marítimos",
+    "add-attachment": "Añadir un adjunto",
+    "delete-confirm": "Estás a punto de eliminar este adjunto del expediente, ¿estás seguro?"
+  },
+  "folder-modal-study": {
+    "columns": {
+      "number": "Número infonaut",
+      "study-datas": "Nociones/Adjuntos",
+      "references": "Publicaciones en el GAN",
+      "last-update": "Última actualización",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "notions": "Nociones",
+    "attachments": "Adjuntos",
+    "study-update": "Actualización del estudio",
+    "references": "Publicación(es) en el GAN"
+  },
+  "folder-modal-reference": {
+    "columns": {
+      "type": "Tipo de referencia",
+      "value": "Número de referencia",
+      "study": "Estudio"
+    }
+  },
+  "folder-creation": {
+    "title": "Creación de expediente:",
+    "object": "Objeto",
+    "review-date": "Fecha de revisión",
+    "comment": "Comentario",
+    "area": "Área",
+    "locality": "Localidad",
+    "status": "Estado",
+    "ph-locality": "Por favor, selecciona una localidad",
+    "ph-area": "Por favor, selecciona un área",
+    "ph-status": "Por favor, selecciona un estado",
+    "create-folder": "Crear un expediente",
+    "update-folder": "Actualizar un expediente",
+    "errors": {
+      "areas-invalid": "Áreas inválidas",
+      "object-invalid": "Objeto inválido"
+    }
+  },
+  "folder-modification": {
+    "title": "Modificación de un expediente:"
+  },
+  "folder-attachment-download": {
+    "title": "La descarga del adjunto comenzará...",
+    "indication-title": "Si la descarga no comienza automáticamente, haz clic aquí..."
+  },
+  "subscription-table": {
+    "columns": {
+      "title": "Título",
+      "maritimeServiceSubscriber": "Servicio marítimo suscriptor",
+      "creation-date": "Fecha de creación",
+      "area-name": "Área",
+      "sending-mail": "Envío por correo"
+    }
+  },
+  "subscription-creation": {
+    "page-title": "Creación de suscripción:",
+    "service": "Servicio marítimo suscriptor",
+    "title": "Título de la suscripción",
+    "area": "Área",
+    "serie": "Series",
+    "language": "Idioma",
+    "sub-areas": "Subáreas",
+    "sending-mail": "¿Activar notificaciones por correo?",
+    "map-selected-sub-areas": "Mapa de subáreas seleccionadas",
+    "warning-hazard-general-types": "Tipos generales de peligro",
+    "maritime-entities-geographic-extent": "Entidades marítimas por extensión geográfica",
+    "maritime-entities-in-area": "Entidades marítimas en el área",
+    "maritime-entities-in-service": "Entidades marítimas vinculadas al servicio",
+    "other-maritime-entities": "Otras entidades marítimas",
+    "georegulation-types": "Tipos de regulación",
+    "ph-service": "Por favor, selecciona un servicio marítimo",
+    "ph-area": "Por favor, selecciona un área",
+    "ph-serie": "Por favor, selecciona una serie",
+    "ph-sub-areas": "Por favor, selecciona una o varias subárea(s)",
+    "ph-warning-hazard-general-types": "Por favor, selecciona uno o varios tipo(s) de peligro",
+    "ph-maritime-entities": "Por favor, selecciona una o varias entidad(es) marítima(s)",
+    "ph-georegulation-types": "Por favor, selecciona uno o varios tipo(s) de georregulación",
+    "create-subscription": "Crear una suscripción",
+    "errors": {
+      "service-invalid": "Servicio marítimo inválido",
+      "title-invalid": "Título inválido",
+      "area-invalid": "Área inválida",
+      "serie-invalid": "Series inválidas",
+      "georegulation-types-invalid": "Tipos de regulación inválidos (Obligatorio)"
+    },
+    "tooltip-about-sending-mail": "Al marcar Sí, los usuarios del servicio recibirán los nuevos ANs por correo electrónico, siempre que hayan autorizado estos envíos en la configuración de su cuenta.",
+    "true-value": "Sí",
+    "false-value": "No",
+    "french-language": "Francés",
+    "english-language": "Inglés"
+  },
+  "info-table": {
+    "no-service-selected": "Primero debes seleccionar un servicio antes de mostrar la lista de fuentes de información",
+    "columns": {
+      "nature": "Naturaleza",
+      "description": "Descripción",
+      "concernedMaritimeEntities": "Entidades marítimas afectadas",
+      "tags": "Etiquetas",
+      "comment": "Comentario",
+      "lastUpdate": "Última actualización",
+      "expectedDeletionDate": "Fecha de eliminación",
+      "number": "Número",
+      "title": "Título",
+      "status": "Estado",
+      "recipients": "Destinatarios",
+      "affairs": "Asuntos",
+      "nauticalInformationsProduced": "Información náutica producida",
+      "sending": "Emisión",
+      "stateService": "Estado del servicio",
+      "emitter": "Emisor",
+      "truncatedDescription": "Descripción truncada",
+      "internalComment": "Comentario interno",
+      "validationTime": "Enviado",
+      "businessAndControlledAccessToBusiness": "Negocio y acceso controlado al negocio"
+    },
+    "tooltip": {
+      "transferred-by": "Transferido por : {{serviceName}}"
+    }
+  },
+  "georegulation-table": {
+    "columns": {
+      "number": "Número",
+      "type": "Tipo",
+      "activities": "Actividades",
+      "title": "Objeto",
+      "entities": "Entidades marítimas",
+      "internal-comment": "Comentario interno",
+      "last-update": "Última actualización",
+      "publication-date": "Fecha de publicación",
+      "repeal-date": "Fecha de derogación",
+      "is-public": "Público",
+      "is-new": "Nuevo",
+      "true-value": "Sí",
+      "false-value": "No",
+      "expired": "Expirado"
+    }
+  },
+  "survey-table": {
+    "columns": {
+      "identifier": "Identificador",
+      "shom-id": "ID del SHN",
+      "name-and-location": "Nombre/ubicación",
+      "producer-organization": "Gestor del proyecto",
+      "owner-organization": "Propietario del proyecto",
+      "period": "Fechas de inicio/fin",
+      "compliant": "Conforme",
+      "internal-comment": "Comentario interno",
+      "last-update": "Última actualización",
+      "expected-deletion-date": "Fecha de eliminación esperada",
+      "test-status": "Estado de la prueba",
+      "transmission-status": "Estado de transmisión",
+      "bri-internal-comment": "Comentario interno del BRI"
+    }
+  },
+  "detail": {
+    "title": "Detalles",
+    "close": "Cerrar",
+    "graph": "Gráfico",
+    "table": "Tabla",
+    "studies": "Estudios",
+    "references": "Publicaciones en el GAN",
+    "general-area": "Área",
+    "category": "Categoría",
+    "general-category": "Categoría General",
+    "number": "Número",
+    "range": "Rango",
+    "ranges": "rangos",
+    "warnings-to-cancel": "Cancelar",
+    "to-be-cancelled": "Cancelar esta advertencia en",
+    "cancelled": "Cancelado desde",
+    "published": "Publicado desde",
+    "modified": "Modificado desde",
+    "more-information": "Más información",
+    "visualize-on-the-map": "Visualizar en el mapa",
+    "visualize-all-features": "Visualizar todos",
+    "state": "Estado",
+    "status": "Estado",
+    "range-from-date": "Desde",
+    "range-from-to-time": "a las",
+    "range-to-date": "hasta",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "publish": "Publicar",
+    "repeal": "Derogar",
+    "clone": "Clonar",
+    "clone-georegulation": "Clonar GR",
+    "clone-cancel": "Cancelar",
+    "clone-confirm": "Confirmar",
+    "notify": "Notificar",
+    "follow": "Seguir",
+    "un-follow": "Dejar de seguir",
+    "cancel": "Cancelar",
+    "cannot-be-published": "Esta advertencia no contiene toda la información necesaria para ser publicada",
+    "no-geometry-data": "Esta advertencia no contiene datos de geometría",
+    "no-analysis-result-available": "No hay resultados de análisis disponibles.",
+    "visualize-analysis-results-on-map": "Visualización de los resultados de DETECT",
+    "creation-date": "Fecha de creación",
+    "estimated-publication-date": "Fecha estimada de publicación",
+    "review-date": "Fecha de revisión",
+    "end-of-broadcast-date": "Fecha de fin de difusión",
+    "last-update": "Última actualización",
+    "referenced-warnings": "Advertencias vinculadas",
+    "cancelled-warnings": "Advertencias canceladas",
+    "replaced-warnings": "Advertencias reemplazadas",
+    "inforced-warnings": "Advertencias en vigor",
+    "parent-warnings": "Advertencias padre",
+    "attachments": "Adjuntos",
+    "internal-comment": "Comentario interno",
+    "publics-references": "Referencias públicas",
+    "folder-references": "Publicaciones en el GAN",
+    "create-draft-success": "La advertencia será cancelada cuando se publique el borrador creado.",
+    "create-draft-error": "No se pudo crear el borrador de la advertencia.",
+    "publish-confirm": "Estás a punto de publicar esta advertencia, ¿estás seguro?",
+    "publish-confirm-draft": "Estás a punto de publicar este borrador de advertencia, ¿estás seguro?",
+    "publish-confirm-georegulation": "Estás a punto de publicar este borrador de georregulación, ¿estás seguro?",
+    "repeal-confirm-georegulation": "Estás a punto de derogar esta georregulación, ¿estás seguro?",
+    "delete-confirm-georegulation": "Estás a punto de eliminar esta georregulación, ¿estás seguro?",
+    "publish-success": "La advertencia ha sido publicada",
+    "publish-error": "No se pudo publicar la advertencia",
+    "publish-success-draft": "El borrador de la advertencia ha sido publicado",
+    "publish-error-draft": "No se pudo publicar el borrador de la advertencia",
+    "publish-success-georegulation": "El borrador de la georregulación ha sido publicado",
+    "publish-error-georegulation": "No se pudo publicar el borrador de la georregulación",
+    "repeal-success-georegulation": "La georregulación ha sido derogada",
+    "repeal-error-georegulation": "No se pudo derogar la georregulación",
+    "delete-success-georegulation": "La georregulación ha sido eliminada",
+    "delete-error-georegulation": "No se pudo eliminar la georregulación",
+    "delete-confirm": "Estás a punto de eliminar esta advertencia, ¿estás seguro?",
+    "delete-confirm-draft": "Estás a punto de eliminar este borrador de advertencia, ¿estás seguro?",
+    "delete-success": "La advertencia ha sido eliminada",
+    "delete-success-draft": "El borrador de la advertencia ha sido eliminado",
+    "delete-error": "No se pudo eliminar la advertencia",
+    "delete-error-draft": "No se pudo eliminar el borrador de la advertencia",
+    "cancel-confirm": "Estás a punto de cancelar esta advertencia, ¿estás seguro?",
+    "cancel-success": "La advertencia ha sido cancelada",
+    "cancel-error": "No se pudo cancelar la advertencia",
+    "copySharedLinkUrl-success": "Enlace directo copiado al portapapeles",
+    "displayWarningModal": "Mostrar los detalles de la advertencia en el mapa",
+    "select-serie": "Seleccionar una serie",
+    "create-cancellation-warning-confirm": "¿Crear advertencia de cancelación?",
+    "create-replacement-warning-confirm": "¿Crear advertencia de reemplazo?",
+    "create-replacement-notice-confirm": "¿Crear aviso de reemplazo?",
+    "create-replacement-notice-choice": "Crear aviso de reemplazo",
+    "create-cancellation-warning-choice": "Crear advertencia de cancelación",
+    "cancel-warning-choice": "Cancelar advertencia",
+    "download-geometries": "Descargar geometrías",
+    "download-survey-as-zip-archive": "Descargar el levantamiento como archivo ZIP",
+    "download-survey-error": "Error al descargar el levantamiento como archivo ZIP",
+    "share-direct-link": "Compartir enlace directo",
+    "select-download-format": "Formato",
+    "download-cancel": "Cancelar",
+    "download-confirm": "Descargar",
+    "generate-pdf": "Generar PDF",
+    "switch-language": "Mostrar detalles en francés",
+    "send": "Enviar contribución",
+    "send-confirm": "Estás a punto de enviar esta contribución, ¿estás seguro?",
+    "clone-error": "No se puede copiar la contribución",
+    "send-success": "La contribución ha sido enviada",
+    "send-welcome-contribution": "Gracias por tu contribución",
+    "send-error": "No se pudo enviar la contribución",
+    "infosource-rejected": "Esta información está fuera de las áreas de servicio de PISAC; no se puede procesar.",
+    "select-recipients": "Seleccionar destinatarios",
+    "btn-send-cancel": "Cancelar",
+    "btn-send-confirm": "Confirmar",
+    "msg-send-confirm": "Informarás {{nbGeomBathy}} profundidad(es) peligrosa(s).<br/>¿Estás seguro de que quieres enviar esta contribución?",
+    "delete-tag-confirm": "¿Estás seguro de que quieres eliminar esta etiqueta?\nSerá eliminada de todas las contribuciones vinculadas.",
+    "send-georegulation": "Enviar",
+    "send-georegulation-no-recipients": "No se encontraron destinatarios",
+    "send-georegulation-placeholder": "Seleccionar destinatarios",
+    "send-georegulation-cancel": "Cancelar",
+    "send-georegulation-confirm": "Confirmar",
+    "send-georegulation-success": "La georregulación ha sido enviada",
+    "send-georegulation-error": "No se pudo enviar la georregulación",
+    "clone-georegulation-success": "La georregulación ha sido clonada",
+    "clone-georegulation-error": "No se pudo clonar la georregulación,",
+    "notify-folder-placeholder": "Seleccionar los servicios a notificar",
+    "follow-folder-placeholder": "Seleccionar los servicios para el seguimiento",
+    "notify-folder-cancel": "Cancelar",
+    "notify-folder-confirm": "Confirmar",
+    "notify-folder-success": "El expediente ha sido notificado",
+    "notify-folder-error": "No se pudo notificar el expediente",
+    "parts": "Parte(s)",
+    "warning-links": "Enlaces de la advertencia",
+    "linked-folders": "Expedientes vinculados",
+    "set-reviewed": "Marcar como 'revisado'",
+    "confirm-set-reviewed": "¿Estás seguro de que has revisado esta advertencia?",
+    "set-reviewed-success": "La advertencia ya no está 'a revisar'",
+    "set-reviewed-error": "La advertencia aún está 'a revisar'",
+    "manage": "Gestionar",
+    "manage-options": {
+      "cancel-warning": "Cancelar advertencia",
+      "clone-warning": "Clonar advertencia",
+      "clone-georegulation": "Clonar georregulación",
+      "add-to-folder": "Añadir a un expediente"
+    }
+  },
+  "object": {
+    "title": "Objetos"
+  },
+  "visualization": {
+    "options": {
+      "map": "Mapa",
+      "table": "Tabla"
+    }
+  },
+  "filter": {
+    "filter-bar": {
+      "WARNING": "Avurnav",
+      "NOTICE": "Avisos",
+      "PERMANENT": "Permanente",
+      "TEMPORARY": "Temporal",
+      "ALL_TERRITORIAL_SEA": "Del litoral",
+      "NOT_ALL_TERRITORIAL_SEA": "De áreas",
+      "SEASONAL_PERIOD": "Estacional",
+      "NOT_SEASONAL_PERIOD": "No Estacional",
+      "other-filters": "Otros filtros",
+      "select-serie": "Seleccionar serie",
+      "select-service": "Seleccionar servicio marítimo",
+      "select-area": "Seleccionar un área",
+      "table-view": {
+        "list": "Lista",
+        "details": "Detalles"
+      },
+      "choice": {
+        "yes": "sí",
+        "no": "no"
+      },
+      "chip": {
+        "serie": "serie {{serie}}",
+        "publish-date": "publicado el {{date}}",
+        "published-since": "publicado desde el {{date}}",
+        "period": "período {{period}}",
+        "sub-area": "{{count}} sector",
+        "sub-areas": "{{count}} sectores",
+        "categories": "{{count}} categorías",
+        "details-categories": "{{count}} categorías detalladas",
+        "details-category": "1 categoría detallada",
+        "todo": "Para hacer",
+        "warning-number": "número {{number}}",
+        "locality-information": "localidad / información {{locality}}",
+        "locality-object": "localidad / objeto {{locality}}",
+        "replace": "reemplaza a {{referenceNumber}}",
+        "natures": "{{count}} naturalezas",
+        "nature": "1 naturaleza",
+        "maritime-entities": "{{count}} entidades",
+        "maritime-entity": "1 entidad",
+        "maritime-entities-cover": "{{count}} coberturas",
+        "maritime-entity-cover": "1 cobertura",
+        "tags": "{{count}} etiquetas",
+        "tag": "1 etiqueta",
+        "infosource-number": "número {{number}}",
+        "sending-year": "enviado en el año {{year}}",
+        "recipients": "{{count}} destinatarios",
+        "recipient": "1 destinatario",
+        "affair-number": "asunto #{{number}}",
+        "service-statuses": "{{count}} estados de servicio",
+        "service-status": "1 estado de servicio",
+        "rejected-infosources": "Rechazado",
+        "archived-infosources": "Archivado",
+        "folders": "{{count}} expedientes",
+        "folder": "1 expediente",
+        "areas": "{{count}} áreas",
+        "area": "1 área",
+        "number": "número {{number}}",
+        "second-part-number": "año {{number}}",
+        "last-update-year": "última actualización en {{year}}",
+        "study": "1 estudio",
+        "georegulation": {
+          "main-number-year": "Año {{number}}",
+          "main-number-text": "Texto {{number}}",
+          "main-number-authorities": "{{count}} autoridades",
+          "main-number-authority": "{{count}} autoridad",
+          "main-number-date": "Fecha {{date}}",
+          "activities": "{{count}} actividades",
+          "activity": "{{count}} actividad",
+          "entities": "{{count}} entidades",
+          "entity": "{{count}} entidad",
+          "is-public-yes": "Público",
+          "is-public-no": "No público",
+          "is-new-yes": "Nuevo",
+          "is-new-no": "No es nuevo",
+          "is-expired-yes": "Expirado",
+          "is-expired-no": "No expirado"
+        },
+        "survey": {
+          "identifier": "ID PISAC {{identifier}}",
+          "name-and-location": "Nombre/ubicación",
+          "transmission-period": "Transmisión {{period}}",
+          "shom-id": "ID SHN {{shomId}}",
+          "producer-organization": "Gestor de proyecto {{producerOrganization}}",
+          "owner-organization": "Propietario del proyecto {{ownerOrganization}}",
+          "not-compliant": "No conforme",
+          "transmission-status": "Estado de transmisión {{transmissionStatus}}",
+          "expected-deletion-date": "Fecha de eliminación esperada {{date}}",
+          "bri-internal-comment": "Comentario interno del BRI"
+        }
+      },
+      "bottom": {
+        "collapsed": "FILTROS",
+        "expanded": "APLICAR",
+        "categories": "{{count}} categorías"
+      }
+    },
+    "filter-form": {
+      "warning-number": "AVURNAV Brest 1001/23",
+      "reservation-number-and-year": "1001/23",
+      "serie": "Series: ",
+      "sub-areas": "Sectores: ",
+      "all-areas": "Todos los sectores",
+      "categories": "Categorías: ",
+      "folders": "Expedientes: ",
+      "all-categories": "Todas las categorías",
+      "all-entities": "Todas las entidades",
+      "all-folders": "Todos los expedientes",
+      "entities": "Entidades marítimas",
+      "entity-cover": "Cobertura de la entidad",
+      "entities-placeholder": "Elige entidades marítimas",
+      "date-placeholder": "dd/mm/aaaa",
+      "first-day-of-week": "1",
+      "event-period": "Período de eventos",
+      "interest-period": "Período de interés",
+      "avurnav-types": "Tipos de Avurnav: ",
+      "start": "Inicio: ",
+      "end": "Fin: ",
+      "published-since": "Publicado en PISAC desde: ",
+      "to-do": "Para hacer:",
+      "usual-number": "Número: ",
+      "model": "Modelo: ",
+      "locality-or-information": "Localidad / Información / Título / Comentario Interno : ",
+      "category-global-danger": "Categoría general de peligro: ",
+      "categories-details-danger": "Categorías detalladas de peligro: ",
+      "number-canceled-or-replaced": "Número de un AN cancelado/reemplazado: "
+    },
+    "infosource-filter-form": {
+      "display-rejected": "Mostrar rechazados: ",
+      "display-archived": "Mostrar archivados: ",
+      "all-natures": "Todas las naturalezas",
+      "all-maritime-entities": "Todas las entidades marítimas",
+      "all-tags": "Todas las etiquetas",
+      "all-service-statuses": "Todos los estados de servicio",
+      "all-recipients": "Todos los destinatarios",
+      "natures": "Naturalezas : ",
+      "maritime-entities": "Entidades marítimas: ",
+      "tags": "Etiquetas: ",
+      "last-update-period": "Período de última actualización: ",
+      "number": "Número IS: ",
+      "sending-period": "Período de envío: ",
+      "sending-year": "Año de envío: ",
+      "recipients": "Destinatarios: ",
+      "affair-number": "Número de asunto: ",
+      "service-statuses": "Estados de servicio: "
+    },
+    "folder-filter-form": {
+      "all-maritime-entities": "Todas las entidades marítimas",
+      "all-areas": "Todas las áreas",
+      "maritime-entities": "Entidades marítimas: ",
+      "last-update-period": "Período de última actualización: ",
+      "second-part-number": "Número del año del expediente",
+      "areas": "Áreas: ",
+      "number": "Número del expediente : ",
+      "localityOrObject": "Localidad / Objeto: ",
+      "sending-year": "Año de última actualización: ",
+      "select-study": "Seleccionar un estudio",
+      "study": "Estudio: "
+    },
+    "georegulation-filter-form": {
+      "main-number": "Número principal",
+      "main-number-year-placeholder": "Elige un año",
+      "main-number-text-placeholder": "Texto",
+      "main-number-authorities-placeholder": "Elige una autoridad",
+      "main-number-date-placeholder": "Fecha",
+      "type": "Tipo",
+      "type-placeholder": "Elige un tipo",
+      "activities": "Actividades",
+      "activities-placeholder": "Elige actividades",
+      "is-public": "¿Es público?",
+      "is-new": "¿Es nuevo?",
+      "is-expired": "¿Ha expirado?",
+      "calendar-period": "Período calendario",
+      "all-activities": "Todas las actividades"
+    },
+    "survey-filter-form": {
+      "identifier": "Identificador",
+      "identifier-placeholder": "Identificador",
+      "shom-id": "ID SHN",
+      "name-and-location": "Nombre/ubicación",
+      "name-and-location-placeholder": "Nombre/ubicación",
+      "survey-period": "Período del levantamiento",
+      "transmission-period": "Período de sumisión",
+      "producer-organization": "Gestor del proyecto",
+      "owner-organization": "Propietario del proyecto",
+      "not-compliant": "No conforme",
+      "transmission-status": "Estado de transmisión",
+      "expected-deletion-date": "Fecha esperada de eliminación",
+      "bri-internal-comment": "Comentario interno del BRI"
+    }
+  },
+  "message": {
+    "summary": {
+      "error": "Error",
+      "information": "Información",
+      "success": "Éxito",
+      "warn": "Advertencia",
+      "warn.update.cancelled-warnings": "Las advertencias a cancelar se eliminarán porque ya han sido canceladas",
+      "warn.filter": {
+        "no-warning-found": "No se encontró ninguna advertencia",
+        "no-georegulation-found": "No se encontró ninguna georregulación"
+      }
+    },
+    "error.api.cannot-get-areas": "No se pueden cargar las áreas.",
+    "error.api.cannot-save-area": "No se pudo guardar el área.",
+    "error.api.cannot-delete-locality": "No se pudo eliminar la localidad.",
+    "validation.area.geometry.only-one-required": "Se requiere una geometría única para guardar.",
+    "error.api.cannot-save-serie": "No se pudieron guardar las series.",
+    "error.api.cannot-save-staticPage": "No se pudo guardar la página estática.",
+    "error.api.cannot-delete-staticPage": "No se pudo eliminar la página estática.",
+    "success.api.create-serie": "La serie ha sido guardada.",
+    "success.api.edit-serie": "La serie ha sido actualizada",
+    "error.api.cannot-save-sub-area": "No se pudo guardar la subárea.",
+    "error.api.cannot-get-base-map-layer": "No se pudo cargar el mapa base.",
+    "error.api.cannot-get-series": "No se pudieron cargar las series",
+    "error.api.cannot-get-services": "No se pudieron cargar los servicios marítimos",
+    "error.api.cannot-save-maritime-service": "No se pudo guardar el servicio marítimo",
+    "error.api.cannot-add-service-tag": "No se pudo añadir la etiqueta al servicio marítimo",
+    "error.api.cannot-add-maritime-entity-reference": "No se pudo añadir la referencia a la entidad marítima",
+    "error.api.cannot-update-maritime-entity-reference": "No se pudo actualizar la referencia de la entidad",
+    "error.api.cannot-add-warning-link-reference": "No se pudo añadir el enlace a la advertencia",
+    "error.api.cannot-update-warning-link-reference": "No se pudo actualizar el enlace",
+    "error.api.cannot-delete-warning-link-reference": "No se pudo eliminar el enlace",
+    "error.api.filter.cannot-get-warnings": "No se pudieron cargar las advertencias que coinciden con este filtro",
+    "error.api.filter.cannot-get-georegulations": "No se pudieron cargar las georregulaciones que coinciden con este filtro",
+    "error.api.cannot-save-maritime-entity": "No se pudo guardar la entidad marítima.",
+    "error.api.cannot-save-attachment": "No se pudo guardar el archivo adjunto.",
+    "error.api.malicious-attachment": "Archivo malicioso detectado.",
+    "error.api.antivirus-analysis-unavailable": "El análisis no se puede hacer ahora, se hará automáticamente más tarde.",
+    "error.api.cannot-delete-attachment": "No se pudo eliminar el archivo adjunto.",
+    "error.api.validation.file-size-exceed": "El tamaño del archivo excede el límite superior",
+    "error.api.validation.file-extension-forbidden": "Extensión de archivo prohibida",
+    "error.api.cannot-add-folder-attachment": "No se pudo añadir el adjunto al expediente.",
+    "error.api.cannot-delete-folder-attachment": "No se pudo eliminar el adjunto del expediente.",
+    "error.api.cannot-update-folder-attachment": "No se pudo actualizar el adjunto del expediente.",
+    "error.api.cannot-create-warning": "No se pudo crear la advertencia",
+    "error.api.cannot-update-warning": "No se pudo actualizar la advertencia",
+    "error.api.warning-current-status-invalid": "Acceso público restringido para advertencias en estado de borrador o modelo",
+    "error.api.georegulation-current-status-invalid": "Acceso público restringido para GRs en borrador",
+    "error.api.cannot-update-warning-draft": "No se pudo actualizar el borrador de la advertencia",
+    "error.api.cannot-create-warning-model": "No se pudo crear el modelo de advertencia",
+    "error.api.cannot-update-warning-model": "No se pudo actualizar el modelo de advertencia",
+    "error.api.already-exist-service-tag": "La etiqueta ya existe",
+    "error.api.cannot-create-hazard-report": "No se pudo crear el reporte de anomalía del balizamiento",
+    "error.api.cannot-create-other-report": "No se pudo crear el otro reporte",
+    "error.api.cannot-create-map-anomaly-report": "No se pudo crear el reporte de anomalía del mapa",
+    "error.api.cannot-create-publication-report": "No se pudo crear el reporte de anomalía de publicación",
+    "error.api.cannot-create-future-updates": "No se pudieron crear las futuras actualizaciones",
+    "error.api.cannot-update-hazard-report": "No se pudo actualizar el reporte de anomalía de balizamiento",
+    "error.api.cannot-update-bathy-report": "No se pudo actualizar el reporte de profundidades peligrosas",
+    "error.api.cannot-update-other-report": "No se pudo actualizar el otro reporte",
+    "error.api.cannot-update-map-anomaly-report": "No se pudo actualizar el reporte de anomalía del mapa",
+    "error.api.cannot-update-publication-report": "No se pudo actualizar el reporte de anomalía de publicación",
+    "error.api.cannot-update-future-updates": "No se pudieron actualizar las futuras actualizaciones",
+    "error.api.cannot-create-activity-forecast-report": "No se pudo crear el reporte de previsión de actividades en el mar",
+    "error.api.cannot-update-activity-forecast-report": "No se pudo actualizar el reporte de previsión de actividades en el mar",
+    "error.api.cannot-create-georegulation": "No se pudo crear la georregulación",
+    "error.api.cannot-update-georegulation": "No se pudo actualizar la georregulación",
+    "error.api.cannot-create-folder": "No se pudo crear el expediente",
+    "error.api.update-create-folder": "No se pudo actualizar el expediente",
+    "error.api.cannot-create-subscription": "No se pudo crear la suscripción",
+    "error.api.cannot-save-form.validation.no-html-content-allowed": "No se pudo guardar el formulario porque se ha detectado código malicioso (html, script) en algunos campos de texto",
+    "error.api.cannot-create-survey-deposit": "No se pudo crear la transmisión del levantamiento",
+    "error.api.cannot-create-survey-test": "No se pudo crear el análisis del levantamiento",
+    "error.api.cannot-create-survey": "No se pudo crear el levantamiento",
+    "error.api.cannot-delete-survey": "No se pudo eliminar el levantamiento",
+    "error.api.cannot-update-survey-deposit": "No se pudo actualizar la transmisión del levantamiento",
+    "error.api.cannot-update-survey-test": "No se pudo actualizar el análisis del levantamiento",
+    "error.api.cannot-update-survey": "No se pudo actualizar el levantamiento",
+    "error.api.cannot-transmit-survey": "No se pudo transmitir el levantamiento",
+    "error.api.name-and-location.already-used": "El nombre y la ubicación ya están siendo usados por otro levantamiento",
+    "info.api.attachment.added": "Archivo adjunto añadido.",
+    "info.api.attachment.removed": "Archivo adjunto eliminado.",
+    "success.api.folder-attachment.added": "El adjunto se ha añadido al expediente.",
+    "success.api.folder-attachment.deleted": "El adjunto se ha eliminado del expediente.",
+    "success.api.folder-attachment.updated": "El adjunto del expediente se ha actualizado.",
+    "warn.filter.no-warning.found": "No se encontró ninguna advertencia con este filtro",
+    "warn.filter.no-georegulation.found": "No se encontró ninguna georregulación con este filtro",
+    "success.api.email-updated": "El correo ha sido actualizado",
+    "error.api.email-updated": "El correo no fue actualizado",
+    "success.api.password-updated": "La contraseña ha sido actualizada",
+    "error.api.password-updated": "La contraseña no fue actualizada (debe ser diferente de las 3 últimas utilizadas)",
+    "success.api.account-updated": "La cuenta ha sido actualizada",
+    "error.api.account-updated": "La cuenta no fue actualizada",
+    "success.api.create-pro-user": "La cuenta ha sido creada",
+    "success.api.edit-pro-user": "La cuenta ha sido actualizada",
+    "success.api.account-saved": "La cuenta fue guardada",
+    "success.api.warning.created": "La advertencia ha sido creada",
+    "success.api.warning.updated": "La advertencia ha sido actualizada",
+    "success.api.warning-model.created": "El modelo de advertencia ha sido creado",
+    "success.api.warning-model.updated": "El modelo de advertencia ha sido actualizado",
+    "success.api.warning.updated-draft": "El borrador de la advertencia ha sido actualizado",
+    "success.api.create-hazard-report.created": "el reporte de anomalía del balizamiento ha sido creado",
+    "success.api.create-other-report.created": "el otro reporte ha sido creado",
+    "success.api.create-map-anomaly-report.created": "el reporte de anomalía del mapa ha sido creado",
+    "success.api.create-publication-report.created": "el reporte de anomalía de la publicación ha sido creado",
+    "success.api.create-future-updates.updated": "las nuevas futuras actualizaciones han sido creadas",
+    "success.api.update-hazard-report.updated": "el reporte de anomalía de balizamiento ha sido actualizado",
+    "success.api.update-bathy-report.updated": "El reporte de profundidades peligrosas ha sido actualizado",
+    "success.api.update-other-report.updated": "el otro reporte ha sido actualizado",
+    "success.api.update-map-anomaly-report.updated": "el reporte de anomalía del mapa ha sido actualizado",
+    "success.api.update-publication-report.updated": "el reporte de anomalía de publicación ha sido actualizado",
+    "success.api.update-future-updates.updated": "las nuevas futuras actualizaciones han sido actualizadas",
+    "success.api.create-future-updates.created": "las nuevas futuras actualizaciones han sido creadas",
+    "success.api.create-activity-forecast-report.created": "El reporte de previsión de actividades en el mar ha sido creado",
+    "message.success.api.update-activity-forecast-report.updated": "El reporte de previsión de actividades en el mar ha sido actualizado",
+    "success.api.georegulation.created": "La georregulación ha sido creada",
+    "success.api.georegulation.updated": "La georregulación ha sido actualizada",
+    "success.api.create-area": "El área ha sido creada",
+    "success.api.edit-area": "El área ha sido actualizada",
+    "success.api.create-staticPage": "La página estática ha sido creada",
+    "success.api.edit-staticPage": "La página estática ha sido actualizada",
+    "success.api.delete-staticPage": "La página estática ha sido eliminada",
+    "success.api.create-maritime-entity": "La entidad marítima ha sido creada",
+    "success.api.edit-maritime-entity": "La entidad marítima ha sido actualizada",
+    "success.api.create-maritime-service": "El servicio marítimo ha sido creado",
+    "success.api.edit-maritime-service": "El servicio marítimo ha sido actualizado",
+    "success.api.add-service-tag": "La etiqueta ha sido añadida al servicio",
+    "success.api.edit-service-tag": "La etiqueta ha sido modificada exitosamente",
+    "success.api.add-maritime-entity-reference": "La referencia ha sido añadida exitosamente",
+    "success.api.edit-maritime-entity-reference": "La referencia ha sido actualizada exitosamente",
+    "success.api.delete-maritime-entity-reference": "La referencia ha sido eliminada exitosamente",
+    "success.api.add-warning-link-reference": "El enlace ha sido añadido exitosamente",
+    "success.api.edit-warning-link-reference": "El enlace ha sido actualizado exitosamente",
+    "success.api.delete-warning-link-reference": "El enlace ha sido eliminado exitosamente",
+    "success.api.delete-service-tag": "La etiqueta ha sido eliminada exitosamente del servicio y de todas las fuentes vinculadas",
+    "success.api.create-sub-area": "La subárea ha sido creada",
+    "success.api.edit-sub-area": "La subárea ha sido actualizada",
+    "success.api.delete-locality": "La localidad ha sido eliminada",
+    "success.api.create-folder.created": "El expediente ha sido creado",
+    "success.api.update-folder.updated": "El expediente ha sido actualizado",
+    "success.api.create-subscription.created": "La suscripción ha sido creada",
+    "success.api.reset-password": "El correo ha sido enviado",
+    "success.api.survey-deposit.created": "La transmisión del levantamiento ha sido creada",
+    "success.api.survey-deposit.updated": "La transmisión del levantamiento ha sido actualizada",
+    "success.api.survey-deposit.deleted": "El borrador de transmisión del levantamiento ha sido eliminado",
+    "success.api.survey-deposit.transmitted": "El levantamiento ha sido transmitido",
+    "success.api.survey-test.created": "El análisis del levantamiento ha sido creado",
+    "success.api.survey-test.updated": "El análisis del levantamiento ha sido actualizado",
+    "error.api.reset-password": "No se pudo enviar el correo",
+    "warn.filter.no-infosource-found": "No se encontraron fuentes de información con este filtro",
+    "warn.filter.no-folder-found": "No se encontraron expedientes con este filtro",
+    "warn.filter.no-georegulation-found": "No se encontraron georregulaciones con este filtro",
+    "warn.filter.no-survey-found": "No se encontraron levantamientos con este filtro",
+    "error.api.filter.cannot-get-infosources": "No se pudieron cargar las fuentes de información correspondientes a este filtro",
+    "error.api.filter.cannot-get-folders": "No se pudieron cargar los expedientes correspondientes a este filtro",
+    "error.api.filter.cannot-get-subscriptions": "No se pudieron cargar las suscripciones",
+    "error.api.filter.cannot-get-surveys": "Error al cargar los levantamientos",
+    "error.authentication": "La autenticación ha fallado.",
+    "network-error": "Error del lado del cliente o de la red",
+    "unhandled-error": "Error desconocido no manejado del lado del servidor",
+    "warn.api.georegulation.tables": "El usuario del servicio no tiene ningún rol en ninguna autoridad del servicio",
+    "generate-s124.error": "Error al generar el archivo S-124",
+    "generate-gpx-zip.error": "Error al generar el archivo ZIP que contiene los archivos GPX",
+    "success.api.user-status-updated": "El estado del usuario ha sido actualizado",
+    "error.api.user-status-updated": "No se pudo actualizar el estado del usuario",
+    "success.api.create-static-file": "Archivo estático creado",
+    "success.api.edit-static-file": "Archivo estático actualizado",
+    "success.api.delete-static-file": "Archivo estático eliminado",
+    "success.api.save-static-section": "Sección estática actualizada",
+    "error.api.cannot-save-static-file": "No se guardó el archivo estático",
+    "error.api.cannot-delete-static-file": "No se eliminó el archivo estático",
+    "error.api.cannot-download-static-file": "No se puede descargar el archivo estático",
+    "error.api.cannot-download-file": "El archivo no se puede descargar",
+    "error.api.cannot-save-static-section": "Sección estática no guardada",
+    "validation.attachment.filename.invalid-pattern": "Nombre de archivo inválido. Solo se permiten los siguientes caracteres: minúsculas, mayúsculas, guiones bajos, números, guiones, puntos, espacios y paréntesis.",
+    "validation.attachment.relative-path.invalid-pattern": "Ruta relativa del archivo inválida. Solo se permiten los siguientes caracteres: minúsculas, mayúsculas, guiones bajos, números, guiones, puntos, espacios y paréntesis.",
+    "validation.attachment.flow-identifier.invalid-pattern": "Identificador de archivo inválido. Solo se permiten los siguientes caracteres: minúsculas, mayúsculas, números, guiones.",
+    "validation.file-extension-forbidden": "Extensión de archivo prohibida",
+    "validation.file-size-exceed": "El tamaño del archivo excede el límite superior",
+    "success.api.save-static-logo": "Imagen estática guardada",
+    "success.api.create-static-logo": "Imagen estática creada",
+    "success.api.edit-static-logo": "Imagen estática actualizada",
+    "success.api.delete-static-logo": "Imagen estática eliminada",
+    "error.api.cannot-save-static-logo": "La imagen estática no se guardó",
+    "error.api.cannot-delete-static-logo": "La imagen estática no se eliminó"
+  },
+  "serie-type": {
+    "COASTAL_NAVIGATIONAL_WARNING": "Advertencias de navegación costera",
+    "LOCAL_NAVIGATIONAL_WARNING": "Advertencias de navegación local",
+    "NAVAREA_NAVIGATIONAL_WARNING": "Advertencias de navegación NAVAREA",
+    "SUB_AREA_NAVIGATIONAL_WARNING": "Advertencias de navegación de subárea",
+    "LOCAL_NOTICE_TO_MARINER": "Avisos locales a los navegantes",
+    "PORT_NOTICE_TO_MARINER": "Avisos de puerto a los navegantes",
+    "TEMPORARY_NOTICE_TO_MARINER": "Avisos temporales a los navegantes",
+    "PRELIMINARY_NOTICE_TO_MARINER": "Avisos preliminares a los navegantes",
+    "TEMPORARY_AND_PRELIMINARY_NOTICE_TO_MARINER": "Avisos temporales y preliminares a los navegantes"
+  },
+  "diffusion-navtex-emergency-level": {
+    "ROUTINE": "Rutina",
+    "IMPORTANT": "Importante",
+    "VITAL": "Vital"
+  },
+  "diffusion-navtex-type": {
+    "A": "Advertencias a los navegantes",
+    "J": "Mensajes referentes a satélites de navegación",
+    "K": "Mensajes referentes a otras ayudas electrónicas a la navegación"
+  },
+  "diffusion-navtex-source": {
+    "N4": "NAVAREA IV"
+  },
+  "enum": {
+    "warning-hazard-type-details": {
+      "acoustic-recorder": "Grabador Acústico",
+      "ais-transmitter-operating-properly": "Transmisor AIS Funcionando Correctamente",
+      "ais-transmitter-out-of-service": "Transmisor AIS Fuera de Servicio",
+      "ais-transmitter-removal": "Retirada de Transmisor AIS",
+      "ais-transmitter-temporary-removal": "Retirada Temporal de Transmisor AIS",
+      "ais-transmitter-unrealiable": "Transmisor AIS Poco Fiable",
+      "ais-trasmitter-establishment": "Establecimiento de Transmisor AIS",
+      "ais-trasmitter-temporary-establishment": "Establecimiento Temporal de Transmisor AIS",
+      "all-aids-to-navigation-not-reliable": "Todas las Ayudas a la Navegación son Poco Fiables",
+      "anti-pollution-exercise": "Ejercicio Anticontaminación",
+      "anti-pollution-operation": "Operación Anticontaminación",
+      "aquaculture-site": "Sitio de Acuicultura",
+      "aton-operating-properly": "AtoN Funcionando Correctamente",
+      "audible-signal-change": "Cambio de Señal Sonora",
+      "audible-signal-establishment": "Establecimiento de Señal Sonora",
+      "audible-signal-operating-properly": "Señal Sonora Funcionando Correctamente",
+      "audible-signal-out-of-service": "Señal Sonora Fuera de Servicio",
+      "audible-signal-removal": "Eliminación de Señal Sonora",
+      "audible-signal-temporary-change": "Cambio Temporal de Señal Sonora",
+      "audible-signal-temporary-establishment": "Establecimiento Temporal de Señal Sonora",
+      "audible-signal-temporary-removal": "Eliminación Temporal de Señal Sonora",
+      "authorized-ice-routing-information": "Información de Ruta de Hielo Autorizada",
+      "beacon-change": "Cambio de Baliza",
+      "beacon-damaged": "Baliza Dañada",
+      "beacon-daymark-unreliable": "Marca Diurna de Baliza Poco Fiable",
+      "beacon-establishment": "Establecimiento de Baliza",
+      "beacon-missing": "Baliza Desaparecida",
+      "beacon-removal": "Eliminación de Baliza",
+      "beacon-restored-to-normal": "Baliza Restaurada a la Normalidad",
+      "beacon-temporary-change": "Cambio Temporal de Baliza",
+      "beacon-temporary-establishment": "Establecimiento Temporal de Baliza",
+      "beacon-temporary-removal": "Eliminación Temporal de Baliza",
+      "beacon-topmark-damaged": "Marca Superior de Baliza Dañada",
+      "beacon-topmark-missing": "Marca Superior de Baliza Desaparecida",
+      "blasting-operation": "Operación de Voladura",
+      "breakwater-construction": "Construcción de Rompeolas",
+      "bridge-horiz-clear-chg": "Cambio de Espacio Libre Horizontal del Puente",
+      "bridge-unable-close": "Puente Incapaz de Cerrar",
+      "bridge-unable-open": "Puente Incapaz de Abrir",
+      "bridge-vert-clear-chg": "Cambio de Espacio Libre Vertical del Puente",
+      "buoy-adrift": "Boya a la Deriva",
+      "buoy-change": "Cambio de Boya",
+      "buoy-damaged": "Boya Dañada",
+      "buoy-daymark-unreliable": "Marca Diurna de Boya Poco Fiable",
+      "buoy-decommissioned-for-winter": "Boya Retirada por Invierno",
+      "buoy-destroyed": "Boya Destruida",
+      "buoy-establishment": "Establecimiento de Boya",
+      "buoy-lifted-for-winter": "Boya Levantada por Invierno",
+      "buoy-missing": "Boya Desaparecida",
+      "buoy-move": "Movimiento de Boya",
+      "buoy-off-position": "Boya Fuera de Posición",
+      "buoy-re-establishment": "Boya Restablecida",
+      "buoy-recommissioned-for-navigation-season": "Boya Recomisionada para la Temporada de Navegación",
+      "buoy-removal": "Eliminación de Boya",
+      "buoy-replaced-by-winter-spar": "Boya Reemplazada por Boya Ciega de Invierno",
+      "buoy-restored-to-normal": "Boya Restaurada a la Normalidad",
+      "buoy-temporary-change": "Cambio Temporal de Boya",
+      "buoy-temporary-establishment": "Establecimiento Temporal de Boya",
+      "buoy-temporary-removal": "Eliminación Temporal de Boya",
+      "buoy-topmark-damaged": "Marca Superior de Boya Dañada",
+      "buoy-topmark-missing": "Marca Superior de Boya Desaparecida",
+      "buoy-will-be-withdrawn": "La Boya será Retirada",
+      "buoy-withdrawn": "Boya Retirada",
+      "cable-laying-operation": "Operación de Tendido de Cables",
+      "chayka-operating-properly": "Chayka Funcionando Correctamente",
+      "chayka-out-of-service": "Chayka Fuera de Servicio",
+      "chayka-station-removal": "Retirada de la Estación Chayka",
+      "chayka-station-temporary-removal": "Retirada Temporal de la Estación Chayka",
+      "chayka-unrealiable": "Chayka Poco Fiable",
+      "cluster-of-fishing-vessels": "Agrupación de Barcos de Pesca",
+      "container-adrift": "Contenedor a la Deriva",
+      "dangerous-wreck": "Naufragio Peligroso",
+      "dead-head-adrift": "Tronco Muerto a la Deriva",
+      "dead-whale-adrift": "Ballena Muerta a la Deriva",
+      "derelict-vessel-adrift": "Embarcación Abandonada a la Deriva",
+      "dglonass-operating-properly": "DGLONASS Funcionando Correctamente",
+      "dglonass-out-of-service": "DGLONASS Fuera de Servicio",
+      "dglonass-station-establishment": "Establecimiento de la Estación DGLONASS",
+      "dglonass-unrealiable": "DGLONASS Poco Fiable",
+      "dgps-operating-properly": "DGPS Funcionando Correctamente",
+      "dgps-out-of-service": "DGPS Fuera de Servicio",
+      "dgps-station-establishment": "Establecimiento de la Estación DGPS",
+      "dgps-station-removal": "Retirada de la Estación DGPS",
+      "dgps-station-temporary-removal": "Retirada Temporal de la Estación DGPS",
+      "dgps-unreliable": "DGPS Poco Fiable",
+      "diving-operations": "Operaciones de Buceo",
+      "dock-adrift": "Muelle a la Deriva",
+      "dredging-operation": "Operación de Dragado",
+      "drill-rig-under-tow": "Plataforma de Perforación Remolcada",
+      "drilling-site-operations": "Operaciones en el Sitio de Perforación",
+      "e-chayka-operating-properly": "E-Chayka Funcionando Correctamente",
+      "e-chayka-out-of-service": "E-Chayka Fuera de Servicio",
+      "e-chayka-station-establishment": "Establecimiento de Estación E-Chayka",
+      "e-chayka-station-removal": "Retirada de la Estación E-Chayka",
+      "e-chayka-station-temporary-removal": "Retirada Temporal de la Estación E-Chayka",
+      "e-chayka-unrealiable": "E-Chayka Poco Fiable",
+      "egc-msi-service": "Servicio EGC MSI",
+      "egnos-operating-properly": "EGNOS Funcionando Correctamente",
+      "egnos-out-of-service": "EGNOS Fuera de Servicio",
+      "egnos-station-establishment": "Establecimiento de Estación EGNOS",
+      "egnos-station-removal": "Retirada de la Estación EGNOS",
+      "egnos-station-temporary-removal": "Retirada Temporal de la Estación EGNOS",
+      "egnos-unrealiable": "EGNOS Poco Fiable",
+      "eloran-operating-properly": "ELORAN Funcionando Correctamente",
+      "eloran-out-of-service": "ELORAN Fuera de Servicio",
+      "eloran-station-establishment": "Establecimiento de Estación ELORAN",
+      "eloran-station-removal": "Retirada de la Estación ELORAN",
+      "eloran-station-temporary-removal": "Retirada Temporal de la Estación ELORAN",
+      "eloran-unrealiable": "ELORAN Poco Fiable",
+      "exclusion-zones": "Zona de Exclusión",
+      "explosive-device": "Dispositivo Explosivo",
+      "fairway-marker-damaged": "Marcador de Canal Dañado",
+      "fairway-marker-destroyed": "Marcador de Canal Destruido",
+      "fairway-marker-light-not-synchronized": "Marcador de Canal - Luz No Sincronizada",
+      "fairway-marker-light-unlit": "Marcador de Canal - Luz Apagada",
+      "fairway-marker-light-unreliable": "Marcador de Canal - Luz Poco Fiable",
+      "fallout-hazard": "Peligro de Lluvia Radiactiva",
+      "fireworks": "Fuegos Artificiales",
+      "firing-exercise": "Ejercicio de Tiro",
+      "fish-aggregating-device-fad": "Dispositivo Agregador de Peces",
+      "fish-net-adrift": "Red de Pesca a la Deriva",
+      "floating-debris": "Escombros Flotantes",
+      "floodlit-beacon-unlit": "Baliza Iluminada - Apagada",
+      "fog-signal-change": "Cambio en la Señal de Niebla",
+      "fog-signal-establishment": "Establecimiento de Señal de Niebla",
+      "fog-signal-operating-properly": "Señal de Niebla Funcionando Correctamente",
+      "fog-signal-out-of-service": "Señal de Niebla Fuera de Servicio",
+      "fog-signal-removal": "Eliminación de Señal de Niebla",
+      "fog-signal-temporary-change": "Cambio Temporal de Señal de Niebla",
+      "fog-signal-temporary-establishment": "Establecimiento Temporal de Señal de Niebla",
+      "fog-signal-temporary-removal": "Retiro Temporal de Señal de Niebla",
+      "front-leading-range-beacon-unreliable": "Baliza Anterior Poco Fiable",
+      "front-leading-range-beacon-restored-to-normal": "Baliza Anterior Restaurada",
+      "front-leading-range-light-light-range-reduced": "Alcance de la Luz Anterior Reducido",
+      "front-leading-range-light-light-unlit": "Luz Anterior Apagada",
+      "front-leading-range-light-unreliable": "Luz Anterior Poco Fiable",
+      "front-leading-range-light-is-operating-properly": "La Luz Anterior Funciona Correctamente",
+      "front-leading-range-light-without-rhythm": "Luz Anterior Sin Ritmo",
+      "gnss-degradation": "Degradación GNSS",
+      "hazardous-area": "Área Peligrosa",
+      "hf-service": "Servicio HF",
+      "high-water-level": "Nivel Alto de Agua",
+      "horiz-clear-reduced": "Espacio Libre Horizontal Reducido",
+      "hydrographic-survey": "Actividad de Levantamiento Hidrográfico",
+      "ice-boom": "Barrera de Hielo - Instalación o Retiro",
+      "ice-control-zone": "Zona de Control de Hielo En Vigor o Desactivada",
+      "iceberg-outside-of-advertised-limit": "Iceberg Fuera de los Límites Anunciados",
+      "jamming-exercise": "Ejercicio de Interferencia (Jamming)",
+      "leading-range-lights-out-of-synchronization": "Luces Anterior y Posterior Fuera de Sincronización",
+      "light-buoy-light-damaged": "Boya Luminosa - Luz Dañada",
+      "light-buoy-light-not-synchronized": "Boya Luminosa - Luz No Sincronizada",
+      "light-buoy-light-unlit": "Boya Luminosa - Luz Apagada",
+      "light-buoy-light-unreliable": "Boya Luminosa - Luz Poco Fiable",
+      "light-change": "Cambio de Luz",
+      "light-daymark-unreliable": "Marca Diurna Luminosa Poco Fiable",
+      "light-establishment": "Establecimiento de Luz",
+      "light-operating-properly": "Luz Funcionando Correctamente",
+      "light-out-of-synchronization": "Luz Fuera de Sincronización",
+      "light-range-reduced": "Alcance de la Luz Reducido",
+      "light-re-establishment": "Restablecimiento de Luz",
+      "light-removal": "Eliminación de Luz",
+      "light-spar-buoy-light-damaged": "Boya Ciega Luminosa - Luz Dañada",
+      "light-spar-buoy-light-not-synchronized": "Boya Ciega Luminosa - Luz No Sincronizada",
+      "light-spar-buoy-light-unlit": "Boya Ciega Luminosa - Luz Apagada",
+      "light-spar-buoy-light-unreliable": "Boya Ciega Luminosa - Luz Poco Fiable",
+      "light-temporary-change": "Cambio Temporal de Luz",
+      "light-temporary-establishment": "Establecimiento Temporal de Luz",
+      "light-temporary-removal": "Retiro Temporal de Luz",
+      "light-unlit": "Luz Apagada",
+      "light-unreliable": "Luz Poco Fiable",
+      "light-without-rhythm": "Luz Sin Ritmo",
+      "lighted-beacon-light-damaged": "Baliza Iluminada - Luz Dañada",
+      "lighted-beacon-light-not-synchronized": "Baliza Iluminada - Luz No Sincronizada",
+      "lighted-beacon-light-unlit": "Baliza Iluminada - Luz Apagada",
+      "lighted-beacon-light-unreliable": "Baliza Iluminada - Luz Poco Fiable",
+      "local-health-authority-notice": "Aviso de la Autoridad Sanitaria Local",
+      "lock-closed": "Esclusa Cerrada",
+      "log-adrift": "Tronco a la Deriva",
+      "log-boom-adrift": "Barrera de Troncos a la Deriva",
+      "long-fishing-gear": "Presencia de Aparejos de Pesca Largos",
+      "loran-c-operating-properly": "LORAN C - Funcionando Correctamente",
+      "loran-c-out-of-service": "LORAN C - Fuera de Servicio",
+      "loran-c-unrealiable": "LORAN C - Poco Fiable",
+      "loran-c-station-removal": "Retirada de la Estación LORAN C",
+      "loran-c-station-temporary-removal": "Retirada Temporal de la Estación LORAN C",
+      "low-water-level": "Nivel Bajo de Agua",
+      "marine-aids-to-navigation-unreliable": "Ayudas Marinas a la Navegación Poco Fiables",
+      "marine-mammals": "Presencia de Mamíferos Marinos",
+      "maritime-security-level-change": "Cambios en el Nivel de Seguridad Marítima",
+      "mf-service": "Servicio MF",
+      "military-exercise": "Ejercicio Militar",
+      "military-operation": "Operación Militar",
+      "mines": "Presencia de Minas Navales",
+      "msi-services": "Servicios MSI",
+      "national-health-authority-notice": "Aviso de la Autoridad Sanitaria Nacional",
+      "navtex": "Cambio en el Servicio NAVTEX",
+      "numerous-fishing-vessels": "Numerosos Barcos de Pesca",
+      "object-adrift": "Objeto a la Deriva",
+      "offshore-rigs-platform-chg": "Cambios en Plataformas o Equipos en Alta Mar",
+      "open-close-harbour": "Apertura o Cierre del Puerto",
+      "open-close-swing-bridge": "Apertura o Cierre del Puente Giratorio",
+      "open-close-waterway": "Apertura o Cierre de Vías Navegables",
+      "operation-on-cable": "Operaciones con Cables",
+      "operation-on-pipe": "Operaciones con Tuberías",
+      "pipe-laying-operation": "Operación de Tendido de Tuberías",
+      "racon-change": "Cambio de RACON",
+      "racon-establishment": "Establecimiento de RACON",
+      "racon-operating-properly": "RACON Funcionando Correctamente",
+      "racon-out-of-service": "RACON Fuera de Servicio",
+      "racon-removal": "Eliminación de RACON",
+      "racon-temporary-change": "Cambio Temporal de RACON",
+      "racon-temporary-establishment": "Establecimiento Temporal de RACON",
+      "racon-temporary-removal": "Retiro Temporal de RACON",
+      "racon-unrealiable": "RACON Poco Fiable",
+      "radar-surveillance-system": "Cambio en el Servicio del Sistema de Vigilancia Radar",
+      "ramark-change": "Cambio de RAMARK",
+      "ramark-establishment": "Establecimiento de RAMARK",
+      "ramark-operating-properly": "RAMARK Funcionando Correctamente",
+      "ramark-out-of-service": "RAMARK Fuera de Servicio",
+      "ramark-temporary-change": "Cambio Temporal de RAMARK",
+      "ramark-temporary-establishment": "Establecimiento Temporal de RAMARK",
+      "ramark-temporary-removal": "Retiro Temporal de RAMARK",
+      "ramark-unrealiable": "RAMARK Poco Fiable",
+      "ramarkremoval": "Eliminación de RAMARK",
+      "rear-leading-range-beacon-unreliable": "Baliza Posterior Poco Fiable",
+      "rear-leading-range-beacon-restored-to-normal": "Baliza Posterior Restaurada",
+      "rear-leading-range-light-light-range-reduced": "Alcance de la Luz Posterior Reducido",
+      "rear-leading-range-light-light-unlit": "Luz Posterior Apagada",
+      "rear-leading-range-light-unreliable": "Luz Posterior Poco Fiable",
+      "rear-leading-range-light-is-operating-properly": "La Luz Posterior Funciona Correctamente",
+      "rear-leading-range-light-without-rhythm": "Luz Posterior Sin Ritmo",
+      "regatta-race": "Regata o Carrera",
+      "regulation": "Regulación Nueva o Modificada",
+      "renewable-energy-device-farm": "Cambio en Parque o Dispositivo de Energía Renovable",
+      "restricted-area": "Cambios en el Área Restringida",
+      "sandspit": "Cambio en Barra de Arena o Lengua de Arena",
+      "sar-exercise": "Ejercicio SAR",
+      "sar-operation": "Operación SAR",
+      "scientific-buoy-adrift": "Boya Científica a la Deriva",
+      "scientific-buoy-apparatus": "Presencia de Equipo Científico",
+      "scientific-mooring": "Amarres Científicos",
+      "scientific-survey": "Levantamiento Científico",
+      "sea-trials": "Pruebas en el Mar",
+      "seaplane-operations": "Operaciones con Hidroaviones",
+      "seasonal-decommissioning-complete": "Desmantelamiento Estacional Completo",
+      "seasonal-decommissioning-in-progress": "Desmantelamiento Estacional en Progreso",
+      "seasonal-recommissioning-complete": "Puesta en Servicio Estacional Completa",
+      "seasonal-recommissioning-in-progress": "Puesta en Servicio Estacional en Progreso",
+      "sector-light-sector-obscured": "Luz de Sector - Sector Oscurecido",
+      "sector-light-change": "Cambio de Luz de Sector",
+      "sector-light-temporary-change": "Cambio Temporal de Luz de Sector",
+      "security-regulation-change": "Cambio de Regulación de Seguridad",
+      "seismic-survey": "Operación de Levantamiento Sísmico",
+      "shallow-depth-reported": "Profundidad Superficial Reportada",
+      "shallow-depth-confirmed": "Profundidad Superficial Confirmada",
+      "spar-buoy-adrift": "Boya Ciega a la Deriva",
+      "spar-buoy-damaged": "Boya Ciega Dañada",
+      "spar-buoy-destroyed": "Boya Ciega Destruida",
+      "spar-buoy-missing": "Boya Ciega Desaparecida",
+      "spar-buoy-move": "Movimiento de Boya Ciega",
+      "spar-buoy-off-position": "Boya Ciega Fuera de Posición",
+      "spar-buoy-re-establisment": "Boya Ciega Restablecida",
+      "spar-buoy-restored-to-normal": "Boya Ciega Restaurada a la Normalidad",
+      "spar-buoy-topmark-missing": "Marca Superior de Boya Ciega Desaparecida",
+      "spar-buoy-withdrawn": "Boya Ciega Retirada",
+      "storm-surge": "Marea de Tempestad",
+      "submarine-cable-chg": "Cambios en Cable Submarino",
+      "submarine-pipeline-chg": "Cambios en Tubería Submarina",
+      "submerged-fish-net": "Presencia de Red de Pesca Sumergida",
+      "submerged-object": "Objeto Sumergido",
+      "subsurface-mooring": "Amarre Subacuático",
+      "swimmers": "Nadadores",
+      "temporary-buoy-buoys": "Balizamiento Temporal",
+      "tide-gauge": "Cambio de Mareógrafo",
+      "traffic-congestion": "Congestión de Tráfico",
+      "tsunami-warning": "Alerta de Tsunami",
+      "uncharted-rock": "Roca No Cartografiada",
+      "underwater-operations": "Operaciones Submarinas",
+      "unidentified-radar-target-possible-iceberg": "Objetivo Radar No Identificado - Posible Iceberg",
+      "unwieldy-tow": "Remolque Difícil de Manejar",
+      "v-ais-change": "Cambio de V-AIS",
+      "v-ais-establishment": "Establecimiento de V-AIS",
+      "v-ais-operating-properly": "V-AIS Funcionando Correctamente",
+      "v-ais-out-of-service": "V-AIS Fuera de Servicio",
+      "v-ais-removal": "Eliminación de V-AIS",
+      "v-ais-temporary-change": "Cambio Temporal de V-AIS",
+      "v-ais-temporary-establishment": "Establecimiento Temporal de V-AIS",
+      "v-ais-temporary-removal": "Retiro Temporal de V-AIS",
+      "v-ais-unrealiable": "V-AIS Poco Fiable",
+      "vertical-clearance-reduced": "Espacio Libre Vertical Reducido",
+      "vessel-adrift": "Embarcación a la Deriva",
+      "vessel-disabled": "Embarcación Desactivada",
+      "vhf-service": "Cambio en el Servicio VHF",
+      "volcano-activity": "Actividad Volcánica",
+      "vts-change": "Cambio VTS",
+      "waterway-recommended-not-recommended-for-shipping": "Vía Navegable Recomendada o No Recomendada Para Embarcaciones",
+      "wharf-construction": "Construcción de Muelle",
+      "works-in-progress": "Obras en Curso",
+      "world-health-organization-notice": "Aviso de la Organización Mundial de la Salud"
+    },
+    "warning-hazard-type-details-group": {
+      "general": "Incidente/General",
+      "buoy": "Incidente/Boya",
+      "light": "Incidente/Luz",
+      "beacon": "Incidente/Baliza",
+      "leading-light-or-beacon": "Incidente/Luz o baliza direccional",
+      "sound-signal": "Incidente/Señal sonora",
+      "radio-signal": "Incidente/Señal de radio",
+      "end-of-incident": "Incidente/Fin del incidente (general)",
+      "commissioning": "Puesta en marcha",
+      "removal-or-withdrawn": "Retiro o eliminación",
+      "change": "Cambio"
+    },
+    "warning-hazard-type-general": {
+      "drifting-hazards": "Peligros a la Deriva",
+      "newly-discovered-dangers": "Peligros Descubiertos Recientemente",
+      "scientific-instruments": "Cambio de Instrumentos Científicos",
+      "routing-information": "Cambio de Ruta",
+      "works": "Obras",
+      "special-operations": "Operaciones Especiales",
+      "towing-operations": "Operaciones de Remolque",
+      "hazard-other": "Otros Peligros",
+      "piracy": "Piratería o Robo",
+      "aquaculture-and-fishing-installations": "Instalaciones de Acuicultura y Pesca",
+      "offshore-structures": "Infraestructura Offshore",
+      "rig-list": "Lista de Plataformas",
+      "aids-to-navigation": "Cambios en Ayudas a la Navegación",
+      "radio-services": "Cambio de Servicio de Comunicación o Radiodifusión",
+      "natural-phenomena": "Fenómenos Naturales Peligrosos",
+      "ice": "Información sobre Hielo",
+      "health-advisory": "Avisos de Salud",
+      "security": "Cambio en el Requisito de Seguridad",
+      "ecdis-operating-anomalies-including-official-data-issues": "Anomalías Operativas del ECDIS, Incluyendo Problemas de Datos Oficiales",
+      "in-force-bulletin": "Boletín en Vigor"
+    },
+    "warning-status": {
+      "not-saved": "No guardado",
+      "draft": "Borrador",
+      "model": "Modelo",
+      "published": "Publicado",
+      "cancelled": "Cancelado"
+    },
+    "warning-part-type-expression": {
+      "MARINERS_ARE_ADVISED_THAT": "Se informa a los navegantes que",
+      "IN_PROGRESS": "En curso",
+      "UNTIL_FURTHER_NOTICE": "Hasta nuevo aviso",
+      "WIDE_BERTH_REQUESTED": "Se solicita amplio margen",
+      "MILES_BERTH_REQUESTED": "--- margen de millas solicitado",
+      "VESSELS_KEEP_CLEAR": "Se aconseja a las embarcaciones mantenerse alejadas de",
+      "NAVIGATE_WITH_CAUTION": "Navegue con precaución",
+      "REDUCED_SPEED": "Navegue con precaución y a velocidad reducida",
+      "HAZARDOUS_TO_NAVIGATION": "Peligroso para la navegación",
+      "PROHIBITED_AREA": "Área prohibida",
+      "RESTRICTED_AREA": "Área restringida",
+      "ACTION_WITHIN_THIS_AREA": "Prohibida la pesca, la pesca de arrastre, el dragado, el fondeo y el buceo dentro de esta área",
+      "FULL_TEXT_PREFECTORAL": "Texto completo de la disposición disponible en el sitio web de la Capitanía de Puerto",
+      "PREFECTORAL_RESPECTED": "Se debe respetar la disposición de la Capitanía de Puerto",
+      "REPORT_INFORMATION": "Reportar cualquier información a"
+    },
+    "infosource-nature": {
+      "hazard-report": "reporte de nuevo peligro",
+      "other-report": "otro reporte",
+      "activity-forecast": "previsión de actividad en el mar",
+      "map-anomaly": "discrepancia en el mapa náutico de SHN",
+      "publication-anomaly": "discrepancia en la publicación náutica de SHN",
+      "future-information": "informaciones para futuras actualizaciones de mapas y publicaciones de SHN",
+      "lighthouse-and-beacon": "faro y baliza",
+      "georegulation": "georregulación",
+      "survey-transmission": "levantamiento transmitido",
+      "bathy": "reporte de profundidades peligrosas"
+    },
+    "infosource-status": {
+      "draft": "Borrador",
+      "sent": "Enviado",
+      "opened": "Abierto",
+      "rejected": "Rechazado",
+      "taken": "Tomado"
+    },
+    "infosource-service-status": {
+      "init": "No leído",
+      "read": "Leído",
+      "archive": "Archivado",
+      "to_process": "Para procesar",
+      "processed": "Procesado"
+    },
+    "infosource-action-type": {
+      "INIT": "No leído",
+      "READ": "Leído",
+      "ARCHIVE": "Archivado",
+      "TO_PROCESS": "Para procesar"
+    },
+    "infosource-indication-incident-code": {
+      "1": "Incidente reportado",
+      "2": "Incidente confirmado"
+    },
+    "infosource-recovery-time-code": {
+      "5": "X <= 10 días",
+      "6": "10 días < X <= 30 días",
+      "7": "30 días < X <= 6 meses",
+      "8": "6 meses < X <= 1 año"
+    },
+    "infosource-natural-notice-code": {
+      "1": "Aviso de incidente",
+      "2": "Aviso de extensión del incidente",
+      "3": "Aviso de fin de incidente",
+      "4": "Aviso de preparación",
+      "5": "Aviso de finalización"
+    },
+    "infosource-title-incident-code": {
+      "42": "Balizamiento temporal",
+      "43": "Fuego de boya reportado apagado",
+      "44": "Fuego de boya reportado irregular",
+      "45": "Sincronización de la luz de la boya reportada fuera de servicio",
+      "46": "Luz de boya reportada dañada",
+      "47": "Boya reportada desaparecida",
+      "48": "Boya reportada fuera de posición",
+      "49": "Boya reportada a la deriva",
+      "50": "Boya reportada dañada",
+      "51": "Marca superior de la boya reportada desaparecida",
+      "52": "Marca superior de la boya reportada dañada",
+      "53": "Marca diurna de la boya reportada incierta",
+      "54": "Boya removida de su posición",
+      "55": "Luz reportada apagada",
+      "56": "Luz reportada irregular",
+      "57": "Alcance de luz reportado reducido",
+      "58": "Luz reportada fija",
+      "59": "Sincronización de la luz reportada fuera de servicio",
+      "60": "Marca diurna de la luz reportada incierta",
+      "61": "Baliza reportada desaparecida",
+      "62": "Baliza reportada dañada",
+      "63": "Luz de la baliza reportada apagada",
+      "64": "Luz de la baliza reportada irregular",
+      "65": "Sincronización de la luz de la baliza reportada fuera de servicio",
+      "66": "Luz de la baliza reportada dañada",
+      "67": "Marca superior de la baliza reportada desaparecida",
+      "68": "Marca superior de la baliza reportada dañada",
+      "69": "Marca diurna de la baliza reportada incierta",
+      "70": "Luz anterior reportada apagada",
+      "71": "Luz posterior reportada apagada",
+      "72": "Luz anterior reportada irregular",
+      "73": "Luz posterior reportada irregular",
+      "74": "Alcance de la luz anterior reportado reducido",
+      "75": "Alcance de la luz posterior reportado reducido",
+      "76": "Luz anterior reportada fija",
+      "77": "Luz posterior reportada fija",
+      "78": "Sincronización de la alineación reportada fuera de servicio",
+      "79": "Marca diurna anterior de la alineación reportada incierta",
+      "80": "Marca diurna posterior de la alineación reportada incierta",
+      "81": "Señal sonora reportada fuera de servicio",
+      "82": "Señal de niebla reportada fuera de servicio",
+      "83": "AIS reportado fuera de servicio",
+      "84": "V-AIS reportado fuera de servicio",
+      "85": "RACON reportado fuera de servicio",
+      "86": "Estación DGPS reportada fuera de servicio",
+      "87": "Modificación del tipo de boya temporalmente",
+      "88": "Modificación temporal de la luz",
+      "89": "Modificación temporal de la baliza",
+      "90": "Modificación temporal de la señal de niebla",
+      "91": "Modificación temporal de la señal sonora",
+      "92": "Modificación temporal del V-AIS",
+      "93": "Modificación temporal del RACON",
+      "94": "Boya eliminada temporalmente",
+      "95": "Luz eliminada temporalmente",
+      "96": "Baliza eliminada temporalmente",
+      "97": "Señal de niebla eliminada temporalmente",
+      "98": "Señal sonora eliminada temporalmente",
+      "99": "AIS eliminado temporalmente",
+      "100": "V-AIS eliminado temporalmente",
+      "101": "RACON eliminado temporalmente",
+      "102": "Sector de luz oscurecido",
+      "103": "AIS incierto",
+      "104": "V-AIS incierto",
+      "105": "RACON incierto",
+      "106": "Señal DGPS incierta",
+      "107": "Estación DGPS eliminada temporalmente",
+      "108": "Sector de luz modificado temporalmente"
+    },
+    "infosource-title-cms-code": {
+      "3": "Creación de una boya",
+      "4": "Creación de una luz",
+      "5": "Creación de una baliza",
+      "6": "Creación de una señal sonora",
+      "7": "Creación de una señal de niebla",
+      "8": "Instalación de un AIS",
+      "9": "Creación de un V-AIS",
+      "10": "Instalación de un RACON",
+      "11": "Creación de una estación DGPS",
+      "12": "Creación de una estación EGNOS",
+      "13": "Modificación de la boya",
+      "14": "Modificación del tipo de la boya temporalmente",
+      "15": "Modificación de la luz",
+      "16": "Modificación temporal de la luz",
+      "17": "Modificación de la baliza",
+      "18": "Modificación temporal de la baliza",
+      "19": "Modificación de la señal de niebla",
+      "20": "Modificación temporal de la señal de niebla",
+      "21": "Modificación de la señal sonora",
+      "22": "Modificación temporal de la señal sonora",
+      "23": "Modificación del V-AIS",
+      "24": "Modificación temporal del V-AIS",
+      "25": "Modificación del RACON",
+      "26": "Modificación temporal del RACON",
+      "27": "Boya eliminada",
+      "28": "Boya eliminada temporalmente",
+      "29": "Luz eliminada",
+      "30": "Luz eliminada temporalmente",
+      "31": "Baliza eliminada",
+      "32": "Baliza eliminada temporalmente",
+      "33": "Señal de niebla eliminada",
+      "34": "Señal de niebla eliminada temporalmente",
+      "35": "Señal sonora eliminada",
+      "36": "Señal sonora eliminada temporalmente",
+      "37": "AIS eliminado",
+      "38": "AIS eliminado temporalmente",
+      "39": "V-AIS eliminado",
+      "40": "V-AIS eliminado temporalmente",
+      "41": "RACON eliminado",
+      "42": "RACON eliminado temporalmente",
+      "43": "Estación DGPS eliminada",
+      "44": "Estación EGNOS eliminada",
+      "45": "Creación de una boya temporalmente",
+      "46": "Creación de una luz temporalmente",
+      "47": "Creación de una baliza temporalmente",
+      "48": "Creación de una señal sonora temporalmente",
+      "49": "Creación de una señal de niebla temporalmente",
+      "50": "Instalación de un AIS temporalmente",
+      "51": "Creación de un V-AIS temporalmente",
+      "52": "Instalación de un RACON temporalmente",
+      "53": "Migración CMS Aladin",
+      "54": "Instalación estacional en curso",
+      "55": "Instalación estacional completada",
+      "56": "Retiro estacional en curso",
+      "57": "Retiro estacional completado",
+      "58": "Reubicación de la boya",
+      "59": "Modificación de los sectores de la luz",
+      "60": "Modificación temporal de los sectores de la luz",
+      "61": "Emisión de señal de estación DGPS suspendida temporalmente",
+      "62": "Balizamiento temporal",
+      "63": "Retiro de balizamiento temporal",
+      "64": "Restablecimiento"
+    },
+    "infosource-markup-type": {
+      "lighthouse": "Faro",
+      "buoy": "Boya",
+      "turret_beacon": "Baliza de torreta",
+      "lighthouse_and_beacon": "Faro y baliza",
+      "other": "Otro"
+    },
+    "maritime-service-type": {
+      "national_delegated_coordinator": "Coordinador delegado nacional",
+      "shom_geographic_area": "Área geográfica SHN",
+      "navarea_coordinator": "Coordinador NAVAREA",
+      "semaphore": "Guardacostas",
+      "lighthouses_and_beacons": "Faros y balizas",
+      "captaincy": "Capitanía de Puerto",
+      "authority": "Autoridad",
+      "cross": "CROSS",
+      "cross_vts": "CROSS VTS",
+      "port_vts": "VTS portuario",
+      "bri": "BRI",
+      "old_users": "Usuarios antiguos",
+      "operator": "Operador"
+    },
+    "folder-status": {
+      "open": "Abierto",
+      "closed": "Cerrado"
+    },
+    "study-type-references": {
+      "nautical-map-correction": "Corrección de carta náutica",
+      "nautical-map-edition": "Edición de carta náutica",
+      "nautical-publication-correction": "Corrección de publicación náutica",
+      "warning-t-or-p": "Aviso T o P"
+    },
+    "folder-notion-draft": "Borrador",
+    "georegulation-status": {
+      "draft": "Borrador",
+      "published": "Publicado",
+      "repealed": "Derogado"
+    },
+    "georegulation-type": {
+      "navigation": "Navegación",
+      "maritime_public_domain_occupancy": "Ocupación de dominio público marítimo",
+      "other": "Otro"
+    },
+    "georegulation-activities": {
+      "navigation": "Navegación",
+      "anchoring": "Fondeo",
+      "fishing": "Pesca",
+      "diving": "Buceo",
+      "water_sports_and_seaside_activities": "Deportes acuáticos y actividades playeras",
+      "pilotage": "Pilotaje",
+      "other_activities": "Otras actividades"
+    },
+    "georegulation-restrictions": {
+      "navigation_prohibited": "Navegación prohibida",
+      "navigation_restricted": "Navegación restringida",
+      "entry_prohibited": "Entrada prohibida",
+      "entry_restricted": "Entrada restringida",
+      "anchoring_prohibited": "Fondeo prohibido",
+      "anchoring_restricted": "Fondeo restringido",
+      "fishing_prohibited": "Pesca prohibida",
+      "fishing_restricted": "Pesca restringida",
+      "fishing_using_towed_gear_prohibited": "Pesca con artes remolcados prohibida",
+      "fishing_using_towed_gear_restricted": "Pesca con artes remolcados restringida",
+      "fishing_using_passive_gear_prohibited": "Pesca con artes pasivos prohibida",
+      "fishing_using_passive_gear_restricted": "Pesca con artes pasivos restringida",
+      "trawling_prohibited": "Arrastre prohibido",
+      "trawling_restricted": "Arrastre restringido",
+      "dredging_prohibited": "Dragado prohibido",
+      "dredging_restricted": "Dragado restringido",
+      "diving_prohibited": "Buceo prohibido",
+      "diving_restricted": "Buceo restringido",
+      "landing_prohibited": "Desembarco prohibido",
+      "landing_restricted": "Desembarco restringido",
+      "speed_restricted": "Velocidad restringida",
+      "bathing_prohibited": "Baño prohibido",
+      "movement_prohibited": "Movimiento prohibido",
+      "movement_restricted": "Movimiento restringido",
+      "stopping_prohibited": "Parada prohibida",
+      "stopping_restricted": "Parada restringida",
+      "restricted_fairway_or_narrow_channel": "Vía navegable o canal estrecho restringido",
+      "vhf_watch": "Vigilancia VHF",
+      "occasional_exclusion": "Exclusión ocasional"
+    },
+    "georegulation-part-restrictions-vessel": {
+      "greater_than": "Mayor que",
+      "greater_or_equal": "Mayor o igual que",
+      "less_than": "Menor que",
+      "less_or_equal": "Menor o igual que"
+    },
+    "georegulation-part-units-restriction-gross-tonnage-vessel": {
+      "ums": "UMS (Sistema de Medición Universal)",
+      "tonnage": "tonelaje"
+    },
+    "survey-type": {
+      "test": "Sujeto a análisis",
+      "deposit": "Transmisión"
+    },
+    "survey-processing-status": {
+      "not-available": "No disponible",
+      "pending": "Pendiente",
+      "finished": "Finalizado",
+      "failure": "Fallo",
+      "success-with-errors": "Éxito con errores"
+    },
+    "survey-coordinates-order": {
+      "x-y-z": "XYZ",
+      "lat-long-z": "Lat-Long-Z",
+      "long-lat-z": "Long-Lat-Z"
+    },
+    "survey-z-direction": {
+      "altitude": "Altitud (positivo hacia arriba)",
+      "depth": "Profundidad (positivo hacia abajo)"
+    },
+    "survey-vertical-ref": {
+      "zero-hydro": "Cero hidrográfico",
+      "average-level": "Nivel medio",
+      "zero-alti": "Cero altimétrico",
+      "instant-sea-level": "Nivel instantáneo del mar (no reducido por la marea)",
+      "other": "Otro"
+    },
+    "survey-file-separator": {
+      "space": "Espacio",
+      "tabulation": "Tabulación",
+      "comma": "Coma",
+      "semicolon": "Punto y coma"
+    },
+    "survey-issuer-type": {
+      "owner": "Propietario del proyecto",
+      "producer": "Gestor del proyecto"
+    },
+    "survey-measure-type-group": {
+      "bathy": "Batimetría",
+      "sedimentology": "Sedimentología",
+      "geophysics": "Geofísica",
+      "tide": "Marea",
+      "plans": "Planos"
+    },
+    "survey-measure-type": {
+      "multi-beam": "Multihaz",
+      "vertical-probe": "Sonda vertical",
+      "lidar": "Lidar",
+      "sdb": "Batimetría Derivada de Imagen Satelital (SDB)",
+      "sas": "Sonar de apertura sintética (SAS)",
+      "fixed-point-current-measurement": "Medición de corriente de punto fijo",
+      "tidal-observations": "Observaciones de mareas",
+      "multi-beam-imaging": "Imágenes multihaz",
+      "side-sonar-imaging": "Imágenes de sonar de barrido lateral",
+      "sas-imaging": "Imágenes de sonar de apertura sintética (SAS)",
+      "samples": "Muestras de sedimentos de superficie",
+      "corings": "Núcleos",
+      "sounder": "Sondador de sedimentos",
+      "magnetism": "Magnetismo",
+      "bathy-map": "Mapa batimétrico",
+      "port-infrastructures-plan": "Plano de infraestructuras portuarias",
+      "markup-plan": "Plano de balizamiento"
+    },
+    "survey-broadcast-restriction": {
+      "without-broadcast-restriction": "Sin restricción de difusión",
+      "3-years": "3 años",
+      "10-years": "10 años"
+    },
+    "survey-activity": {
+      "participatory-bathymetry-activities": "Batimetría participativa",
+      "excavation-geophysical-activities": "Actividades de excavación y estudios geofísicos (artículo l413 1 del código minero)",
+      "marine-scientific-research-activities": "Actividades de investigación científica marina (artículo l251 3 del código de investigación)",
+      "public-service-activities": "Actividades de servicio público (CRPA)",
+      "other-activities": "Otras actividades"
+    }
+  },
+  "primeng": {
+    "startsWith": "Empieza con",
+    "contains": "Contiene",
+    "notContains": "No contiene",
+    "endsWith": "Termina con",
+    "equals": "Igual",
+    "notEquals": "No es igual",
+    "noFilter": "Sin Filtro",
+    "lt": "Menor que",
+    "lte": "Menor o igual que",
+    "gt": "Mayor que",
+    "gte": "Mayor o igual que",
+    "is": "Es",
+    "isNot": "No es",
+    "before": "Antes de",
+    "after": "Después de",
+    "clear": "Limpiar",
+    "apply": "Aplicar",
+    "matchAll": "Coincidir todos",
+    "matchAny": "Coincidir cualquiera",
+    "addRule": "Añadir regla",
+    "removeRule": "Eliminar regla",
+    "accept": "Sí",
+    "reject": "No",
+    "choose": "Elegir",
+    "upload": "Subir",
+    "cancel": "Cancelar",
+    "dayNames": [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado"
+    ],
+    "dayNamesShort": [
+      "Dom",
+      "Lun",
+      "Mar",
+      "Mié",
+      "Jue",
+      "Vie",
+      "Sáb"
+    ],
+    "dayNamesMin": [
+      "Do",
+      "Lu",
+      "Ma",
+      "Mi",
+      "Ju",
+      "Vi",
+      "Sa"
+    ],
+    "monthNames": [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ],
+    "monthNamesShort": [
+      "Ene",
+      "Feb",
+      "Mar",
+      "Abr",
+      "May",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dic"
+    ],
+    "today": "Hoy",
+    "weekHeader": "Sem"
+  },
+  "area": {
+    "urn": "URN",
+    "technical-identifier": "Identificador técnico",
+    "name": "Nombre en español",
+    "internationalName": "Nombre internacional",
+    "info": "Información en español",
+    "englishInfo": "Información en inglés",
+    "disclaimer": "Descargo de responsabilidad en español",
+    "internationalDisclaimer": "Descargo de responsabilidad internacional",
+    "country": "País",
+    "geom": "Geometría",
+    "borderAreas": "Áreas limítrofes",
+    "all-areas": "Todas las áreas"
+  },
+  "maritime-entity": {
+    "urn": "URN",
+    "name": "Nombre en español",
+    "internationalName": "Nombre internacional",
+    "info": "Información en español",
+    "englishInfo": "Información en inglés",
+    "type": "Tipo de entidad",
+    "geom": "Geometría",
+    "areas": "Áreas",
+    "additional-services": "Servicios adicionales",
+    "filter-additional-services": "Filtrar por servicio adicional",
+    "filter-main-service": "Filtrar por servicio principal",
+    "filter-areas": "Filtrar por área",
+    "filter-type": "Filtrar por tipo",
+    "filter-name": "Filtrar por nombre",
+    "select-service": "Seleccionar un servicio marítimo",
+    "all-areas": "Todas las áreas",
+    "all-services": "Todos los servicios",
+    "sissy-id": "Id SISSY",
+    "add-reference": "Añadir referencia a entidad marítima",
+    "reference": "Referencias de entidades marítimas",
+    "reference-data": "Datos",
+    "reference-attachment": "Adjunto (foto, etc... máx. 50 MB)",
+    "reference-url": "Url",
+    "reference-attachment-or-url": "Adjuntos / Url",
+    "confirm-delete-reference": "¿Estás seguro de que quieres eliminar esta referencia?"
+  },
+  "maritime-entity-type": {
+    "SERVICE_AREA": "Zona de servicio"
+  },
+  "serie": {
+    "urn": "URN",
+    "name": "Nombre en español",
+    "internationalName": "Nombre",
+    "info": "Descripción en español",
+    "englishInfo": "Descripción",
+    "type": "Tipo de serie",
+    "mandatoryLanguages": "Idiomas obligatorios",
+    "optionalLanguages": "Idiomas opcionales",
+    "maritimeService": "Servicio marítimo",
+    "subAreas": "Subáreas",
+    "ranges": "Numeración",
+    "addRange": "Añadir un rango",
+    "select-type": "Seleccionar tipo de serie",
+    "select-mandatory-language": "Seleccionar uno o dos idiomas obligatorios",
+    "select-optional-language": "Seleccionar uno o dos idiomas opcionales",
+    "select-sub-area": "Seleccionar subáreas",
+    "select-maritime-service": "Seleccionar servicio marítimo",
+    "only-two-languages": "Debes elegir un máximo de dos idiomas",
+    "wrong-value": "Valor incorrecto",
+    "diffusionNavtex": {
+      "title": "Difusión NAVTEX",
+      "broadcastingStation": "Estación de difusión",
+      "select-broadcasting-station": "Seleccionar estación de difusión"
+    },
+    "s124-identifier": "Identificador S-124"
+  },
+  "warning": {
+    "diffusionNavtex": {
+      "emergencyLevel": "Nivel de emergencia",
+      "select-emergency-level": "Seleccionar nivel de emergencia",
+      "communicationType": "Tipo de comunicación",
+      "select-communication-type": "Seleccionar tipo de comunicación",
+      "endDay": "Día de fin de difusión",
+      "endHour": "Hora de fin de difusión",
+      "nitonNumber": "Número de Niton",
+      "cancelNitonNumber": "Cancelar número de Niton",
+      "messages": {
+        "endDiffusionWarning": "si no especificas un fin de difusión, la difusión dura 30 días para los mensajes de Rutina, 4 horas para los Vitales e Importantes.",
+        "required-emergency-level": "El nivel de emergencia es obligatorio",
+        "required-communication-type": "El tipo de comunicación es obligatorio",
+        "invalid-end-day": "Día de fin de difusión inválido (1-31)",
+        "invalid-end-hour": "Hora de fin de difusión inválida (1-23)",
+        "invalid-number": "Número de Niton inválido (1-99)",
+        "end-day-not-filled": "Día de fin no completado",
+        "end-hour-not-filled": "Hora de fin no completada"
+      }
+    },
+    "information.telex-is-not-updated": "Télex no actualizado",
+    "alert.need-to-be-save-to-refresh": "Por favor corrige los errores en el formulario antes de regenerar el TÉLEX"
+  },
+  "subArea": {
+    "subAreas": "Subáreas hijas",
+    "select-child": "Seleccionar subáreas hijas"
+  },
+  "maritime-service": {
+    "urn": "URN",
+    "name": "Nombre en español",
+    "internationalName": "Nombre internacional",
+    "info": "Información en español",
+    "localizedInfo": "Información",
+    "country": "País",
+    "select-country": "Selecciona un país",
+    "production-agency": "Agencia de producción",
+    "type": "Tipo de servicio",
+    "authority-code": "Código de autoridad",
+    "select-type": "Selecciona un tipo de servicio",
+    "select-network": "Selecciona una red de servicio",
+    "network": "Red de servicio",
+    "ping-partner": "Socio PISAC",
+    "maritime-notice-producer": "Productor de AN",
+    "folder-manager": "Gestor de expedientes",
+    "survey-owner": "Propietario del levantamiento",
+    "shom-service": "Servicio SHN",
+    "areas": "Áreas",
+    "all-areas": "Seleccionar áreas",
+    "tags": "Etiquetas",
+    "add-tag": "Añadir una etiqueta",
+    "edit-tag-name-header": "Editar nombre de la etiqueta",
+    "new-tag-name": "Nuevo nombre de etiqueta",
+    "sissy-id": "Id SISSY",
+    "iho-producer-code": "Código de productor OHI",
+    "s124-data-producer": "Productor de datos S-124"
+  },
+  "maritime-service-networks": {
+    "GOVERNMENT_SERVICE": "Servicio gubernamental",
+    "NON_STATE_OWNED_PUBLIC_SERVICE": "Servicio público no estatal",
+    "PRIVATE_SERVICE": "Servicio privado"
+  },
+  "static-page": {
+    "title": "Título",
+    "internationalTitle": "Título internacional",
+    "path": "Ruta",
+    "content": "Contenido",
+    "internationalContent": "Contenido internacional"
+  },
+  "static-section": {
+    "content": "Contenido",
+    "internationalContent": "Contenido internacional"
+  },
+  "boolean": {
+    "true": "Sí",
+    "false": "No"
+  },
+  "errors": {
+    "required": "{{attr}} es obligatorio",
+    "must-match": "{{attr}} debe coincidir con {{pattern}}"
+  },
+  "serie-list": {
+    "title": {
+      "list": "Lista de series",
+      "add": "Añadir una serie",
+      "edit": "Editar una serie",
+      "show": "Detalles de la serie"
+    },
+    "add-serie": "Añadir series",
+    "table": {
+      "urn": "URN",
+      "name": "Nombre",
+      "service": "Servicio",
+      "action": "Acción",
+      "show": "Mostrar",
+      "edit": "Editar"
+    }
+  },
+  "area-list": {
+    "title": {
+      "list": "Lista de áreas",
+      "add": "Añadir un área",
+      "edit": "Editar un área",
+      "show": "Detalles del área"
+    },
+    "add-area": "Añadir área",
+    "table": {
+      "urn": "URN",
+      "name": "Nombre",
+      "country": "País",
+      "action": "Acción",
+      "show": "Mostrar",
+      "edit": "Editar"
+    }
+  },
+  "maritime-entity-list": {
+    "title": {
+      "list": "Lista de entidades marítimas",
+      "add": "Añadir una entidad marítima",
+      "edit": "Editar una entidad marítima",
+      "show": "Detalles de la entidad marítima"
+    },
+    "add": "Añadir entidad marítima",
+    "table": {
+      "urn": "URN",
+      "name": "Nombre",
+      "type": "Tipo",
+      "area": "Área",
+      "main-service": "Servicio principal",
+      "additional-services": "Servicios adicionales",
+      "action": "Acciones",
+      "show": "Mostrar",
+      "edit": "Editar"
+    }
+  },
+  "maritime-services-list": {
+    "title": {
+      "list": "Lista de servicios marítimos",
+      "add": "Añadir un servicio marítimo",
+      "edit": "Editar un servicio marítimo",
+      "show": "Detalles del servicio marítimo",
+      "linkedMaritimeEntities": "Lista de entidades marítimas vinculadas al servicio",
+      "observedMaritimeEntities": "Lista de entidades marítimas observadas por el servicio"
+    },
+    "add": "Añadir servicio marítimo",
+    "table": {
+      "urn": "URN",
+      "name": "Nombre",
+      "type": "Tipo",
+      "area": "Área",
+      "action": "Acciones",
+      "show": "Mostrar",
+      "edit": "Editar"
+    },
+    "noLinkWithMaritimeEntity": "No está vinculado a ninguna entidad marítima.",
+    "noMaritimeEntityObserved": "No se observa ninguna entidad marítima."
+  },
+  "user-list": {
+    "table": {
+      "lastname": "Apellido",
+      "firstName": "Nombre",
+      "mail": "Correo",
+      "status": "Estado",
+      "action": "Acción",
+      "show": "Mostrar",
+      "edit": "Editar",
+      "filter": {
+        "lastname": "Filtrar por apellido",
+        "firstname": "Filtrar por nombre",
+        "email": "Filtrar por correo electrónico"
+      }
+    }
+  },
+  "pro-user-list": {
+    "title": {
+      "list": "Lista de usuarios profesionales",
+      "add": "Añadir usuario profesional",
+      "edit": "Editar un usuario profesional",
+      "show": "Detalles del usuario profesional"
+    },
+    "add": "Añadir usuario profesional"
+  },
+  "static-page-list": {
+    "title": {
+      "list": "Lista de páginas estáticas",
+      "add": "Añadir una página estática",
+      "edit": "Editar una página estática",
+      "show": "Ver página estática"
+    },
+    "add": "Añadir una página estática",
+    "table": {
+      "title": "Título",
+      "international-title": "Título internacional",
+      "path": "Ruta",
+      "action": "Acción",
+      "show": "Mostrar",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    }
+  },
+  "static-page-confirm-delete": "¿Estás seguro de que quieres eliminar esta página estática?",
+  "static-file": {
+    "creation": {
+      "title": "Añadir un archivo estático",
+      "description": "Descripción",
+      "path": "Ruta",
+      "attachment": "Archivo (máximo 50 MB)"
+    },
+    "show": {
+      "title": "Mostrar un archivo estático"
+    },
+    "edit": {
+      "title": "Editar un archivo estático"
+    },
+    "list": {
+      "title": "Lista de archivos estáticos",
+      "description": "Descripción",
+      "path": "Ruta",
+      "filename": "Nombre del archivo",
+      "action": "Acción",
+      "show": "Mostrar",
+      "edit": "Editar"
+    },
+    "delete": {
+      "confirm": "¿Estás seguro de que quieres eliminar este archivo estático?"
+    }
+  },
+  "static-section-list": {
+    "title": {
+      "list": "Lista de secciones estáticas",
+      "edit": "Editar una sección estática",
+      "show": "Mostrar una sección estática"
+    },
+    "table": {
+      "key": "Clave",
+      "location": "Descripción/ubicación",
+      "name": "Nombre de la sección",
+      "path": "Ruta",
+      "action": "Acción",
+      "show": "Mostrar",
+      "edit": "Editar"
+    }
+  },
+  "static-logo": {
+    "list": {
+      "title": "Lista de imágenes estáticas",
+      "actions": {
+        "add": "Añadir una imagen estática",
+        "edit": "Editar",
+        "show": "Ver",
+        "delete": "Eliminar"
+      },
+      "table": {
+        "key": "Clave",
+        "description": "Descripción",
+        "preview": "Vista previa",
+        "actions": "Acciones"
+      }
+    },
+    "creation": {
+      "title": "Añadir una imagen estática",
+      "height-with-unit": "Altura + unidad",
+      "height-with-unit-placeholder": "ej: 50px",
+      "alt": "Descripción de texto de la imagen (ES)",
+      "alt-international": "Descripción de texto de la imagen (EN)",
+      "img-title": "Título al pasar el cursor (ES)",
+      "img-title-international": "Título al pasar el cursor (EN)",
+      "img-link": "Enlace al hacer clic",
+      "image": "Imagen",
+      "clear": "Limpiar",
+      "errors": {
+        "field-required": "Campo obligatorio",
+        "height-wrong-pattern": "Introduce la altura usando unidades en píxeles (ej: 50px)",
+        "height-out-of-range": "Introduce una altura entre {{minRange}}px y {{maxRange}}px"
+      }
+    },
+    "edit": {
+      "title": "Editar imagen estática"
+    },
+    "show": {
+      "title": "Mostrar imagen estática"
+    },
+    "delete": {
+      "confirm": "¿Estás seguro de que quieres eliminar esta imagen estática?"
+    }
+  },
+  "public-user-list": {
+    "title": {
+      "list": "Lista de usuarios públicos",
+      "edit": "Editar un usuario público",
+      "show": "Detalles del usuario público"
+    },
+    "back-to-list": "Volver a la lista",
+    "confirm-message": "¿Estás seguro de eliminar tu cuenta?",
+    "desactive-profile-sucess": "Tu cuenta ha sido desactivada con éxito",
+    "desactive-profile-error": "Tu cuenta no ha sido desactivada "
+  },
+  "sub-area-list": {
+    "title": {
+      "list": "Lista de subáreas",
+      "add": "Añadir una subárea",
+      "edit": "Editar una subárea",
+      "show": "Detalles de la subárea"
+    },
+    "add": "Añadir subárea",
+    "table": {
+      "urn": "URN",
+      "technical-identifier": "Identificador Técnico",
+      "name": "Nombre",
+      "series-use-subArea": "Series",
+      "parents-subAreas": "Subáreas padres",
+      "children-subAreas": "Subáreas hijas",
+      "actions": "Acciones",
+      "show": "Mostrar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "show-more": "Mostrar más",
+      "show-less": "Mostrar menos",
+      "filter": {
+        "name": "Filtrar por nombre",
+        "technical-Identifier": "Filtrar por identificador",
+        "serie-name": "Filtrar por serie",
+        "parent-name": "Filtrar por subárea padre"
+      }
+    },
+    "confirm-delete": "¿Estás seguro de que quieres eliminar la localidad?"
+  },
+  "circleDistanceUnit": {
+    "kilometers": "Kilómetros",
+    "meters": "Metros",
+    "nauticMiles": "Millas Náuticas"
+  },
+  "admin-warning": {
+    "creation": {
+      "labels": {
+        "lbl-serie": "Series",
+        "ph-serie": "Selecciona una serie",
+        "ph-areas": "Selecciona un sector",
+        "ph-timezone": "Selecciona una zona horaria",
+        "ph-localities": "Selecciona una localidad para añadir",
+        "ph-cancelled-warnings": "Advertencias cancelables",
+        "ph-type-general": "Selecciona una categoría general",
+        "lbl-french-an": "AN en francés",
+        "lbl-english-an": "AN en inglés",
+        "lbl-number": "Reserva de número",
+        "lbl-general-areas": "Sectores",
+        "lbl-zone-x": "Zonas de ejercicios militares (ZONEX)",
+        "lbl-use-as-model": "¿Usar como modelo?",
+        "lbl-model-name": "Nombre del modelo",
+        "lbl-localities": "Localidades",
+        "lbl-type-general": "Categoría general de peligro",
+        "lbl-areas-localities": "Sectores / Localidades",
+        "lbl-available-warning-number": "próximo disponible: {{availableWarningNumber}}",
+        "lbl-select-year": "Año",
+        "lbl-timezone": "Zona horaria",
+        "lbl-timezone-info": "para mostrar los períodos de eventos con hora local en PISAC",
+        "lbl-add-cancellation-date-to-telex": "Añadir fecha de auto-cancelación en TÉLEX",
+        "lbl-rb-not-display-cancellation-date": "No, imprimir 'CANCELAR ESTE MENSAJE' en TÉLEX",
+        "btn-next": "Siguiente",
+        "btn-back": "Atrás",
+        "btn-complete": "Completar",
+        "btn-quick-save": "Guardado rápido",
+        "btn-save": "Guardar cambios",
+        "btn-cancel": "Cancelar",
+        "txt-dnd-attachment": "Arrastra y suelta un archivo o haz clic en Examinar a continuación",
+        "txt-dnd-progress": "Progreso total: {{progressValue}}",
+        "txt-modal-warning-created": "¡La advertencia se ha creado con éxito! Serás redirigido a la página de inicio.",
+        "txt-modal-warning-updated": "¡La advertencia se ha actualizado con éxito! Serás redirigido a la página de inicio.",
+        "txt-last-update-infos": "Último cambio el {{lastUpdateDate}} por {{lastUpdateUser}}",
+        "lbl-estimated-date": "Fecha estimada de publicación",
+        "lbl-review-date": "Fecha de revisión",
+        "lbl-cancellation-datetime": "Fecha/hora de auto-cancelación (UTC)",
+        "lbl-internal-comment": "Comentario interno",
+        "serie-and-type-required": "Selecciona la serie y la categoría general de peligro antes de añadir una nueva parte.",
+        "title-btn-reset-serie": "Desbloquear series (restablecerá todos los campos)",
+        "title-btn-reset-type-general": "Desbloquear categoría general de peligro",
+        "title-btn-add-area": "Asignar sector al AN",
+        "title-btn-save-locality": "Crear localidad y asignar al sector",
+        "title-modal-warning-created": "Creación de advertencia",
+        "title-modal-warning-updated": "Actualización de advertencia",
+        "header-add-locality": "Nombre de la localidad a crear",
+        "header-add-locality-international": "Nombre internacional de la localidad a crear",
+        "header-prerequisites": "Prerrequisitos",
+        "header-parts": "Partes de la advertencia",
+        "header-telex": "Vista de TÉLEX",
+        "references": {
+          "warnings": "Advertencias",
+          "select-warnings": "Selecciona advertencias desde las advertencias vinculadas",
+          "number-of-warnings": "{{warningsLength}} advertencia(s)",
+          "georegulations": "Georregulaciones",
+          "select-georegulations": "Selecciona georregulaciones desde las georregulaciones vinculadas",
+          "number-of-georegulations": "{{georegulationsLength}} georregulación(es)",
+          "attachments": "Adjuntos",
+          "select-attachments": "Selecciona adjuntos desde los adjuntos vinculados",
+          "number-of-attachments": "{{attachmentsLength}} adjunto(s)",
+          "links": "Enlaces",
+          "number-of-links": "{{linksLength}} enlace(s)",
+          "add-links": "Añadir un enlace y vincular a la advertencia",
+          "confirm-delete-link": "¿Estás seguro de que quieres eliminar este enlace?",
+          "entities": "Referencias de entidades",
+          "select-entities-references": "Seleccionar referencias",
+          "number-of-entities-references": "{{entitiesReferencesLength}} referencia(s)"
+        },
+        "cancelled-warnings": "Advertencias canceladas",
+        "replaced-warnings": "Advertencias reemplazadas",
+        "referenced-warnings": "Advertencias padre",
+        "linked-infosources": "Fuentes de información vinculadas",
+        "linked-entities": "Entidades marítimas vinculadas",
+        "linked-georegulations": "Georregulaciones vinculadas",
+        "information": "Información",
+        "warning-type-details": "Categoría de peligro de la advertencia",
+        "select-type-details": "Selecciona detalle de tipo de peligro",
+        "date-ranges": "Períodos del evento",
+        "select-geom": {
+          "geometries": "Geometrías",
+          "affected-areas": "Áreas afectadas"
+        },
+        "reset-serie-confirm": "¿Estás seguro de que quieres restablecer la advertencia?",
+        "reset-type-general-confirm": "¿Estás seguro de que quieres restablecer la categoría general de peligro? (solo las categorías detalladas se restablecerán en las partes)",
+        "date-range-timezone": "Zona horaria",
+        "copyContent-success-telex": "Contenido del TÉLEX copiado al portapapeles",
+        "btn-copy-telex": "Copiar contenido del TÉLEX",
+        "btn-generate-telex": "Generar contenido del TÉLEX",
+        "copyContent-success-navtex": "Contenido NAVTEX copiado al portapapeles",
+        "btn-copy-navtex": "Copiar contenido NAVTEX"
+      },
+      "errors": {
+        "serie-invalid": "Series inválidas",
+        "model-name-invalid": "Nombre de modelo inválido",
+        "invalid-sectors": "Sectores inválidos",
+        "french-an-invalid": "AN en francés inválido",
+        "english-an-invalid": "AN en inglés inválido",
+        "number-reservation-invalid": "Número de reserva inválido",
+        "general-areas-invalid": "Sector(es) inválido(s)",
+        "type-general-invalid": "Categoría general inválida",
+        "parts-invalid": "Parte de advertencia faltante o inválida",
+        "btn-complete": "Completar",
+        "invalid-daterange": "Rango inválido",
+        "timezone-invalid": "Zona horaria inválida",
+        "invalid-form-warning": "Este formulario contiene campos con errores",
+        "form-invalid": "Algunos campos son inválidos"
+      },
+      "parts": {
+        "title": "Partes de la advertencia",
+        "add-part": "Añadir parte",
+        "part-number": "Parte {{number}}",
+        "add-date-range": "Añadir período",
+        "inputs": {
+          "date-placeholder": "dd/mm/aaaa",
+          "time-placeholder": "hh:mm",
+          "show-time": "Cambiar a elección con hora",
+          "hide-time": "Cambiar a elección sin hora"
+        },
+        "information": {
+          "add-geometry": "Insertar geometrías",
+          "add-zone": "Insertar zonas afectadas",
+          "add-periods": "Insertar períodos",
+          "add-in-effect-warnings": "Insertar advertencias en vigor",
+          "add-type-expression": "Insertar expresión de tipo",
+          "add-affected-charts": "Insertar cartas afectadas",
+          "affected-charts": "Cartas afectadas",
+          "affected-charts-placeholder": "Ej: DHN-100, DHN-301",
+          "select-type-expression": "Seleccionar expresión de tipo",
+          "radiusDistanceUnit": "Unidad de radio del círculo",
+          "decimal-minute-precision": "Precisión de los decimales de minuto",
+          "type-expression": "Expresión de tipo",
+          "templates": {
+            "currentWarning": "{{serieName}} en vigor el {{currentDateTime}}",
+            "noOtherWarning": "No hay advertencia distinta a este MENSAJE",
+            "category": "{{category}}",
+            "published": "{{serieName}} en vigor el {{currentDateTime}}:\n{{warningsListAsString}} y este MENSAJE",
+            "fullPeriods": "del {{startPeriod}} al {{endPeriod}}",
+            "startPeriod": "desde el {{startPeriod}}",
+            "endPeriod": "hasta el {{endPeriod}}",
+            "autoCancellation": "auto-cancelar este MENSAJE el {{autoCancellationDateTime}}",
+            "polylineWithoutLabel": "línea que une {{content}}",
+            "polylineWithLabel": "línea {{featureLabel}} que une {{content}}",
+            "polygonWithoutLabel": "área delimitada por:\n{{content}}",
+            "polygonWithLabel": "área {{featureLabel}} delimitada por:\n{{content}}",
+            "polygonWithoutLabelAffected": "Área afectada delimitada por:\n{{content}}",
+            "polygonWithLabelAffected": "Área afectada {{featureLabel}} delimitada por:\n{{content}}",
+            "circleWithoutLabelInNqAffected": "Área afectada dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}.",
+            "circleWithLabelInNqAffected": "Área afectada {{featureLabel}} dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}.",
+            "circleWithoutLabelInNq": "área dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}.",
+            "circleWithLabelInNq": "área {{featureLabel}} dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}.",
+            "bathy": {
+              "polygon": {
+                "withDepthAndZ": "Profundidad menor a la cartografiada en el área delimitada por {{content}}\n\nLa diferencia puede ser de hasta {{z,z}} metro{{s}}.",
+                "withObstructionAndZ": "Obstrucciones en el área delimitada por \n{{content}}\n\nSu altura puede ser de hasta {{z,z}} metro{{s}}.",
+                "withDepthWithoutZ": "Menos agua en el área delimitada por \n{{content}}",
+                "withObstructionWithoutZ": "Obstrucciones en el área delimitada por \n{{content}}"
+              },
+              "point": {
+                "withDepthAndZ": "Profundidad menor a la cartografiada: {{z,z}} metro{{s}} ",
+                "withShoalAndZ": "Banco de arena de {{z,z}} metro{{s}} ",
+                "withWreckAndZ": "Naufragio {{content}}. Profundidad de {{z,z}} metro{{s}}.",
+                "withObstructionAndZ": "Obstrucción de {{z,z}} metro{{s}} .",
+                "withDepthWithoutZ": "Menos agua ",
+                "withShoalWithoutZ": "Banco de arena ",
+                "withWreckWithoutZ": "Naufragio .",
+                "withObstructionWithoutZ": "Obstrucción ."
+              },
+              "circle": {
+                "withDepthAndZ": "Profundidad menor a la cartografiada en el área dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}\n\nLa diferencia puede ser de hasta {{z,z}} metro{{s}}.",
+                "withObstructionAndZ": "Obstrucciones en el área dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}\n\nSu altura puede ser de hasta {{z,z}} metro{{s}}.",
+                "withDepthWithoutZ": "Menos agua en el área dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}",
+                "withObstructionWithoutZ": "Obstrucciones en el área dentro de un radio de {{radius}} {{distanceUnit}} de {{center}}"
+              }
+            }
+          }
+        },
+        "infosources": {
+          "title": "Fuentes de información vinculadas a la advertencia",
+          "sent-by": "Enviado por",
+          "sent-at": "a las",
+          "nature": "Naturaleza : ",
+          "display-infosource-modal": "Mostrar los detalles de la fuente de información en el mapa",
+          "description": "Descripción : ",
+          "attachments": "Adjuntos : ",
+          "timezone": "Zona horaria : "
+        }
+      }
+    }
+  },
+  "service-user-assign": {
+    "delete-message": "¿Estás seguro de eliminar el rol de este usuario en este servicio?",
+    "service": "Servicio",
+    "user-email": "Usuario",
+    "user-role": "Rol",
+    "save": "Guardar",
+    "add-user-title-card": "Añadir un usuario",
+    "tooltip-about-adding-user": "Para añadir a una persona ya registrada a un servicio y que no tiene derechos en los servicios administrados por el administrador, solo la administración funcional de SHN puede actuar.",
+    "select-user": "Seleccionar un usuario",
+    "select-role": "Seleccionar un rol",
+    "success": "El rol ha sido asignado",
+    "error": "Error durante la asignación",
+    "action": "Acción",
+    "extract": "Eliminar",
+    "delete": "El rol ha sido eliminado"
+  },
+  "role": {
+    "service-admin": "Administrador",
+    "service-operator": "Operador",
+    "service-visitor": "Visitante"
+  },
+  "attachments": {
+    "txt-dnd-attachment": "Arrastra y suelta un archivo o haz clic en Examinar a continuación",
+    "txt-dnd-progress": "Progreso total: {{progressValue}}",
+    "btn-cancel": "Cancelar",
+    "byte-unit": "B"
+  },
+  "geometries": {
+    "select-geom": {
+      "geometries": "Geometrías",
+      "affected-areas": "Áreas afectadas"
+    }
+  },
+  "months": {
+    "january": "Enero",
+    "february": "Febrero",
+    "march": "Marzo",
+    "april": "Abril",
+    "may": "Mayo",
+    "june": "Junio",
+    "july": "Julio",
+    "august": "Agosto",
+    "september": "Septiembre",
+    "october": "Octubre",
+    "november": "Noviembre",
+    "december": "Diciembre"
+  },
+  "option-label-name": "name",
+  "option-label-title": "title",
+  "malicious-request-cancelled": "Solicitud maliciosa cancelada"
+}

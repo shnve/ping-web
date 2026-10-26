@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {PrimeNGConfig} from 'primeng/api';
-import {TranslateService} from '@ngx-translate/core';
-import {LangService} from './core/lang.service';
+import { Component, OnInit } from '@angular/core';
+import { PrimeNGConfig } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { LangService } from './core/lang.service';
+import { environment } from '../environments/environment';
 
 
 @Component({
@@ -9,14 +10,14 @@ import {LangService} from './core/lang.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   isAppLoaded = false;
 
   constructor(
     private readonly translateService: TranslateService,
     private readonly langService: LangService,
     private readonly primengConfig: PrimeNGConfig
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initAppLanguage();
@@ -24,9 +25,10 @@ export class AppComponent implements OnInit{
   }
 
   initAppLanguage() {
+    this.translateService.addLangs(environment.availableLanguages);
     const userLang = this.langService.getUserPreferredLang();
-    if (userLang !== 'fr') {
-      this.translateService.reloadLang('fr');
+    if (userLang !== 'es') {
+      this.translateService.reloadLang('es');
     }
     this.translateService.use(userLang).subscribe({
       error: err => console.error(`Problem with '${userLang}' language initialization : `, err),
@@ -38,7 +40,7 @@ export class AppComponent implements OnInit{
     this.translateService.get('primeng')
       .subscribe(primeTranslations => this.primengConfig.setTranslation(primeTranslations));
 
-    this.translateService.onLangChange.subscribe(({translations}) => {
+    this.translateService.onLangChange.subscribe(({ translations }) => {
       this.primengConfig.setTranslation(translations.primeng);
     });
   }

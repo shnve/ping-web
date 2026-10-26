@@ -191,7 +191,7 @@ export class TableAdminAdvancedFilterComponent implements OnInit, OnDestroy, OnC
       value: this.translate.instant(value)
     }
     ));
-    this.sectorOptionLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
+    this.sectorOptionLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
   }
 
   onChangeLang(): void {

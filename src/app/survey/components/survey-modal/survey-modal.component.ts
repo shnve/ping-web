@@ -120,7 +120,7 @@ export class SurveyModalComponent extends DetailsModalComponent implements OnIni
   }
 
   public static getDisplayedAreaLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   private updateSharedLinkUrl(): void {

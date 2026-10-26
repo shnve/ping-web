@@ -199,6 +199,7 @@ export class MenuComponent implements OnInit, OnChangeLang {
   }
 
   private addSurveyItems(items: Array<any>): void {
+    /*
     items.push(
       {
         label: this.translate.instant('menu.survey.my-surveys'),
@@ -213,6 +214,7 @@ export class MenuComponent implements OnInit, OnChangeLang {
         routerLink: '/survey/deposit'
       }
     );
+    */
   }
 
   private addFolderItems(items: MenuItem[]): void {
@@ -318,6 +320,11 @@ export class MenuComponent implements OnInit, OnChangeLang {
           {
             label: this.translate.instant('menu.admin.static-section'),
             routerLink: '/administration/static-section'
+          },
+          {
+            styleClass: this.styleClassItem,
+            label: this.translate.instant('menu.admin.cartography'),
+            routerLink: '/administration/cartographie'
           }
         );
       }

@@ -18,14 +18,14 @@ export class CustomTitleStrategy extends TitleStrategy {
       if(!this.translate.getLangs().length) {
         this.translate.onLangChange.pipe(take(1)).subscribe(() => {
           const translatedTitle = this.translate.instant(title);
-          this.title.setTitle(`PING - ${translatedTitle}`);
+          this.title.setTitle(`PISAC - ${translatedTitle}`);
         });
       } else {
         const translatedTitle = this.translate.instant(title);
-        this.title.setTitle(`PING - ${translatedTitle}`);
+        this.title.setTitle(`PISAC - ${translatedTitle}`);
       }
     } else {
-      this.title.setTitle(`PING`);
+      this.title.setTitle(`PISAC`);
     }
   }
 }

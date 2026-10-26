@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Localize } from '@app/core/localize';
+import { Localize, OnChangeLang } from '@app/core/localize';
 import { FilterSelectOption, FilterSelectOptionType, MaritimeEntityFilterValues } from './model/maritime-entity-filter-values';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-maritime-entity-filter',
@@ -11,7 +12,7 @@ import { FilterSelectOption, FilterSelectOptionType, MaritimeEntityFilterValues 
 })
 
 @Localize()
-export class MaritimeEntityFilterComponent implements OnInit {
+export class MaritimeEntityFilterComponent implements OnInit, OnChangeLang {
 
   @Input() filterType: FilterSelectOptionType;
   @Input() options: FilterSelectOption[];
@@ -24,7 +25,13 @@ export class MaritimeEntityFilterComponent implements OnInit {
   @Output() filterSelected = new EventEmitter<MaritimeEntityFilterValues>();
   maritimeEntityFilterValues: MaritimeEntityFilterValues;
 
-  constructor() { }
+  constructor(
+    public translate: TranslateService
+  ) { }
+
+  onChangeLang(event: LangChangeEvent): void {
+
+  }
 
   ngOnInit(): void {
     this.initMaritimeEntityFilterValues(this.filterType);

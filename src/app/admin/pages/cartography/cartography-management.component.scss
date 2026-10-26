@@ -1,0 +1,494 @@
+.carto-page {
+  max-width: 1200px;
+  margin: 1.5rem auto 3rem;
+  padding: 0 1.5rem;
+  font-family: inherit;
+  color: #1e293b;
+
+  // Encabezado Principal
+  .carto-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 14px rgba(3, 105, 161, 0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .header-info {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+
+      .header-icon {
+        width: 52px;
+        height: 52px;
+        background: rgba(255, 255, 255, 0.18);
+        backdrop-filter: blur(4px);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        color: #ffffff;
+        flex-shrink: 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        margin: 0.35rem 0 0;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.875rem;
+        line-height: 1.4;
+      }
+    }
+
+    .btn-header-refresh {
+      background: rgba(255, 255, 255, 0.15) !important;
+      border: 1px solid rgba(255, 255, 255, 0.35) !important;
+      color: #ffffff !important;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.28) !important;
+      }
+    }
+  }
+
+  // Tarjetas principales (Card styling)
+  .carto-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #f1f5f9;
+
+      .step-title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+
+        .step-number {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: #0284c7;
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.85rem;
+          font-weight: 800;
+        }
+      }
+    }
+  }
+
+  // Configuración de Banda y Opciones
+  .band-config-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .config-field {
+      label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #334155;
+        margin-bottom: 0.5rem;
+      }
+
+      .band-details-box {
+        margin-top: 0.65rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.65rem 0.85rem;
+        font-size: 0.8rem;
+        color: #475569;
+
+        code {
+          background: #e2e8f0;
+          padding: 2px 6px;
+          border-radius: 4px;
+          color: #0f172a;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .options-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+
+      .option-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+
+        .option-text {
+          label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #1e293b;
+            cursor: pointer;
+            margin: 0;
+            display: block;
+          }
+
+          small {
+            color: #64748b;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 0.25rem;
+            line-height: 1.35;
+          }
+        }
+      }
+    }
+  }
+
+  // Indicador de color de banda
+  .band-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  // Zona de Carga (Drag & Drop)
+  .drop-zone {
+    border: 2px dashed #93c5fd;
+    border-radius: 12px;
+    background: #f0f7ff;
+    padding: 2.25rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+
+    &:hover {
+      border-color: #0284c7;
+      background: #e0f2fe;
+    }
+
+    &.dragging {
+      border-color: #0369a1;
+      background: #bae6fd;
+      transform: scale(1.008);
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.2);
+    }
+
+    .drop-icon-circle {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1rem;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+
+      i {
+        font-size: 2rem;
+        color: #0284c7;
+      }
+    }
+
+    .drop-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 0.4rem;
+    }
+
+    .drop-desc {
+      font-size: 0.875rem;
+      color: #475569;
+      margin: 0 auto 1.25rem;
+      max-width: 460px;
+      line-height: 1.4;
+    }
+
+    .btn-browse {
+      background: #0284c7 !important;
+      border-color: #0284c7 !important;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 0.6rem 1.25rem;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    }
+
+    .drop-badges {
+      display: flex;
+      justify-content: center;
+      gap: 0.65rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+
+      .badge-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.3rem 0.65rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 700;
+
+        &.pill-pdf {
+          background: #fee2e2;
+          color: #b91c1c;
+          border: 1px solid #fca5a5;
+        }
+
+        &.pill-tiff {
+          background: #e0f2fe;
+          color: #0369a1;
+          border: 1px solid #7dd3fc;
+        }
+
+        &.pill-target {
+          background: #dcfce7;
+          color: #15803d;
+          border: 1px solid #86efac;
+        }
+      }
+    }
+  }
+
+  // Tabla de Cola de Archivos
+  .queue-card {
+    .queue-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .file-format-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+
+      &.pdf {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+
+      &.tiff {
+        background: #e0f2fe;
+        color: #0284c7;
+      }
+    }
+
+    .file-name-cell {
+      .file-name {
+        font-weight: 600;
+        color: #0f172a;
+        font-size: 0.9rem;
+      }
+
+      .file-meta {
+        font-size: 0.78rem;
+        color: #64748b;
+        margin-top: 2px;
+      }
+    }
+
+    .progress-bar-cell {
+      min-width: 200px;
+
+      .progress-label-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        margin-bottom: 0.35rem;
+
+        .progress-msg {
+          color: #475569;
+          font-weight: 500;
+        }
+
+        .progress-val {
+          font-weight: 700;
+          color: #0284c7;
+        }
+      }
+
+      .bar-track {
+        height: 7px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+
+        .bar-fill {
+          height: 100%;
+          background: #0284c7;
+          border-radius: 10px;
+          transition: width 0.3s ease;
+
+          &.success {
+            background: #16a34a;
+          }
+
+          &.error {
+            background: #dc2626;
+          }
+        }
+      }
+    }
+  }
+
+  // Sección de Capas GeoServer (Grid de 6 Bandas Náuticas)
+  .geoserver-section {
+    .bands-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+
+      @media (max-width: 992px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+      }
+
+      .band-tile {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: #ffffff;
+          border-color: #cbd5e1;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          transform: translateY(-2px);
+        }
+
+        .tile-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+
+          .tile-band-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 0.95rem;
+          }
+
+          .tile-badges-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+
+            .store-type-pill {
+              font-size: 0.68rem;
+              font-weight: 700;
+              padding: 2px 6px;
+              border-radius: 4px;
+              background: #f1f5f9;
+              color: #475569;
+              border: 1px solid #cbd5e1;
+
+              &.single {
+                background: #ede9fe;
+                color: #6d28d9;
+                border-color: #ddd6fe;
+              }
+            }
+
+            .tile-status-pill {
+              font-size: 0.7rem;
+              font-weight: 700;
+              padding: 2px 7px;
+              border-radius: 10px;
+              background: #dcfce7;
+              color: #15803d;
+
+              &.inactive {
+                background: #fef3c7;
+                color: #b45309;
+              }
+            }
+          }
+        }
+
+        .tile-desc {
+          font-size: 0.78rem;
+          color: #64748b;
+          margin: 0 0 0.5rem;
+          line-height: 1.35;
+        }
+
+        .tile-layer-code {
+          font-size: 0.72rem;
+          background: #e2e8f0;
+          color: #334155;
+          padding: 3px 6px;
+          border-radius: 4px;
+          margin-bottom: 0.75rem;
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .tile-btn-reload {
+          width: 100%;
+          border-radius: 6px;
+          font-size: 0.8rem;
+          padding: 0.4rem 0.75rem;
+        }
+      }
+    }
+  }
+}

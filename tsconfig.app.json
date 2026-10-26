@@ -8,18 +8,29 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@app/*": ["./src/app/*"],
-      "@shared/*": ["./src/app/shared/*"],
-      "@sig/*": ["./src/app/sig/*"],
-      "@admin-warning/*": ["./src/app/admin/admin-warning/*"],
-      "@env/*": ["./src/environments/*"]
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@shared/*": [
+        "./src/app/shared/*"
+      ],
+      "@sig/*": [
+        "./src/app/sig/*"
+      ],
+      "@admin-warning/*": [
+        "./src/app/admin/admin-warning/*"
+      ],
+      "@env/*": [
+        "./src/environments/*"
+      ]
     }
   },
-  "files": [
-    "src/main.ts",
-    "src/polyfills.ts"
-  ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
   ]
 }

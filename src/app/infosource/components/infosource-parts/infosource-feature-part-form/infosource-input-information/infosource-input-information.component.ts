@@ -12,7 +12,7 @@ import Feature from 'ol/Feature';
 
 export type ValidFeaturePartType = { [key: string]: boolean };
 
-export const initValidFeaturePartTypeDefaultValue: ValidFeaturePartType = { 'fr': false, 'en': false };
+export const initValidFeaturePartTypeDefaultValue: ValidFeaturePartType = { 'es': false, 'en': false };
 
 @Component({
   selector: 'infosource-input-information',
@@ -59,7 +59,7 @@ export class InfosourceInputInformationComponent implements ControlValueAccessor
 
   constructor(private readonly informationService: InfosourceInformationService,
     private readonly translateInPipe: TranslateInPipe) {
-    this.langs = ['fr', 'en'];
+    this.langs = ['es', 'en'];
     this.buildLocalizedItems();
     this.langs.forEach(lang => {
       this.selectedDistanceUnitsByLang.push({ lang, selectedDistanceUnit: this.availableDistanceUnits[1] });
@@ -83,6 +83,9 @@ export class InfosourceInputInformationComponent implements ControlValueAccessor
   }
 
   writeValue(information: InfosourceInformation): void {
+    if (information && !information['es'] && information['fr']) {
+      information['es'] = information['fr'];
+    }
     this.information = pick(information, this.langs);
   }
 
@@ -131,6 +134,6 @@ export class InfosourceInputInformationComponent implements ControlValueAccessor
   }
 
   isMandatoryLanguage(lang: string): boolean {
-    return 'fr' === lang.toLowerCase();
+    return 'es' === lang.toLowerCase();
   }
 }

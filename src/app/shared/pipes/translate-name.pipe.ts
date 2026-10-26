@@ -13,7 +13,7 @@ export class TranslateNamePipe implements PipeTransform {
     const currentLang = this.translate.currentLang;
     const name = names.name || '';
 
-    if (currentLang === 'fr') {
+    if (currentLang === 'es') {
       return name;
     }
 

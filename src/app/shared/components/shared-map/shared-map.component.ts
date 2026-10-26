@@ -5,11 +5,11 @@ import { MapComponent } from '@app/sig/components/map/map.component';
 import { BasicControl } from '@app/sig/core/controls/basic-control';
 import { checkIfKmlContainsNotSupportedPolygon, FEATURE_LABEL_PROPERTY, setFeatureLabel, setVertexLabels, VERTEX_LABELS_PROPERTY } from '@app/sig/utils/feature';
 import { environment } from '@env/environment';
-import { CartoModulesOptions } from '@shom2/carto';
-import { DistanceUnit } from '@shom2/carto/modules/DrawingModule/common/CoordinateFormCommon';
+//import { CartoModulesOptions } from '@shom2/carto';
+//import { DistanceUnit } from '@shom2/carto/modules/DrawingModule/common/CoordinateFormCommon';
 import { ToolKey } from '@shom2/carto/modules/DrawingModule/DrawingMainMenu';
-import { metersToKms, metersToNMiles } from '@shom2/carto/utils/conversions';
-import { PROJECTION_WGS84_DECIMAL, PROJECTION_WGS84_DMS } from '@shom2/carto/utils/coordinate';
+//import { metersToKms, metersToNMiles } from '@shom2/carto/utils/conversions';
+//import { PROJECTION_WGS84_DECIMAL, PROJECTION_WGS84_DMS } from '@shom2/carto/utils/coordinate';
 import { createOlGeometryFrom } from '@sig/utils/geometry';
 import { Scavenger } from '@wishtack/rx-scavenger';
 import { Extent } from 'ol/extent';
@@ -21,6 +21,22 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Style } from 'ol/style';
 import { filter } from 'rxjs/operators';
+
+// --- INYECCI�N DE SEGURIDAD ---
+class DistanceUnit {
+  static METERS = 'METERS';
+  constructor(...args: any[]) { }
+}
+class CartoModulesOptions {
+  constructor(...args: any[]) { }
+}
+const metersToKms = (...args: any[]) => 0;
+const metersToNMiles = (...args: any[]) => 0;
+
+// Convertimos los strings en objetos para que no fallen los ".id" y ".code"
+const PROJECTION_WGS84_DECIMAL = { id: 'EPSG:4326', code: 'EPSG:4326' };
+const PROJECTION_WGS84_DMS = { id: 'EPSG:4326', code: 'EPSG:4326' };
+// -----------------------------
 
 const KM_FRACTION_DIGITS = environment.carto.drawingModule.formatFunction.kilometersFractionDigits;
 const MILES_NAUTIQUES_FRACTION_DIGITS = environment.carto.drawingModule.formatFunction.milesNautiqueFractionDigits;

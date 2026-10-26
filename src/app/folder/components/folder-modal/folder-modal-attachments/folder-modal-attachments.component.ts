@@ -203,7 +203,7 @@ export class FolderModalAttachmentsComponent implements OnInit, OnChanges, OnDes
   }
 
   onChangeLang(): void {
-    this.displayedLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
+    this.displayedLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
     this.maritimeServices$ = this.maritimeServicesApi.getMaritimeServices()
       .pipe(map(maritimeServices => {
         const maritimeServicesOfFolderArea: MaritimeServiceGroup = {

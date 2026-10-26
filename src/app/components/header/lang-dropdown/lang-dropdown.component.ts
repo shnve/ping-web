@@ -29,8 +29,9 @@ export class LangDropdownComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document
   ) {
     this.availableLanguages = [
-      {code: 'fr', label: 'lang.french', image: 'assets/images/flag-france.png'},
-      {code: 'en', label: 'lang.english', image: 'assets/images/flag-uk.png'}
+      //{code: 'fr', label: 'lang.french', image: 'assets/images/flag-france.png'},
+      { code: 'en', label: 'lang.english', image: 'assets/images/flag-uk.png' },
+      { code: 'es', label: 'lang.spanish', image: 'assets/images/flag-vzla.png' }
     ];
   }
 

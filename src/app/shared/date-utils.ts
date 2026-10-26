@@ -1,7 +1,7 @@
 import { isBefore } from 'date-fns';
 import { parseFromString, parseFromTimeZone } from 'date-fns-timezone';
 import { format, getTimezoneOffset, utcToZonedTime } from 'date-fns-tz';
-import { enGB, fr } from 'date-fns/locale';
+import { enGB, es } from 'date-fns/locale';
 import { deburr } from 'lodash';
 import { cloneDeep } from 'lodash-es';
 import { listTimeZones } from 'timezone-support';
@@ -31,7 +31,7 @@ export function formatFrenchDateToIsoDate(date: string): string {
 export function formatModelItemDatetime(datetime: string, isFrLanguage: boolean, isFullFormat: boolean, timezone: string): string {
   const timezoneName = findTimeZone(timezone);
   const parsedDatetime = parseDateTimeToTimezone(datetime, timezoneName);
-  const locale = isFrLanguage ? fr : enGB;
+  const locale = isFrLanguage ? es : enGB;
   const datetimeAtUtc = utcToZonedTime(parsedDatetime, timezoneName);
 
   const currentMonth = datetimeAtUtc.getMonth() + 1;

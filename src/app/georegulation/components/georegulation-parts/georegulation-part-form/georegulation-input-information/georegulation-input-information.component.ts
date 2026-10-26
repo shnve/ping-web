@@ -63,7 +63,7 @@ export class GeoregulationInputInformationComponent implements ControlValueAcces
     private readonly translate: TranslateService,
     private readonly alertMessageService: AlertMessageService,
     private readonly translateInPipe: TranslateInPipe) {
-    this.langs = ['fr', 'en'];
+    this.langs = ['es', 'en'];
     this.buildLocalizedItems();
     this.langs.forEach(lang => {
       this.selectedDistanceUnitsByLang.push({ lang, selectedDistanceUnit: this.availableDistanceUnits[1] });
@@ -114,12 +114,33 @@ export class GeoregulationInputInformationComponent implements ControlValueAcces
 
   addGeometryToTextContent(lang: string): void {
     if (!this.geometries.length) { return; }
+
     this.addInformationButtonStatuses.push(`geometry-${lang}-${this.partIndex}`);
-    this.updateInformationsClipBoard(lang, this.informationService.formatGeometries(
+
+    let generatedText = this.informationService.formatGeometries(
       this.geometries, this.translatedTemplates, lang, false,
       this.selectedDistanceUnitsByLang.find(distanceUnit => distanceUnit.lang === lang).selectedDistanceUnit.unit,
       Number(this.selectedPrecisionByLang.find(precision => precision.lang === lang).selectedPrecision)
-    ));
+    );
+
+    // EL PARCHE DEFINITIVO: 
+    // 1. Usamos toLowerCase() por si 'lang' viene como 'EN'
+    if (lang.toLowerCase() === 'en') {
+      // 2. Usamos Regex (/.../gi) para buscar ignorando may�sculas y acentos extra�os.
+      // Primero atacamos la frase completa
+      generatedText = generatedText.replace(/�rea delimitada por:/gi, 'area bounded by:');
+
+      // 3. Plan B: Si la frase completa falla por culpa del acento, 
+      // buscamos y destruimos las palabras clave individuales
+      if (generatedText.includes('delimitada')) {
+        generatedText = generatedText.replace(/delimitada por:/gi, 'bounded by:');
+        generatedText = generatedText.replace(/�rea/gi, 'area');
+        generatedText = generatedText.replace(/�rea/gi, 'Area');
+        generatedText = generatedText.replace(/afectada/gi, 'affected');
+      }
+    }
+
+    this.updateInformationsClipBoard(lang, generatedText);
   }
 
   protected copyGeometriesLangToClipBoard($event: any, lang: string): void {

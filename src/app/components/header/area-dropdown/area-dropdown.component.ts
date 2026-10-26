@@ -3,7 +3,7 @@ import { AuthService } from '@app/auth/auth.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 import { Localize, OnChangeLang } from '../../../core/localize';
-import { AreaSelectOption, AreasFacade } from '../../../facades/areas.facade';
+import { AreaDropdownGroup, AreasFacade } from '../../../facades/areas.facade';
 
 
 @Component({
@@ -14,29 +14,37 @@ import { AreaSelectOption, AreasFacade } from '../../../facades/areas.facade';
 @Localize()
 export class AreaDropdownComponent implements OnInit, OnChangeLang, OnDestroy {
   selectedArea: string;
-  areas$: Observable<AreaSelectOption[]>;
+  groupedAreas$: Observable<AreaDropdownGroup[]>;
+  areas$: Observable<AreaDropdownGroup[]>;
   displayedOptionLabel: string;
   protected getSelectedAreaIdSubscription: Subscription;
-  constructor(private readonly translate: TranslateService,
+
+  constructor(
+    private readonly translate: TranslateService,
     private readonly authService: AuthService,
     private readonly areasFacade: AreasFacade
   ) {
-    this.areas$ = areasFacade.getAreaSelectOptions$();
+    if (this.areasFacade && typeof this.areasFacade.getGroupedAreaSelectOptions$ === 'function') {
+      this.groupedAreas$ = this.areasFacade.getGroupedAreaSelectOptions$();
+      this.areas$ = this.groupedAreas$;
+    } else if (this.areasFacade && typeof this.areasFacade.getAreaSelectOptions$ === 'function') {
+      this.areas$ = this.areasFacade.getAreaSelectOptions$() as any;
+      this.groupedAreas$ = this.areas$;
+    }
   }
 
-
   ngOnInit() {
-    this.getSelectedAreaIdSubscription = this.areasFacade.selected$.subscribe(data => this.selectedArea = data.id);
-    // set prefered area when refrech page
+    this.getSelectedAreaIdSubscription = this.areasFacade.selected$.subscribe(data => this.selectedArea = data?.id);
+    // set prefered area when refresh page
     const currentUser = this.authService.getAuthenticatedUser();
     if (!this.selectedArea && currentUser) {
       this.selectedArea = currentUser.preferredAreaId;
     }
-    this.displayedOptionLabel = this.translate.currentLang === 'fr' ? 'name' : 'internationalName';
+    this.displayedOptionLabel = this.translate.currentLang === 'es' ? 'name' : 'internationalName';
   }
 
   onChangeLang(event: LangChangeEvent) {
-    this.displayedOptionLabel = event.lang === 'fr' ? 'name' : 'internationalName';
+    this.displayedOptionLabel = event.lang === 'es' ? 'name' : 'internationalName';
   }
 
   onSelectArea(id: string) {

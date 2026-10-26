@@ -166,7 +166,7 @@ export class InfosourcePartFormatDetailsModalObjectPipe implements PipeTransform
         }
         break;
       case InfosourceObjectMapKeys.GEOREGULATION_PART_INTERNATIONAL_INFORMATION:
-        if (this.translate.currentLang === 'fr') {
+        if (this.translate.currentLang === 'es') {
           displayedValue = '';
         }
         break;

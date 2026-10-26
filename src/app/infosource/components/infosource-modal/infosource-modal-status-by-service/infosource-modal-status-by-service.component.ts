@@ -112,7 +112,7 @@ export class InfosourceModalStatusByServiceComponent implements OnInit, OnDestro
   }
 
   private getDisplayedMaritimeServiceLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   loadStatusByService(): void {

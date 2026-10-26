@@ -51,7 +51,7 @@ export function translatedTypeDetails(translate: TranslateService, typeDetails: 
 }
 
 export function isLocalLangSelected(translate: TranslateService): boolean {
-  return translate.currentLang === 'fr';
+  return translate.currentLang === 'es';
 }
 
 export function formatSize(bytes, suffixByte): string {

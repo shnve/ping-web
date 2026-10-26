@@ -5,10 +5,8 @@
       <span translate>account.creation.errors.role-invalid</span>
     </span>
     <div class="form-optional">
-      <p-dropdown class="user-role"
-                  [options]="availableRole"
-                  [placeholder]="'account.creation.information.role' | translate"
-                  formControlName="role">
+      <p-dropdown class="user-role" [options]="availableRole"
+        [placeholder]="'account.creation.information.role' | translate" formControlName="role">
         <ng-template let-item pTemplate="item">
           <span>{{'pro-user-role.' + item | translate}}</span>
         </ng-template>
@@ -24,42 +22,40 @@
   <div class="form-group">
     <div class="p-field-radiobutton">
       <p-radioButton id="gender1" name="title" value="MR" formControlName="title" inputId="gender1"
-                     ngDefaultControl></p-radioButton>
+        ngDefaultControl></p-radioButton>
       <label for="gender1" translate>account.creation.information.gender.mr</label>
     </div>
     <div class="p-field-radiobutton">
       <p-radioButton id="gender2" name="title" value="MRS" formControlName="title" inputId="gender2"
-                     ngDefaultControl></p-radioButton>
+        ngDefaultControl></p-radioButton>
       <label for="gender2" translate>account.creation.information.gender.mrs</label>
     </div>
   </div>
 
   <!-- firstname -->
   <div class="form-group" [ngClass]="{'error': (isInvalidOrDirty('firstname'))}">
-      <span *ngIf="isInvalidOrDirty('firstname')" class="field-validation-error">
-        <span translate>account.creation.errors.firstName-invalid</span>
-      </span>
+    <span *ngIf="isInvalidOrDirty('firstname')" class="field-validation-error">
+      <span translate>account.creation.errors.firstName-invalid</span>
+    </span>
     <div class="form-mandatory">
       <input id="firstName" type="text" formControlName="firstname"
-             [placeholder]="'account.creation.information.firstname' | translate"
-             [title]="'account.creation.information.firstname' | translate"
-             [ngClass]="{'error': isInvalidOrDirty('firstname')}"
-             required/>
+        [placeholder]="'account.creation.information.firstname' | translate"
+        [title]="'account.creation.information.firstname' | translate"
+        [ngClass]="{'error': isInvalidOrDirty('firstname')}" required />
       <span class="form-asterisk">*</span>
     </div>
   </div>
 
   <!-- lastname -->
   <div class="form-group" [ngClass]="{'error': (isInvalidOrDirty('lastname'))}">
-      <span *ngIf="isInvalidOrDirty('lastname')" class="field-validation-error">
-        <span translate>account.creation.errors.lastName-invalid</span>
-      </span>
+    <span *ngIf="isInvalidOrDirty('lastname')" class="field-validation-error">
+      <span translate>account.creation.errors.lastName-invalid</span>
+    </span>
     <div class="form-mandatory">
       <input id="lastName" type="text" formControlName="lastname"
-             [placeholder]="'account.creation.information.lastname' | translate"
-             [title]="'account.creation.information.lastname' | translate"
-             [ngClass]="{'error': isInvalidOrDirty('lastname')}"
-             required/>
+        [placeholder]="'account.creation.information.lastname' | translate"
+        [title]="'account.creation.information.lastname' | translate"
+        [ngClass]="{'error': isInvalidOrDirty('lastname')}" required />
       <span class="form-asterisk">*</span>
     </div>
   </div>
@@ -71,10 +67,9 @@
     </span>
     <div class="form-mandatory">
       <input type="text" formControlName="email" id="update-email"
-            [placeholder]="'account.creation.credentials.email' | translate"
-            [title]="'account.creation.credentials.email' | translate"
-            [ngClass]="{'error': isInvalidOrDirty('email')}"
-            required/>
+        [placeholder]="'account.creation.credentials.email' | translate"
+        [title]="'account.creation.credentials.email' | translate" [ngClass]="{'error': isInvalidOrDirty('email')}"
+        required />
       <span class="form-asterisk">*</span>
     </div>
   </div>
@@ -82,38 +77,35 @@
   <!-- identifier -->
   <div *ngIf="this.user.identifier" class="form-group">
     <div class="form-mandatory">
-      <input id="identifier" type="text" formControlName="identifier" [title]="'account.creation.credentials.identifier' | translate"/>
+      <input id="identifier" type="text" formControlName="identifier"
+        [title]="'account.creation.credentials.identifier' | translate" />
     </div>
   </div>
 
   <!-- maritime service -->
-  <div class="form-group" *ngIf="form.get('role').value === USER_SERVICE_ROLE" [ngClass]="{'error': (isInvalidOrDirty('serviceId'))}">
+  <div class="form-group" *ngIf="form.get('role').value === USER_SERVICE_ROLE"
+    [ngClass]="{'error': (isInvalidOrDirty('serviceId'))}">
     <span *ngIf="isInvalidOrDirty('serviceId')" class="field-validation-error">
       <span translate>account.creation.errors.service-invalid</span>
     </span>
     <div class="form-optional">
-      <p-dropdown *ngIf="maritimeServices$ | async as services"
-                  class="user-service"
-                  [options]="services"
-                  [optionLabel]="displayedLabel"
-                  optionValue="id"
-                  [placeholder]="'account.creation.information.service' | translate"
-                  formControlName="serviceId">
+      <p-dropdown *ngIf="maritimeServices$ | async as services" class="user-service" [options]="services"
+        [optionLabel]="displayedLabel" optionValue="id"
+        [placeholder]="'account.creation.information.service' | translate" formControlName="serviceId">
       </p-dropdown>
       <span class="form-asterisk">*</span>
     </div>
   </div>
 
   <!-- service role -->
-  <div class="form-group" *ngIf="form.get('role').value === USER_SERVICE_ROLE" [ngClass]="{'error': (isInvalidOrDirty('serviceRole'))}">
+  <div class="form-group" *ngIf="form.get('role').value === USER_SERVICE_ROLE"
+    [ngClass]="{'error': (isInvalidOrDirty('serviceRole'))}">
     <span *ngIf="isInvalidOrDirty('serviceRole')" class="field-validation-error">
       <span translate>account.creation.errors.role-invalid</span>
     </span>
     <div class="form-optional">
-      <p-dropdown class="user-service-role"
-                  [options]="serviceRoles"
-                  [placeholder]="'account.creation.information.service-role' | translate"
-                  formControlName="serviceRole">
+      <p-dropdown class="user-service-role" [options]="serviceRoles"
+        [placeholder]="'account.creation.information.service-role' | translate" formControlName="serviceRole">
         <ng-template let-item pTemplate="item">
           <span>{{'service-role.' + item | translate}}</span>
         </ng-template>
@@ -127,63 +119,48 @@
 
   <!-- preferred area -->
   <div class="form-group form-optional line-form p-field p-grid">
-    <p-dropdown *ngIf="areas$ | async as areas"
-                id="area-dropdown"
-                formControlName="preferredAreaId"
-                [options]="areas"
-                [optionLabel]="'option-label-name' | translate"
-                optionValue="id"
-                [placeholder]="'account.creation.information.preferred-area' | translate"
-                display="chip"
-                showClear="true"
-                ngDefaultControl>
+    <p-dropdown *ngIf="areas$ | async as areas" id="area-dropdown" formControlName="preferredAreaId" [options]="areas"
+      [optionLabel]="'option-label-name' | translate" optionValue="id"
+      [placeholder]="'account.creation.information.preferred-area' | translate" display="chip" showClear="true"
+      ngDefaultControl>
 
     </p-dropdown>
   </div>
 
   <div class="phone-form-group form-group" [ngClass]="{'error': (isInvalidOrDirty('phoneNumbers'))}">
-    <span *ngIf="isInvalidOrDirty('phoneNumbers')"
-          class="field-validation-error">
-        <span translate>account.creation.errors.phonenumber-invalid</span>
+    <span *ngIf="isInvalidOrDirty('phoneNumbers')" class="field-validation-error">
+      <span translate>account.creation.errors.phonenumber-invalid</span>
     </span>
     <div formArrayName="phoneNumbers" *ngFor="let number of form.get('phoneNumbers').controls; let i = index;">
       <div class="form-mandatory" [formGroupName]="i">
         <ngx-intl-tel-input class="phone-number" [preferredCountries]="preferredCountries"
-                            [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="false"
-                            [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                            [selectFirstCountry]="false"
-                            [selectedCountryISO]="CountryISO.France" [maxLength]="15"
-                            [phoneValidation]="true" [separateDialCode]="true"
-                            [customPlaceholder]="'account.creation.information.phone' | translate"
-                            [title]="'account.creation.information.phone' | translate"
-                            [ngClass]="{'error': isInvalidOrDirtyByFormGroup('number', number)}"
-                            [cssClass]="{'error': isInvalidOrDirtyByFormGroup('number', number)}"
-                            formControlName="number" ngDefaultControl></ngx-intl-tel-input>
-        <input type="text"
-               formControlName="description"
-               [title]="'account.creation.information.phone-description' | translate"
-               [placeholder]="'account.creation.information.phone-description' | translate"
-               [ngClass]="{'error': isInvalidOrDirtyByFormGroup('description', number)}"/>
-        <button *ngIf="!disabled" pButton pRipple type="button"
-                (click)="removePhoneNumber(i)"
-                [disabled]="form.get('phoneNumbers').controls.length === 1"
-                icon="pi pi-times"
-                class="button-delete p-button-outlined p-button-sm"></button>
+          [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="false"
+          [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+          [selectedCountryISO]="CountryISO.Venezuela" [maxLength]="15" [phoneValidation]="true"
+          [separateDialCode]="true" [customPlaceholder]="'account.creation.information.phone' | translate"
+          [title]="'account.creation.information.phone' | translate"
+          [ngClass]="{'error': isInvalidOrDirtyByFormGroup('number', number)}"
+          [cssClass]="{'error': isInvalidOrDirtyByFormGroup('number', number)}" formControlName="number"
+          ngDefaultControl></ngx-intl-tel-input>
+        <input type="text" formControlName="description"
+          [title]="'account.creation.information.phone-description' | translate"
+          [placeholder]="'account.creation.information.phone-description' | translate"
+          [ngClass]="{'error': isInvalidOrDirtyByFormGroup('description', number)}" />
+        <button *ngIf="!disabled" pButton pRipple type="button" (click)="removePhoneNumber(i)"
+          [disabled]="form.get('phoneNumbers').controls.length === 1" icon="pi pi-times"
+          class="button-delete p-button-outlined p-button-sm"></button>
       </div>
     </div>
-    <p-button class="add-phone" [label]="'account.creation.information.addPhone' | translate" type="button" icon="pi pi-plus"
-              [disabled]="disabled"
-              (onClick)="addPhoneNumber()"></p-button>
+    <p-button class="add-phone" [label]="'account.creation.information.addPhone' | translate" type="button"
+      icon="pi pi-plus" [disabled]="disabled" (onClick)="addPhoneNumber()"></p-button>
   </div>
 
   <!-- enable subscription notifications sound -->
   <div class="form-group line-form p-field p-grid">
-    <label for="has-notifications-sound" class="label p-col-fixed lbl-notification" translate>account.creation.information.notifications-sound</label>
-    <p-selectButton id="has-notifications-sound"
-                    [unselectable]="true"
-                    [options]="booleanOptions"
-                    ngDefaultControl
-                    formControlName="hasNotificationsSound">
+    <label for="has-notifications-sound" class="label p-col-fixed lbl-notification"
+      translate>account.creation.information.notifications-sound</label>
+    <p-selectButton id="has-notifications-sound" [unselectable]="true" [options]="booleanOptions" ngDefaultControl
+      formControlName="hasNotificationsSound">
       <ng-template let-item pTemplate>
         <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
       </ng-template>
@@ -192,12 +169,10 @@
 
   <!-- enable subscription email notifications -->
   <div class="form-group line-form p-field p-grid">
-    <label for="has-subscription-email-notifications" class="label p-col-fixed lbl-notification" translate>account.creation.information.subscription-email-notifications</label>
-    <p-selectButton id="has-subscription-email-notifications"
-                    [options]="booleanOptions"
-                    ngDefaultControl
-                    [unselectable]="true"
-                    formControlName="hasSubscriptionEmailNotifications">
+    <label for="has-subscription-email-notifications" class="label p-col-fixed lbl-notification"
+      translate>account.creation.information.subscription-email-notifications</label>
+    <p-selectButton id="has-subscription-email-notifications" [options]="booleanOptions" ngDefaultControl
+      [unselectable]="true" formControlName="hasSubscriptionEmailNotifications">
       <ng-template let-item pTemplate>
         <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
       </ng-template>
@@ -205,14 +180,13 @@
   </div>
 
   <!-- submit form -->
-  <p-button id="btn-submit" type="submit" [label]="'account.creation.submit' | translate"
-            [disabled]="!(form.valid)" ngDefaultControl></p-button>
+  <p-button id="btn-submit" type="submit" [label]="'account.creation.submit' | translate" [disabled]="!(form.valid)"
+    ngDefaultControl></p-button>
 </form>
 
 <app-infosource-identifier *ngIf="!isFunctionalAdmin" [identifier]="this.user.identifier"></app-infosource-identifier>
 
 <app-send-reset-password-email *ngIf="isCurrentUser"></app-send-reset-password-email>
 
-<app-control-user-enabled-status *ngIf="canControlUserStatus"
-  [userId]="user.id" [enabled]="isEnabled" [disabled]="disabled"
-></app-control-user-enabled-status>
+<app-control-user-enabled-status *ngIf="canControlUserStatus" [userId]="user.id" [enabled]="isEnabled"
+  [disabled]="disabled"></app-control-user-enabled-status>

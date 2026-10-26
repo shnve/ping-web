@@ -98,7 +98,7 @@ export class GeoregulationCreationComponent implements OnInit, OnDestroy, OnChan
     private readonly georegulationAdminService: GeoregulationAdminService,
     private readonly maritimeServiceService: MaritimeServiceService,
     private readonly alertMessageService: AlertMessageService,
-    private readonly translateService: TranslateService,
+    public translate: TranslateService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private readonly maritimeEntitiesApi: MaritimeEntitiesApi,
@@ -180,7 +180,7 @@ export class GeoregulationCreationComponent implements OnInit, OnDestroy, OnChan
   private translateActivities(key: string, value: string): any {
     return {
       key,
-      value: this.translateService.instant(value)
+      value: this.translate.instant(value)
     };
   }
 
@@ -392,7 +392,7 @@ export class GeoregulationCreationComponent implements OnInit, OnDestroy, OnChan
       const { informations, ...partFormRest } = partForm;
       return {
         ...partFormRest,
-        information: partForm.informations['fr'],
+        information: partForm.informations['es'],
         internationalInformation: partForm.informations['en']
       };
     }));
@@ -413,7 +413,7 @@ export class GeoregulationCreationComponent implements OnInit, OnDestroy, OnChan
     const featureParts: JsonGeoregulationPart[] = georegulation?.parts;
     return convertJsonGeoregulationPartsToFeatureParts(featureParts)
       .map(georegulationPart => {
-        const informations = { fr: georegulationPart.information, en: georegulationPart.internationalInformation };
+        const informations = { es: georegulationPart.information, en: georegulationPart.internationalInformation };
         const seasonalPeriods = georegulationPart.seasonalPeriods.map(seasonalPeriod => {
           return {
             isInvalid: false,
@@ -498,7 +498,7 @@ export class GeoregulationCreationComponent implements OnInit, OnDestroy, OnChan
     }
 
     if (errorDetected) {
-      this.showToast(this.translateService.instant('message.error.api.cannot-create-georegulation') + ' : ' + this.translateService.instant(errorDetected), 'error');
+      this.showToast(this.translate.instant('message.error.api.cannot-create-georegulation') + ' : ' + this.translate.instant(errorDetected), 'error');
       return false;
     }
     return true;
@@ -596,7 +596,7 @@ export class GeoregulationCreationComponent implements OnInit, OnDestroy, OnChan
   confirmCancel(event: Event): void {
     this.confirmationService.confirm({
       target: event.target,
-      message: this.translateService.instant('georegulation.edition.cancel-message'),
+      message: this.translate.instant('georegulation.edition.cancel-message'),
       icon: 'pi pi-exclamation-triangle',
       accept: () => this.router.navigate(['georegulation/tables'])
     });

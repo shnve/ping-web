@@ -4,6 +4,77 @@ $control-btn-size: 32px;
 $top-first-control-right: 50px;
 $control-margin-right: 18px;
 
+/* Aseguramos que el componente anfitrión (la etiqueta <app-map> o similar) sea un bloque */
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.carto-map-container {
+  display: flex;
+  flex-direction: column;
+  height: 65vh;
+  /* Forzamos una altura fija aquí si la herencia falla */
+  width: 100%;
+  position: relative;
+}
+
+.right-panel-controls {
+  position: absolute;
+  top: 50px;
+  right: 18px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  
+  .tool-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    background-color: $primaryColor;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.1s ease-in, transform 0.1s ease;
+    
+    &:hover {
+      background-color: $primaryColorLighten1;
+      transform: scale(1.05);
+    }
+    
+    &.active-tool {
+      background-color: #28a745; /* Verde para estado activo */
+    }
+    
+    &.clear-btn {
+      background-color: #dc3545; /* Rojo para limpiar */
+      &:hover {
+        background-color: #c82333;
+      }
+    }
+  }
+}
+
+:host ::ng-deep .ol-mouse-position {
+  top: auto !important;
+  left: auto !important;
+  bottom: 10px !important;
+  right: 10px !important;
+}
+
+.map-container {
+  flex: 1;
+  width: 100%;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  /* Importante para que OpenLayers se mantenga dentro del div */
+}
+
 .p-field-checkbox {
   flex-wrap: wrap;
   margin-bottom: 0;
@@ -30,7 +101,7 @@ $control-margin-right: 18px;
         border-radius: 6px;
         padding: 0;
 
-        & > .ol-control-button {
+        &>.ol-control-button {
           margin: 0;
           width: $control-btn-size;
           height: $control-btn-size;
@@ -153,6 +224,7 @@ $control-margin-right: 18px;
           }
         }
       }
+
       .sc-mouse-position-module.sc-mouse-position-bottom-right {
         bottom: 10px;
         right: 0;
@@ -189,7 +261,7 @@ $control-margin-right: 18px;
   }
 }
 
-sig-map > .carto-map-container {
+sig-map>.carto-map-container {
   .map-container {
     height: 73vh !important;
   }
@@ -200,7 +272,7 @@ sig-map > .carto-map-container {
     max-width: 30vw;
   }
 
-  .map-container-in-field sig-map > .carto-map-container {
+  .map-container-in-field sig-map>.carto-map-container {
     .map-container {
       height: 55vh !important;
     }
@@ -208,9 +280,26 @@ sig-map > .carto-map-container {
 }
 
 @media only screen and (min-width: 1800px) {
-  .map-container-in-field sig-map > .carto-map-container {
+  .map-container-in-field sig-map>.carto-map-container {
     .map-container {
       height: 70vh !important;
     }
   }
+}
+.custom-mouse-position {
+  position: absolute;
+  top: auto !important;
+  left: auto !important;
+  bottom: 10px !important;
+  right: 10px !important;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-family: monospace, Arial, sans-serif;
+  font-size: 13px;
+  color: #1a1a1a;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  pointer-events: none;
 }

@@ -77,7 +77,7 @@ export class SubAreaFormComponent implements OnInit, OnDestroy, OnChangeLang {
   }
 
   private getDisplayedLabel(lang: string): string {
-    return lang === 'fr' ? 'name' : 'internationalName';
+    return lang === 'es' ? 'name' : 'internationalName';
   }
 
   saveSubArea(): void {

@@ -6,14 +6,26 @@ import { FEATURE_LABEL_PROPERTY, VERTEX_LABELS_PROPERTY } from '@app/sig/utils/f
 import { checkIfLayoutIsNotValid, convertLayoutCoordinatesToXY, GeometryType } from '@app/sig/utils/geometry';
 import { environment } from '@env/environment.default';
 import { TranslateService } from '@ngx-translate/core';
-import { metersToNMiles } from '@shom2/carto/utils/conversions';
-import { convertMercatToLonLat } from '@shom2/carto/utils/coordinate';
-import { getSphereRadius } from '@shom2/carto/utils/spheremeasure';
+//import { metersToNMiles } from '@shom2/carto/utils/conversions';
+//import { convertMercatToLonLat } from '@shom2/carto/utils/coordinate';
+//import { getSphereRadius } from '@shom2/carto/utils/spheremeasure';
 import { Coordinate } from 'ol/coordinate';
 import Feature from 'ol/Feature';
 import { Circle, LineString, Point, Polygon } from 'ol/geom';
 import SimpleGeometry from 'ol/geom/SimpleGeometry';
 import { throwError } from 'rxjs';
+import { toLonLat, fromLonLat } from 'ol/proj';
+
+// Reemplazos locales para las funciones eliminadas del SHOM
+const metersToNMiles = (meters: number): number => meters / 1852;
+const getSphereRadius = (geom?: any): number => 6378137;
+
+const convertMercatToLonLat = (coord: number[]): number[] => {
+  // Si la longitud es mayor a 180, claramente son metros (Web Mercator) y los convertimos.
+  // Si es 180 o menos, ya son grados (LonLat) y los devolvemos tal cual para no romperlos.
+  return Math.abs(coord[0]) > 180 ? toLonLat(coord) : coord;
+};
+const convertLonLatToMercat = (coord: number[]): number[] => fromLonLat(coord);
 
 @Injectable({
   providedIn: 'root'

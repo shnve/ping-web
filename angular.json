@@ -26,20 +26,19 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
+              "src/favicon.svg",
               "src/assets"
             ],
             "styles": [
-              "node_modules/primeng/resources/themes/fluent-light/theme.css",
+              "node_modules/primeng/resources/themes/md-light-indigo/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/saga-blue/theme.css",
               "node_modules/primeflex/primeflex.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.css",
               "node_modules/@fortawesome/fontawesome-free/css/regular.css",
               "node_modules/@fortawesome/fontawesome-free/css/fontawesome.css",
               "node_modules/ol/ol.css",
-              "node_modules/@shom2/carto/css/styles.css",
               "node_modules/intl-tel-input/build/css/intlTelInput.css",
               "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.snow.css",
@@ -144,7 +143,7 @@
             "karmaConfig": "karma.conf.js",
             "sourceMap": true,
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/assets"
             ],
             "styles": [

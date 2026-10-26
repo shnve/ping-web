@@ -122,7 +122,7 @@ export class InfosourcePartsComponent implements OnInit, ControlValueAccessor {
   areFeaturePartsValid(): Map<number, boolean> {
     return this.featureParts.reduce((map, featurePart, index) => {
       const langsValid = this.hasValidInformation(featurePart);
-      const valid = langsValid['fr'] && langsValid['en'] && this.hasValidDateRanges(featurePart.dateRanges);
+      const valid = langsValid['es'] && langsValid['en'] && this.hasValidDateRanges(featurePart.dateRanges);
       map.set(index, valid);
       return map;
     }, new Map<number, boolean>());
@@ -130,10 +130,10 @@ export class InfosourcePartsComponent implements OnInit, ControlValueAccessor {
 
   hasValidInformation(featurePart: InfosourcePartForm): ValidFeaturePartType {
     if (!featurePart) { return initValidFeaturePartTypeDefaultValue; }
-    const informationFr = featurePart?.information['fr'];
-    const informationEn = featurePart?.information['en'];
+    const informationEs = featurePart?.information?.['es'] ?? featurePart?.information?.['fr'];
+    const informationEn = featurePart?.information?.['en'];
     return {
-      'fr': !isEmpty(informationFr) && !checkIfSpacesOnly(informationFr),
+      'es': !isEmpty(informationEs) && !checkIfSpacesOnly(informationEs),
       'en': !checkIfSpacesOnly(informationEn)
     };
   }

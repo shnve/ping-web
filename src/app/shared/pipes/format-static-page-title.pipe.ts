@@ -7,9 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
   pure: false
 })
 export class FormatStaticPageTitlePipe implements PipeTransform {
-  constructor(private readonly translate: TranslateService) {}
+  constructor(private readonly translate: TranslateService) { }
 
   transform(staticPage: StaticPage): string {
-    return this.translate.currentLang === 'fr' ? staticPage.title : staticPage.internationalTitle;
+    return this.translate.currentLang === 'es' ? staticPage.title : staticPage.internationalTitle;
   }
 }

@@ -27,6 +27,8 @@ export class FeaturePartFormComponent implements OnChangeLang, OnChanges {
   @Input() anInformation: WarningCreationData;
   @Input() geometries = [];
   @Input() affectedAreas = [];
+  @Input() selectedAreas = [];
+  @Input() selectedLocalities: any;
   @Input() validFeaturePart = false;
   @Input() partIndex = 0;
   @Input() typeGeneral: string;
@@ -41,7 +43,7 @@ export class FeaturePartFormComponent implements OnChangeLang, OnChanges {
   form = this.fb.group({
     information: [{}],
     dateRanges: [[[]]],
-    typeDetails: [[[]], Validators.required]
+    typeDetails: [[], Validators.required]
   });
   langs: Array<string> = [];
 
@@ -67,11 +69,22 @@ export class FeaturePartFormComponent implements OnChangeLang, OnChanges {
     const typeWarningTypeGeneral = this.typeGeneral;
     this.groupsOfTypeDetails = listWarningHazardTypeGeneral.find(({ key }) => key === typeWarningTypeGeneral)?.groups || [];
     this.hasTwoLanguages() ? this.buildLocalizedItemsBilingual() : this.buildLocalizedItems();
+
+    const typeDetailsControl = this.form.get('typeDetails');
+    if (this.optionsWarningTypeDetails && this.optionsWarningTypeDetails.length === 0) {
+      typeDetailsControl?.clearValidators();
+    } else {
+      typeDetailsControl?.setValidators(Validators.required);
+    }
+    typeDetailsControl?.updateValueAndValidity();
   }
 
   buildLocalizedItems(): void {
     this.optionsWarningTypeDetails = [];
-    if (this.groupsOfTypeDetails.length === 1) {
+    if (!this.groupsOfTypeDetails || this.groupsOfTypeDetails.length === 0) {
+      this.grouped = false;
+      this.optionsWarningTypeDetails = [];
+    } else if (this.groupsOfTypeDetails.length === 1) {
       this.grouped = false;
       const uniqGroup = this.groupsOfTypeDetails[0]?.items;
       this.optionsWarningTypeDetails = _.sortBy(
@@ -103,49 +116,34 @@ export class FeaturePartFormComponent implements OnChangeLang, OnChanges {
 
   buildLocalizedItemsBilingual(): void {
     this.optionsWarningTypeDetails = [];
-    this.currentLang = this.translate.currentLang;
-    if (this.groupsOfTypeDetails.length === 1) {
+    if (!this.groupsOfTypeDetails || this.groupsOfTypeDetails.length === 0) {
+      this.grouped = false;
+      this.optionsWarningTypeDetails = [];
+    } else if (this.groupsOfTypeDetails.length === 1) {
       this.grouped = false;
       const uniqGroup = this.groupsOfTypeDetails[0]?.items;
       this.optionsWarningTypeDetails = listWarningHazardTypeDetails
         .filter(({ key }) => uniqGroup.includes(key))
-        .map(({ key, value }) => this.translateComplexTypeDetailsBilingual(key, value));
+        .map(({ key, value }) => ({ key, value: this.translate.instant(value) }));
 
     } else {
       this.grouped = true;
       this.optionsWarningTypeDetails = this.groupsOfTypeDetails.reduce((groups, group) => {
         groups.push({
-          label: this.translateTypeDetailsBilingual(group.value),
+          label: this.translate.instant(group.value),
           items: listWarningHazardTypeDetails
             .filter(({ key }) => group.items?.includes(key))
-            .map(({ key, value }) => this.translateComplexTypeDetailsBilingual(key, value))
+            .map(({ key, value }) => ({ key, value: this.translate.instant(value) }))
         });
         return groups;
       }, []);
     }
-    this.translate.currentLang = this.currentLang;
-  }
-
-  translateTypeDetailsBilingual(value): string {
-    return (this.currentLang === 'fr' ? `${this.translateValue(value, 'fr')} (${this.translateValue(value, 'en')})`
-      : `${this.translateValue(value, 'en')} (${this.translateValue(value, 'fr')})`);
-  }
-
-  translateComplexTypeDetailsBilingual(key: string, value: string): any {
-    return {
-      key,
-      value: this.translateTypeDetailsBilingual(value)
-    };
-  }
-
-  translateValue(value: string, currentLanguage: string): string {
-    this.translate.currentLang = currentLanguage;
-    return this.translate.instant(value);
   }
 
   hasTwoLanguages(): boolean {
     if (this.anInformation) {
       this.langs = [...this.anInformation.warningParts.mandatoryLanguages, ...this.anInformation.warningParts.optionalLanguages];
+      this.langs.sort((a, b) => a === 'es' ? -1 : (b === 'es' ? 1 : 0));
     }
     return this.langs.includes('en') && this.langs.length > 1;
   }

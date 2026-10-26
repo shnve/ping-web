@@ -35,39 +35,24 @@ describe('AppTitleStrategyService', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should set page title to PING when title is not provided', fakeAsync(() => {
-    // GIVEN
+  it('should prefix page title with "PISAC - " when title is provided', fakeAsync(() => {
     router.resetConfig([
-      {
-        path: 'home',
-        component: TestComponent
-      }
+      { path: 'home', component: TestComponent, title: 'home' }
     ]);
-
-    // WHEN
     router.navigateByUrl('/home');
     tick();
 
-    // THEN
-    expect(document.title).toBe('PING');
+    expect(document.title).toBe('PISAC - Accueil');
   }));
 
-  it('should prefix page title with "PING - " when title is provided', fakeAsync(() => {
-    // GIVEN
+  it('should translate page title', fakeAsync(() => {
     router.resetConfig([
-      {
-        path: 'avurnav-notice',
-        title: 'Avertissements et avis',
-        component: TestComponent
-      }
+      { path: 'avurnav', component: TestComponent, title: 'avurnav' }
     ]);
-
-    // WHEN
-    router.navigateByUrl('/avurnav-notice');
+    router.navigateByUrl('/avurnav');
     tick();
 
-    // THEN
-    expect(document.title).toBe('PING - Avertissements et avis');
+    expect(document.title).toBe('PISAC - Avertissements et avis');
   }));
 });
 

@@ -16,6 +16,6 @@ export class FolderFormatDataNamePipe implements PipeTransform {
   constructor(private readonly translate: TranslateService) { }
 
   transform(folderData: FolderDataBase): string {
-    return this.translate.currentLang === 'fr' ? folderData.name : folderData.internationalName;
+    return this.translate.currentLang === 'es' ? folderData.name : folderData.internationalName;
   }
 }

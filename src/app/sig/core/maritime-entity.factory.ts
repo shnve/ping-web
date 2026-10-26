@@ -26,7 +26,7 @@ export class MaritimeEntityFactory {
         geometry: createOlGeometryFrom(entity.geom)
       });
 
-      this.styleFactory.setFeatureStyle(feature, this.translate.currentLang === 'fr' ? entity.name : (entity.internationalName ?? entity.name))
+      this.styleFactory.setFeatureStyle(feature, this.translate.currentLang === 'es' ? entity.name : (entity.internationalName ?? entity.name))
 
       MaritimeEntityFactory.attachPropertiesToFeature(feature, entity);
       return feature;

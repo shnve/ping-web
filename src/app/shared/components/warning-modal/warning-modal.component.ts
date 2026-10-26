@@ -319,8 +319,12 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
         this.showToast(this.translate.instant(toastSuccessPublishMessage), 'success');
         this.onStatusChangeAction.emit();
       },
-      () => {
-        this.showToast(this.translate.instant(toastErrorPublishMessage), 'error');
+      (err) => {
+        if (err && err.status === 500 && err.error?.message?.includes('Incompatible SerieType')) {
+          this.showToast('La categoría de peligro seleccionada no es compatible con esta serie.', 'error');
+        } else {
+          this.showToast(this.translate.instant(toastErrorPublishMessage), 'error');
+        }
       });
   }
 

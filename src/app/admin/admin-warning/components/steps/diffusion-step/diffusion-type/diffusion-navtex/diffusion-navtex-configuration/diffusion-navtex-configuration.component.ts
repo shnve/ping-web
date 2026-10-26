@@ -42,16 +42,14 @@ export class DiffusionNavtexConfigurationComponent implements OnInit {
     });
 
     const currentNavtexSource = this.creationService.getNavtexSource();
-    const shouldAddEndDayHourControls = [DiffusionNavtexSource.B, DiffusionNavtexSource.T].includes(currentNavtexSource);
+    const shouldAddEndDayHourControls = [DiffusionNavtexSource.N4].includes(currentNavtexSource);
 
-    this.displayCommunicationType = DiffusionNavtexSource.N !== currentNavtexSource;
+    this.displayCommunicationType = true;
     this.displayCommunicationType ? !this.communicationType.value && this.navtexConfigurationForm.get('communicationType').setValue('A')
       : this.navtexConfigurationForm.controls['communicationType'].disable();
 
     if (shouldAddEndDayHourControls) {
       this.addEndDayHourControls();
-    } else if (DiffusionNavtexSource.N === currentNavtexSource) {
-      this.addNitonControls();
     }
   }
 

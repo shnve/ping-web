@@ -194,7 +194,10 @@ export class PrerequisitesStepComponent extends StepComponent implements OnInit,
       typeGeneral: [this.prerequisites.typeGeneral, fieldRequired(this.generalTypeRequired)],
       cancellationTime: [this.prerequisites.cancellationTime],
       addCancellationTimeToTelex: [this.prerequisites.addCancellationTimeToTelex ?? true],
-      selectedCancellableWarnings: [this.anInformation.links.cancelledWarningIds]
+      selectedCancellableWarnings: [{
+        value: this.anInformation.links.cancelledWarningIds,
+        disabled: this.isPublishedWarning || this.isWarningModel
+      }]
     });
 
     if (!this.isPublished() && !this.isAnCancelledStatus(this.anInformation)) {
@@ -257,7 +260,7 @@ export class PrerequisitesStepComponent extends StepComponent implements OnInit,
 
             // force refresh to avoid 'null' display in field
             this.anForm.get('selectedCancellableWarnings').setValue(this.creationService.getWarningData().links.cancelledWarningIds);
-            
+
             this.alertMessageService.add({
               summary: 'message.summary.warn',
               severity: 'warn',
@@ -700,11 +703,15 @@ export class PrerequisitesStepComponent extends StepComponent implements OnInit,
 
   changeSelectedPart(partMainInfo: FeaturePartMainInfo): void {
     const selectedPartIndex = this.featureParts.findIndex(part => part === this.selectedPart);
-    this.featureParts[selectedPartIndex].information = partMainInfo.information;
-    this.featureParts[selectedPartIndex].typeDetails = partMainInfo.typeDetails;
-    // Copy array to detect change
-    this.featureParts = [...this.featureParts];
-    this.viewTelex.needRefresh = true;
+    if (selectedPartIndex !== -1) {
+      this.featureParts[selectedPartIndex].information = partMainInfo.information;
+      this.featureParts[selectedPartIndex].typeDetails = partMainInfo.typeDetails;
+      // Copy array to detect change
+      this.featureParts = [...this.featureParts];
+    }
+    if (this.viewTelex) {
+      this.viewTelex.needRefresh = true;
+    }
     this.checkIfPrerequisitesFormSavable();
   }
 
@@ -741,12 +748,16 @@ export class PrerequisitesStepComponent extends StepComponent implements OnInit,
 
   removePart(partToRemove: FeaturePart): void {
     const partToRemoveIndex = this.featureParts.findIndex(part => part === partToRemove);
-    this.featureParts.splice(partToRemoveIndex, 1);
+    if (partToRemoveIndex !== -1) {
+      this.featureParts.splice(partToRemoveIndex, 1);
+    }
     if (partToRemove === this.selectedPart) {
       this.selectedPart = null;
     }
     this.featureParts = [...this.featureParts];
-    this.viewTelex.needRefresh = true;
+    if (this.viewTelex) {
+      this.viewTelex.needRefresh = true;
+    }
     this.checkIfPrerequisitesFormSavable();
   }
 

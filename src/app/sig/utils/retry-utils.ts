@@ -26,14 +26,12 @@ export const genericRetryStrategy = ({
       }
 
       if (verbose) {
-        console.log(`Attempt ${retryAttempt}: retrying in ${retryAttempt * scalingDuration}ms`);
       }
       // retry after 1s, 2s, etc...
       return timer(retryAttempt * scalingDuration);
     }),
     finalize(() => {
       if (verbose) {
-        console.log('data loaded');
       }
     })
   );
