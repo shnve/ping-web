@@ -10,7 +10,7 @@ import { EventPage } from '@app/shared/components/ping-paginator/ping-paginator.
 @Component({ template: '' })
 export abstract class AbstractSearchComponent<T> implements OnInit {
   currentPage = 0;
-  currentSize = 5;
+  currentSize = 20;
   totalElements = 0;
 
   searchDelay = 300;

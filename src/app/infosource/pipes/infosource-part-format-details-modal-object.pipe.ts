@@ -161,7 +161,7 @@ export class InfosourcePartFormatDetailsModalObjectPipe implements PipeTransform
         displayedValue = this.formatGeoregulationCalendarPeriods(displayedValue);
         break;
       case InfosourceObjectMapKeys.GEOREGULATION_PART_INFORMATION:
-        if (this.translate.currentLang !== 'fr') {
+        if (this.translate.currentLang !== 'es') {
           displayedValue = '';
         }
         break;

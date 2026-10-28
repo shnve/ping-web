@@ -8,7 +8,7 @@ export class InfosourceFormatInformationPipe implements PipeTransform {
 
   transform(information: Map<string, string>): string {
 
-    let value = this.format(information, 'fr');
+    let value = this.format(information, 'es') || this.format(information, 'fr');
 
     if (value.length > 0) {
       value += '<br/>';

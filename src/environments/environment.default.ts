@@ -26,8 +26,8 @@ export const environment = {
   enableBathyDangersIntegration: false,
   enableSurveyModule: 'false',
   minYearForWarningNumber: 2000,
-  tableDefaultRowsCount: 10,
-  tableRowsPerPageOptions: [5, 10, 15],
+  tableDefaultRowsCount: 20,
+  tableRowsPerPageOptions: [5, 10, 15, 20],
   staticPageEditorConfig: {
     height: '320px',
     styleTags: ['p', 'h1', 'h2', 'h3'],

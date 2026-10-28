@@ -81,6 +81,22 @@ export class ExportPdfService {
     private readonly infosourcePartFormatDetailsModalObjectPipe: InfosourcePartFormatDetailsModalObjectPipe,
     private readonly translate: TranslateService) { }
 
+  private buildPdfHeaderHtml(logoDataUrl: string, qrCodeHtml?: string): string {
+    const institutionalTextHtml = `<p data-pdfmake='{"margin": [2, 1, 0, 0], "fontSize": 8.5, "bold": true, "alignment": "center"}' style="text-align: center;">República Bolivariana de Venezuela</p>`
+      + `<p data-pdfmake='{"margin": [2, 1, 0, 0], "fontSize": 8.5, "alignment": "center"}' style="text-align: center;">Ministerio del Poder Popular para la Defensa</p>`
+      + `<p data-pdfmake='{"margin": [2, 1, 0, 0], "fontSize": 8.5, "alignment": "center"}' style="text-align: center;">Armada Bolivariana</p>`
+      + `<p data-pdfmake='{"margin": [2, 1, 0, 0], "fontSize": 8.5, "alignment": "center"}' style="text-align: center;">Servicio de Hidrografía, Oceanografía, Meteorología y Cartografiado Náutico</p>`;
+    const logoCell = logoDataUrl ? `<td style="border: none;"><img src="${logoDataUrl}" width="116"></td>` : '';
+    const textCell = `<td style="border: none; text-align: center;" data-pdfmake='{"alignment": "center"}'>${institutionalTextHtml}</td>`;
+    const qrCell = qrCodeHtml
+      ? `<td style="border: none;" class="qrCode"><p data-pdfmake='{"margin": [0, -6, 0, 0], "alignment": "right"}'>${qrCodeHtml}</p></td>`
+      : `<td style="border: none;"></td>`;
+    const widths = logoDataUrl
+      ? '[116, "*", 116]'
+      : (qrCodeHtml ? '["*", 116]' : '["*"]');
+    return `<table data-pdfmake='{"widths": ${widths}}'><tr>${logoCell}${textCell}${logoDataUrl || qrCodeHtml ? qrCell : ''}</tr></table>`;
+  }
+
   private buildGeneratedDateTime(): string {
     const formatInTimeZone = (date, fmt, tz) => format(utcToZonedTime(date, tz), fmt, { timeZone: tz });
     return formatInTimeZone(new Date().toISOString(), 'dd/MM/yyyy HH:mm:ss \'UTC\'', 'UTC');
@@ -147,13 +163,15 @@ export class ExportPdfService {
       mapImage = imageData ? `<img src="${imageData}" width="${width}" style="text-align: center;">` : '';
     }
 
-    const logoHtml = logoDataUrl ? `<p data-pdfmake='{"margin": [0, 0, 0, 6]}'><img src="${logoDataUrl}" width="160"></p>` : '';
+    const logoHtml = this.buildPdfHeaderHtml(logoDataUrl);
     const titleContent = title instanceof Array
       ? title.map(item => `<p>${item}</p>`).join('\n')
       : `<p data-pdfmake='{"margin": [0, 6, 0, 0]}'>${title}</p>`;
 
     let htmlTitle = '';
-    if (linkUrl) {
+    const headerWithQrHtml = this.buildPdfHeaderHtml(logoDataUrl, linkUrl ? QrCodeService.getImageQrcode(linkUrl, 75) : '');
+    htmlTitle = `${headerWithQrHtml}${titleContent}`;
+    if (false) {
       const imageQrcode = QrCodeService.getImageQrcode(linkUrl, 90);
       htmlTitle = `<table data-pdfmake='{"widths": ["*", 65]}'>
                   <tr>
@@ -167,7 +185,7 @@ export class ExportPdfService {
                   </tr>
                 </table>`;
     } else {
-      htmlTitle = `${logoHtml}${titleContent}`;
+      htmlTitle = `${headerWithQrHtml}${titleContent}`;
     }
 
     const htmlContent = `${htmlTitle}<hr data-pdfmake='{"margin": [0, 0, 0, 0]}'>
@@ -280,8 +298,8 @@ export class ExportPdfService {
       cancellationDate ? `<li>${this.translate.instant('detail.to-be-cancelled')} : ${this.localizedDatePipe.transform(cancellationDate)}</li>` : '';
     const currentSharedLinkUrl = getSharedLinkUrl(warning.id, window.location.href);
     const detailNumber = `${this.translate.instant('detail.number')} : ${this.formatWarningNumberPipe.transform(warning)}`;
-    const detailGeneralArea = `${this.translate.instant('detail.general-area')} : ${this.formatWarningTitlePipe.transform(warning)}`;
-    const detailGeneralCategory = `${this.translate.instant('detail.general-category')} : ${translatedTypeDetails(this.translate, warning.warningHazardTypeGeneral)}`;
+    const detailGeneralArea = `<span style="font-weight: bold;">${this.translate.instant('detail.general-area')} : </span>${this.formatWarningTitlePipe.transform(warning)}`;
+    const detailGeneralCategory = `<span style="font-weight: bold;">${this.translate.instant('detail.general-category')} : </span>${translatedTypeDetails(this.translate, warning.warningHazardTypeGeneral)}`;
     const imageQrcode = QrCodeService.getImageQrcode(currentSharedLinkUrl, isDetailsWarningTable ? 90 : 120);
     const cancelledWarnings = addCancelledWarnings(warning.cancelledWarnings);
     const cancellationDate = addCancellationDate(warning.cancellationDate);
@@ -310,12 +328,20 @@ export class ExportPdfService {
     return `<div>
               <ul style="list-style-type: none;">
                 ${isDetailsWarningTable ? tableWithTemplate : tableWithoutTemplate}
-                <li><span style="font-weight: bold;">${this.translate.instant('detail.title')} : </span>${this.buildWarningDetailsFeaturePartHtml(warning.featureParts)}</li>
-                <li><span style="font-weight: bold;">${this.translate.instant('detail.state')} : </span>
+                <li><span style="font-weight: bold;">${this.translate.instant('detail.title')} :</span></li>
+                <br/>
+                <li>${this.buildWarningDetailsFeaturePartHtml(warning.featureParts)}</li>
+                <li><span style="font-weight: bold;">${this.translate.instant('detail.state')} : </span>${this.translate.instant('enum.warning-status.' + warning.status.toLowerCase())}</li>
+                ${warning.publicationTime ? `<li><span style="font-weight: bold;">${this.translate.instant('detail.published')} : </span>${this.localizedDatePipe.transform(warning.publicationTime)}</li>` : ''}
+              </ul>
+            </div>`;
+    const _unused = `
                   <ul>
                     <li>${this.translate.instant('detail.status')} : ${this.translate.instant('enum.warning-status.' + warning.status.toLowerCase())}</li>
                     <li>${addPublished(warning.publicationTime)}</li>
                   </ul>
+                </li>`;
+    const _unused2 = `
                 </li>
               </ul>
             </div>`;
@@ -409,21 +435,21 @@ export class ExportPdfService {
   private addDateRanges(dateRanges: Array<DateRange>): string {
     if (!dateRanges?.length) { return ''; }
     if (dateRanges.length === 1) {
-      return `<div>${this.translate.instant('detail.range')} : ${this.formatDateRangePipe.transform(dateRanges[0])}</div>`;
+      return `<div><span style="font-weight: bold;">${this.translate.instant('detail.range')} : </span>${this.formatDateRangePipe.transform(dateRanges[0])}</div>`;
     }
     const dateRangesHtml = dateRanges.reduce((acc, dateRange) => {
       acc += `<li>${this.formatDateRangePipe.transform(dateRange)}</li>`;
       return acc;
     }, '<ul style="list-style-type: none;">') + '</ul>';
-    return `<div>${this.translate.instant('detail.ranges')} : ${dateRangesHtml}</div>`;
+    return `<div><span style="font-weight: bold;">${this.translate.instant('detail.ranges')} : </span>${dateRangesHtml}</div>`;
   }
 
   private buildFeaturePartHtml(featurePart: WarningFeaturePart): string {
     const addFeatureTypeDetails = typeDetails =>
-      typeDetails ? `<div>${this.translate.instant('detail.category')} : ${this.formatFeaturePartDetailsPipe.transform(typeDetails)}</div>` : '';
+      typeDetails ? `<div><span style="font-weight: bold;">${this.translate.instant('detail.category')} : </span>${this.formatFeaturePartDetailsPipe.transform(typeDetails)}</div>` : '';
     const addFeatureInformation = information =>
-      !isEmpty(information) ? `<div style="white-space: pre-line;">${this.formatLocalizedTextPipe.transform(information)}</div>` : '';
-    return `<table class="html-feature" data-pdfmake='{"widths": ["*"]}'><tr><td>
+      !isEmpty(information) ? `<div style="white-space: pre-line;" data-pdfmake='{"margin": [0, 4, 0, 0]}'>${this.formatLocalizedTextPipe.transform(information)}</div>` : '';
+    return `<table class="html-feature" data-pdfmake='{"widths": [2, "*"]}'><tr><td style="border: none;" data-pdfmake='{"fillColor": "#003366"}'></td><td style="border: none;" data-pdfmake='{"fillColor": "#F8F9FA", "margin": [8, 6, 8, 6]}'>
               ${addFeatureTypeDetails(featurePart.typeDetails)}
               ${this.addDateRanges(featurePart.dateRanges)}
               ${addFeatureInformation(featurePart.information)}
@@ -455,7 +481,7 @@ export class ExportPdfService {
   async exportWarningTableDetailsFromWarningList(warnings: TableWarning[], pdfName: string, headerTitle: string[]): Promise<void> {
     await this.loadPdfMaker();
     const logoDataUrl = await this.getLogoBase64();
-    const logoHtml = logoDataUrl ? `<p data-pdfmake='{"margin": [0, 0, 0, 6]}'><img src="${logoDataUrl}" width="160"></p>` : '';
+    const logoHtml = this.buildPdfHeaderHtml(logoDataUrl);
 
     // warnings content
     const warningsHtml = warnings.reduce((acc, warning, index) => {
@@ -487,7 +513,16 @@ export class ExportPdfService {
     // header
     let yPos = 12;
     if (logoDataUrl) {
-      pdf.addImage(logoDataUrl, 'PNG', marginHorizontal, 8, 110, 38);
+      pdf.addImage(logoDataUrl, 'PNG', marginHorizontal, 8, 96, 33);
+    }
+    pdf.setFontSize(8);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('República Bolivariana de Venezuela', middleWidth, 16, { align: 'center' });
+    pdf.setFont('helvetica', 'normal');
+    pdf.text('Ministerio del Poder Popular para la Defensa', middleWidth, 25, { align: 'center' });
+    pdf.text('Armada Bolivariana', middleWidth, 34, { align: 'center' });
+    pdf.text('Servicio de Hidrografía, Oceanografía, Meteorología y Cartografiado Náutico', middleWidth, 43, { align: 'center' });
+    if (logoDataUrl) {
       yPos = 56;
     }
 

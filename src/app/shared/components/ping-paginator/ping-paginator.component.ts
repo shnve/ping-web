@@ -29,7 +29,7 @@ export class PingPaginatorComponent {
   }
 
   @Input() currentPage = 0;
-  @Input() currentSize = 5;
+  @Input() currentSize = 20;
 
   changePageSize(newSize: {originalEvent: any, value: number}): void {
     this.currentSize = newSize.value;
