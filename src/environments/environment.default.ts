@@ -49,8 +49,6 @@ export const environment = {
     defaultZoom: 5,
     defaultRadiusForPointExtent: 16,
     baseLayerId: 'XXXX',
-    orthoGeoLittoralV2Id: 'ortholittorale_v2_rvb',
-    orthoGeoLittoralV2LayerName: 'Ortho Geolittoral v2',
     rasterMarineLayerName: 'Raster Marine',
     westAfricaRasterMarineId: 'XXXX',
     westAfricaRasterMarineLayerName: 'Assemblage des cartes marines Afrique de l\'Ouest',

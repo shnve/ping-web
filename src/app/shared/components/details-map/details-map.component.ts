@@ -92,7 +92,6 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
   @Input() shouldShowDangers = false;
   @Input() shouldShowDetections = false;
   @Input() canShowRasterMarineLayer = false;
-  @Input() canShowOrthoIGNLayer = false;
   @Input() partsAttributeName = 'featureParts';
   @Input() canClickOnGeometry = false;
   @Input() notionType: NotionType;
@@ -121,7 +120,6 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
   shouldShowZoneX = false;
   showSubAreas = false;
   shouldShowRasterMarineLayer = true;
-  shouldShowOrthoGeoLittoralV2Layer = false;
   hasEventForAllowToClickOnFeatureHover = false;
   geometries: Set<SimpleGeometry>;
   entitiesManagedOrObservedByService: MapMaritimeEntity[];
@@ -182,7 +180,7 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
   ngOnChanges(changes: SimpleChanges) {
     this.showMaritimesEntitiesManagedOrObservedByService = this.enableLayerMaritimesEntitiesManagedOrObservedByService && this.authService.isLoggedIn() && this.authService.hasRoleServiceUser();
     this.noAvailableLayerToDisplay = !this.showMaritimesEntitiesManagedOrObservedByService && !this.canShowRasterMarineLayer
-      && !this.canShowOrthoIGNLayer && !this.showMaritimesEntitiesManagedOrObservedByService && !this.showLayers && !this.showZoneX;
+      && !this.showMaritimesEntitiesManagedOrObservedByService && !this.showLayers && !this.showZoneX;
 
     if (changes.modelItem && this.mapLoaded && this.modelItem) {
       this.displaysModelItemFeatures();
@@ -214,7 +212,7 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
           return throwError(error);
         }))
       .subscribe(layers => {
-        this.hasAtLeastOneLayerToShow = this.canShowRasterMarineLayer || this.canShowOrthoIGNLayer || this.showLayers || this.showZoneX || this.showDangers || this.showDetections;
+        this.hasAtLeastOneLayerToShow = this.canShowRasterMarineLayer || this.showLayers || this.showZoneX || this.showDangers || this.showDetections;
         // Deep clone carto layers (excluding OSM base layer which is instantiated locally with preserveDrawingBuffer: true)
         this.createCarto(layers.filter(layer => !layer.name?.startsWith(PING_LAYER_NAME_PREFIX) && layer.name !== 'OSM')
           .map(
@@ -478,31 +476,9 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
   }
 
   updateMapIfShouldShowRasterMarineLayer(): void {
-    if (this.shouldShowOrthoGeoLittoralV2Layer && this.shouldShowRasterMarineLayer) {
-      this.updateMapIfShouldShowRasterMarineLayerAndOrthoIGNLayer();
-    } else {
-      if (this.shouldShowOrthoGeoLittoralV2Layer) {
-        this.carto.map.layers.find(layer => layer.name === environment.carto.orthoGeoLittoralV2LayerName).opacity = 0.8;
-      }
-
-      this.shouldShowRasterMarineLayer ?
-        this.layersFacade.addRasterMarineLayer(this.carto.map, 1).pipe(take(1)).subscribe()
-        : this.layersFacade.removeLayer(this.carto.map, environment.carto.rasterMarineLayerName);
-    }
-  }
-
-  updateMapIfshouldShowOrthoGeoLittoralV2Layer(): void {
-    if (this.shouldShowOrthoGeoLittoralV2Layer && this.shouldShowRasterMarineLayer) {
-      this.updateMapIfShouldShowRasterMarineLayerAndOrthoIGNLayer();
-    } else {
-      if (this.shouldShowRasterMarineLayer) {
-        this.carto.map.layers.find(layer => layer.name === environment.carto.rasterMarineLayerName).opacity = 1;
-      }
-
-      this.shouldShowOrthoGeoLittoralV2Layer ?
-        this.layersFacade.addOrthoGeoLittoralV2Layer(this.carto.map, 0.8)
-        : this.layersFacade.removeLayer(this.carto.map, environment.carto.orthoGeoLittoralV2LayerName);
-    }
+    this.shouldShowRasterMarineLayer ?
+      this.layersFacade.addRasterMarineLayer(this.carto.map, 1).pipe(take(1)).subscribe()
+      : this.layersFacade.removeLayer(this.carto.map, environment.carto.rasterMarineLayerName);
   }
 
   updateMapIfShouldShowMaritimesEntitiesManagedOrObservedByService(): void {
@@ -516,13 +492,6 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
       this.entitiesManagedOrObservedByService = [];
       this.removeLayer(this.vectorLayerMaritimeEntities);
     }
-  }
-
-  updateMapIfShouldShowRasterMarineLayerAndOrthoIGNLayer(): void {
-    this.layersFacade.removeLayer(this.carto.map, environment.carto.orthoGeoLittoralV2LayerName);
-    this.layersFacade.removeLayer(this.carto.map, environment.carto.rasterMarineLayerName);
-    this.layersFacade.addOrthoGeoLittoralV2Layer(this.carto.map, 1);
-    this.layersFacade.addRasterMarineLayer(this.carto.map, 0.3).pipe(take(1)).subscribe();
   }
 
   loadMapMaritimeEntities(): void {

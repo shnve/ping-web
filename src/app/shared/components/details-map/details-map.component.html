@@ -13,15 +13,6 @@
           inputId="shouldShowRasterMarineLayer">
         </p-checkbox>
       </div>
-      <div *ngIf="canShowOrthoIGNLayer" class="p-col-12">
-        <p-checkbox
-          binary="true"
-          [label]="'carto.ortho-ign' | translate"
-          [(ngModel)]="shouldShowOrthoGeoLittoralV2Layer"
-          (onChange)="updateMapIfshouldShowOrthoGeoLittoralV2Layer()"
-          inputId="shouldShowOrthoGeoLittoralV2Layer">
-        </p-checkbox>
-      </div>
       <div *ngIf="showMaritimesEntitiesManagedOrObservedByService" class="p-col-12">
         <p-checkbox
           binary="true"

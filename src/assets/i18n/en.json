@@ -28,7 +28,7 @@
   "not-public": "Not public",
   "confirm-remove-part": "Remove part ?",
   "preposition-for": "for",
-  "meta-description": "Consult notices to mariners (NAVAREA, AVURNAV, AVINAV) and maritime regulations on PISAC. You too can contribute to nautical information!",
+  "meta-description": "Consult navigational warnings (NAVAREA, coastal and local), notices to mariners and maritime regulations on PISAC. You too can contribute to nautical information!",
   "account-panel": {
     "welcome": "Welcome",
     "create-button.title": "Register an account",
@@ -69,8 +69,8 @@
     "area.select-area": "Select area",
     "account-creation": "Create account",
     "account-edition": "Edit account",
-    "sign-in-up": "Connexion or account creation",
-    "sign-in-up-subscription": "Connection or account creation",
+    "sign-in-up": "Sign in or create an account",
+    "sign-in-up-subscription": "Sign in or create an account",
     "not-logged-in": "My account",
     "logged-in": "Sign in",
     "survey-map-legend": "Legend of detected probes and geometries-bathymetry with meaning of writings",
@@ -148,7 +148,7 @@
       "tables": "Tables",
       "my-surveys": "My surveys",
       "new-test": "Analyze nautical information from a survey",
-      "new-deposit": "Send a survey to Shom",
+      "new-deposit": "Send a survey to SHN",
       "edit-deposit": "Edit survey transmission",
       "edit-test": "Edit survey analysis"
     },
@@ -259,10 +259,10 @@
       "buttons": {
         "new-danger": "Reporting a new hazard",
         "forecast": "A forecast of activities at sea",
-        "update": "Updating a nautical chart or nautical publication from Shom",
-        "shom-map-anomaly": "Anomaly on a nautical chart of the Shom",
-        "shom-publication-anomaly": "Anomaly in a Shom nautical publication",
-        "futur-update-information": "Information for future updates of Shom's nautical charts and nautical publications",
+        "update": "Update a SHN nautical chart or nautical publication",
+        "shom-map-anomaly": "Anomaly on a SHN nautical chart",
+        "shom-publication-anomaly": "Anomaly in a SHN nautical publication",
+        "futur-update-information": "Information for future updates of SHN's nautical charts and nautical publications",
         "bathy-data": "New bathymetry or other collected data"
       },
       "new-danger-confirmation": {
@@ -283,7 +283,7 @@
       },
       "bathy": {
         "title": "Creation of the bathymetric contribution",
-        "description": "<p>The detection of dangerous deviations is carried out by CARTONAUT.<br/>This is an automatic test of bathymetric data against current SHOM nautical charts to detect dangerous deviations that could be subject to an AN.<br/>Depending on the holder's choice, an information source based on dangerous deviations will be created, intended for producers of nautical information, in particular for the producer of AN concerned.<br/>Here are the possible actions :<br/><ul><li>Test:<br/>data are not retained beyond the strict need for traceability of the data test by CARTONAUT</li><li>Transmission :<br/>deposit (transmit) data lead to the definitive recording of these data in the IS of SHOM, with an internal validation of these data by SHOM, as well as an expertise of these data and their contribution for the updating of the nautical charts</li></ul></p>",
+        "description": "<p>The detection of dangerous deviations is carried out by CARTONAUT.<br/>This is an automatic test of bathymetric data against current SHN nautical charts to detect dangerous deviations that could be subject to a notice to mariners (NM).<br/>Depending on the holder's choice, an information source based on dangerous deviations will be created, intended for producers of nautical information, in particular for the producer of the NM concerned.<br/>Here are the possible actions:<br/><ul><li>Test:<br/>data are not retained beyond the strict need for traceability of the data test by CARTONAUT</li><li>Transmission:<br/>transmitting the data leads to their definitive recording in the SHN information system, with an internal validation of these data by SHN, as well as an expert review of these data and their contribution to the updating of nautical charts</li></ul></p>",
         "report-danger": {
           "new-report-danger": "New report of dangerous depth",
           "danger-location": "Danger location",
@@ -370,7 +370,7 @@
           "georegulationSummary": "Summary",
           "georegulationAdditionNumbers": "Additional numbers",
           "ping-id": "PISAC id",
-          "shom-id": "SHOM id",
+          "shom-id": "SHN id",
           "producer-organization": "Project manager",
           "owner-organization": "Project owner",
           "name-and-location": "Name/location",
@@ -488,7 +488,7 @@
     },
     "report-other-title": "New report",
     "map-anomaly-report": {
-      "title": "New anomaly on a Shom nautical chart",
+      "title": "New anomaly on a SHN nautical chart",
       "map-number": "Map number",
       "edition-number": "Edition number",
       "last-patch-number": "Last patch number",
@@ -499,7 +499,7 @@
       }
     },
     "publication-report": {
-      "title": "New anomaly in a Shom nautical publication",
+      "title": "New anomaly in a SHN nautical publication",
       "issue-reference": "Reference of the publication concerned",
       "up-to-date-at": "Up to date at",
       "chapter-or-page": "Chapter or page",
@@ -509,7 +509,7 @@
       }
     },
     "future-updates": {
-      "title": "New Information for future updates of Shom's nautical charts and nautical publications",
+      "title": "New information for future updates of SHN's nautical charts and nautical publications",
       "information-location": "Location of the information",
       "object-future-info": "Object",
       "errors": {
@@ -751,7 +751,7 @@
         "timezone-invalid": "Invalid timezone",
         "is-temporary-invalid": "Choose if GR is temporary or not",
         "is-all-territorial-sea-invalid": "Choose if GR concerns all territorial sea",
-        "is-announced-by-avurnav-avirade-invalid": "Choose if GR was announced by Avurnav-Avirade",
+        "is-announced-by-avurnav-avirade-invalid": "Choose whether the regulation was previously announced as a notice (NM)",
         "is-public-invalid": "Choose if GR is public or not",
         "required-field": "Required field",
         "incomplete-number": "Incomplete number",
@@ -789,14 +789,14 @@
     "timezone": "Timezone",
     "is-temporary": "Temporary ?",
     "is-all-territorial-sea": "Concerns all territorial seas ?",
-    "is-announcement-by-avurnav-avirade": "Announced by Avurnav-Avirade ?",
+    "is-announcement-by-avurnav-avirade": "Previously announced as a notice (NM)?",
     "number": "Number",
     "additional-numbers": "Additional numbers",
     "add-additional-number": "Add number",
     "activities": "Activities",
     "activities-placeholder": "Select activities",
     "object": "Object",
-    "summary": "Shom summary",
+    "summary": "SHN summary",
     "calendar-periods": "Calendar periods",
     "seasonal-periods": "Seasonal periods",
     "seasonal-periods-select-day": "Select a day",
@@ -805,7 +805,7 @@
     "seasonal-periods-to": "to",
     "seasonal-periods-invalid": "Seasonal period is invalid",
     "coastline-limit": "Marking plan",
-    "is-public": "Public ?",
+    "is-public": "Public?",
     "mark-new-during": "Mark as new during (months)",
     "links": "Links",
     "concerned-by-restriction-vessel": "Vessels ",
@@ -858,7 +858,7 @@
       "activities": "Activity(ies) concerned",
       "title": "Object",
       "entities": "Maritime entities",
-      "summary": "Shom summary",
+      "summary": "SHN summary",
       "areas": "Area(s)",
       "no-part-information": "No part information",
       "part-fieldset": "Part",
@@ -962,7 +962,7 @@
     "no-localisation-data": "No localisation data in this survey",
     "form": {
       "header": {
-        "contact": "In case of difficulty, please contact <a href=\"mailto:bri@shom.fr\">bri@shom.fr</a>"
+        "contact": "In case of difficulty, please contact <a href=\"mailto:bri@shn.mil.ve\">bri@shn.mil.ve</a>"
       },
       "sections": {
         "survey-description": "Survey description",
@@ -1018,7 +1018,7 @@
         }
       },
       "placeholders": {
-        "name-and-location": "East channel survey - Brest commercial port",
+        "name-and-location": "Access channel survey - Port of La Guaira",
         "goal": "Bathymetric control survey after dredging",
         "area": "Select area",
         "contributor-service": "Select contributor service",
@@ -1034,8 +1034,8 @@
         "save-test": "Analyze",
         "save-draft": "Save draft",
         "delete-draft": "Delete draft",
-        "transmit-deposit": "Launch survey transmission to Shom",
-        "transmit-deposit-title": "Save the draft in order to send the survey to Shom"
+        "transmit-deposit": "Launch survey transmission to SHN",
+        "transmit-deposit-title": "Save the draft in order to send the survey to SHN"
       },
       "transmit-popup": {
         "header": "Survey transmission",
@@ -1065,13 +1065,13 @@
         "email-invalid": "Please enter valid email",
         "required-field": "Required field",
         "not-empty": "Field should not contain only whitespace characters",
-        "file-size-exceed": "The size of the file must not exceed 10 GB. Please contact the SHOM information collection office at bri@shom.fr who will be responsible for finding the appropriate solutions (sending a hard disk, cloud of deposit...).",
+        "file-size-exceed": "The size of the file must not exceed 10 GB. Please contact the SHN information collection office at bri@shn.mil.ve, who will be responsible for finding the appropriate solutions (sending a hard disk, cloud storage...).",
         "cannot-transmit-because-not-compliant": "Data not compliant, you cannot start transmission, please check, correct and save again"
       },
       "confirm": {
         "cancel-message": "All changes will be lost. Continue ?",
         "delete-message": "Draft is going to be delete. Continue ?",
-        "transmit-message": "Survey will be transmitted to SHOM. Continue ?",
+        "transmit-message": "The survey will be transmitted to SHN. Continue?",
         "report-message": "Are you sure you want to submit an urgent report ?"
       },
       "transmission-information-message": "You can enter your draft, kept for 30 days, in order to complete it later, or transmit your survey"
@@ -1296,7 +1296,6 @@
       "invalid-polygon-vertices-number": "At least one polygon contains too many vertices for bathy IS"
     },
     "raster-marine": "Raster Marine",
-    "ortho-ign": "Ortho littorale_v2 GéoLittoral",
     "entities-maritimes-managed-or-observed-by-service": "Maritime(s) entity(ies) managed or observed"
   },
   "table": {
@@ -1408,7 +1407,7 @@
     }
   },
   "folder-creation": {
-    "title": "Folder creation :",
+    "title": "Folder creation:",
     "object": "Object",
     "review-date": "Review date",
     "comment": "Comment",
@@ -1442,7 +1441,7 @@
     }
   },
   "subscription-creation": {
-    "page-title": "Subscription creation :",
+    "page-title": "Subscription creation:",
     "service": "Maritime service subscriber",
     "title": "Subscription title",
     "area": "Area",
@@ -1527,7 +1526,7 @@
   "survey-table": {
     "columns": {
       "identifier": "Identifier",
-      "shom-id": "Shom id",
+      "shom-id": "SHN id",
       "name-and-location": "Name/location",
       "producer-organization": "Project manager",
       "owner-organization": "Project owner",
@@ -1696,7 +1695,7 @@
   },
   "filter": {
     "filter-bar": {
-      "WARNING": "Avurnav",
+      "WARNING": "Warnings",
       "NOTICE": "Notices",
       "PERMANENT": "Permanent",
       "TEMPORARY": "Temporary",
@@ -1777,7 +1776,7 @@
           "identifier": "PISAC ID {{identifier}}",
           "name-and-location": "Name/location",
           "transmission-period": "Transmission {{period}}",
-          "shom-id": "Shom ID {{shomId}}",
+          "shom-id": "SHN ID {{shomId}}",
           "producer-organization": "Project manager {{producerOrganization}}",
           "owner-organization": "Project owner {{ownerOrganization}}",
           "not-compliant": "Not compliant",
@@ -1793,7 +1792,7 @@
       }
     },
     "filter-form": {
-      "warning-number": "AVURNAV Brest 1001/23",
+      "warning-number": "COASTAL WARNING VE 1/26",
       "reservation-number-and-year": "1001/23",
       "serie": "Series: ",
       "sub-areas": "Sectors: ",
@@ -1810,7 +1809,7 @@
       "first-day-of-week": "0",
       "event-period": "Period of events",
       "interest-period": "Interest period",
-      "avurnav-types": "Avurnav types: ",
+      "avurnav-types": "Warning types: ",
       "start": "Start: ",
       "end": "End: ",
       "published-since": "Published in PISAC since: ",
@@ -1830,7 +1829,7 @@
       "all-tags": "All tags",
       "all-service-statuses": "All service statuses",
       "all-recipients": "All recipients",
-      "natures": "Natures : ",
+      "natures": "Natures: ",
       "maritime-entities": "Maritime entities: ",
       "tags": "Tags: ",
       "last-update-period": "Last update period: ",
@@ -1873,7 +1872,7 @@
     "survey-filter-form": {
       "identifier": "Identifier",
       "identifier-placeholder": "Identifier",
-      "shom-id": "Shom id",
+      "shom-id": "SHN id",
       "name-and-location": "Name/location",
       "name-and-location-placeholder": "Name/location",
       "survey-period": "Survey period",
@@ -2461,9 +2460,9 @@
       "hazard-report": "report of new hazard",
       "other-report": "other report",
       "activity-forecast": "forecast of activity on sea",
-      "map-anomaly": "Shom's nautical map discrepancy",
-      "publication-anomaly": "Shom's nautical publication discrepancy",
-      "future-information": "informations for future updates of Shom nautical maps and publications",
+      "map-anomaly": "SHN nautical chart discrepancy",
+      "publication-anomaly": "SHN nautical publication discrepancy",
+      "future-information": "Information for future updates of SHN nautical charts and publications",
       "lighthouse-and-beacon": "lighthouse & beacon",
       "georegulation": "georegulation",
       "survey-transmission": "transmitted survey",
@@ -2626,7 +2625,7 @@
       "50": "Temporary AIS establishment",
       "51": "Temporary V-AIS establishment",
       "52": "Temporary RACON establishment",
-      "53": "CMS migration Aladin",
+      "53": "CMS migration",
       "54": "Seasonal establishment in progress",
       "55": "Seasonal establishment completed",
       "56": "Seasonal decommissioning in progress",
@@ -2648,14 +2647,14 @@
     },
     "maritime-service-type": {
       "national_delegated_coordinator": "National delegated coordinator",
-      "shom_geographic_area": "SHOM geographic area",
+      "shom_geographic_area": "SHN geographic area",
       "navarea_coordinator": "NAVAREA coordinator",
       "semaphore": "Coast guard",
       "lighthouses_and_beacons": "Lighthouses & beacons",
       "captaincy": "Port Captaincy",
       "authority": "Authority",
-      "cross": "CROSS",
-      "cross_vts": "CROSS VTS",
+      "cross": "MRCC (Maritime Rescue Coordination Centre)",
+      "cross_vts": "MRCC / VTS",
       "port_vts": "VTS port",
       "bri": "BRI",
       "old_users": "Old Users",
@@ -2802,9 +2801,9 @@
     },
     "survey-activity": {
       "participatory-bathymetry-activities": "Participatory bathymetry",
-      "excavation-geophysical-activities": "Excavation and geophysical survey activities (article l413 1 of the mining code)",
-      "marine-scientific-research-activities": "Marine scientific research activities (article l251 3 of the research code)",
-      "public-service-activities": "Public service activities (CRPA)",
+      "excavation-geophysical-activities": "Excavation and geophysical survey activities",
+      "marine-scientific-research-activities": "Marine scientific research activities",
+      "public-service-activities": "Public service activities",
       "other-activities": "Other activities"
     }
   },
@@ -3479,9 +3478,9 @@
           "title": "Information sources linked to warning",
           "sent-by": "Sent by",
           "sent-at": "at",
-          "nature": "Nature : ",
+          "nature": "Nature: ",
           "display-infosource-modal": "Display information source details on map",
-          "description": "Description : ",
+          "description": "Description: ",
           "attachments": "Attachments : ",
           "timezone": "Timezone : "
         }
@@ -3495,7 +3494,7 @@
     "user-role": "Role",
     "save": "Save",
     "add-user-title-card": "Add a user",
-    "tooltip-about-adding-user": "To add a person already registered to a service and who has no rights in the services administered by the administrator, only the Shom functional administration can act.",
+    "tooltip-about-adding-user": "To add a person already registered to a service and who has no rights in the services administered by the administrator, only the SHN functional administration can act.",
     "select-user": "Select a user",
     "select-role": "Select a role",
     "success": "The role has been assigned",

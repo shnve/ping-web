@@ -7,7 +7,7 @@ import { boundingExtent, getWidth } from 'ol/extent';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import { fromLonLat, get as getProjection } from 'ol/proj';
-import { OSM, TileWMS, XYZ } from 'ol/source';
+import { OSM, XYZ } from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
@@ -216,23 +216,6 @@ export class LayersFacade {
         mapCarto.addLayer(layer);
       })
     );
-  }
-
-  addOrthoGeoLittoralV2Layer(mapCarto: any, opacity: number): void {
-    const mandatoryParams = { 'LAYERS': environment.carto.orthoGeoLittoralV2Id };
-    const optionalParams = {};
-    const layer = new Layer({
-      name: environment.carto.orthoGeoLittoralV2LayerName,
-      olLayer: new TileLayer({
-        source: new TileWMS({
-          url: 'https://geolittoral.din.developpement-durable.gouv.fr/wxs?SERVICE=WMS&VERSION=1.3.0',
-          params: { ...mandatoryParams, ...optionalParams },
-        })
-      })
-    });
-
-    layer.opacity = opacity;
-    mapCarto.addLayer(layer);
   }
 
   removeLayer(mapCarto: any, layerName: string): void {

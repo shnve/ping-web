@@ -7,7 +7,6 @@ import { finalize } from 'rxjs/operators';
 
 const URL_NEED_TO_LISTENING: string[] = [
   '/wmts?',          // raster marine
-  '/wxs?',           // ortho littorale
   '/admin-api/warnings',
   '/admin-api/infosources/available-infosources-to-link?',
   '/admin-api/georegulations/available-georegulations-to-link?',

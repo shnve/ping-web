@@ -28,7 +28,7 @@
   "not-public": "No público",
   "confirm-remove-part": "¿Eliminar parte?",
   "preposition-for": "para",
-  "meta-description": "Consulta avisos a los navegantes (NAVAREA, AVURNAV, AVINAV) y regulaciones marítimas en PISAC. ¡Tú también puedes contribuir a la información náutica!",
+  "meta-description": "Consulta en PISAC las advertencias de navegación (NAVAREA, costeras y locales), los avisos a los navegantes y las regulaciones marítimas. ¡Tú también puedes contribuir a la información náutica!",
   "account-panel": {
     "welcome": "Bienvenido",
     "create-button.title": "Registrar una cuenta",
@@ -69,7 +69,7 @@
     "area.select-area": "Seleccionar área",
     "account-creation": "Crear cuenta",
     "account-edition": "Editar cuenta",
-    "sign-in-up": "Conexión o creación de cuenta",
+    "sign-in-up": "Iniciar sesión o crear cuenta",
     "sign-in-up-subscription": "Conexión o creación de cuenta",
     "not-logged-in": "Mi cuenta",
     "logged-in": "Iniciar sesión",
@@ -962,7 +962,7 @@
     "no-localisation-data": "No hay datos de localización en este levantamiento",
     "form": {
       "header": {
-        "contact": "En caso de dificultad, por favor contacta a <a href=\"mailto:bri@shom.fr\">bri@shom.fr</a>"
+        "contact": "En caso de dificultad, por favor contacta a <a href=\"mailto:bri@shn.mil.ve\">bri@shn.mil.ve</a>"
       },
       "sections": {
         "survey-description": "Descripción del levantamiento",
@@ -1018,7 +1018,7 @@
         }
       },
       "placeholders": {
-        "name-and-location": "Levantamiento del canal este - Puerto comercial de Brest",
+        "name-and-location": "Levantamiento del canal de acceso - Puerto de La Guaira",
         "goal": "Levantamiento de control batimétrico después del dragado",
         "area": "Seleccionar área",
         "contributor-service": "Seleccionar servicio colaborador",
@@ -1065,7 +1065,7 @@
         "email-invalid": "Por favor, introduce un correo electrónico válido",
         "required-field": "Campo obligatorio",
         "not-empty": "El campo no debe contener solo espacios en blanco",
-        "file-size-exceed": "El tamaño del archivo no debe exceder 10 GB. Póngase en contacto con la oficina de recolección de información del SHN en bri@shom.fr, quienes se encargarán de encontrar las soluciones adecuadas (envío de disco duro, depósito en la nube...).",
+        "file-size-exceed": "El tamaño del archivo no debe exceder 10 GB. Póngase en contacto con la oficina de recolección de información del SHN en bri@shn.mil.ve, quienes se encargarán de encontrar las soluciones adecuadas (envío de disco duro, depósito en la nube...).",
         "cannot-transmit-because-not-compliant": "Datos no conformes, no puedes iniciar la transmisión, por favor revisa, corrige y guarda de nuevo"
       },
       "confirm": {
@@ -1307,7 +1307,6 @@
       "invalid-polygon-vertices-number": "Al menos un polígono contiene demasiados vértices para batimetría IS"
     },
     "raster-marine": "Raster Marine",
-    "ortho-ign": "Ortho littorale_v2 GéoLittoral",
     "entities-maritimes-managed-or-observed-by-service": "Entidad(es) marítima(s) gestionada(s) u observada(s)"
   },
   "table": {
@@ -1707,7 +1706,7 @@
   },
   "filter": {
     "filter-bar": {
-      "WARNING": "Avurnav",
+      "WARNING": "Advertencias",
       "NOTICE": "Avisos",
       "PERMANENT": "Permanente",
       "TEMPORARY": "Temporal",
@@ -1804,7 +1803,7 @@
       }
     },
     "filter-form": {
-      "warning-number": "AVURNAV Brest 1001/23",
+      "warning-number": "ADVERTENCIA COSTERA VE 1/26",
       "reservation-number-and-year": "1001/23",
       "serie": "Series: ",
       "sub-areas": "Sectores: ",
@@ -1821,7 +1820,7 @@
       "first-day-of-week": "1",
       "event-period": "Período de eventos",
       "interest-period": "Período de interés",
-      "avurnav-types": "Tipos de Avurnav: ",
+      "avurnav-types": "Tipos de advertencia: ",
       "start": "Inicio: ",
       "end": "Fin: ",
       "published-since": "Publicado en PISAC desde: ",
@@ -2637,7 +2636,7 @@
       "50": "Instalación de un AIS temporalmente",
       "51": "Creación de un V-AIS temporalmente",
       "52": "Instalación de un RACON temporalmente",
-      "53": "Migración CMS Aladin",
+      "53": "Migración CMS",
       "54": "Instalación estacional en curso",
       "55": "Instalación estacional completada",
       "56": "Desactivación estacional en curso",
@@ -2665,8 +2664,8 @@
       "lighthouses_and_beacons": "Faros y balizas",
       "captaincy": "Capitanía de Puerto",
       "authority": "Autoridad",
-      "cross": "CROSS",
-      "cross_vts": "CROSS VTS",
+      "cross": "MRCC (Centro de Coordinación de Salvamento)",
+      "cross_vts": "MRCC / VTS",
       "port_vts": "VTS portuario",
       "bri": "BRI",
       "old_users": "Usuarios antiguos",
@@ -2813,9 +2812,9 @@
     },
     "survey-activity": {
       "participatory-bathymetry-activities": "Batimetría participativa",
-      "excavation-geophysical-activities": "Actividades de excavación y estudios geofísicos (artículo l413 1 del código minero)",
-      "marine-scientific-research-activities": "Actividades de investigación científica marina (artículo l251 3 del código de investigación)",
-      "public-service-activities": "Actividades de servicio público (CRPA)",
+      "excavation-geophysical-activities": "Actividades de excavación y estudios geofísicos",
+      "marine-scientific-research-activities": "Actividades de investigación científica marina",
+      "public-service-activities": "Actividades de servicio público",
       "other-activities": "Otras actividades"
     }
   },

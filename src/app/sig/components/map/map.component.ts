@@ -185,7 +185,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     { 'OTHER': false }
   ];
   shouldShowRasterMarineLayer = true;
-  shouldShowOrthoGeoLittoralV2Layer = false;
   showDatas = false;
   showGeoregulationDatas = false;
   showDetectionData = false;
@@ -217,13 +216,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     return (measurementValue.surface
       ? `${this.i18n.dict.MEASUREMENT_SURFACE_RESULT}
            ${sqrMetersToSqrKms(measurementValue.surface).toLocaleString(locale, format)}
-           ${this.i18n.dict.KILOMETERS}Â²
+           ${this.i18n.dict.KILOMETERS}²
            (${sqrMetersToSqrNMiles(measurementValue.surface).toLocaleString(locale, format)}
-           ${this.i18n.dict.NAUTIC_MILES}Â²)`
+           ${this.i18n.dict.NAUTIC_MILES}²)`
       : ``)
       + (measurementValue.azimuth
         ? `${this.i18n.dict.MEASUREMENT_AZIMUTH_RESULT}
-           ${measurementValue.azimuth.toLocaleString(locale, format)}Â°
+           ${measurementValue.azimuth.toLocaleString(locale, format)}°
            <br>`
         : ``)
       + (measurementValue.length
@@ -315,7 +314,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   @Input() canShowHideGeoregulationLayers? = false;
   @Input() canShowRasterMarineLayer = false;
   @Input() shouldShowRasterMarineWithAdditionalLayerForWestAfrica = false;
-  @Input() canShowOrthoIGNLayer = false;
   @Input() parentLayers = true;
   @Input() serieName?: string;
   @Input() serieId?: string;
@@ -422,38 +420,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   }
 
   updateMapIfShouldShowRasterMarineLayer(): void {
-    if (this.shouldShowOrthoGeoLittoralV2Layer && this.shouldShowRasterMarineLayer) {
-      this.updateMapIfShouldShowRasterMarineLayerAndOrthoIGNLayer();
-    } else {
-      if (this.shouldShowOrthoGeoLittoralV2Layer) {
-        this.map.layers.find(layer => layer.name === environment.carto.orthoGeoLittoralV2LayerName).opacity = 0.8;
-      }
-
-      this.shouldShowRasterMarineLayer ?
-        this.layersFacade.addRasterMarineLayer(this.map, 1).pipe(take(1)).subscribe()
-        : this.layersFacade.removeLayer(this.map, environment.carto.rasterMarineLayerName);
-    }
-  }
-
-  updateMapIfshouldShowOrthoGeoLittoralV2Layer(): void {
-    if (this.shouldShowOrthoGeoLittoralV2Layer && this.shouldShowRasterMarineLayer) {
-      this.updateMapIfShouldShowRasterMarineLayerAndOrthoIGNLayer();
-    } else {
-      if (this.shouldShowRasterMarineLayer) {
-        this.map.layers.find(layer => layer.name === environment.carto.rasterMarineLayerName).opacity = 1;
-      }
-
-      this.shouldShowOrthoGeoLittoralV2Layer ?
-        this.layersFacade.addOrthoGeoLittoralV2Layer(this.map, 0.8)
-        : this.layersFacade.removeLayer(this.map, environment.carto.orthoGeoLittoralV2LayerName);
-    }
-  }
-
-  updateMapIfShouldShowRasterMarineLayerAndOrthoIGNLayer(): void {
-    this.layersFacade.removeLayer(this.map, environment.carto.orthoGeoLittoralV2LayerName);
-    this.layersFacade.removeLayer(this.map, environment.carto.rasterMarineLayerName);
-    this.layersFacade.addOrthoGeoLittoralV2Layer(this.map, 1);
-    this.layersFacade.addRasterMarineLayer(this.map, 0.3).pipe(take(1)).subscribe();
+    this.shouldShowRasterMarineLayer ?
+      this.layersFacade.addRasterMarineLayer(this.map, 1).pipe(take(1)).subscribe()
+      : this.layersFacade.removeLayer(this.map, environment.carto.rasterMarineLayerName);
   }
 
   updateMapIfShouldShowSubAreas(): void {
@@ -1765,7 +1734,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
             const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
             let brng = Math.atan2(y, x) * 180 / Math.PI;
             brng = (brng + 360) % 360;
-            output = brng.toFixed(1) + ' Â°';
+            output = brng.toFixed(1) + ' °';
           }
         } else if (type === 'RADIUS') {
           const center = geom.getCenter();

@@ -1,5 +1,5 @@
 <div *ngIf="serie">
-    <div *ngIf="currentLang === 'fr'; else otherLanguage">{{serie.name}} ({{'serie-type.' + serie.type | translate}})</div>
+    <div *ngIf="currentLang === 'es'; else otherLanguage">{{serie.name}} ({{'serie-type.' + serie.type | translate}})</div>
     <ng-template #otherLanguage>
         <div>{{serie.internationalName ?? serie.name}} ({{'serie-type.' + serie.type | translate}})</div>
     </ng-template>

@@ -1285,7 +1285,6 @@
       "invalid-polygon-vertices-number": "Un polygone possède trop de sommets pour une IS bathy"
     },
     "raster-marine": "Raster Marine",
-    "ortho-ign": "Ortho littorale_v2 GeoLittoral",
     "entities-maritimes-managed-or-observed-by-service": "Entité(s) maritime(s) gérée(s) ou observée(s)"
   },
   "table": {
