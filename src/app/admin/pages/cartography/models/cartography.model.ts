@@ -48,6 +48,10 @@ export interface CartographyConversionResponse {
   isGeoreferenced?: boolean;
   outputFilePath?: string;
   geoserverReloaded?: boolean;
+  /** Resultado real de la publicación en GeoServer (capa, estilo, grupo y verificación). */
+  geoserverPublished?: boolean;
+  geoserverMessage?: string;
+  geoserverSteps?: string[];
   error?: string;
   convertedSizeBytes?: number;
   processingTimeMs?: number;
@@ -59,7 +63,7 @@ export const CARTOGRAPHY_BANDS: CartographyBand[] = [
     id: 'banda1',
     code: 'Banda 1',
     name: 'Banda 1 - Resumen General',
-    scaleDescription: 'Escala 1:1.500.000 y menores (Visión oceánica y regional)',
+    scaleDescription: 'Escala menor que 1:3.500.000 (zoom web 0-7)',
     layerName: 'pisac_shn:banda1',
     storageFolder: '/mnt/geotiff/banda1',
     colorBadge: '#1e3a8a',
@@ -70,7 +74,7 @@ export const CARTOGRAPHY_BANDS: CartographyBand[] = [
     id: 'banda2',
     code: 'Banda 2',
     name: 'Banda 2 - Navegación General',
-    scaleDescription: 'Escala 1:500.000 a 1:1.500.000 (Rutas de navegación)',
+    scaleDescription: 'Escala 1:1.500.000 a 1:350.000 (zoom web 8-10)',
     layerName: 'pisac_shn:banda2',
     storageFolder: '/mnt/geotiff/banda2',
     colorBadge: '#0284c7',
@@ -81,7 +85,7 @@ export const CARTOGRAPHY_BANDS: CartographyBand[] = [
     id: 'banda3',
     code: 'Banda 3',
     name: 'Banda 3 - Costera',
-    scaleDescription: 'Escala 1:150.000 a 1:500.000 (Aguas territoriales y costas)',
+    scaleDescription: 'Escala 1:350.000 a 1:90.000 (zoom web 11-12)',
     layerName: 'pisac_shn:banda3',
     storageFolder: '/mnt/geotiff/banda3',
     colorBadge: '#0d9488',
@@ -92,7 +96,7 @@ export const CARTOGRAPHY_BANDS: CartographyBand[] = [
     id: 'banda4',
     code: 'Banda 4',
     name: 'Banda 4 - Aproximación',
-    scaleDescription: 'Escala 1:50.000 a 1:150.000 (Canales y accesos marítimos)',
+    scaleDescription: 'Escala 1:90.000 a 1:25.000 (zoom web 13-14)',
     layerName: 'pisac_shn:banda4',
     storageFolder: '/mnt/geotiff/banda4',
     colorBadge: '#16a34a',
@@ -103,7 +107,7 @@ export const CARTOGRAPHY_BANDS: CartographyBand[] = [
     id: 'banda5',
     code: 'Banda 5',
     name: 'Banda 5 - Puerto',
-    scaleDescription: 'Escala 1:10.000 a 1:50.000 (Bahías, dársenas e instalaciones portuarias)',
+    scaleDescription: 'Escala 1:25.000 a 1:4.000 (zoom web 15-16)',
     layerName: 'pisac_shn:banda5',
     storageFolder: '/mnt/geotiff/banda5',
     colorBadge: '#ea580c',
@@ -114,7 +118,7 @@ export const CARTOGRAPHY_BANDS: CartographyBand[] = [
     id: 'banda6',
     code: 'Banda 6',
     name: 'Banda 6 - Atraque y Fondeo',
-    scaleDescription: 'Escala mayor a 1:10.000 (Terminales, muelles y fondeaderos)',
+    scaleDescription: 'Escala mayor que 1:4.000 (zoom web 17-18+)',
     layerName: 'pisac_shn:banda6',
     storageFolder: '/mnt/geotiff/banda6',
     colorBadge: '#9333ea',
