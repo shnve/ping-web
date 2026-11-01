@@ -29,7 +29,12 @@ export class LocalBasemapService {
   // Color para cursos de agua (ríos, arroyos, canales) — más intenso que el relleno de mar/lagos
   private static readonly RIVER_COLOR = '#7bbfdc';
   private static readonly RIVER_LINES = new Set(['water_stream', 'water_river']);
-  private static readonly POLITICAL_NAMES = new Set(['places_country', 'places_region']);
+  private static readonly POLITICAL_NAMES = new Set([
+    'places_country',
+    'places_region',
+    'places_locality',
+    'places_subplace'
+  ]);
   private static readonly ATTRIBUTION_HTML =
     '© SHN-OCHINA Venezuela · © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> · <a href="https://protomaps.com" target="_blank" rel="noopener noreferrer">Protomaps</a>';
 
@@ -90,11 +95,12 @@ export class LocalBasemapService {
   }
 
   /**
-   * Sin fronteras ni nombres de países/estados (neutralidad geopolítica + fachadas marítimas)
+   * Sin fronteras ni nombres de países, estados o localidades (neutralidad geopolítica + fachadas marítimas)
    */
   private isPolitical(layerSpec: any): boolean {
     return (
       layerSpec['source-layer'] === 'boundaries' ||
+      layerSpec['source-layer'] === 'places' ||
       LocalBasemapService.POLITICAL_NAMES.has(layerSpec.id)
     );
   }
