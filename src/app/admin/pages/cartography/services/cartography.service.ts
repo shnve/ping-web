@@ -2,7 +2,7 @@ import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
-import { CartographyConversionResponse } from '../models/cartography.model';
+import { CartographyConversionResponse, CartographyJob } from '../models/cartography.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,27 @@ export class CartographyService {
         observe: 'events'
       }
     );
+  }
+
+  /**
+   * Envía una carta para procesarla en segundo plano. La respuesta llega apenas termina la subida e incluye el
+   * trabajo (jobId) cuyo avance se consulta con getJob$. Emite HttpEvent para informar el progreso de subida.
+   */
+  submitJob$(file: File, band: string, reloadGeoserver: boolean = true): Observable<HttpEvent<CartographyJob>> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('band', band);
+    formData.append('reloadGeoserver', String(reloadGeoserver));
+
+    return this.http.post<CartographyJob>(`${this.baseUrl}/jobs`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+
+  /** Consulta el estado de un trabajo de procesamiento de carta. */
+  getJob$(jobId: string): Observable<CartographyJob> {
+    return this.http.get<CartographyJob>(`${this.baseUrl}/jobs/${jobId}`);
   }
 
   /**

@@ -58,6 +58,20 @@ export interface CartographyConversionResponse {
   pixelSize?: string;
 }
 
+export type CartographyJobStatus = 'QUEUED' | 'VALIDATING' | 'CONVERTING' | 'PUBLISHING' | 'SUCCESS' | 'ERROR';
+
+/** Trabajo de procesamiento de carta en segundo plano. */
+export interface CartographyJob {
+  jobId: string;
+  fileName: string;
+  band: string;
+  status: CartographyJobStatus;
+  createdAt?: string;
+  startedAt?: string;
+  finishedAt?: string;
+  result?: CartographyConversionResponse;
+}
+
 export const CARTOGRAPHY_BANDS: CartographyBand[] = [
   {
     id: 'banda1',

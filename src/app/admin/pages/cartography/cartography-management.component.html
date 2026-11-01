@@ -209,7 +209,7 @@
                         [(ngModel)]="item.targetBand"
                         optionValue="id"
                         optionLabel="code"
-                        [disabled]="item.status === 'UPLOADING' || item.status === 'CONVERTING'"
+                        [disabled]="isItemWorking(item)"
                         [style]="{'width': '100%'}">
             </p-dropdown>
           </td>
@@ -251,7 +251,7 @@
               </button>
 
               <button pButton
-                      *ngIf="item.status !== 'UPLOADING' && item.status !== 'CONVERTING'"
+                      *ngIf="!isItemWorking(item)"
                       type="button"
                       icon="pi pi-times"
                       class="p-button-rounded p-button-text p-button-danger p-button-sm"

@@ -2,8 +2,9 @@ import { HttpEventType } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertMessageService } from '@app/core/alert-message.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, Subscription } from 'rxjs';
-import { CARTOGRAPHY_BANDS, CartographyBand, CartographyFileItem } from './models/cartography.model';
+import { Subject, Subscription, timer } from 'rxjs';
+import { delay, retryWhen, scan, switchMap, takeWhile } from 'rxjs/operators';
+import { CARTOGRAPHY_BANDS, CartographyBand, CartographyFileItem, CartographyJob } from './models/cartography.model';
 import { CartographyService } from './services/cartography.service';
 
 @Component({
@@ -169,17 +170,19 @@ export class CartographyManagementComponent implements OnInit, OnDestroy {
   }
 
   // --- Procesamiento de archivos ---
+  // La carta se sube y el servidor la procesa en segundo plano; aquí se consulta el avance del trabajo
+  // cada pocos segundos. Así una conversión larga no termina en un 504 del proxy aunque siga procesándose.
   processFile(item: CartographyFileItem): void {
-    if (item.status === 'UPLOADING' || item.status === 'CONVERTING') {
+    if (this.isItemWorking(item)) {
       return;
     }
 
     item.status = 'UPLOADING';
     item.progress = 5;
-    item.message = 'Iniciando subida y validación...';
+    item.message = 'Iniciando subida...';
 
     const sub = this.cartographyService
-      .uploadAndConvert$(item.file, item.targetBand, this.autoReloadGeoServer)
+      .submitJob$(item.file, item.targetBand, this.autoReloadGeoServer)
       .subscribe({
         next: event => {
           if (event.type === HttpEventType.UploadProgress && event.total) {
@@ -187,48 +190,120 @@ export class CartographyManagementComponent implements OnInit, OnDestroy {
             const uploadPercent = Math.round((event.loaded / event.total) * 40);
             item.progress = Math.max(5, uploadPercent);
             item.message = `Subiendo al servidor (${Math.round((event.loaded / (1024 * 1024)) * 10) / 10} MB / ${Math.round((event.total / (1024 * 1024)) * 10) / 10} MB)...`;
-            if (uploadPercent >= 40) {
-              item.status = 'CONVERTING';
-              item.progress = 60;
-              item.message = 'Ejecutando gdalwarp y conversión a COG EPSG:3395...';
-            }
-          } else if (event.type === HttpEventType.Response) {
-            const body = event.body;
-            if (body && body.success) {
-              item.status = 'SUCCESS';
-              item.progress = 100;
-              item.message = body.message || 'Mapa publicado con éxito en GeoServer';
-              item.details = {
-                srsDetected: body.srsDetected,
-                isGeoreferenced: body.isGeoreferenced,
-                convertedSize: body.convertedSizeBytes,
-                processingTimeMs: body.processingTimeMs,
-                pixelSize: body.pixelSize
-              };
-              this.showSuccess('Conversión exitosa', `Archivo ${item.name} convertido y publicado en ${item.targetBand}`);
-              this.refreshBandsStatus();
-            } else {
-              item.status = 'ERROR';
-              item.progress = 0;
-              item.message = body?.error || body?.message || 'Error durante la conversión';
-              this.showError('Error en conversión', `${item.name}: ${item.message}`);
-            }
-            this.activeSubscriptions.delete(item.id);
-            this.checkBatchNext();
+          } else if (event.type === HttpEventType.Response && event.body) {
+            this.trackJob(item, event.body);
           }
         },
-        error: err => {
-          item.status = 'ERROR';
-          item.progress = 0;
-          const errMsg = err?.error?.message || err?.message || 'Error de conexión con el servidor';
-          item.message = errMsg;
-          this.showError('Fallo en procesamiento', `${item.name}: ${errMsg}`);
-          this.activeSubscriptions.delete(item.id);
-          this.checkBatchNext();
-        }
+        error: err => this.failItem(item, err?.error?.message || err?.message || 'Error de conexión con el servidor')
       });
 
     this.activeSubscriptions.set(item.id, sub);
+  }
+
+  /** Consulta el trabajo cada 3 s hasta que termine (tolera hasta 5 fallos de red seguidos). */
+  private trackJob(item: CartographyFileItem, job: CartographyJob): void {
+    this.applyJobState(item, job);
+    if (job.status === 'SUCCESS' || job.status === 'ERROR') {
+      this.completeItem(item, job);
+      return;
+    }
+
+    const sub = timer(3000, 3000)
+      .pipe(
+        switchMap(() =>
+          this.cartographyService.getJob$(job.jobId).pipe(
+            retryWhen(errors =>
+              errors.pipe(
+                scan((count: number, e: unknown) => {
+                  if (count >= 5) {
+                    throw e;
+                  }
+                  return count + 1;
+                }, 0),
+                delay(3000)
+              )
+            )
+          )
+        ),
+        takeWhile(j => j.status !== 'SUCCESS' && j.status !== 'ERROR', true)
+      )
+      .subscribe({
+        next: j => {
+          this.applyJobState(item, j);
+          if (j.status === 'SUCCESS' || j.status === 'ERROR') {
+            this.completeItem(item, j);
+          }
+        },
+        error: err =>
+          this.failItem(
+            item,
+            'Se perdió la conexión mientras se procesaba la carta. El servidor puede haberla publicado igual; ' +
+              'revise el estado de la banda antes de reintentar. ' + (err?.message || '')
+          )
+      });
+
+    this.activeSubscriptions.set(item.id, sub);
+  }
+
+  private applyJobState(item: CartographyFileItem, job: CartographyJob): void {
+    switch (job.status) {
+      case 'QUEUED':
+        item.status = 'VALIDATING';
+        item.progress = 45;
+        item.message = 'En cola en el servidor (las cartas se procesan de a una)...';
+        break;
+      case 'VALIDATING':
+        item.status = 'VALIDATING';
+        item.progress = 50;
+        item.message = 'Validando georreferenciación con GDAL...';
+        break;
+      case 'CONVERTING':
+        item.status = 'CONVERTING';
+        item.progress = 65;
+        item.message = 'Convirtiendo a COG EPSG:3395 (las cartas grandes pueden tardar varios minutos)...';
+        break;
+      case 'PUBLISHING':
+        item.status = 'DEPLOYING';
+        item.progress = 90;
+        item.message = 'Publicando en GeoServer y verificando el mapa...';
+        break;
+    }
+  }
+
+  private completeItem(item: CartographyFileItem, job: CartographyJob): void {
+    const body = job.result;
+    if (job.status === 'SUCCESS' && body) {
+      item.status = 'SUCCESS';
+      item.progress = 100;
+      item.message = body.message || 'Mapa publicado con éxito en GeoServer';
+      item.details = {
+        srsDetected: body.srsDetected,
+        isGeoreferenced: body.isGeoreferenced,
+        convertedSize: body.convertedSizeBytes,
+        processingTimeMs: body.processingTimeMs,
+        pixelSize: body.pixelSize
+      };
+      this.showSuccess('Carta publicada', `Archivo ${item.name} convertido y publicado en ${item.targetBand}`);
+      this.refreshBandsStatus();
+      this.activeSubscriptions.delete(item.id);
+      this.checkBatchNext();
+    } else {
+      this.failItem(item, body?.message || body?.error || 'Error durante el procesamiento');
+      this.refreshBandsStatus();
+    }
+  }
+
+  private failItem(item: CartographyFileItem, message: string): void {
+    item.status = 'ERROR';
+    item.progress = 0;
+    item.message = message;
+    this.showError('Error en el procesamiento', `${item.name}: ${message}`);
+    this.activeSubscriptions.delete(item.id);
+    this.checkBatchNext();
+  }
+
+  isItemWorking(item: CartographyFileItem): boolean {
+    return ['UPLOADING', 'VALIDATING', 'CONVERTING', 'DEPLOYING'].includes(item.status);
   }
 
   processBatch(): void {
@@ -246,7 +321,7 @@ export class CartographyManagementComponent implements OnInit, OnDestroy {
       this.processFile(nextItem);
     } else {
       // Verificar si todavía hay alguno en proceso
-      const stillWorking = this.fileQueue.some(f => f.status === 'UPLOADING' || f.status === 'CONVERTING');
+      const stillWorking = this.fileQueue.some(f => this.isItemWorking(f));
       if (!stillWorking) {
         this.isProcessingBatch = false;
         this.showInfo('Lote finalizado', 'Procesamiento del lote completado.');
