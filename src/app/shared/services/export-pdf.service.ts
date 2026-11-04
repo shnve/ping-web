@@ -18,6 +18,8 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { isEmpty } from 'lodash-es';
 import { Map } from 'ol';
+import { toLonLat } from 'ol/proj';
+import { decimalToDegMin } from '@sig/utils/coordinate';
 import { Observable } from 'rxjs';
 import { map, mergeMap, reduce } from 'rxjs/operators';
 import { DateRange } from '../models/date-range.model';
@@ -114,7 +116,9 @@ export class ExportPdfService {
   async exportWarningModal(warning: Warning, olMap: Map): Promise<void> {
     const cartoMapCanvasCssSelectors = 'sig-warning-detail-map .map-container .ol-viewport .ol-layers .ol-layer canvas';
     const pdfName = `${this.formatWarningNumberForPrinting(warning)}.pdf`;
-    const title = `${this.formatWarningNumberPipe.transform(warning)} ${this.translate.instant('detail.title')}`;
+    const headerLabel = this.translate.currentLang === 'en' ? 'Warning - Notice Detail' : 'Detalle Advertencia - Aviso';
+    const warningNumberText = this.formatWarningNumberPipe.transform(warning);
+    const title = warningNumberText ? `<b>${headerLabel}</b> : ${warningNumberText}` : `<b>${headerLabel}</b>`;
     const sharedLinkUrl = getSharedLinkUrl(warning.id, window.location.href);
     this.exportModal(cartoMapCanvasCssSelectors, pdfName, title, olMap, this.buildWarningHtml(this.convertWarningToTableWarning(warning)), sharedLinkUrl);
   }
@@ -129,9 +133,11 @@ export class ExportPdfService {
 
   exportInfosourceModal(infosource: InfosourceWithParts, olMap: Map): void {
     const cartoMapCanvasCssSelectors = 'infosource-details-map .map-container .ol-viewport .ol-layers .ol-layer canvas';
-    const pdfName = `${infosource.number ?? 'document'}.pdf`;
-    const title = `${infosource.number ?? ''} ${this.translate.instant('detail.title')}`;
-    const Infosourcenumber = infosource.number ? `<li style="font-weight: bold">${this.translate.instant('detail.number')} : ${infosource.number}</li>` : ``;
+    const formattedNumber = this.formatInfosourceCorrelativeNumber(infosource.number);
+    const pdfName = `${formattedNumber || 'document'}.pdf`;
+    const headerLabel = this.translate.currentLang === 'en' ? 'Contribution Detail' : 'Detalle Contribución';
+    const title = formattedNumber ? `<b>${headerLabel}</b> : ${formattedNumber}` : `<b>${headerLabel}</b>`;
+    const Infosourcenumber = formattedNumber ? `<li style="font-weight: bold">${this.translate.instant('detail.number')} : ${formattedNumber}</li>` : ``;
     const baseUrl = window.location.href.split('/infosource/tables')[0];
     const sharedLinkUrl = infosource.id ? `${baseUrl}/infosource/tables/${infosource.id}` : undefined;
 
@@ -382,6 +388,7 @@ export class ExportPdfService {
                 <br/>
                 <li>${featureDetailsHtml}</li>`;
 
+    const reportedBy = this.buildInfosourceReporterHtml(infosource);
     const creationDate = !infosource.creationDate ? '' : `<li><span style="font-weight: bold;">${this.translate.instant('infosource.details.creationDate')} : </span>${this.localizedDatePipe.transform(infosource?.creationDate)}</li>`;
     const lastUpdate = !infosource.lastUpdate ? '' : `<li><span style="font-weight: bold;">${this.translate.instant('infosource.details.lastUpdate')} : </span>${this.localizedDatePipe.transform(infosource?.lastUpdate)}</li>`;
     const validationTime = !infosource.validationTime ? '' : `<li><span style="font-weight: bold;">${this.translate.instant('infosource.details.status-sent')} : </span>${this.localizedDatePipe.transform(infosource?.validationTime)}</li>`;
@@ -389,6 +396,7 @@ export class ExportPdfService {
     return `<div>
               <ul style="list-style-type: none;">
                 ${infosourceNumber}
+                ${reportedBy}
                 <li><span style="font-weight: bold;">${this.translate.instant('infosource.details.nature')} : </span>${this.translate.instant(this.getInfosourceNature(infosource))}</li>
                 ${infosourceObject}
                 ${featureDetails}
@@ -398,6 +406,119 @@ export class ExportPdfService {
                 ${validationTime}
               </ul>
             </div>`;
+  }
+
+  private formatInfosourceCorrelativeNumber(rawNumber: string): string {
+    if (!rawNumber) {
+      return '';
+    }
+    const legacyMatch = rawNumber.match(/^.+[_].*-(\d+)-(\d{4})$/);
+    if (legacyMatch) {
+      return `REP-${legacyMatch[1].padStart(4, '0')}-${legacyMatch[2]}`;
+    }
+    return rawNumber;
+  }
+
+  private buildInfosourceReporterHtml(infosource: InfosourceWithParts): string {
+    const fullName = [infosource?.issuingUserFirstname, infosource?.issuingUserLastname]
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+    const serviceName = infosource?.issuingServiceName?.trim();
+    let reporterText = '';
+    if (fullName && serviceName) {
+      reporterText = `${fullName} (${serviceName})`;
+    } else if (fullName) {
+      reporterText = fullName;
+    } else if (serviceName) {
+      reporterText = serviceName;
+    }
+    if (!reporterText) {
+      return '';
+    }
+    const reportedByLabel = this.translate.currentLang === 'en' ? 'Reported by' : 'Reportado por';
+    return `<li><span style="font-weight: bold;">${reportedByLabel} : </span>${reporterText}</li>`;
+  }
+
+  private formatMercatorCoordToDms(coord: number[]): string {
+    if (!coord || coord.length < 2) {
+      return '';
+    }
+    const lonLat = (Math.abs(coord[0]) > 180 || Math.abs(coord[1]) > 90)
+      ? toLonLat([coord[0], coord[1]])
+      : [coord[0], coord[1]];
+    const lat = `${decimalToDegMin(lonLat[1], 'DD-MM.mm', 2, 2)}${lonLat[1] >= 0 ? 'N' : 'S'}`;
+    const lon = `${decimalToDegMin(lonLat[0], 'DD-MM.mm', 2, 3)}${lonLat[0] >= 0 ? 'E' : 'W'}`;
+    return `${lat} ${lon}`;
+  }
+
+  private buildInfosourceCoordinatesHtml(featurePart: InfosourcePart): string {
+    if (!featurePart?.localisation?.length) {
+      return '';
+    }
+    const isEn = this.translate.currentLang === 'en';
+    const coordItems: string[] = [];
+
+    for (const feature of featurePart.localisation) {
+      const geom = feature?.getGeometry?.();
+      if (!geom) {
+        continue;
+      }
+      const geomType = geom.getType();
+      if (geomType === 'Point') {
+        const flat = (geom as any).getFlatCoordinates?.() || (geom as any).getCoordinates?.();
+        const dms = this.formatMercatorCoordToDms(flat);
+        if (dms) {
+          coordItems.push(dms);
+        }
+      } else if (geomType === 'LineString') {
+        const coords: number[][] = (geom as any).getCoordinates?.() || [];
+        const formatted = coords.map(c => this.formatMercatorCoordToDms(c)).filter(Boolean);
+        if (formatted.length) {
+          coordItems.push(formatted.join(' - '));
+        }
+      } else if (geomType === 'Circle') {
+        const center = (geom as any).getCenter?.();
+        const dms = this.formatMercatorCoordToDms(center);
+        if (dms) {
+          coordItems.push(dms);
+        }
+      } else if (geomType === 'Polygon') {
+        const rings: number[][][] = (geom as any).getCoordinates?.() || [];
+        const outerRing = rings[0] || [];
+        const vertices = outerRing.length > 1 ? outerRing.slice(0, -1) : outerRing;
+        if (vertices.length > 0 && vertices.length <= 10) {
+          const formatted = vertices.map(c => this.formatMercatorCoordToDms(c)).filter(Boolean);
+          if (formatted.length) {
+            coordItems.push(formatted.join(', '));
+          }
+        } else if (vertices.length > 10) {
+          const extent = geom.getExtent?.();
+          if (extent && extent.length === 4) {
+            const center = [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
+            const dms = this.formatMercatorCoordToDms(center);
+            if (dms) {
+              coordItems.push(`${isEn ? 'Center' : 'Centro'}: ${dms}`);
+            }
+          }
+        }
+      } else {
+        const extent = geom.getExtent?.();
+        if (extent && extent.length === 4) {
+          const center = [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
+          const dms = this.formatMercatorCoordToDms(center);
+          if (dms) {
+            coordItems.push(dms);
+          }
+        }
+      }
+    }
+
+    if (!coordItems.length) {
+      return '';
+    }
+    const label = isEn ? 'Coordinates' : 'Coordenadas';
+    return `<div><span class="infosource-detail-label" style="font-weight: bold;">${label} :</span> ${coordItems.join(' ; ')}</div>`;
   }
 
   getInfosourceNature(infosource: InfosourceWithParts): string {
@@ -462,7 +583,7 @@ export class ExportPdfService {
   }
 
   private buildInfosourceFeaturePartHtml(featurePart: InfosourcePart, timezone: string, isNatureGeoregulation: boolean): string {
-    if (!featurePart?.object && !featurePart?.description && !featurePart?.internationalDescription) { return ''; }
+    if (!featurePart?.object && !featurePart?.description && !featurePart?.internationalDescription && !featurePart?.localisation?.length) { return ''; }
     let features = '';
     if (featurePart?.object) {
       for (const [key, value] of Object.entries(featurePart.object)) {
@@ -475,6 +596,7 @@ export class ExportPdfService {
         features += details ? `<div>${details}</div>` : '';
       }
     }
+    features += this.buildInfosourceCoordinatesHtml(featurePart);
     if (!isNatureGeoregulation && featurePart?.description) {
       features += `<div style="white-space: pre-line;" data-pdfmake='{"margin": [0, 4, 0, 0]}'>${featurePart.description}</div>`;
     }
