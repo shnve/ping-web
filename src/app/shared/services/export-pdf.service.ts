@@ -131,9 +131,11 @@ export class ExportPdfService {
     const cartoMapCanvasCssSelectors = 'infosource-details-map .map-container .ol-viewport .ol-layers .ol-layer canvas';
     const pdfName = `${infosource.number ?? 'document'}.pdf`;
     const title = `${infosource.number ?? ''} ${this.translate.instant('detail.title')}`;
-    const Infosourcenumber = infosource.number ? `<li>${this.translate.instant('detail.number')} : ${infosource.number}</li>` : ``;
+    const Infosourcenumber = infosource.number ? `<li style="font-weight: bold">${this.translate.instant('detail.number')} : ${infosource.number}</li>` : ``;
+    const baseUrl = window.location.href.split('/infosource/tables')[0];
+    const sharedLinkUrl = infosource.id ? `${baseUrl}/infosource/tables/${infosource.id}` : undefined;
 
-    this.exportModal(cartoMapCanvasCssSelectors, pdfName, [title], olMap, this.buildInfosourceHtml(infosource, Infosourcenumber));
+    this.exportModal(cartoMapCanvasCssSelectors, pdfName, title, olMap, this.buildInfosourceHtml(infosource, Infosourcenumber), sharedLinkUrl);
   }
 
   async exportModal(cartoMapCanvasCssSelectors: string, pdfName: string, title: string | Object[], olMap: Map, builtHtmlItem: string, linkUrl?: string): Promise<void> {
@@ -206,6 +208,9 @@ export class ExportPdfService {
       },
       li: {
         marginBottom: 2.5
+      },
+      'infosource-detail-label': {
+        bold: true
       }
     };
     const pdfmakeOptions = {
@@ -252,6 +257,9 @@ export class ExportPdfService {
         },
         'qrCode': {
           alignment: 'center'
+        },
+        'infosource-detail-label': {
+          bold: true
         }
       },
       pageBreakBefore: (currentNode, followingNodesOnPage) => {
@@ -360,40 +368,34 @@ export class ExportPdfService {
   }
 
   private buildInfosourceHtml(infosource: InfosourceWithParts, infosourceNumber: string): string {
-    const featureDetails = !infosource.featureParts[0]?.object ? '' : `<li>
-    ${this.translate.instant('detail.title')} : ${this.buildInfosourceDetailsFeaturePartHtml(infosource.featureParts,
-      infosource.timezone, infosource.nature === InfosourceNature.GEOREGULATION)}
-    </li>`;
-    const infosourceObject = !infosource.object || isEmpty(infosource.object) ? '' : `<li>
-    ${this.translate.instant('object.title')} : ${this.buildInfosourceObjectHtml(infosource, infosource.timezone)}
-    </li>`;
-    const creationDate = !infosource.creationDate ? '' : `<li> ${this.translate.instant('infosource.details.creationDate')} :
-    ${this.localizedDatePipe.transform(infosource?.creationDate)}
-    </li>`;
-    const validationTime = !infosource.validationTime ? '' : `<li> ${this.translate.instant('infosource.details.status-sent')} :
-    ${this.localizedDatePipe.transform(infosource?.validationTime)}
-    </li>`;
+    const infosourceObjectHtml = !infosource.object || isEmpty(infosource.object)
+      ? ''
+      : this.buildInfosourceObjectHtml(infosource, infosource.timezone);
+    const infosourceObject = !infosourceObjectHtml ? '' : `<li><span style="font-weight: bold;">${this.translate.instant('object.title')} :</span></li>
+                <br/>
+                <li>${infosourceObjectHtml}<br/></li>`;
+
+    const featureDetailsHtml = !infosource.featureParts?.length
+      ? ''
+      : this.buildInfosourceDetailsFeaturePartHtml(infosource.featureParts, infosource.timezone, infosource.nature === InfosourceNature.GEOREGULATION);
+    const featureDetails = !featureDetailsHtml ? '' : `<li><span style="font-weight: bold;">${this.translate.instant('detail.title')} :</span></li>
+                <br/>
+                <li>${featureDetailsHtml}</li>`;
+
+    const creationDate = !infosource.creationDate ? '' : `<li><span style="font-weight: bold;">${this.translate.instant('infosource.details.creationDate')} : </span>${this.localizedDatePipe.transform(infosource?.creationDate)}</li>`;
+    const lastUpdate = !infosource.lastUpdate ? '' : `<li><span style="font-weight: bold;">${this.translate.instant('infosource.details.lastUpdate')} : </span>${this.localizedDatePipe.transform(infosource?.lastUpdate)}</li>`;
+    const validationTime = !infosource.validationTime ? '' : `<li><span style="font-weight: bold;">${this.translate.instant('infosource.details.status-sent')} : </span>${this.localizedDatePipe.transform(infosource?.validationTime)}</li>`;
+
     return `<div>
-              <ul>
-                <li>${this.translate.instant('infosource.details.nature')} :
-                ${this.translate.instant(this.getInfosourceNature(infosource))}
-                </li>
-              </ul>
               <ul style="list-style-type: none;">
                 ${infosourceNumber}
-                <br/>
+                <li><span style="font-weight: bold;">${this.translate.instant('infosource.details.nature')} : </span>${this.translate.instant(this.getInfosourceNature(infosource))}</li>
                 ${infosourceObject}
-                <br/>
                 ${featureDetails}
-                <li> ${this.translate.instant('detail.state')} : ${this.translate.instant(this.getStatus(infosource.status))} </li>
+                <li><span style="font-weight: bold;">${this.translate.instant('detail.state')} : </span>${this.translate.instant(this.getStatus(infosource.status))}</li>
                 ${creationDate}
-                <li> ${this.translate.instant('infosource.details.lastUpdate')} :
-                ${this.localizedDatePipe.transform(infosource?.lastUpdate)}
-                </li>
-                </li>
+                ${lastUpdate}
                 ${validationTime}
-              </li>
-              </li>
               </ul>
             </div>`;
   }
@@ -427,7 +429,10 @@ export class ExportPdfService {
 
   private buildInfosourceDetailsFeaturePartHtml(featureParts: InfosourcePart[], timezone: string, isNatureGeoregulation: boolean): string {
     return featureParts.reduce((acc, featurePart) => {
-      acc += `${this.buildInfosourceFeaturePartHtml(featurePart, timezone, isNatureGeoregulation)}<br/>`;
+      const partHtml = this.buildInfosourceFeaturePartHtml(featurePart, timezone, isNatureGeoregulation);
+      if (partHtml) {
+        acc += `${partHtml}<br/>`;
+      }
       return acc;
     }, '');
   }
@@ -457,25 +462,47 @@ export class ExportPdfService {
   }
 
   private buildInfosourceFeaturePartHtml(featurePart: InfosourcePart, timezone: string, isNatureGeoregulation: boolean): string {
-    if (!featurePart?.object) { return ''; }
+    if (!featurePart?.object && !featurePart?.description && !featurePart?.internationalDescription) { return ''; }
     let features = '';
-    for (const [key, value] of Object.entries(featurePart.object)) {
-      const details = this.infosourcePartFormatDetailsModalObjectPipe.transform({ key, value }, featurePart.object, isNatureGeoregulation, timezone, true);
-      features += details ? details + '<br/>' : '';
+    if (featurePart?.object) {
+      for (const [key, value] of Object.entries(featurePart.object)) {
+        if (value === null || value === undefined || value === '' || (Array.isArray(value) && !value.length)) {
+          continue;
+        }
+        const details = this.infosourcePartFormatDetailsModalObjectPipe
+          .transform({ key, value }, featurePart.object, isNatureGeoregulation, timezone, true)
+          ?.replaceAll('class="infosource-detail-label"', 'class="infosource-detail-label" style="font-weight: bold;"');
+        features += details ? `<div>${details}</div>` : '';
+      }
     }
-    features += !isNatureGeoregulation && featurePart?.description ? featurePart?.description : '';
-    return `<table><tr><td>${features}</td></tr></table>`;
+    if (!isNatureGeoregulation && featurePart?.description) {
+      features += `<div style="white-space: pre-line;" data-pdfmake='{"margin": [0, 4, 0, 0]}'>${featurePart.description}</div>`;
+    }
+    if (featurePart?.internationalDescription) {
+      features += `<div style="white-space: pre-line;" data-pdfmake='{"margin": [0, 4, 0, 0]}'>${featurePart.internationalDescription}</div>`;
+    }
+    if (!features) { return ''; }
+    return `<table class="html-feature" data-pdfmake='{"widths": [2, "*"]}'><tr><td style="border: none;" data-pdfmake='{"fillColor": "#003366"}'></td><td style="border: none;" data-pdfmake='{"fillColor": "#F8F9FA", "margin": [8, 6, 8, 6]}'>
+              ${features}
+              </td></tr></table>`;
   }
 
   private buildInfosourceObjectHtml(infosource: InfosourceWithParts, timezone: string): string {
-    if (!infosource?.object) { return; }
+    if (!infosource?.object) { return ''; }
     let features = '';
     for (const [key, value] of Object.entries(infosource.object)) {
-      features += `
-      ${this.infosourcePartFormatDetailsModalObjectPipe.transform({ key, value }, infosource.object, true, timezone)}
-      <br/>`;
+      if (value === null || value === undefined || value === '' || (Array.isArray(value) && !value.length)) {
+        continue;
+      }
+      const details = this.infosourcePartFormatDetailsModalObjectPipe
+        .transform({ key, value }, infosource.object, true, timezone, true)
+        ?.replaceAll('class="infosource-detail-label"', 'class="infosource-detail-label" style="font-weight: bold;"');
+      features += details ? `<div>${details}</div>` : '';
     }
-    return `<table><tr><td>${features}</td></tr></table>`;
+    if (!features) { return ''; }
+    return `<table class="html-feature" data-pdfmake='{"widths": [2, "*"]}'><tr><td style="border: none;" data-pdfmake='{"fillColor": "#003366"}'></td><td style="border: none;" data-pdfmake='{"fillColor": "#F8F9FA", "margin": [8, 6, 8, 6]}'>
+              ${features}
+              </td></tr></table>`;
   }
 
   async exportWarningTableDetailsFromWarningList(warnings: TableWarning[], pdfName: string, headerTitle: string[]): Promise<void> {
