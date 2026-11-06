@@ -25,6 +25,7 @@ export function decimalToDegMin(coord: number, format = 'DDD-MM.mm', precision =
   const coordinateformatted = relativePart ? format.replace('mm', relativePart) : format.replace('.mm', '').replace(',mm', '');
 
   return coordinateformatted
-    .replace('DD', pad(coordinatedegrees, maxDergreSize))
+    // Reemplaza 'DD' o 'DDD' completo (antes 'DDD' dejaba una 'D' sobrante, ej. '10D-30.25N')
+    .replace(/D{2,3}/, pad(coordinatedegrees, maxDergreSize))
     .replace('MM', pad(integerPart, 2));
 }

@@ -64,7 +64,7 @@ export class CreationService {
   }
 
   getShouldHaveNavtex(): boolean {
-    return !!this.navtexSource;
+    return !!this.navtexSource && this.navtexSource !== DiffusionNavtexSource.N4;
   }
 
   getNavtexSource(): DiffusionNavtexSource {

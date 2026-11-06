@@ -24,7 +24,7 @@ import { CapitalizeFirstPipe } from '../pipes/capitalize-first.pipe';
 
 export const RADIUS_INPUT_VALUE_LABEL = 'radiusInputValue';
 
-export const DEFAULT_PRECISION = 4;
+export const DEFAULT_PRECISION = 2;
 
 // --- INYECCI�N DE SEGURIDAD ---
 const metersToNMiles = (meters: number): number => meters / 1852;

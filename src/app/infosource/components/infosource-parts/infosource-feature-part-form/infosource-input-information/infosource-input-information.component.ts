@@ -54,7 +54,7 @@ export class InfosourceInputInformationComponent implements ControlValueAccessor
 
   selectedDistanceUnitsByLang: DistanceUnitByLangs[] = [];
 
-  availablePrecision: string[] = ['0', '1', '2', '3'];
+  availablePrecision: string[] = ['0', '1', '2'];
   selectedPrecisionByLang: PrecisiontByLang[] = [];
 
   constructor(private readonly informationService: InfosourceInformationService,
@@ -63,7 +63,7 @@ export class InfosourceInputInformationComponent implements ControlValueAccessor
     this.buildLocalizedItems();
     this.langs.forEach(lang => {
       this.selectedDistanceUnitsByLang.push({ lang, selectedDistanceUnit: this.availableDistanceUnits[1] });
-      this.selectedPrecisionByLang.push({ lang, selectedPrecision: '3' });
+      this.selectedPrecisionByLang.push({ lang, selectedPrecision: '2' });
     });
   }
 
