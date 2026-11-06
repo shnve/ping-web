@@ -72,7 +72,8 @@
 
           <div class="fr-container--fluid">
             <div class="fr-grid-row fr-grid-row--gutters">
-              <div class="fr-col fr-col-md-8">
+              <!-- En el panel lateral (drawer) no se repite el mapa: el mapa principal ya muestra el aviso -->
+              <div class="fr-col fr-col-md-8" *ngIf="!drawer">
                 <div *ngIf="warning">
                   <sig-warning-detail-map *ngIf="canDisplayMap; else noGeometryData" #map
                                           [modelItem]="warning"
@@ -94,8 +95,8 @@
               <div class="fr-col fr-col-md-4">
                 <shared-warning-modal-detail #warningDetail [warning]="warning"
                                       [serieSelected]="serieSelected"
-                                      (allFeaturesVisualized)="visualizeAllFeatures()"
-                                      (featurePartClicked)="selectFeaturePart($event)"
+                                      (allFeaturesVisualized)="drawer ? focusOnMainMap() : visualizeAllFeatures()"
+                                      (featurePartClicked)="drawer ? focusOnMainMap($event) : selectFeaturePart($event)"
                   ></shared-warning-modal-detail>
               </div>
             </div>

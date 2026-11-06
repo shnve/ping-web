@@ -15,6 +15,7 @@ import { MapComponent } from '@sig/components/map/map.component';
 import { createOlGeometryFrom } from '@sig/utils/geometry';
 import { format } from 'date-fns';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import Feature from 'ol/Feature';
 import { createEmpty, extend, Extent, isEmpty } from 'ol/extent';
 import { Observable, Subscription } from 'rxjs';
 import { catchError, shareReplay, take, tap } from 'rxjs/operators';
@@ -221,14 +222,22 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
 
   /** PISAC (F4): aviso elegido en la lista del mapa → centrar el mapa en sus geometrías y abrir el detalle. */
   onWarningListSelect(warning: MapWarning): void {
-    const extent = this.getWarningExtent(warning);
-    if (extent) {
-      // Margen derecho = ancho del panel de detalle, para que la geometría quede visible a su izquierda
-      // (en móvil el detalle ocupa toda la pantalla: margen normal)
-      const rightPadding = window.innerWidth > 768 ? Math.min(600, window.innerWidth) + 40 : 60;
-      this.map?.fitToGivenExtent(extent, [60, rightPadding, 60, 60]);
-    }
+    this.focusFeaturesOnMap([...(warning.geometries ?? []), ...(warning.affectedAreas ?? [])]);
     this.displayWarningModal([warning]);
+  }
+
+  /**
+   * PISAC (F4): centra el mapa principal en las geometrías indicadas (aviso completo o una parte,
+   * desde el panel de detalle). El margen derecho deja libre el panel de detalle.
+   */
+  focusFeaturesOnMap(features: Feature[]): void {
+    const extent = this.getFeaturesExtent(features);
+    if (!extent) {
+      return;
+    }
+    // En móvil el detalle ocupa toda la pantalla: margen normal
+    const rightPadding = window.innerWidth > 768 ? Math.min(600, window.innerWidth) + 40 : 60;
+    this.map?.fitToGivenExtent(extent, [60, rightPadding, 60, 60]);
   }
 
   /** El mapa cambia de ancho al plegar/desplegar el panel: OpenLayers recalcula su tamaño con 'resize'. */
@@ -236,9 +245,9 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
     setTimeout(() => window.dispatchEvent(new Event('resize')), 220);
   }
 
-  private getWarningExtent(warning: MapWarning): Extent | null {
+  private getFeaturesExtent(features: Feature[]): Extent | null {
     const extent = createEmpty();
-    [...(warning.geometries ?? []), ...(warning.affectedAreas ?? [])]
+    (features ?? [])
       .map(feature => feature?.getGeometry?.())
       .filter(geometry => !!geometry)
       .forEach(geometry => extend(extent, geometry.getExtent()));

@@ -138,5 +138,6 @@
                      (onClose)="showModal = false"
                      [mainWarningsParts]="warnings"
                      [drawer]="visualisationMode === 'map'"
+                     (focusFeatures)="focusFeaturesOnMap($event)"
   ></shared-warning-modal>
 </div>

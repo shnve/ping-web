@@ -12,6 +12,7 @@ import { ServiceRole } from '@app/models/maritime-service.model';
 import { NotionType } from '@app/models/notion.model';
 import { Serie } from '@app/models/serie.model';
 import { AdminJsonWarning, JsonWarning, MainWarningPart, WarningFeaturePart, listWarningStatus } from '@app/models/warning.model';
+import Feature from 'ol/Feature';
 import { GetNumberForSearchedPartPipe } from '@app/shared/pipes/get-number-for-searched-part.pipe';
 import { HasGeometriesPipe } from '@app/shared/pipes/has-geometries.pipe';
 import { ExportPdfService } from '@app/shared/services/export-pdf.service';
@@ -40,6 +41,8 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
   @Input() mainWarningsParts: Partial<MainWarningPart>[] = [];
   /** PISAC (F4): mostrar el detalle como panel lateral derecho no modal (vistas de mapa). */
   @Input() drawer = false;
+  /** PISAC (F4): en modo panel, geometrías a centrar en el mapa principal (todas o las de una parte). */
+  @Output() focusFeatures = new EventEmitter<Feature[]>();
   @Input() selectedStatus = '';
   @Input() serieSelected: Serie;
   @Output() onPublishOrDelete = new EventEmitter<void>();
@@ -122,6 +125,18 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
+  }
+
+  /** PISAC (F4): en modo panel, centrar el mapa principal en una parte o en todas las geometrías del aviso. */
+  focusOnMainMap(featurePart?: WarningFeaturePart): void {
+    const parts: WarningFeaturePart[] = featurePart
+      ? [featurePart]
+      : ((this.warning?.featureParts ?? []) as WarningFeaturePart[]);
+    const features = parts.reduce<Feature[]>(
+      (acc, part) => acc.concat(part?.geometries ?? [], part?.affectedAreas ?? []), []);
+    if (features.length) {
+      this.focusFeatures.emit(features);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
