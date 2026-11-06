@@ -1,0 +1,59 @@
+// Tipografía base (guía §06): Source Sans 3 para cuerpo/UI y Montserrat para títulos.
+
+html,
+body {
+  font-family: var(--pisac-font-body);
+}
+
+body {
+  color: var(--pisac-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums; // cifras tabulares para coordenadas, fechas y tablas
+}
+
+// PrimeNG y el reset heredado forzaban Arial / Marianne
+.p-component,
+.p-inputtext,
+.p-link,
+button,
+input,
+select,
+textarea {
+  font-family: var(--pisac-font-body);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--pisac-font-heading);
+  font-weight: 700;
+  color: var(--pisac-primary);
+  letter-spacing: -0.01em;
+}
+
+h4,
+h5,
+h6 {
+  font-family: var(--pisac-font-body);
+  font-weight: 600;
+  color: var(--pisac-primary);
+}
+
+// Títulos de diálogos y tarjetas con la tipografía de títulos
+.p-dialog .p-dialog-header .p-dialog-title,
+.p-card .p-card-title {
+  font-family: var(--pisac-font-heading);
+  color: var(--pisac-primary);
+}
+
+// Foco de teclado visible y consistente (guía §16: --focus: 3px solid naranja)
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible,
+.p-button:focus-visible,
+.p-menuitem-link:focus-visible {
+  outline: var(--focus);
+  outline-offset: 2px;
+}

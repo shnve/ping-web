@@ -3,16 +3,17 @@
   margin: 1.5rem auto 3rem;
   padding: 0 1.5rem;
   font-family: inherit;
-  color: #1e293b;
+  color: var(--pisac-text);
 
   // Encabezado Principal
   .carto-header {
-    background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
+    background: linear-gradient(135deg, var(--shn-navy-deep) 0%, var(--shn-navy) 55%, #0A4A86 100%);
+    border-bottom: 3px solid var(--shn-orange);
     color: #ffffff;
     border-radius: 12px;
     padding: 1.75rem 2rem;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 14px rgba(3, 105, 161, 0.25);
+    box-shadow: var(--pisac-shadow-md);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,16 +56,16 @@
     }
 
     .btn-header-refresh {
-      background: rgba(255, 255, 255, 0.15) !important;
-      border: 1px solid rgba(255, 255, 255, 0.35) !important;
-      color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
       font-weight: 600;
       border-radius: 8px;
       padding: 0.5rem 1rem;
       transition: background 0.2s ease;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.28) !important;
+        background: rgba(255, 255, 255, 0.28);
       }
     }
   }
@@ -92,14 +93,14 @@
         gap: 0.75rem;
         font-size: 1.1rem;
         font-weight: 700;
-        color: #0f172a;
+        color: var(--shn-navy);
         margin: 0;
 
         .step-number {
           width: 28px;
           height: 28px;
           border-radius: 50%;
-          background: #0284c7;
+          background: var(--shn-navy);
           color: #ffffff;
           display: flex;
           align-items: center;
@@ -194,9 +195,9 @@
 
   // Zona de Carga (Drag & Drop)
   .drop-zone {
-    border: 2px dashed #93c5fd;
+    border: 2px dashed var(--shn-sky);
     border-radius: 12px;
-    background: #f0f7ff;
+    background: var(--pisac-secondary-50);
     padding: 2.25rem 1.5rem;
     text-align: center;
     cursor: pointer;
@@ -204,15 +205,15 @@
     position: relative;
 
     &:hover {
-      border-color: #0284c7;
-      background: #e0f2fe;
+      border-color: var(--shn-navy);
+      background: var(--pisac-secondary-100);
     }
 
     &.dragging {
-      border-color: #0369a1;
-      background: #bae6fd;
+      border-color: var(--shn-navy);
+      background: #C4E8F6;
       transform: scale(1.008);
-      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.2);
+      box-shadow: var(--pisac-shadow-md);
     }
 
     .drop-icon-circle {
@@ -224,11 +225,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+      box-shadow: var(--pisac-shadow-sm);
 
       i {
         font-size: 2rem;
-        color: #0284c7;
+        color: var(--shn-navy);
       }
     }
 
@@ -248,12 +249,10 @@
     }
 
     .btn-browse {
-      background: #0284c7 !important;
-      border-color: #0284c7 !important;
-      font-weight: 600;
+            font-weight: 600;
       border-radius: 8px;
       padding: 0.6rem 1.25rem;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+      box-shadow: var(--pisac-shadow-md);
     }
 
     .drop-badges {
@@ -350,7 +349,7 @@
 
         .progress-val {
           font-weight: 700;
-          color: #0284c7;
+          color: var(--pisac-secondary-700);
         }
       }
 
@@ -362,12 +361,12 @@
 
         .bar-fill {
           height: 100%;
-          background: #0284c7;
+          background: var(--shn-sky);
           border-radius: 10px;
           transition: width 0.3s ease;
 
           &.success {
-            background: #16a34a;
+            background: var(--pisac-success);
           }
 
           &.error {

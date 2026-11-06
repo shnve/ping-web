@@ -1,31 +1,34 @@
 @import 'fonts';
+// Paleta institucional PISAC (guía de marca SHN). Las variables heredadas de SHOM se redirigen
+// a esos valores para que los ≈85 SCSS que importan este archivo tomen la marca sin editarlos.
+@import 'pisac/palette';
 
-$fontFamily: Arial, sans-serif;
+$fontFamily: $pisac-font-body;
 $fontSize: 1rem;
-$primaryColor: #0c224c;
-$primaryColorLighten1: #556482;
-$primaryColorLighten2: #9ea7b8;
-$primaryColorLighten3: #dadee4;
+$primaryColor: $shn-navy;               // antes #0c224c
+$primaryColorLighten1: $shn-navy-700;   // antes #556482 (hover)
+$primaryColorLighten2: #9FB3CC;         // antes #9ea7b8
+$primaryColorLighten3: $shn-navy-100;   // antes #dadee4
 
-$secondaryColor: #277eac;
-$secondaryColorLighten1: #8dd6f2;
-$secondaryColorLighten2: #bee8f7;
-$secondaryColorLighten3: #e6f6fc;
+$secondaryColor: $shn-sky-700;          // antes #277eac
+$secondaryColorLighten1: #8FD1EC;       // antes #8dd6f2
+$secondaryColorLighten2: $shn-sky-100;  // antes #bee8f7
+$secondaryColorLighten3: $shn-sky-50;   // antes #e6f6fc
 
 $tertiaryColor: #aeddea;
 $tertiaryColorLighten1: #c6e7f0;
 $tertiaryColorLighten2: #def1f6;
 $tertiaryColorLighten3: #f2f9fb;
 
-$quaternaryColor: #00489a;
+$quaternaryColor: $shn-navy-700;        // antes #00489a
 $quaternaryColorLighten1: #4770ab;
 $quaternaryColorLighten2: #9ab6d6;
-$quaternaryColorLighten3: #d9e3ef;
+$quaternaryColorLighten3: $shn-navy-100; // antes #d9e3ef
 $quaternaryColorLighten4: #6a6af4;
 
 $textPrimaryColor: $primaryColor;
 $textSecondaryColor: white;
-$errorColor: #d34442;
+$errorColor: $pisac-danger;             // antes #d34442
 $errorColor2: #a4252c;
 $lightGreyColor: #DDDDDD;
 $middleGrey: #605e5c;
@@ -34,7 +37,7 @@ $brightGray : #E7E9EB;
 
 $hilightBgColor: $primaryColorLighten1;
 
-$blue-sun:#000091;
+$blue-sun: $shn-navy;                   // antes #000091 (azul DSFR)
 
 $screenSizePhone: 480px;
 $screenSizeTablet: 768px;
@@ -45,18 +48,18 @@ $screenSizeLargeDevice: 1200px;
 $menuZIndex: 100;
 
 
-// ------ Header
+// ------ Header (cabecera compacta PISAC: franja blanca + menú marino + migas de pan)
 $headerSeparatorBorderSize: 1px;
 $logoMarginLeftRight: 1px;
 $logoMarginBottom: 3px;
 $logoMarginTop: 2px;
-$logoHeight: 80px;
+$logoHeight: $pisac-header-bar-h;       // antes 80px
 $logoWidth: 96px;
 $mobileDiff: 30px;
-$bannerHeight: 80px;
+$bannerHeight: $pisac-header-bar-h;     // antes 80px
 $mobileBannerHeight: $bannerHeight + $mobileDiff;
-$navmenuHeight: $logoHeight + $logoMarginBottom + $logoMarginTop - $bannerHeight + 42px;
-$breadcrumbHeight: 30px;
+$navmenuHeight: $pisac-header-menu-h;   // antes ≈47px (derivado del logo)
+$breadcrumbHeight: 32px;
 $headerHeight: $bannerHeight + $navmenuHeight + $breadcrumbHeight + $headerSeparatorBorderSize;
 $mobileHeaderHeight: $headerHeight + $mobileDiff;
 $menuBlankSpaceWidth: 60px;
@@ -102,6 +105,6 @@ $colorMessageInfo: #0063cb;
 $colorMessageWarning: #b34000;
 
 // ------ prime-ng overrides
-$tagInfoColor: #0f7acb;
-$tagSuccessColor: #4c8508;
-$datatableColumnHighlightColor: #0a69cf;
+$tagInfoColor: $shn-sky-700;            // antes #0f7acb
+$tagSuccessColor: $pisac-success;       // antes #4c8508
+$datatableColumnHighlightColor: $shn-navy; // antes #0a69cf

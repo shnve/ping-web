@@ -29,6 +29,11 @@ export class StepperComponent implements OnInit, OnChangeLang {
     this.moveStep.emit(event);
   }
 
+  /** Índice del paso actual (los anteriores se muestran como completados). */
+  get currentStepIndex(): number {
+    return this.steps?.findIndex(step => step.routerLink === this.currentStep) ?? -1;
+  }
+
   protected buildSteps(): void {
     this.steps = [
       {

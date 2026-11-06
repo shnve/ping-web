@@ -2,12 +2,27 @@
 
 $border: 1px solid $quaternaryColorLighten1;
 
+// Layout "map": columna flexible; el mapa (sig-map--fill) ocupa el alto restante
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 420px;
+}
+
 .georegulation-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.5rem 0 0 0.5rem;
-  height: 43px;
+  padding: 0.5rem 0.75rem;
+  min-height: 52px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--pisac-border-soft);
+
+  .label-area {
+    font-weight: 600;
+    color: var(--pisac-neutral-700);
+  }
 }
 
 :host ::ng-deep {

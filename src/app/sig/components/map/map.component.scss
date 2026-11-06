@@ -1,6 +1,6 @@
 @import 'variables';
 
-$control-btn-size: 32px;
+$control-btn-size: $pisac-map-tool-size; // antes 32px (guía §07: objetivos táctiles amplios)
 $top-first-control-right: 50px;
 $control-margin-right: 18px;
 
@@ -20,41 +20,74 @@ $control-margin-right: 18px;
   position: relative;
 }
 
+/* Modo "relleno" (vistas map-first): el mapa toma todo el alto de su contenedor flexible.
+   Lo activa la vista con <sig-map class="sig-map--fill">; los mapas embebidos no cambian. */
+sig-map.sig-map--fill {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  > .carto-map-container {
+    height: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  > .carto-map-container .map-container {
+    height: auto !important;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+}
+
 .right-panel-controls {
   position: absolute;
-  top: 50px;
-  right: 18px;
+  top: 12px;
+  right: 12px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  
+  gap: 6px;
+
   .tool-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
+    width: $pisac-map-tool-size;
+    height: $pisac-map-tool-size;
+    border-radius: var(--radius-md);
     border: none;
     background-color: $primaryColor;
     color: white;
+    font-size: 1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.1s ease-in, transform 0.1s ease;
-    
+    box-shadow: var(--pisac-shadow-sm);
+    transition: background-color 0.1s ease-in;
+
     &:hover {
-      background-color: $primaryColorLighten1;
-      transform: scale(1.05);
+      background-color: $shn-navy-deep;
     }
-    
+
+    &:focus-visible {
+      outline: var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Herramienta activa: toque naranja con icono marino (antes verde #28a745) */
     &.active-tool {
-      background-color: #28a745; /* Verde para estado activo */
+      background-color: $shn-orange;
+      color: $shn-navy;
     }
-    
+
+    /* Limpiar: icono rojo sobre blanco (antes fondo rojo #dc3545) */
     &.clear-btn {
-      background-color: #dc3545; /* Rojo para limpiar */
+      background-color: #ffffff;
+      color: $pisac-danger;
+      border: 1px solid var(--pisac-border);
+
       &:hover {
-        background-color: #c82333;
+        background-color: #FDECEC;
       }
     }
   }

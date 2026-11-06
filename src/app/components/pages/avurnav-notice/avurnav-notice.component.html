@@ -1,4 +1,4 @@
-<div>
+<div class="avurnav-notice-page">
   <div class="avurnav-notice-header">
     <shared-select-button
         class="visualisation-selector"
@@ -8,7 +8,7 @@
     <span class="label-area" translate>menu.area</span>
     <app-area-dropdown class="app-area-dropdown"></app-area-dropdown>
   </div>
-  <div *ngIf="visualisationMode === 'map'">
+  <div *ngIf="visualisationMode === 'map'" class="avurnav-map-view">
     <shared-disclaimer [displayDisclaimer]="displayMapDisclaimer"
                        [header]="'home-page.disclaimer.title'"
                        [content]="mapDisclaimerContent"
@@ -24,7 +24,8 @@
     <app-map-filter-banner (onFilterChange)="loadMapWarnings($event)"
                            [filterState]="mapFilterState"
     ></app-map-filter-banner>
-    <sig-map [warnings]="mapWarnings$ | async"
+    <sig-map class="sig-map--fill"
+             [warnings]="mapWarnings$ | async"
              [getDetailWarnings]="true"
              [extent]="selectedAreaExtent"
              (onSelectWarnings)="displayWarningModal($event)"

@@ -1,0 +1,55 @@
+// =====================================================================================
+// Paleta y medidas PISAC (solo variables SCSS, no genera CSS)
+// Fuente: manual_marca_web_shn_venezuela.pdf (§05 Color, §06 Tipografía, §07 Composición,
+// §10 Sistema de interfaz, §16 Tokens). Proporción de color recomendada:
+// blanco 55-65 % · azul marino 20-30 % · azul claro 8-15 % · naranja 3-5 %.
+// =====================================================================================
+
+// ---- Paleta institucional (valores exactos de la guía) ----
+$shn-navy: #002B5C;       // Cabecera, títulos, botones y pie
+$shn-navy-deep: #001D3D;  // Hover / estados presionados
+$shn-sky: #4FB9E3;        // Datos, iconos, fondos y selección (NO para texto sobre blanco: 2,24:1)
+$shn-white: #FFFFFF;
+$shn-orange: #F47C20;     // Acción destacada, énfasis y avisos (texto marino encima, nunca blanco)
+$shn-ink: #253746;        // Texto
+
+// ---- Derivados (tintes calculados sobre la paleta) ----
+$shn-navy-700: #0A3A70;
+$shn-navy-100: #DCE5F0;
+$shn-navy-50: #EEF3F9;
+$shn-sky-100: #D3EEF8;
+$shn-sky-50: #E8F6FC;
+$shn-sky-700: #1F7FA6;    // Azul claro oscurecido, apto para texto pequeño (4,6:1)
+$shn-orange-100: #FDE5D2;
+$shn-orange-50: #FEF3EA;
+
+// ---- Neutros ----
+$pisac-neutral-900: #0F172A;
+$pisac-neutral-700: #334155;
+$pisac-neutral-600: #475569;
+$pisac-neutral-500: #64748B;
+$pisac-neutral-300: #CBD5E1;
+$pisac-neutral-200: #E2E8F0;
+$pisac-neutral-100: #F1F5F9;
+$pisac-neutral-50: #F8FAFC;
+
+// ---- Semánticos (contraste AA sobre blanco) ----
+$pisac-success: #15803D;
+$pisac-warning: #B45309;
+$pisac-danger: #C62828;
+$pisac-info: $shn-sky-700;
+
+// ---- Tipografía ----
+$pisac-font-body: "Source Sans 3", Arial, sans-serif;
+$pisac-font-heading: "Montserrat", "Source Sans 3", Arial, sans-serif;
+
+// ---- Tamaños de control (guía §10: altura mínima 44 px; §07: objetivo táctil 44 x 44) ----
+$pisac-control-h-sm: 36px;
+$pisac-control-h: 44px;
+$pisac-control-h-lg: 48px;
+$pisac-map-tool-size: 40px;
+
+// ---- Cabecera compacta ----
+$pisac-header-bar-h: 80px;   // Franja blanca con escudo (misma altura que el diseño original), título, cuenta e idioma
+$pisac-header-menu-h: 44px;  // Barra de navegación
+$pisac-header-accent-h: 3px; // Franja naranja

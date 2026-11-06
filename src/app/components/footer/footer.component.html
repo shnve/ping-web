@@ -1,59 +1,43 @@
-<footer class="fr-footer" role="contentinfo">
-  <div class="fr-container">
-    <div class="fr-footer__body">
-      <div class="fr-footer__brand">
-        <p class="fr-logo">
-          <span [staticLogoDirective]="'logo-mer'"></span>
-        </p>
-        <span [staticLogoDirective]="'logo-armada'"></span>
-      </div>
-      <div class="fr-footer__content">
-        <ul class="fr-footer__content-list">
-          <li class="fr-footer__content-item">
-            <a class="fr-footer__content-link" target="_blank" rel="noopener external"
-              href="https://presidencia.gob.ve/"
-              [title]="'footer.external-link-title' | translate:{site: 'presidencia.gob.ve'}">presidencia.gob.ve</a>
-          </li>
-          <li class="fr-footer__content-item">
-            <a class="fr-footer__content-link" target="_blank" rel="noopener external"
-              href="https://www.mindefensa.gob.ve/"
-              [title]="'footer.external-link-title' | translate:{site: 'mindefensa.gob.ve'}">mindefensa.gob.ve</a>
-          </li>
-          <li class="fr-footer__content-item">
-            <a class="fr-footer__content-link" target="_blank" rel="noopener external" href="https://www.armada.mil.ve/"
-              [title]="'footer.external-link-title' | translate:{site: 'armada.mil.ve'}">armada.mil.ve</a>
-          </li>
-          <li style="flex-basis: 100%; height: 0; margin: 0; padding: 0; list-style: none;"></li>
-          <li class="fr-footer__content-item">
-            <a class="fr-footer__content-link" target="_blank" rel="noopener external" href="http://www.shn.gob.ve/"
-              [title]="'footer.external-link-title' | translate:{site: 'shn.gob.ve'}">shn.gob.ve</a>
-          </li>
-          <li class="fr-footer__content-item">
-            <a class="fr-footer__content-link" target="_blank" rel="noopener external"
-              href="http://www.ochina.gob.ve/"
-              [title]="'footer.external-link-title' | translate:{site: 'ochina.gob.ve'}">ochina.gob.ve</a>
-          </li>
-        </ul>
-      </div>
+<footer class="pisac-footer" role="contentinfo">
+  <div class="pisac-footer__body">
+    <div class="pisac-footer__brand">
+      <span class="pisac-footer__logo" [staticLogoDirective]="'logo-mer'"></span>
+      <span class="pisac-footer__logo" [staticLogoDirective]="'logo-armada'"></span>
     </div>
-    <!--<div class="fr-footer__bottom">
-      <ul class="fr-footer__bottom-list">
-        <li class="fr-footer__bottom-item">
-          <a class="fr-footer__bottom-link" href="#" [routerLink]="[baseStaticPath, 'accessibilite']"
-            translate>footer.accessibility</a>
+    <nav class="pisac-footer__links">
+      <ul>
+        <li>
+          <a target="_blank" rel="noopener external" href="https://presidencia.gob.ve/"
+            [title]="'footer.external-link-title' | translate:{site: 'presidencia.gob.ve'}">presidencia.gob.ve</a>
         </li>
-        <li class="fr-footer__bottom-item">
-          <a class="fr-footer__bottom-link" href="#" [routerLink]="[baseStaticPath, 'mentions-legales']"
-            translate>footer.legal-notice</a>
+        <li>
+          <a target="_blank" rel="noopener external" href="https://www.mindefensa.gob.ve/"
+            [title]="'footer.external-link-title' | translate:{site: 'mindefensa.gob.ve'}">mindefensa.gob.ve</a>
         </li>
-        <li class="fr-footer__bottom-item">
-          <a class="fr-footer__bottom-link" href="#" [routerLink]="[baseStaticPath, 'cgu']" translate>footer.cgu</a>
+        <li>
+          <a target="_blank" rel="noopener external" href="https://www.armada.mil.ve/"
+            [title]="'footer.external-link-title' | translate:{site: 'armada.mil.ve'}">armada.mil.ve</a>
         </li>
-        <li class="fr-footer__bottom-item">
-          <a class="fr-footer__bottom-link" href="#" [routerLink]="[baseStaticPath, 'contact']"
-            translate>footer.contact</a>
+        <li>
+          <a target="_blank" rel="noopener external" href="http://www.shn.gob.ve/"
+            [title]="'footer.external-link-title' | translate:{site: 'shn.gob.ve'}">shn.gob.ve</a>
+        </li>
+        <li>
+          <a target="_blank" rel="noopener external" href="http://www.ochina.gob.ve/"
+            [title]="'footer.external-link-title' | translate:{site: 'ochina.gob.ve'}">ochina.gob.ve</a>
         </li>
       </ul>
-    </div>-->
+    </nav>
   </div>
+  <div class="pisac-footer__bar">
+    <span translate>title.description</span>
+  </div>
+  <!-- Enlaces legales de SHOM (accesibilidad, aviso legal, CGU, contacto) desactivados en PISAC:
+  <ul>
+    <li><a [routerLink]="[baseStaticPath, 'accessibilite']" translate>footer.accessibility</a></li>
+    <li><a [routerLink]="[baseStaticPath, 'mentions-legales']" translate>footer.legal-notice</a></li>
+    <li><a [routerLink]="[baseStaticPath, 'cgu']" translate>footer.cgu</a></li>
+    <li><a [routerLink]="[baseStaticPath, 'contact']" translate>footer.contact</a></li>
+  </ul>
+  -->
 </footer>

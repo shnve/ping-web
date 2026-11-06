@@ -1,15 +1,18 @@
-<div class="card-customed">
-    <div class="header">
-        <div *ngIf="warning.status !== listWarningStatus.NOT_SAVED">
-            <span>{{warning.prerequisites | formatWarningNumber:true}} - {{('enum.warning-status.' + (warning.status | lowercase)) | translate}}</span>
-        </div>
+<div class="card-customed pisac-stepper">
+    <div class="header" *ngIf="warning.status !== listWarningStatus.NOT_SAVED">
+        <span class="warning-number">{{warning.prerequisites | formatWarningNumber:true}}</span>
+        <span class="warning-status">{{('enum.warning-status.' + (warning.status | lowercase)) | translate}}</span>
     </div>
-    <div class="md-stepper-horizontal">
-        <div class="md-step" [ngClass]="{'active': currentStep === step.routerLink }" *ngFor="let step of steps; let i=index">
-            <button class="btn" [ngClass]="{'btn-active': currentStep === step.routerLink }" type="submit" (click)="moveToStep(step.routerLink)">
-                <span class="md-step-title">{{i+1}}</span></button>
+    <ol class="md-stepper-horizontal">
+        <li class="md-step" *ngFor="let step of steps; let i=index"
+            [ngClass]="{'active': currentStep === step.routerLink, 'done': i < currentStepIndex }">
+            <button class="btn" [ngClass]="{'btn-active': currentStep === step.routerLink }" type="submit"
+                    [attr.aria-current]="currentStep === step.routerLink ? 'step' : null"
+                    [attr.aria-label]="(i + 1) + '. ' + step.label"
+                    (click)="moveToStep(step.routerLink)">
+                <span class="md-step-number">{{i+1}}</span>
+            </button>
             <div class="md-step-title" [ngClass]="{'md-step-title-active': currentStep === step.routerLink }">{{step.label}}</div>
-            <div *ngIf="step.routerLink !== '/finalization'" [ngClass]="step.routerLink !== '/diffusion' ? 'md-step-bar-middle' : 'md-step-bar-right'"></div>
-        </div>
-    </div>
+        </li>
+    </ol>
 </div>

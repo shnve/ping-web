@@ -1,0 +1,157 @@
+// Controles de formulario: altura 44 px (guía §10), texto 16 px, borde neutro y foco azul claro.
+
+// ---- Campos PrimeNG de una línea ----
+input.p-inputtext,
+.p-password input,
+.p-calendar .p-inputtext,
+.p-inputnumber .p-inputtext,
+.p-autocomplete .p-autocomplete-input {
+  height: var(--pisac-control-h);
+  padding: 0 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-color: var(--pisac-border);
+  border-radius: 6px;
+  color: var(--pisac-text);
+}
+
+textarea.p-inputtext,
+textarea.p-inputtextarea {
+  padding: 0.625rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-color: var(--pisac-border);
+  border-radius: 6px;
+}
+
+.p-inputtext:enabled:hover,
+.p-dropdown:not(.p-disabled):hover,
+.p-multiselect:not(.p-disabled):hover {
+  border-color: var(--pisac-primary-700);
+}
+
+.p-inputtext:enabled:focus,
+.p-dropdown:not(.p-disabled).p-focus,
+.p-multiselect:not(.p-disabled).p-focus {
+  border-color: var(--pisac-primary);
+  box-shadow: 0 0 0 3px rgba(79, 185, 227, 0.35);
+}
+
+// ---- Selects (dropdown / multiselect / calendar con botón) ----
+.p-dropdown,
+.p-multiselect {
+  min-height: var(--pisac-control-h);
+  align-items: center;
+  border-color: var(--pisac-border);
+  border-radius: 6px;
+}
+
+.p-dropdown .p-dropdown-label,
+.p-multiselect .p-multiselect-label {
+  height: auto;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+}
+
+.p-multiselect.p-multiselect-chip .p-multiselect-token {
+  background: var(--pisac-secondary-50);
+  color: var(--pisac-primary);
+  border: 1px solid var(--pisac-secondary-100);
+}
+
+.p-calendar .p-button.p-datepicker-trigger {
+  height: var(--pisac-control-h);
+  min-height: var(--pisac-control-h);
+}
+
+// Opciones resaltadas en listas desplegables
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight,
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight,
+.p-listbox .p-listbox-list .p-listbox-item.p-highlight {
+  background: var(--pisac-secondary-50);
+  color: var(--pisac-primary);
+  font-weight: 600;
+}
+
+// Checkbox y radio marcados en marino
+.p-checkbox .p-checkbox-box.p-highlight,
+.p-radiobutton .p-radiobutton-box.p-highlight {
+  background: var(--pisac-primary);
+  border-color: var(--pisac-primary);
+}
+
+// Estado inválido
+.ng-dirty.ng-invalid > .p-inputtext,
+.p-inputtext.ng-dirty.ng-invalid,
+.ng-dirty.ng-invalid > .p-dropdown,
+.ng-dirty.ng-invalid > .p-multiselect {
+  border-color: var(--pisac-danger);
+}
+
+// ---- Red de seguridad para inputs nativos sin pInputText (≈ 91 en el código) ----
+// Especificidad 0 con :where(): cualquier estilo existente (intl-tel-input, OpenLayers, etc.) sigue ganando.
+:where(
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="url"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  input:not([type]),
+  select
+):where(:not(.p-inputtext):not(.p-hidden-accessible input)) {
+  height: var(--pisac-control-h);
+  padding: 0 0.75rem;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--pisac-text);
+  background-color: var(--pisac-surface);
+  border: 1px solid var(--pisac-border);
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+:where(textarea):where(:not(.p-inputtext)) {
+  padding: 0.625rem 0.75rem;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--pisac-text);
+  border: 1px solid var(--pisac-border);
+  border-radius: 6px;
+}
+
+// ---- Utilidades de formulario PISAC ----
+.pisac-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+
+  > label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--pisac-neutral-700);
+  }
+
+  &.pisac-field--required > label::after {
+    content: " *";
+    color: var(--pisac-danger);
+  }
+}
+
+.pisac-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4) var(--space-6);
+}
+
+span.field-validation-error {
+  color: var(--pisac-danger);
+}

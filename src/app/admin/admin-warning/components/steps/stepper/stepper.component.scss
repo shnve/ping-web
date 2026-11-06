@@ -1,118 +1,144 @@
 @import 'variables';
 
-body {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
-  color: darkGrey;
-}
-
-.md-stepper-horizontal {
-  display: table;
-  width: 100%;
-  margin: 0 auto;
-  background-color: white;
-  box-shadow: 0 3px 6px -5px rgb(0 0 0 / 50%);
-  margin-bottom: 15px;
-  margin-top: 20px;
-}
-
-.md-stepper-horizontal .md-step {
-  display: table-cell;
-  position: relative;
-  padding: 24px;
-  width: 150px;
-}
-
-.md-stepper-horizontal .md-step:active {
-  background-color: rgba(0, 0, 0, 0.04);
-  border-radius: 15% / 75%;
-}
-
-.md-stepper-horizontal .md-step:first-child:active {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.md-stepper-horizontal .md-step:last-child:active {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.md-stepper-horizontal .md-step:first-child .md-step-bar-left,
-.md-stepper-horizontal .md-step:last-child .md-step-bar-right {
-  display: none;
-}
-
-.md-stepper-horizontal .md-step .md-step-title {
-  margin-top: 16px;
-  font-size: 16px;
-}
-
-.md-step-title-active {
-  font-weight: 600;
-}
-
-.md-stepper-horizontal .md-step .md-step-title,
-.md-stepper-horizontal .md-step .md-step-optional {
-  text-align: center;
-  color: $middleGrey;
-}
-
-.md-stepper-horizontal .md-step.active .md-step-title {
-  color: rgba(0, 0, 0, .87);
-}
-
-.md-stepper-horizontal .md-step.active.done .md-step-title,
-.md-stepper-horizontal .md-step.active.editable .md-step-title {
-  font-weight: 600;
-}
-
-.md-stepper-horizontal .md-step .md-step-bar-right,
-.md-stepper-horizontal .md-step .md-step-bar-middle {
-  position: absolute;
-  top: 3px;
-  height: 1px;
-  border-top: 1px solid $lightGreyColor;
-  width: 100%;
-  left: 53%;
-  margin-left: 10px;
-}
-
-.btn {
-  display: block;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  border: 1px solid grey;
-  margin: 0;
-  position: absolute;
-  left: 50%;
-  -ms-transform: translate(-50%, -103%);
-  transform: translate(-50%, -103%);
-  cursor: pointer;
-}
-
-.btn-active {
-  border-color: $quaternaryColorLighten1;
-  color: $quaternaryColorLighten1;
-  background-color: $quaternaryColorLighten3
-}
-
-.header {
-  display: block;
-  text-align: center;
-  font-style: italic;
-  color: darkgray;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-top: 16px;
-  margin-bottom: 10px;
-  padding-top: 17px;
-  padding-bottom: 10px;
-}
+// Stepper de creación de avisos con el estilo del módulo de Cartografía:
+// círculos numerados, conectores y estados pendiente / completado / actual (anillo naranja).
+$circle: 40px;
 
 .card-customed {
   width: 98%;
-  box-shadow: 0 5px 5px -3px rgb(0 0 0 / 20%), 0 8px 10px 1px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%);
-  margin: 1rem auto 2rem;
+  margin: 1rem auto 1.5rem;
+  background: #ffffff;
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--pisac-shadow-sm);
+  padding: 1rem 1.5rem 1.25rem;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  .warning-number {
+    font-family: $pisac-font-heading;
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: $shn-navy;
+  }
+
+  .warning-status {
+    display: inline-block;
+    padding: 0.2rem 0.75rem;
+    border-radius: 999px;
+    background: var(--pisac-secondary-50);
+    border: 1px solid var(--pisac-secondary-100);
+    color: $shn-navy;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+}
+
+.md-stepper-horizontal {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.md-step {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 0.5rem;
+
+  // Conector hacia el paso siguiente
+  &:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: $circle * 0.5 - 1px;
+    left: calc(50% + #{$circle * 0.5} + 6px);
+    right: calc(-50% + #{$circle * 0.5} + 6px);
+    height: 2px;
+    background: var(--pisac-neutral-200);
+    border-radius: 2px;
+  }
+
+  &.done:not(:last-child)::after {
+    background: $shn-navy;
+  }
+}
+
+.btn {
+  width: $circle;
+  height: $circle;
+  border-radius: 50%;
+  border: 2px solid var(--pisac-neutral-300);
+  background: #ffffff;
+  color: var(--pisac-neutral-600);
+  font-family: $pisac-font-body;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    border-color: $shn-navy;
+    color: $shn-navy;
+  }
+
+  &:focus-visible {
+    outline: var(--focus);
+    outline-offset: 3px;
+  }
+}
+
+// Paso completado (anterior al actual)
+.md-step.done .btn {
+  background: var(--pisac-primary-50);
+  border-color: $shn-navy;
+  color: $shn-navy;
+}
+
+// Paso actual: marino con anillo naranja (toque de acento de la guía)
+.btn-active,
+.btn-active:hover {
+  background: $shn-navy;
+  border-color: $shn-navy;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px var(--pisac-accent-100), 0 0 0 6px $shn-orange;
+}
+
+.md-step-title {
+  margin-top: 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.3;
+  color: var(--pisac-text-muted);
+}
+
+.md-step.done .md-step-title {
+  color: $shn-ink;
+}
+
+.md-step-title-active {
+  color: $shn-navy;
+  font-weight: 700;
+}
+
+@media (max-width: $screenSizeTablet) {
+  .md-step-title {
+    font-size: 0.8125rem;
+  }
 }

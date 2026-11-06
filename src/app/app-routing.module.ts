@@ -27,7 +27,8 @@ const routes: Routes = [
     path: 'avurnav-notice/:warningId',
     component: AvurnavNoticeComponent,
     data: {
-      breadcrumb: 'menu.avurnav-notice'
+      breadcrumb: 'menu.avurnav-notice',
+      layout: 'map'
     },
     title: 'menu.avurnav-notice'
   },
@@ -36,6 +37,7 @@ const routes: Routes = [
     component: AvurnavNoticeComponent,
     data: {
       breadcrumb: 'menu.avurnav-notice',
+      layout: 'map'
     },
     title: 'menu.avurnav-notice'
   },
@@ -43,7 +45,8 @@ const routes: Routes = [
     path: 'georegulation-visu/:georegulationId',
     component: GeoregulationVisuComponent,
     data: {
-      breadcrumb: 'menu.georegulation-visu'
+      breadcrumb: 'menu.georegulation-visu',
+      layout: 'map'
     },
     title: 'menu.georegulation-visu'
   },
@@ -51,7 +54,8 @@ const routes: Routes = [
     path: 'georegulation-visu',
     component: GeoregulationVisuComponent,
     data: {
-      breadcrumb: 'menu.georegulation-visu'
+      breadcrumb: 'menu.georegulation-visu',
+      layout: 'map'
     },
     title: 'menu.georegulation-visu'
   },

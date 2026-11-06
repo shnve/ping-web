@@ -1,0 +1,15 @@
+// =====================================================================================
+// Sistema de diseño PISAC – punto de entrada.
+// Se importa al FINAL de src/styles.scss para que tenga prioridad sobre los estilos heredados.
+// Ver docs-internos/Plan_Accion_Rediseno_Visual_PISAC.md y Registro_Cambios_UI_vs_SHOM.md.
+// =====================================================================================
+@import 'tokens';
+@import 'fonts';
+@import 'base';
+@import 'typography';
+@import 'forms';
+@import 'buttons';
+@import 'components';
+@import 'dsfr-compat';
+@import 'shell';
+@import 'map';

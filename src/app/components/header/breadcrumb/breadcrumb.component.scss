@@ -1,20 +1,22 @@
 @import 'src/styling/variables';
 
 :host {
-  border-bottom: $headerSeparatorBorderSize solid var(--border-default-grey);
+  border-bottom: $headerSeparatorBorderSize solid var(--pisac-border-soft);
 
   ::ng-deep .p-breadcrumb {
     height: $breadcrumbHeight;
-    padding: 5px 1rem;
-    display: inline-table;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
     border: none;
+    background: transparent;
+    font-size: 0.875rem;
 
     a {
       --underline-idle-width: 0;
     }
 
     .p-menuitem-link {
-      margin-bottom: 0.5rem;
       border-radius: 0;
 
       homeicon.p-element {
@@ -22,13 +24,20 @@
       }
 
       .p-menuitem-text {
-        color: var(--text-mention-grey);
-        box-shadow: var(--link-underline);
+        color: var(--pisac-text-muted);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: var(--pisac-border);
 
         &:hover {
-          box-shadow: none;
+          color: $shn-navy;
+          text-decoration-color: $shn-navy;
         }
       }
+    }
+
+    .p-menuitem-separator {
+      color: var(--pisac-neutral-500);
     }
 
     .p-breadcrumb-list li .p-menuitem-link:focus {
@@ -46,8 +55,9 @@
       }
 
       .p-menuitem-text {
-        color: var(--text-active-grey);
-        box-shadow: none;
+        color: $shn-ink;
+        font-weight: 600;
+        text-decoration: none;
       }
     }
   }

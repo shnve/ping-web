@@ -30,10 +30,12 @@ $appTitleFontSize: 1.6rem;
   .p-button {
     border: none;
     background: none;
+    color: $shn-navy;
 
-    &:hover {
-      color: var(--text-action-high-blue-france);
-      background-color: var(--hover);
+    &:hover,
+    &:enabled:hover {
+      color: $shn-navy;
+      background-color: var(--pisac-primary-50);
     }
   }
 
@@ -130,20 +132,43 @@ tr.notification {
 .container {
   display: flex;
   align-items: center;
-  background-color: var(--background-raised-grey);
+  background-color: #ffffff;
   height: $bannerHeight;
   line-height: $bannerHeight;
   padding: 0 10px;
 }
 
+// Título institucional con la franja naranja de la guía (§12: "la franja naranja puede marcar títulos")
 .title-container {
-  line-height: math.div($bannerHeight, 4);
+  line-height: 1.2;
+  position: relative;
+  padding-left: 14px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 4px;
+    border-radius: 2px;
+    background: $shn-orange;
+  }
+
+  .title-republic {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--pisac-text-muted);
+  }
 
   .title-description {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
+    font-family: $pisac-font-heading;
+    font-size: 1.125rem;
+    line-height: 1.35;
     font-weight: 700;
-    color: var(--g800);
+    color: $shn-navy;
   }
 }
 
@@ -168,10 +193,21 @@ tr.notification {
 }
 
 .banner-link {
-  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-decoration: none;
+  // Sin el subrayado animado del DSFR (background-image en los enlaces)
+  --underline-idle-width: 0;
+  --underline-hover-width: 0;
+  background-image: none;
+
   &:hover {
-    text-decoration: underline;
-    color: white;
+    text-decoration: none;
+
+    .title-description {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -231,9 +267,13 @@ tr.notification {
 
 @media only screen and (max-width: $screenSizeTablet) {
   .title-container {
+    .title-republic {
+      display: none;
+    }
+
     .title-description {
-      font-size: 1rem;
-      line-height: 1.2rem;
+      font-size: 0.9375rem;
+      line-height: 1.25;
     }
   }
 

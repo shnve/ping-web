@@ -5,7 +5,7 @@
   top: -4px;
 
   .pi-chevron-down, .p-dropdown-trigger {
-    color: #000091;
+    color: $shn-navy;
   }
 
   .p-dropdown {
@@ -21,7 +21,7 @@
 
     &:not(.p-disabled):hover,
     &.p-dropdown-open {
-      background-color: var(--background-open-blue-france);
+      background-color: var(--pisac-primary-50);
     }
   }
 
@@ -37,27 +37,23 @@
   }
 
   .p-dropdown-items {
-    color: var(--text-action-high-grey);
+    color: $shn-ink;
 
     .p-dropdown-item {
-      color: var(--text-action-high-grey);
+      color: $shn-ink;
       padding-top: 0;
       padding-bottom: 0;
 
       &.p-highlight {
         background: none;
-        color: var(--text-active-blue-france);
+        color: $shn-navy;
 
         &:hover {
-          background-color: var(--hover);
+          background-color: var(--pisac-primary-50);
         }
 
         &::before {
-          --idle: transparent;
-          --hover: var(--background-active-blue-france-hover);
-          --active: var(--background-active-blue-france-active);
-          background-color: #000091;
-          background-color: var(--background-active-blue-france);
+          background-color: $shn-orange;
           content: "";
           display: block;
           height: 1.5rem;
@@ -70,8 +66,8 @@
       }
 
       &:not(.p-highlight):not(.p-disabled):hover {
-        background-color: var(--hover);
-        color: var(--text-action-high-grey);
+        background-color: var(--pisac-primary-50);
+        color: $shn-ink;
       }
     }
   }

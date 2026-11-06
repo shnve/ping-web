@@ -12,7 +12,7 @@ figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
   font: inherit;
-  font-family: Marianne, arial, sans-serif;
+  font-family: inherit; // antes "Marianne, arial" (tipografía del Estado francés); ahora hereda Source Sans 3 del body
   font-size: 100%;
   vertical-align: baseline;
 }

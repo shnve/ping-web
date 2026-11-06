@@ -1,50 +1,84 @@
 @import 'variables';
 
+// Layout "map": la página es una columna flexible y el mapa ocupa todo el alto restante
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.avurnav-notice-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.avurnav-map-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 420px;
+}
+
 .avurnav-notice-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.5rem 0 0 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #ffffff;
+  border-bottom: 1px solid var(--pisac-border-soft);
+
+  .label-area {
+    font-weight: 600;
+    color: var(--pisac-neutral-700);
+  }
 }
 
 :host ::ng-deep {
+  // Selector Mapa / Tabla como control segmentado
   .visualisation-selector {
     .p-selectbutton {
-      display: flex;
-      align-items: flex-end;
-      gap: 0.25rem;
-
-      .p-button:hover {
-        background: var(--blue-france-925-125-hover);
-        color: black;
-      }
+      display: inline-flex;
+      align-items: stretch;
+      gap: 0;
+      padding: 3px;
+      background: var(--pisac-neutral-100);
+      border-radius: var(--radius-md);
     }
 
     .p-buttonset .p-button {
-      background: var(--blue-france-925-125);
-      border-radius: 0;
+      min-height: 38px;
+      background: transparent;
       border: none;
-      padding: 0.6rem 2rem;
-      color: black;
+      border-radius: 6px;
+      padding: 0 1.5rem;
+      color: var(--pisac-neutral-700);
+
+      &:not(.p-highlight):hover {
+        background: rgba(0, 43, 92, 0.06);
+        color: $shn-navy;
+      }
 
       &.p-highlight {
-        background: white;
-        box-shadow: inset 0em 0.1em $blue-sun;
-        color: $blue-sun;
+        background: $shn-navy;
+        box-shadow: var(--pisac-shadow-sm);
+        color: #ffffff;
       }
 
       .p-button-label {
-        font-weight: 500;
+        font-weight: 600;
       }
     }
   }
 
   .message-container {
-    font-size: 1.5rem;
-    line-height: 3rem;
+    font-size: 1.125rem;
+    line-height: 2rem;
 
     .info-icon {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       margin: 0 6px;
     }
   }

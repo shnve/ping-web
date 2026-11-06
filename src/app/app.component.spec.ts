@@ -87,6 +87,14 @@ describe('AppComponent', () => {
     expect(mockPrime.ripple).toEqual(true);
   });
 
+  it('should apply the default "page" layout class to body on init', () => {
+    const comp = TestBed.createComponent(AppComponent).componentInstance;
+    spyOn(comp, 'initAppLanguage').and.returnValues();
+    comp.ngOnInit();
+    expect(document.body.classList).toContain('pisac-layout-page');
+    expect(document.body.classList).not.toContain('pisac-layout-map');
+  });
+
   it('should initAppLanguage no change lang', fakeAsync(() => {
     spyTranslateUse.and.returnValues(of('en'));
     spyTranslateGet.and.returnValues(of({

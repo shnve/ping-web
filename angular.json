@@ -31,7 +31,7 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/primeng/resources/themes/md-light-indigo/theme.css",
+              "src/styling/pisac/theme/pisac-lara-light.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeflex/primeflex.css",

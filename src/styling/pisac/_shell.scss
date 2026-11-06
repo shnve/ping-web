@@ -1,0 +1,44 @@
+// Shell de la aplicación: cabecera compacta, menú marino, migas de pan y layout por ruta.
+// La estructura (alturas) vive en variables.scss; aquí van colores y reglas globales.
+@import 'palette';
+
+// ---- Layout "map": vistas cuyo foco es el mapa (avisos, georregulaciones) ----
+// AppComponent agrega la clase al <body> según route.data.layout.
+body.pisac-layout-map {
+  app-footer {
+    display: none;
+  }
+
+  app-breadcrumb {
+    display: none !important;
+  }
+
+  // Sin migas de pan, la cabecera ocupa franja + menú
+  app-header > header {
+    height: $pisac-header-bar-h + $pisac-header-menu-h + 1px;
+  }
+
+  // Altura definida (no min-height): OpenLayers dimensiona su visor con height: 100 %,
+  // que solo se resuelve si toda la cadena flexible tiene un alto definido.
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - #{$pisac-header-bar-h + $pisac-header-menu-h + 1px});
+
+    > :not(router-outlet) {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+  }
+}
+
+// ---- Insignias ----
+.p-badge {
+  background: var(--pisac-primary);
+}
+
+.p-badge.p-badge-danger {
+  background: var(--pisac-danger);
+}

@@ -1,16 +1,82 @@
 @import 'src/styling/variables';
 
-a.fr-footer__brand-link::after {
-  -webkit-mask-size: unset;
-  mask-size: unset;
-  --icon-size: 0;
-  -webkit-mask-image: unset;
-  mask-image: unset;
-  content: '';
+// Pie institucional PISAC (sin DSFR): franja de logos sobre blanco (guía §04: el escudo se
+// presenta preferentemente sobre blanco) y barra marina inferior (guía §05: "azul marino: pie").
+.pisac-footer {
+  border-top: 3px solid $shn-navy;
+  background: #ffffff;
+  color: $shn-ink;
+}
+
+.pisac-footer__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-8);
+}
+
+.pisac-footer__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+
+  ::ng-deep img {
+    height: 64px;
+    width: auto;
+  }
+
+  // El directive envuelve el logo en un enlace heredado del DSFR: sin subrayado ni icono externo
+  ::ng-deep a {
+    display: inline-flex;
+    background-image: none;
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.pisac-footer__links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    color: $shn-navy;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+}
+
+.pisac-footer__bar {
+  background: $shn-navy;
+  color: #ffffff;
+  font-size: 0.8125rem;
+  text-align: center;
+  padding: var(--space-2) var(--space-4);
 }
 
 @media all and (max-width: $screenSizeTablet) {
-  .fr-footer__brand {
+  .pisac-footer__body {
     flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-4);
+  }
+
+  .pisac-footer__brand ::ng-deep img {
+    height: 52px;
   }
 }

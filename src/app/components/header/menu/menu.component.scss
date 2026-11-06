@@ -2,6 +2,12 @@
 
 $widthLogoAndMargin: $logoWidth + $logoMarginLeftRight * 2;
 
+// PISAC: barra de navegación marina (guía §05: "navegación azul"), ítem activo con subrayado naranja.
+$menuBg: $shn-navy;
+$menuBgHover: $shn-navy-deep;
+$menuText: #ffffff;
+$menuActiveBar: $shn-orange;
+
 :host {
   position: absolute;
   top: $bannerHeight;
@@ -17,21 +23,28 @@ $widthLogoAndMargin: $logoWidth + $logoMarginLeftRight * 2;
 .data-services {
   display: flex;
   align-items: center;
+  color: $menuText;
+  font-weight: 600;
 
   span {
     padding-bottom: 0.02rem;
   }
+
+  &:hover {
+    color: $menuText;
+    text-decoration: underline;
+  }
 }
 
 .pi-question-circle.icon-data-services {
-  padding-right: 0.2em;
+  padding-right: 0.3em;
 }
 
 .breadcrumb {
   position: absolute;
   width: 100%;
   top: $navmenuHeight + $headerSeparatorBorderSize;
-  background-color: var(--background-raised-grey);
+  background-color: #ffffff;
 }
 
 .navigation-menu {
@@ -41,7 +54,7 @@ $widthLogoAndMargin: $logoWidth + $logoMarginLeftRight * 2;
   align-items: center;
   width: 100%;
   height: $navmenuHeight + $headerSeparatorBorderSize;
-  background-color: var(--background-raised-grey);
+  background-color: $menuBg;
 }
 
 a {
@@ -72,59 +85,102 @@ a {
     border: none;
     border-radius: 0;
     padding: 0 0 0 0.5rem;
-    background-color: var(--background-raised-grey);
-    border-bottom: 1px solid var(--border-default-grey);
-    box-shadow: inset 0 1px 0 0 var(--border-default-grey);
+    background-color: $menuBg;
 
     ul.p-menubar-root-list {
       flex-wrap: nowrap;
     }
 
-    .p-menubar-root-list > li.p-menuitem > .p-menuitem-content > a.p-menuitem-link {
-      padding: 0.75rem 0.5rem;
+    // ---- Ítems de primer nivel (texto blanco sobre marino) ----
+    .p-menubar-root-list > li.p-menuitem > .p-menuitem-content {
+      background: transparent;
+      border-radius: 0;
 
-      &:hover {
-        --underline-hover-width: 0;
-      }
-
-      &.p-menuitem-link-active {
+      > a.p-menuitem-link {
+        position: relative;
         height: $navmenuHeight;
+        padding: 0 0.875rem;
         border-radius: 0;
-        background: none;
-        padding: 0 0.5rem;
 
-        &:focus {
-          box-shadow: none;
-          outline: none;
+        .p-menuitem-text,
+        .p-submenu-icon,
+        .p-menuitem-icon {
+          color: $menuText;
+          font-weight: 600;
         }
 
-        .p-menuitem-text {
-          color: var(--text-active-blue-france);
+        &:hover {
+          --underline-hover-width: 0;
+        }
 
-          &:hover {
-            color: var(--text-active-blue-france);
+        &.p-menuitem-link-active {
+          background: none;
+
+          &:focus {
+            box-shadow: none;
+            outline: none;
           }
 
-          &::before {
-            bottom: 0;
-            height: 2px;
-            left: 0;
-            margin-top: 0;
-            position: absolute;
-            top: auto;
-            width: 100%;
-            --idle: transparent;
-            --hover: var(--background-active-blue-france-hover);
-            --active: var(--background-active-blue-france-active);
-            background-color: var(--background-active-blue-france);
+          .p-menuitem-text {
+            color: $menuText;
+
+            &:hover {
+              color: $menuText;
+            }
+          }
+
+          // Subrayado naranja del ítem activo
+          &::after {
             content: "";
-            display: block;
+            position: absolute;
+            left: 0.5rem;
+            right: 0.5rem;
+            bottom: 0;
+            height: 3px;
+            border-radius: 3px 3px 0 0;
+            background-color: $menuActiveBar;
           }
+        }
+      }
+
+      &:hover {
+        background: $menuBgHover;
+      }
+    }
+
+    // Submenú abierto: el ítem padre conserva el estilo marino
+    .p-menubar-root-list > li.p-menuitem.p-highlight > .p-menuitem-content,
+    .p-menubar-root-list > li.p-menuitem.p-focus > .p-menuitem-content {
+      background: $menuBgHover;
+
+      .p-menuitem-text,
+      .p-submenu-icon {
+        color: $menuText;
+      }
+    }
+
+    // ---- Submenús desplegables (fondo blanco, texto tinta) ----
+    .p-submenu-list {
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      box-shadow: var(--pisac-shadow-md);
+      border-top: 3px solid $menuActiveBar;
+      padding: 0.25rem 0;
+
+      .p-menuitem-content {
+        .p-menuitem-link {
+          position: relative;
+
+          .p-menuitem-text {
+            color: $shn-ink;
+          }
+        }
+
+        &:hover {
+          background-color: var(--pisac-primary-50);
         }
       }
     }
 
-    // menu deroulant like "My Contributions"
     .p-menubar-root-list > li.p-menuitem {
       &.p-menuitem-active.with-submenu
         > p-menubarsub
@@ -133,19 +189,16 @@ a {
         > .p-menuitem-content
         > a.p-menuitem-link {
         &:hover {
-          background-color: var(--hover);
+          background-color: var(--pisac-primary-50);
           --underline-hover-width: 0;
         }
 
         &.p-menuitem-link-active > .p-menuitem-text {
-          color: var(--text-active-blue-france);
+          color: $shn-navy;
+          font-weight: 600;
 
           &::before {
-            --idle: transparent;
-            --hover: var(--background-active-blue-france-hover);
-            --active: var(--background-active-blue-france-active);
-            background-color: #000091;
-            background-color: var(--background-active-blue-france);
+            background-color: $menuActiveBar;
             content: "";
             display: block;
             height: 1.5rem;
@@ -153,34 +206,26 @@ a {
             margin-top: -0.75rem;
             position: absolute;
             top: 50%;
-            width: 2px;
+            width: 3px;
           }
         }
       }
 
+      // Ítem padre de un submenú que contiene la ruta activa
       &:has(.p-menuitem-link-active).with-submenu > .p-menuitem-content > a.p-menuitem-link {
         .p-menuitem-text {
-          color: var(--text-active-blue-france);
+          color: $menuText;
+        }
 
-          :hover {
-            color: var(--text-active-blue-france);
-          }
-
-          &::before {
-            bottom: 0;
-            height: 2px;
-            left: 0;
-            margin-top: 0;
-            position: absolute;
-            top: auto;
-            width: 100%;
-            --idle: transparent;
-            --hover: var(--background-active-blue-france-hover);
-            --active: var(--background-active-blue-france-active);
-            background-color: var(--background-active-blue-france);
-            content: "";
-            display: block;
-          }
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0.5rem;
+          right: 0.5rem;
+          bottom: 0;
+          height: 3px;
+          border-radius: 3px 3px 0 0;
+          background-color: $menuActiveBar;
         }
       }
     }
@@ -191,8 +236,17 @@ a {
       align-items: center;
     }
 
+    .p-menubar-button {
+      color: $menuText;
+
+      &:hover {
+        background: $menuBgHover;
+        color: $menuText;
+      }
+    }
+
     .pi-bars {
-      font-size: 2rem;
+      font-size: 1.75rem;
     }
   }
 
@@ -235,6 +289,18 @@ a {
         .p-menubar-end {
           width: 100%;
           justify-content: space-between;
+        }
+
+        // Menú móvil desplegado: lista blanca con texto tinta
+        &.p-menubar-mobile-active .p-menubar-root-list {
+          background: #ffffff;
+
+          > li.p-menuitem > .p-menuitem-content > a.p-menuitem-link {
+            .p-menuitem-text,
+            .p-submenu-icon {
+              color: $shn-ink;
+            }
+          }
         }
       }
     }

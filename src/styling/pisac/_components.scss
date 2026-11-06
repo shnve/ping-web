@@ -1,0 +1,196 @@
+// Componentes PrimeNG transversales: tablas, diálogos, pestañas, etiquetas, tarjetas y paneles.
+
+// ---- Tablas ----
+.p-datatable {
+  .p-datatable-thead > tr > th {
+    background: var(--pisac-surface-muted);
+    color: var(--pisac-neutral-700);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border-color: var(--pisac-border-soft);
+  }
+
+  .p-datatable-tbody > tr {
+    color: var(--pisac-text);
+
+    > td {
+      border-color: var(--pisac-border-soft);
+    }
+
+    &.p-highlight {
+      background: var(--pisac-secondary-50);
+      color: var(--pisac-primary);
+    }
+  }
+
+  &.p-datatable-hoverable-rows .p-datatable-tbody > tr:not(.p-highlight):hover,
+  .p-datatable-tbody > tr.p-selectable-row:not(.p-highlight):hover {
+    background: var(--pisac-primary-50);
+  }
+
+  .p-sortable-column.p-highlight,
+  .p-sortable-column.p-highlight:hover {
+    color: var(--pisac-primary);
+
+    .p-sortable-column-icon {
+      color: var(--pisac-primary);
+    }
+  }
+}
+
+.p-paginator {
+  .p-paginator-pages .p-paginator-page.p-highlight {
+    background: var(--pisac-primary);
+    border-color: var(--pisac-primary);
+    color: #fff;
+  }
+}
+
+// ---- Diálogos ----
+.p-dialog {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--pisac-shadow-md);
+
+  .p-dialog-header {
+    border-bottom: 1px solid var(--pisac-border-soft);
+    border-top-left-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius-lg);
+
+    .p-dialog-title {
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+  }
+
+  .p-dialog-footer {
+    border-top: 1px solid var(--pisac-border-soft);
+    border-bottom-left-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+  }
+}
+
+// ---- Pestañas ----
+.p-tabview .p-tabview-nav li {
+  .p-tabview-nav-link {
+    color: var(--pisac-neutral-600);
+    font-weight: 600;
+  }
+
+  &.p-highlight .p-tabview-nav-link {
+    color: var(--pisac-primary);
+    border-color: var(--pisac-primary);
+  }
+
+  &:not(.p-highlight):not(.p-disabled):hover .p-tabview-nav-link {
+    color: var(--pisac-primary);
+    border-color: var(--pisac-neutral-300);
+  }
+}
+
+// ---- Etiquetas de estado (estilo "pill" de Cartografía) ----
+span.p-tag.p-component {
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-weight: 600;
+  font-size: 0.8125rem;
+
+  &.p-tag-success {
+    background-color: var(--pisac-success);
+  }
+
+  &.p-tag-info {
+    background-color: var(--pisac-secondary-700);
+  }
+
+  &.p-tag-warning {
+    background-color: var(--pisac-accent);
+    color: var(--pisac-primary);
+  }
+
+  &.p-tag-danger {
+    background-color: var(--pisac-danger);
+  }
+}
+
+// ---- Tarjetas y paneles ----
+// Leyenda de fieldset: Lara la dibuja como una caja gris; se deja como título discreto
+.p-fieldset {
+  border-color: var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+
+  .p-fieldset-legend {
+    background: #ffffff;
+    border: none;
+    padding: 0 0.5rem;
+    font-weight: 600;
+    color: var(--pisac-primary);
+  }
+}
+
+.p-card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--pisac-shadow-sm);
+  border: 1px solid var(--pisac-border-soft);
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link {
+  color: var(--pisac-primary);
+  background: var(--pisac-surface-muted);
+  border-color: var(--pisac-border-soft);
+}
+
+.p-overlaypanel {
+  border-radius: var(--radius-md);
+  box-shadow: var(--pisac-shadow-md);
+
+  .p-overlaypanel-close {
+    background: var(--pisac-primary);
+
+    &:hover {
+      background: var(--pisac-primary-hover);
+    }
+  }
+}
+
+// ---- Clases utilitarias PISAC (generalizan el estilo de Cartografía) ----
+.pisac-card {
+  background: var(--pisac-surface);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--pisac-shadow-sm);
+  padding: var(--space-6);
+}
+
+.pisac-hint {
+  background: var(--pisac-surface-muted);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  color: var(--pisac-text-muted);
+}
+
+.pisac-callout {
+  border-left: 4px solid var(--pisac-secondary);
+  background: var(--pisac-secondary-50);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+}
+
+// Título con franja naranja (guía §12: "la franja naranja puede marcar títulos")
+.pisac-title-accent {
+  position: relative;
+  padding-left: 14px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    bottom: 0.15em;
+    width: 4px;
+    border-radius: 2px;
+    background: var(--pisac-accent);
+  }
+}

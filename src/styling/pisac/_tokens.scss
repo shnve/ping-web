@@ -1,0 +1,88 @@
+// Tokens PISAC (CSS custom properties). Se importa UNA sola vez, desde styles.scss.
+// Los valores SCSS viven en _palette.scss (que también importa variables.scss).
+@import 'palette';
+
+:root {
+  /* Paleta institucional (nombres de la guía §16) */
+  --shn-navy: #{$shn-navy};
+  --shn-navy-deep: #{$shn-navy-deep};
+  --shn-sky: #{$shn-sky};
+  --shn-white: #{$shn-white};
+  --shn-orange: #{$shn-orange};
+  --shn-ink: #{$shn-ink};
+
+  /* Roles semánticos PISAC */
+  --pisac-primary: #{$shn-navy};
+  --pisac-primary-hover: #{$shn-navy-deep};
+  --pisac-primary-700: #{$shn-navy-700};
+  --pisac-primary-100: #{$shn-navy-100};
+  --pisac-primary-50: #{$shn-navy-50};
+  --pisac-secondary: #{$shn-sky};
+  --pisac-secondary-700: #{$shn-sky-700};
+  --pisac-secondary-100: #{$shn-sky-100};
+  --pisac-secondary-50: #{$shn-sky-50};
+  --pisac-accent: #{$shn-orange};
+  --pisac-accent-100: #{$shn-orange-100};
+  --pisac-accent-50: #{$shn-orange-50};
+  --pisac-text: #{$shn-ink};
+  --pisac-text-muted: #{$pisac-neutral-600};
+  --pisac-surface: #{$shn-white};
+  --pisac-surface-muted: #{$pisac-neutral-50};
+  --pisac-border: #{$pisac-neutral-300};
+  --pisac-border-soft: #{$pisac-neutral-200};
+
+  --pisac-neutral-900: #{$pisac-neutral-900};
+  --pisac-neutral-700: #{$pisac-neutral-700};
+  --pisac-neutral-600: #{$pisac-neutral-600};
+  --pisac-neutral-500: #{$pisac-neutral-500};
+  --pisac-neutral-300: #{$pisac-neutral-300};
+  --pisac-neutral-200: #{$pisac-neutral-200};
+  --pisac-neutral-100: #{$pisac-neutral-100};
+  --pisac-neutral-50: #{$pisac-neutral-50};
+
+  --pisac-success: #{$pisac-success};
+  --pisac-warning: #{$pisac-warning};
+  --pisac-danger: #{$pisac-danger};
+  --pisac-info: #{$pisac-info};
+
+  /* Tipografía */
+  --pisac-font-body: #{$pisac-font-body};
+  --pisac-font-heading: #{$pisac-font-heading};
+  --pisac-font-size: 16px;
+
+  /* Espaciado (guía §07: 4, 8, 12, 16, 24, 32, 48, 64) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Forma */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --pisac-shadow-sm: 0 2px 8px rgba(0, 43, 92, 0.06);
+  --pisac-shadow-md: 0 6px 18px rgba(0, 43, 92, 0.12);
+
+  /* Foco de teclado (guía §16: 3px solid naranja) */
+  --focus: 3px solid #{$shn-orange};
+
+  /* Controles */
+  --pisac-control-h-sm: #{$pisac-control-h-sm};
+  --pisac-control-h: #{$pisac-control-h};
+  --pisac-control-h-lg: #{$pisac-control-h-lg};
+
+  /* Variables que consume el tema PrimeNG (Lara) */
+  --font-family: #{$pisac-font-body};
+  --primary-color: #{$shn-navy};
+  --primary-color-text: #{$shn-white};
+  --text-color: #{$shn-ink};
+  --text-color-secondary: #{$pisac-neutral-600};
+  --highlight-bg: #{$shn-sky-50};
+  --highlight-text-color: #{$shn-navy};
+  --focus-ring: 0 0 0 0.2rem #A7DCF1;
+  --border-radius: 6px;
+}

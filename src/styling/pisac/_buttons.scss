@@ -1,0 +1,219 @@
+// Botones (guía §10): primario marino con texto blanco, altura mínima 44 px;
+// destacado naranja con texto marino (solo una acción destacada por módulo).
+
+.p-button {
+  min-height: var(--pisac-control-h);
+  padding: 0 1.125rem;
+  font-family: var(--pisac-font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  background: var(--pisac-primary);
+  border: 1px solid var(--pisac-primary);
+  color: #fff;
+  justify-content: center;
+
+  > .p-button-label {
+    font-weight: 600;
+  }
+
+  &:enabled:hover,
+  &:not(:disabled):hover {
+    background: var(--pisac-primary-hover);
+    border-color: var(--pisac-primary-hover);
+    color: #fff;
+  }
+
+  &:disabled,
+  &.p-disabled {
+    opacity: 0.55;
+  }
+
+  // ---- Tamaños ----
+  &.p-button-icon-only {
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    height: 40px;
+    padding: 0;
+  }
+
+  &.p-button-sm {
+    min-height: var(--pisac-control-h-sm);
+    padding: 0 0.875rem;
+    font-size: 0.9375rem;
+
+    &.p-button-icon-only {
+      width: var(--pisac-control-h-sm);
+      min-width: var(--pisac-control-h-sm);
+      height: var(--pisac-control-h-sm);
+      min-height: var(--pisac-control-h-sm);
+      padding: 0;
+    }
+  }
+
+  &.p-button-lg {
+    min-height: var(--pisac-control-h-lg);
+    padding: 0 1.5rem;
+    font-size: 1.0625rem;
+  }
+
+  // ---- Jerarquía ----
+  // Secundario: contorno marino sobre blanco
+  &.p-button-secondary,
+  &.p-button-outlined {
+    background: transparent;
+    color: var(--pisac-primary);
+    border: 1px solid var(--pisac-primary);
+
+    &:enabled:hover,
+    &:not(:disabled):hover {
+      background: var(--pisac-primary-50);
+      color: var(--pisac-primary);
+      border-color: var(--pisac-primary);
+    }
+  }
+
+  // Terciario / texto
+  &.p-button-text {
+    background: transparent;
+    border-color: transparent;
+    color: var(--pisac-primary);
+
+    &:enabled:hover,
+    &:not(:disabled):hover {
+      background: var(--pisac-primary-50);
+      color: var(--pisac-primary);
+      border-color: transparent;
+    }
+
+    &.p-button-plain {
+      color: var(--pisac-neutral-600);
+    }
+  }
+
+  // Peligro
+  &.p-button-danger {
+    background: var(--pisac-danger);
+    border-color: var(--pisac-danger);
+    color: #fff;
+
+    &:enabled:hover,
+    &:not(:disabled):hover {
+      background: #A61F1F;
+      border-color: #A61F1F;
+      color: #fff;
+    }
+
+    &.p-button-text,
+    &.p-button-outlined {
+      background: transparent;
+      color: var(--pisac-danger);
+
+      &:enabled:hover,
+      &:not(:disabled):hover {
+        background: #FDECEC;
+        color: var(--pisac-danger);
+      }
+    }
+
+    &.p-button-text {
+      border-color: transparent;
+    }
+  }
+
+  // Éxito
+  &.p-button-success {
+    background: var(--pisac-success);
+    border-color: var(--pisac-success);
+    color: #fff;
+
+    &:enabled:hover,
+    &:not(:disabled):hover {
+      background: #116632;
+      border-color: #116632;
+      color: #fff;
+    }
+
+    &.p-button-text,
+    &.p-button-outlined {
+      background: transparent;
+      color: var(--pisac-success);
+
+      &:enabled:hover,
+      &:not(:disabled):hover {
+        background: #EAF6EE;
+        color: var(--pisac-success);
+      }
+    }
+
+    &.p-button-text {
+      border-color: transparent;
+    }
+  }
+
+  // Destacado (toque naranja): texto marino sobre naranja (contraste 5,17:1)
+  &.p-button-highlight,
+  &.pisac-btn-highlight {
+    background: var(--pisac-accent);
+    border-color: var(--pisac-accent);
+    color: var(--pisac-primary);
+
+    &:enabled:hover,
+    &:not(:disabled):hover {
+      background: #E36A0E;
+      border-color: #E36A0E;
+      color: var(--pisac-primary-hover);
+    }
+  }
+}
+
+// Botón "pequeño" heredado de SHOM (.p-button--small, 30 px) -> 36 px
+.p-button--small {
+  min-height: var(--pisac-control-h-sm);
+  height: auto;
+}
+
+// Grupos de selección (Mapa / Tabla, filtros)
+.p-selectbutton .p-button {
+  background: var(--pisac-surface);
+  border: 1px solid var(--pisac-border);
+  color: var(--pisac-text);
+
+  &:not(.p-disabled):not(.p-highlight):hover {
+    background: var(--pisac-primary-50);
+    border-color: var(--pisac-border);
+    color: var(--pisac-primary);
+  }
+
+  &.p-highlight,
+  &.p-highlight:hover {
+    background: var(--pisac-primary);
+    border-color: var(--pisac-primary);
+    color: #fff;
+  }
+}
+
+.p-togglebutton.p-button {
+  background: var(--pisac-surface);
+  border: 1px solid var(--pisac-border);
+  color: var(--pisac-text);
+
+  &.p-highlight {
+    background: var(--pisac-primary);
+    border-color: var(--pisac-primary);
+    color: #fff;
+  }
+}
+
+// Contenedor de acciones (reemplazo de fr-btns-group en fases siguientes)
+.pisac-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+
+  &--end {
+    justify-content: flex-end;
+  }
+}

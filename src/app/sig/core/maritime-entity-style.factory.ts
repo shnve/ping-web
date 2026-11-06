@@ -22,7 +22,7 @@ export class MaritimeEntityStyleFactory extends MaritimeReportStyleFactory {
     return new Text({
       text: '',
       scale: 1,
-      font: '12px Marianne, arial, sans-serif',
+      font: '12px "Source Sans 3", arial, sans-serif',
       fill: new Fill({
         color: options?.text?.fillColor ?? '#FFF'
       }),

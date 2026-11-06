@@ -1,11 +1,6 @@
+// Tipografía institucional PISAC (Source Sans 3). Las @font-face están en pisac/_fonts.scss.
 .p-component {
-  font-family: Arial, sans-serif;
+  font-family: "Source Sans 3", Arial, sans-serif;
   font-size: 1rem;
   font-weight: normal;
 }
-
-/*@font-face {
-  font-family: Marianne;
-  src: url("../assets/fonts/Marianne/fontes\ web/Marianne-Regular.woff2") format("truetype");
-}
-*/

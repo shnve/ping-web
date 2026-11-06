@@ -16,7 +16,7 @@
 <georegulation-map-filter-banner (filterHasChanged)="loadMapGeoregulations($event)"
   [filterState]="mapFilterStateGeoregulation">
 </georegulation-map-filter-banner>
-<sig-map [georegulations]="mapGeoregulations$ | async"
+<sig-map class="sig-map--fill" [georegulations]="mapGeoregulations$ | async"
   [getDetailWarnings]="false"
   [getDetailGeoregulations]="true"
   [showGeoregulations]="true"

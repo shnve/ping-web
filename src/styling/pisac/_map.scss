@@ -1,0 +1,33 @@
+// Controles globales del mapa (OpenLayers): botones de 40 px con la paleta institucional.
+@import 'palette';
+
+.ol-zoom {
+  top: 12px;
+  left: 12px;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .ol-zoom-in,
+  .ol-zoom-out {
+    width: $pisac-map-tool-size;
+    height: $pisac-map-tool-size;
+    margin: 0;
+    border-radius: var(--radius-md);
+    background: var(--pisac-primary);
+    color: #fff;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1;
+    box-shadow: var(--pisac-shadow-sm);
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background: var(--pisac-primary-hover);
+      color: #fff;
+    }
+  }
+}

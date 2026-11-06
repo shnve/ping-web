@@ -1,0 +1,93 @@
+// Base de elementos PISAC. Reemplaza las reglas base que aportaba utility.css (DSFR) para que
+// quitar ese archivo no cambie la maquetación: box-sizing, cuerpo, títulos, párrafos, botones y enlaces.
+
+:root {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+
+// Títulos y párrafos: solo márgenes. utility.css se cargaba ANTES que reset.scss, así que sus tamaños
+// y alturas de línea quedaban anulados por el reset (font-size: 100%); solo sus márgenes tenían efecto.
+h1, h2, h3, h4, h5, h6 {
+  margin: var(--title-spacing, 0 0 1.5rem);
+}
+
+p {
+  margin: var(--text-spacing, 0 0 1.5rem);
+}
+
+sub,
+sup {
+  line-height: 1;
+}
+
+iframe {
+  border: 0;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--pisac-border-soft);
+}
+
+// Botones nativos sin estilo de navegador (los estilos visuales los dan PrimeNG o las clases propias)
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  margin: 0;
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  appearance: auto;
+}
+
+// (El tinte de hover del DSFR se limita a .fr-btn en _dsfr-compat.scss: aplicarlo a todos los
+// <button> anulaba el hover de los botones de PrimeNG que viven en @layer primeng.)
+
+// Enlaces en contenido (guía §10: "Enlace: azul marino subrayado; no depender solo del color")
+// Solo enlaces "de texto" (sin clase): los de menús, migas, botones y PrimeNG siempre llevan clase.
+:where(p, li, td, dd, .p-card-content, .p-dialog-content) a[href]:not([class]) {
+  color: var(--pisac-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: var(--pisac-primary-hover);
+    text-decoration-thickness: 2px;
+  }
+}
+
+// Icono de enlace externo (antes lo aportaba el DSFR)
+a[target="_blank"]:not(.p-button)::after {
+  content: "";
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.25rem;
+  vertical-align: -0.125rem;
+  background-color: currentColor;
+  -webkit-mask: url("/assets/images/dsfr-icons/external-link-line.svg") center / 100% 100% no-repeat;
+  mask: url("/assets/images/dsfr-icons/external-link-line.svg") center / 100% 100% no-repeat;
+}
