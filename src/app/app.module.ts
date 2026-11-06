@@ -21,6 +21,7 @@ import { AccountCreationComponent } from '@app/components/pages/account/creation
 import { AccountValidationComponent } from '@app/components/pages/account/validation/account-validation.component';
 import { SubscriptionChoiceComponent } from '@app/subscription/components/subscription-choice/subscription-choice.component';
 import { AvurnavNoticeComponent } from '@app/components/pages/avurnav-notice/avurnav-notice.component';
+import { WarningListPanelComponent } from '@app/components/pages/avurnav-notice/warning-list-panel/warning-list-panel.component';
 import { HomeComponent } from '@app/components/pages/home/home.component';
 import { NotFoundComponent } from '@app/components/pages/not-found/not-found.component';
 import { MapAdvancedFilterComponent } from '@app/components/shared/map-advanced-filter/map-advanced-filter.component';
@@ -94,6 +95,7 @@ import { SubscriptionDeleteFromLinkComponent } from '@app/subscription/component
         BannerComponent,
         HomeComponent,
         AvurnavNoticeComponent,
+        WarningListPanelComponent,
         NotFoundComponent,
         ToasterComponent,
         MapFilterBannerComponent,

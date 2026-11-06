@@ -1496,7 +1496,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     this.fitToGivenExtent(this.extent);
   }
 
-  fitToGivenExtent(extent: any): void {
+  /** @param padding [arriba, derecha, abajo, izquierda] en px (PISAC: deja libre el panel de detalle lateral) */
+  fitToGivenExtent(extent: any, padding: number[] = [50, 50, 50, 50]): void {
     if (!extent || !this.map || !this.map.getView()) {
       return;
     }
@@ -1521,7 +1522,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
 
       // 2. Mover la cÃ¡mara con las coordenadas traducidas
       view.fit(extentAUsar, {
-        padding: [50, 50, 50, 50],
+        padding,
         duration: 1000,
         maxZoom: 12
       });

@@ -11,12 +11,13 @@ import { StaticSectionApi } from '@app/static-section/api/static-section.api';
 import { StaticSection } from '@app/static-section/models/static-section.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ChipValue } from '@shared/components/filter-banner/filter-banner.component';
+import { MapComponent } from '@sig/components/map/map.component';
 import { createOlGeometryFrom } from '@sig/utils/geometry';
 import { format } from 'date-fns';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { Extent } from 'ol/extent';
+import { createEmpty, extend, Extent, isEmpty } from 'ol/extent';
 import { Observable, Subscription } from 'rxjs';
-import { catchError, take, tap } from 'rxjs/operators';
+import { catchError, shareReplay, take, tap } from 'rxjs/operators';
 import { WarningApi } from '../../../api/warning.api';
 import { AlertMessageService } from '../../../core/alert-message.service';
 import { AreasFacade } from '../../../facades/areas.facade';
@@ -52,6 +53,9 @@ export enum VisualizationMode {
 })
 export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
   @ViewChild('modal', { static: false }) modal: WarningModalComponent;
+  @ViewChild('map', { static: false }) map: MapComponent;
+  /** Aviso abierto en el panel de detalle (resaltado en la lista del mapa). */
+  selectedWarningId: string;
   visualisationMode: VisualizationMode = VisualizationMode.MAP;
   visualisationModeOptions: SelectButtonOption[] = [
     { code: VisualizationMode.MAP, translateKey: 'visualization.options.map' },
@@ -153,7 +157,9 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
           detail: 'message.error.api.filter.cannot-get-warnings'
         });
         throw caught;
-      })
+      }),
+      // El mapa y el panel de lista (F4) comparten la misma respuesta
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
@@ -209,7 +215,34 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
 
   displayWarningModal(warnings?: Partial<MainWarningPart>[]) {
     this.warnings = warnings;
+    this.selectedWarningId = warnings?.length === 1 ? warnings[0].id : null;
     this.showModal = true;
+  }
+
+  /** PISAC (F4): aviso elegido en la lista del mapa → centrar el mapa en sus geometrías y abrir el detalle. */
+  onWarningListSelect(warning: MapWarning): void {
+    const extent = this.getWarningExtent(warning);
+    if (extent) {
+      // Margen derecho = ancho del panel de detalle, para que la geometría quede visible a su izquierda
+      // (en móvil el detalle ocupa toda la pantalla: margen normal)
+      const rightPadding = window.innerWidth > 768 ? Math.min(600, window.innerWidth) + 40 : 60;
+      this.map?.fitToGivenExtent(extent, [60, rightPadding, 60, 60]);
+    }
+    this.displayWarningModal([warning]);
+  }
+
+  /** El mapa cambia de ancho al plegar/desplegar el panel: OpenLayers recalcula su tamaño con 'resize'. */
+  onMapPanelToggle(): void {
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 220);
+  }
+
+  private getWarningExtent(warning: MapWarning): Extent | null {
+    const extent = createEmpty();
+    [...(warning.geometries ?? []), ...(warning.affectedAreas ?? [])]
+      .map(feature => feature?.getGeometry?.())
+      .filter(geometry => !!geometry)
+      .forEach(geometry => extend(extent, geometry.getExtent()));
+    return isEmpty(extent) ? null : extent;
   }
 
   /**

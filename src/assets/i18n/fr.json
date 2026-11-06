@@ -3522,5 +3522,19 @@
   },
   "option-label-name": "name",
   "option-label-title": "title",
-  "malicious-request-cancelled": "La requête malveillante a été annulée"
+  "malicious-request-cancelled": "La requête malveillante a été annulée",
+  "map-panel": {
+    "title": "Avis sur la carte",
+    "search": "Rechercher par numéro ou type",
+    "locate": "Voir sur la carte et détail",
+    "collapse": "Masquer la liste",
+    "expand": "Afficher la liste des avis",
+    "empty": "Aucun avis visible avec les filtres actuels.",
+    "no-results": "Aucun avis ne correspond à la recherche.",
+    "type": {
+      "WARNING": "Avurnav",
+      "NOTICE": "Avis",
+      "NOTICE_TP": "Avis T&P"
+    }
+  }
 }

@@ -22,6 +22,19 @@
   min-height: 420px;
 }
 
+// F4: panel de lista a la izquierda + mapa
+.pisac-map-workspace {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  sig-map {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
 .avurnav-notice-header {
   display: flex;
   align-items: center;

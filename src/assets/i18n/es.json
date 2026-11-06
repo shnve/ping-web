@@ -3547,5 +3547,19 @@
   },
   "option-label-name": "name",
   "option-label-title": "title",
-  "malicious-request-cancelled": "Solicitud maliciosa cancelada"
+  "malicious-request-cancelled": "Solicitud maliciosa cancelada",
+  "map-panel": {
+    "title": "Avisos en el mapa",
+    "search": "Buscar por número o tipo",
+    "locate": "Ver en el mapa y detalle",
+    "collapse": "Ocultar lista",
+    "expand": "Mostrar lista de avisos",
+    "empty": "No hay avisos visibles con los filtros actuales.",
+    "no-results": "Ningún aviso coincide con la búsqueda.",
+    "type": {
+      "WARNING": "Advertencia",
+      "NOTICE": "Aviso",
+      "NOTICE_TP": "Aviso T&P"
+    }
+  }
 }

@@ -24,7 +24,14 @@
     <app-map-filter-banner (onFilterChange)="loadMapWarnings($event)"
                            [filterState]="mapFilterState"
     ></app-map-filter-banner>
-    <sig-map class="sig-map--fill"
+    <!-- PISAC (F4): lista de avisos sincronizada con el mapa + mapa a todo el alto -->
+    <div class="pisac-map-workspace">
+      <app-warning-list-panel [warnings]="mapWarnings$ | async"
+                              [selectedWarningId]="showModal ? selectedWarningId : null"
+                              (warningSelected)="onWarningListSelect($event)"
+                              (collapsedChange)="onMapPanelToggle()"
+      ></app-warning-list-panel>
+      <sig-map #map class="sig-map--fill"
              [warnings]="mapWarnings$ | async"
              [getDetailWarnings]="true"
              [extent]="selectedAreaExtent"
@@ -37,6 +44,7 @@
              [shouldShowRasterMarineWithAdditionalLayerForWestAfrica]="true"
              [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
     ></sig-map>
+    </div>
     <app-filters-bar (onFilterChange)="loadMapWarnings($event)"
                      [filterState]="mapFilterState"
     ></app-filters-bar>
@@ -129,5 +137,6 @@
   <shared-warning-modal *ngIf="showModal" #modal
                      (onClose)="showModal = false"
                      [mainWarningsParts]="warnings"
+                     [drawer]="visualisationMode === 'map'"
   ></shared-warning-modal>
 </div>

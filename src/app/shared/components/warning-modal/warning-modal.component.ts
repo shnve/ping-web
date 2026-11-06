@@ -38,6 +38,8 @@ import { getSharedLinkUrl } from '@shared/warning-utils';
 export class WarningModalComponent extends DetailsModalComponent implements OnInit, OnDestroy, OnChanges, OnChangeLang {
 
   @Input() mainWarningsParts: Partial<MainWarningPart>[] = [];
+  /** PISAC (F4): mostrar el detalle como panel lateral derecho no modal (vistas de mapa). */
+  @Input() drawer = false;
   @Input() selectedStatus = '';
   @Input() serieSelected: Serie;
   @Output() onPublishOrDelete = new EventEmitter<void>();

@@ -1,0 +1,86 @@
+// Panel lateral de detalle (F4): <shared-warning-modal [drawer]="true"> usa un p-dialog no modal,
+// anclado a la derecha bajo la cabecera, para que el mapa siga visible e interactivo.
+@import 'palette';
+
+$drawer-top: $pisac-header-bar-h + $pisac-header-menu-h + 1px;
+
+.p-dialog-mask:has(> .pisac-detail-drawer) {
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: none;
+  background-color: transparent !important;
+}
+
+.p-dialog.pisac-detail-drawer {
+  pointer-events: auto;
+  margin: 0 !important;
+  height: calc(100vh - #{$drawer-top});
+  max-height: none !important;
+  border-radius: var(--radius-lg) 0 0 0;
+  border-top: 3px solid var(--shn-orange);
+  box-shadow: -10px 0 28px rgba(0, 43, 92, 0.18);
+
+  .p-dialog-header {
+    padding: 0.5rem 0.75rem 0;
+    border-bottom: none;
+  }
+
+  .p-dialog-content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 0 0.25rem 1rem;
+  }
+
+  // El contenido de los modales SHOM está pensado a dos columnas: en el panel va a una sola
+  .fr-modal__body {
+    max-height: none !important;
+    overflow: visible;
+  }
+
+  .fr-modal__header {
+    padding: 0 1rem;
+  }
+
+  .fr-modal__content {
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .fr-header__body-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0 0 0.75rem;
+  }
+
+  .fr-header__tools {
+    margin-left: 0;
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  .fr-modal__title {
+    font-size: 1.25rem;
+    line-height: 1.6rem;
+  }
+
+  .fr-grid-row {
+    flex-direction: column;
+  }
+
+  .fr-col-md-8,
+  .fr-col-md-4,
+  .fr-col-md-7 {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .p-dialog.pisac-detail-drawer {
+    height: 100vh;
+    border-radius: 0;
+  }
+}

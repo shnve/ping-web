@@ -3536,5 +3536,19 @@
   },
   "option-label-name": "internationalName",
   "option-label-title": "internationalTitle",
-  "malicious-request-cancelled": "Malicious request cancelled"
+  "malicious-request-cancelled": "Malicious request cancelled",
+  "map-panel": {
+    "title": "Warnings on the map",
+    "search": "Search by number or type",
+    "locate": "Show on map and details",
+    "collapse": "Hide list",
+    "expand": "Show warnings list",
+    "empty": "No warnings visible with the current filters.",
+    "no-results": "No warning matches the search.",
+    "type": {
+      "WARNING": "Warning",
+      "NOTICE": "Notice",
+      "NOTICE_TP": "T&P notice"
+    }
+  }
 }

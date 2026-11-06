@@ -1,11 +1,14 @@
+<!-- PISAC: con [drawer]="true" el detalle se abre como panel lateral derecho, no modal, sin tapar el mapa -->
 <p-dialog [(visible)]="display"
-          [draggable]="true"
-          [resizable]="true"
+          [draggable]="!drawer"
+          [resizable]="!drawer"
           [closable]="true"
-          modal="true"
-          dismissableMask="true"
+          [modal]="!drawer"
+          [dismissableMask]="!drawer"
+          [position]="drawer ? 'right' : 'center'"
+          [styleClass]="drawer ? 'pisac-detail-drawer' : ''"
           [breakpoints]="{'480px': '100vw'}"
-          [style]="{width: '80vw', 'max-height': '98vh'}"
+          [style]="drawer ? {width: 'min(600px, 100vw)'} : {width: '80vw', 'max-height': '98vh'}"
           (onHide)="hide()"
 >
 <div class="fr-container fr-container--fluid fr-container-md">
