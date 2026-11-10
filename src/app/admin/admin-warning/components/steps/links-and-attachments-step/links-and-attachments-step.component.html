@@ -5,8 +5,13 @@
   </div>
   <p-card class="step-p-card">
     <ng-template pTemplate="content">
-      <aw-links-step #linksStep></aw-links-step>
-      <aw-attachments-step #attachmentsStep></aw-attachments-step>
+      <!-- PISAC (F5.3): vínculos y adjuntos en tarjetas separadas -->
+      <pisac-card title="admin-warning.creation.labels.references.links" icon="pi pi-link">
+        <aw-links-step #linksStep></aw-links-step>
+      </pisac-card>
+      <pisac-card title="admin-warning.creation.labels.references.attachments" icon="pi pi-paperclip">
+        <aw-attachments-step #attachmentsStep></aw-attachments-step>
+      </pisac-card>
     </ng-template>
     <ng-template pTemplate="footer">
       <aw-step-save-button (savePageButton)="quickSave()"></aw-step-save-button>

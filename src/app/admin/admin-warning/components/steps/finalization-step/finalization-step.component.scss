@@ -1,17 +1,10 @@
-.p-field {
-  margin-bottom: 1rem;
-
-  & > label {
-    display: inline-block;
-    margin-bottom: .5rem;
-  }
-}
-
-.lbl-internal-comment {
-  align-self: center;
-  margin-right: .5rem;
+// PISAC (F5.3): la maquetación (etiquetas arriba, rejilla) viene de .pisac-field y .pisac-form-grid--2.
+.finalization-grid {
+  max-width: 960px;
 }
 
 textarea {
-  overflow: hidden;
+  width: 100%;
+  min-height: 160px;
+  resize: vertical;
 }

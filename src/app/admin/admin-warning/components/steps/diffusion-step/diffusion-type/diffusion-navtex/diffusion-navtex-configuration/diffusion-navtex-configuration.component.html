@@ -1,9 +1,10 @@
+<!-- PISAC (F5.3): etiquetas arriba en rejilla, inputs numéricos con pInputText y aviso de fin de difusión como ayuda -->
 <form [formGroup]="navtexConfigurationForm" (ngSubmit)="saveNavtexConfiguration()">
-  <div class="p-fluid">
+  <div class="p-fluid pisac-form-grid--2 navtex-configuration">
     <!-- emergency level -->
-    <div class="line-form p-field p-grid">
-      <label for="navtex-emergency-level" class="label p-col-fixed">{{ 'warning.diffusionNavtex.emergencyLevel' | translate }} *</label>
-      <p-dropdown id="navtex-emergency-level"
+    <div class="pisac-field pisac-field--required">
+      <label for="navtex-emergency-level">{{ 'warning.diffusionNavtex.emergencyLevel' | translate }}</label>
+      <p-dropdown id="navtex-emergency-level" inputId="navtex-emergency-level-input"
                   [options]="emergencyLevels"
                   [placeholder]="'warning.diffusionNavtex.select-emergency-level' | translate"
                   formControlName="emergencyLevel" ngDefaultControl>
@@ -19,9 +20,9 @@
     </div>
 
     <!-- communication type -->
-    <div *ngIf="displayCommunicationType" class="line-form p-field p-grid">
-      <label for="navtex-communication-type" class="label p-col-fixed">{{ 'warning.diffusionNavtex.communicationType' | translate }} *</label>
-      <p-dropdown id="navtex-communication-type"
+    <div *ngIf="displayCommunicationType" class="pisac-field pisac-field--required">
+      <label for="navtex-communication-type">{{ 'warning.diffusionNavtex.communicationType' | translate }}</label>
+      <p-dropdown id="navtex-communication-type" inputId="navtex-communication-type-input"
                   [options]="communicationTypes"
                   [placeholder]="'warning.diffusionNavtex.select-communication-type' | translate"
                   formControlName="communicationType" ngDefaultControl>
@@ -37,12 +38,12 @@
     </div>
 
     <!-- end day -->
-    <div *ngIf="displayEndDayHour" class="line-form p-field p-grid">
-      <label for="navtex-end-day" class="label p-col-fixed" translate>warning.diffusionNavtex.endDay</label>
-      <input id="navtex-end-day" type="number" formControlName="endDay">
-      <span class="field-validation-error">
+    <div *ngIf="displayEndDayHour" class="pisac-field pisac-span-all-start">
+      <label for="navtex-end-day" translate>warning.diffusionNavtex.endDay</label>
+      <input id="navtex-end-day" type="number" pInputText formControlName="endDay">
+      <small class="pisac-field__hint">
         <span translate>warning.diffusionNavtex.messages.endDiffusionWarning</span>
-      </span>
+      </small>
       <span *ngIf="(endDay?.invalid && submitted) || (endDay?.invalid && endDay?.touched)"
             class="field-validation-error" translate>warning.diffusionNavtex.messages.invalid-end-day</span>
       <span *ngIf="navtexConfigurationForm.errors?.endDayShouldBeFilled"
@@ -50,12 +51,12 @@
     </div>
 
     <!-- end hour -->
-    <div *ngIf="displayEndDayHour" class="line-form p-field p-grid">
-      <label for="navtex-end-hour" class="label p-col-fixed" translate>warning.diffusionNavtex.endHour</label>
-      <input id="navtex-end-hour" type="number" formControlName="endHour">
-      <span class="field-validation-error">
+    <div *ngIf="displayEndDayHour" class="pisac-field">
+      <label for="navtex-end-hour" translate>warning.diffusionNavtex.endHour</label>
+      <input id="navtex-end-hour" type="number" pInputText formControlName="endHour">
+      <small class="pisac-field__hint">
         <span translate>warning.diffusionNavtex.messages.endDiffusionWarning</span>
-      </span>
+      </small>
       <span *ngIf="(endHour?.invalid && submitted) || (endHour?.invalid && endHour?.touched)"
             class="field-validation-error" translate>warning.diffusionNavtex.messages.invalid-end-hour</span>
       <span *ngIf="navtexConfigurationForm.errors?.endHourShouldBeFilled"
@@ -63,17 +64,17 @@
     </div>
 
     <!-- ta number -->
-    <div *ngIf="displayNitonNumber" class="line-form p-field p-grid">
-      <label for="navtex-niton-number" class="label p-col-fixed" >{{ 'warning.diffusionNavtex.nitonNumber' | translate }} *</label>
-      <input id="navtex-niton-number" type="number" formControlName="nitonNumber">
+    <div *ngIf="displayNitonNumber" class="pisac-field pisac-field--required pisac-span-all-start">
+      <label for="navtex-niton-number">{{ 'warning.diffusionNavtex.nitonNumber' | translate }}</label>
+      <input id="navtex-niton-number" type="number" pInputText formControlName="nitonNumber">
       <span *ngIf="(nitonNumber?.invalid && submitted) || (nitonNumber?.invalid && nitonNumber?.touched)"
             class="field-validation-error" translate>warning.diffusionNavtex.messages.invalid-number</span>
     </div>
 
     <!-- ka number -->
-    <div *ngIf="displayNitonNumber" class="line-form p-field p-grid">
-      <label for="navtex-cancel-niton-number" class="label p-col-fixed">{{ 'warning.diffusionNavtex.cancelNitonNumber' | translate }}</label>
-      <input id="navtex-cancel-niton-number" type="number" formControlName="cancelNitonNumber">
+    <div *ngIf="displayNitonNumber" class="pisac-field">
+      <label for="navtex-cancel-niton-number">{{ 'warning.diffusionNavtex.cancelNitonNumber' | translate }}</label>
+      <input id="navtex-cancel-niton-number" type="number" pInputText formControlName="cancelNitonNumber">
       <span *ngIf="(cancelNitonNumber?.invalid && submitted) || (cancelNitonNumber?.invalid && cancelNitonNumber?.touched)"
             class="field-validation-error" translate>warning.diffusionNavtex.messages.invalid-number</span>
     </div>

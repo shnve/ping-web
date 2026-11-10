@@ -5,6 +5,8 @@
   </div>
   <p-card class="step-p-card">
     <ng-template pTemplate="content">
+      <!-- PISAC (F5.3): pestañas NAVTEX / TELEX dentro de una tarjeta -->
+      <pisac-card title="menu.admin-warning.edition.diffusion" icon="pi pi-send">
       <p-tabView>
         <p-tabPanel *ngIf="shouldHaveNavtex" header="NAVTEX">
           <div class="p-fluid navtex-container">
@@ -17,6 +19,7 @@
           <aw-diffusion-telex [warning]="anInformation"></aw-diffusion-telex>
         </p-tabPanel>
       </p-tabView>
+      </pisac-card>
     </ng-template>
     <ng-template pTemplate="footer">
       <aw-step-save-button (savePageButton)="quickSave()"></aw-step-save-button>

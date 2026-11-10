@@ -155,3 +155,195 @@ textarea.p-inputtextarea {
 span.field-validation-error {
   color: var(--pisac-danger);
 }
+
+// ---- F5.3: utilidades para migrar formularios ----
+
+// Rejilla de formulario con columnas fijas (la .pisac-form-grid base es auto-fit).
+.pisac-form-grid--2,
+.pisac-form-grid--3 {
+  display: grid;
+  gap: var(--space-4) var(--space-6);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pisac-form-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pisac-form-grid > .pisac-span-all,
+.pisac-form-grid--2 > .pisac-span-all,
+.pisac-form-grid--3 > .pisac-span-all {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 960px) {
+  .pisac-form-grid--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .pisac-form-grid--2,
+  .pisac-form-grid--3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+// Dentro de una rejilla, el margen inferior lo pone el gap.
+:is(.pisac-form-grid, .pisac-form-grid--2, .pisac-form-grid--3) > .pisac-field {
+  margin-bottom: 0;
+}
+
+// Controles a todo el ancho del campo (versión global de lo que hace <pisac-field>).
+.pisac-field {
+  > input,
+  > textarea,
+  > p-dropdown,
+  > p-multiselect,
+  > p-calendar,
+  > p-inputnumber {
+    width: 100%;
+  }
+
+  > p-dropdown .p-dropdown,
+  > p-multiselect .p-multiselect,
+  > p-calendar .p-calendar,
+  > p-inputnumber .p-inputnumber {
+    width: 100%;
+  }
+
+  > .p-error,
+  > small.p-error,
+  .pisac-field__error {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--pisac-danger);
+  }
+
+  .pisac-field__hint {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--pisac-text-muted);
+  }
+}
+
+// Control + botón de icono en la misma línea (p. ej. selector + candado de desbloqueo).
+.pisac-input-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  > p-dropdown,
+  > p-multiselect,
+  > p-calendar,
+  > input {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  > p-dropdown .p-dropdown,
+  > p-multiselect .p-multiselect {
+    width: 100%;
+  }
+
+  > p-button,
+  > button {
+    flex: 0 0 auto;
+  }
+}
+
+// Grupo de opciones (radio / checkbox) en línea.
+.pisac-choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-6);
+  min-height: var(--pisac-control-h);
+}
+
+// Subtítulo de sección dentro de una tarjeta.
+.pisac-subsection-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-6) 0 var(--space-3);
+  font-family: var(--pisac-font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--shn-navy);
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  i {
+    color: var(--pisac-secondary-700);
+  }
+}
+
+// Control en modo solo lectura (sustituye al gris #969696 de SHOM).
+p-dropdown.readonly-mode > .p-dropdown,
+p-multiselect.readonly-mode > .p-multiselect {
+  background: var(--pisac-neutral-100);
+  border-color: var(--pisac-border-soft);
+
+  .p-dropdown-label,
+  .p-multiselect-label {
+    color: var(--pisac-neutral-700);
+  }
+
+  .p-dropdown-label,
+  .p-dropdown-clear-icon,
+  .p-dropdown-trigger,
+  .p-multiselect-label-container,
+  .p-multiselect-label,
+  .p-multiselect-trigger {
+    cursor: not-allowed;
+  }
+}
+
+// Barra de acciones inferior fija al hacer scroll (pasos de los asistentes).
+.pisac-action-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-6) calc(-1 * var(--space-6)) 0;
+  padding: var(--space-3) var(--space-6);
+  border-top: 1px solid var(--pisac-border-soft);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 -4px 12px rgba(0, 43, 92, 0.06);
+
+  .pisac-action-bar__info {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 0.8125rem;
+    color: var(--pisac-text-muted);
+  }
+
+  .pisac-action-bar__group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  // styles.scss (SHOM) posiciona .prev-button en absoluto (left: 122px); dentro de la barra
+  // vuelve al flujo normal para no taparse con el texto de la última modificación.
+  .prev-button {
+    position: static;
+    left: auto;
+  }
+}
+
+// Panel gris claro para bloques auxiliares dentro de un formulario.
+.pisac-panel-muted {
+  padding: var(--space-4);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--pisac-surface-muted);
+}

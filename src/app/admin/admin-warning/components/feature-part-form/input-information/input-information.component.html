@@ -1,83 +1,80 @@
-<div class="distance-unit-precision">
-  <label class="no-margin">
-    <div class="line-form">
-      <label for="circle-distance-unit" class="p-col-fixed no-margin">{{ 'admin-warning.creation.parts.information.radiusDistanceUnit' | translate }}</label>
-      <p-dropdown [options]="availableDistanceUnits"
-                  [(ngModel)]="selectedDistanceUnit"
-                  ngDefaultControl>
-                  <ng-template pTemplate="item" let-item>
-                  {{item.name | translate}}
-                  </ng-template>
-                  <ng-template pTemplate="selectedItem" let-item>
-                  {{item.name | translate}}
-                  </ng-template>
-      </p-dropdown>
-    </div>
-  </label>
-  <label class="no-margin">
-    <div class="line-form">
-      <label for="decimal-minute-precision" class="p-col-fixed margin-label">{{ 'admin-warning.creation.parts.information.decimal-minute-precision' | translate }}</label>
-      <p-dropdown [options]="availablePrecision"
-                  [(ngModel)]="selectedPrecision"
-                  ngDefaultControl>
-      </p-dropdown>
-    </div>
-  </label>
-  <label class="no-margin">
-    <div class="line-form">
-      <label for="type-expression" class="p-col-fixed margin-label">{{ 'admin-warning.creation.parts.information.type-expression' | translate }}</label>
-      <p-dropdown [options]="availableTypeExpression"
-                  [placeholder]="'admin-warning.creation.parts.information.select-type-expression' | translate"
-                  [(ngModel)]="selectedTypeExpression"
-                  ngDefaultControl>
-        <ng-template pTemplate="item" let-item>
-          {{item.pathTypeExpression | translate}}
-        </ng-template>
-        <ng-template pTemplate="selectedItem" let-item>
-          {{item.pathTypeExpression | translate}}
-        </ng-template>
-      </p-dropdown>
-    </div>
-  </label>
-  <label class="no-margin">
-    <div class="line-form">
-      <label for="affected-charts-input" class="p-col-fixed margin-label">{{ 'admin-warning.creation.parts.information.affected-charts' | translate }}</label>
-      <input id="affected-charts-input" type="text" pInputText
-             [(ngModel)]="affectedChartsText"
-             [ngModelOptions]="{standalone: true}"
-             [placeholder]="'admin-warning.creation.parts.information.affected-charts-placeholder' | translate"
-             style="width: 190px; height: 34px; padding: 4px 8px;" />
-    </div>
-  </label>
+<!-- PISAC (F5.3): opciones de inserción en rejilla (etiqueta arriba) y, por idioma, barra de
+     botones de inserción + texto. Se quitan las etiquetas anidadas y el estilo en línea. -->
+<div class="pisac-form-grid distance-unit-precision">
+  <div class="pisac-field">
+    <label for="circle-distance-unit">{{ 'admin-warning.creation.parts.information.radiusDistanceUnit' | translate }}</label>
+    <p-dropdown inputId="circle-distance-unit"
+                [options]="availableDistanceUnits"
+                [(ngModel)]="selectedDistanceUnit"
+                ngDefaultControl>
+                <ng-template pTemplate="item" let-item>
+                {{item.name | translate}}
+                </ng-template>
+                <ng-template pTemplate="selectedItem" let-item>
+                {{item.name | translate}}
+                </ng-template>
+    </p-dropdown>
+  </div>
+  <div class="pisac-field">
+    <label for="decimal-minute-precision">{{ 'admin-warning.creation.parts.information.decimal-minute-precision' | translate }}</label>
+    <p-dropdown inputId="decimal-minute-precision"
+                [options]="availablePrecision"
+                [(ngModel)]="selectedPrecision"
+                ngDefaultControl>
+    </p-dropdown>
+  </div>
+  <div class="pisac-field">
+    <label for="type-expression">{{ 'admin-warning.creation.parts.information.type-expression' | translate }}</label>
+    <p-dropdown inputId="type-expression"
+                [options]="availableTypeExpression"
+                [placeholder]="'admin-warning.creation.parts.information.select-type-expression' | translate"
+                [(ngModel)]="selectedTypeExpression"
+                ngDefaultControl>
+      <ng-template pTemplate="item" let-item>
+        {{item.pathTypeExpression | translate}}
+      </ng-template>
+      <ng-template pTemplate="selectedItem" let-item>
+        {{item.pathTypeExpression | translate}}
+      </ng-template>
+    </p-dropdown>
+  </div>
+  <div class="pisac-field">
+    <label for="affected-charts-input">{{ 'admin-warning.creation.parts.information.affected-charts' | translate }}</label>
+    <input id="affected-charts-input" type="text" pInputText
+           [(ngModel)]="affectedChartsText"
+           [ngModelOptions]="{standalone: true}"
+           [placeholder]="'admin-warning.creation.parts.information.affected-charts-placeholder' | translate" />
+  </div>
 </div>
 <div class="div-info">
-  <div *ngFor="let lang of langs">
+  <div *ngFor="let lang of langs" class="lang-block"
+       [ngClass]="{'error': !validFeaturePart && (isMandatoryLanguage(lang) && containsNonEmptyInformation(lang))}">
+    <label class="lang-header" [attr.for]="'information-' + lang">
+      <span class="lang-label">{{lang}}</span><span *ngIf="isMandatoryLanguage(lang)" class="form-asterisk">*</span>
+    </label>
     <div class="btn-toolbar">
       <!-- insérer géométries -->
-      <button pButton type="button" [icon]="wasClicked('geometry', lang)" iconPos="right"
+      <button pButton type="button" class="p-button-outlined p-button-sm" [icon]="wasClicked('geometry', lang)" iconPos="right"
               (click)="addGeometry(lang)" translate [label]="'admin-warning.creation.parts.information.add-geometry' | translate"
       ></button>
       <!-- insérer zones affectées -->
-      <button pButton type="button" [icon]="wasClicked('zone', lang)" iconPos="right"
+      <button pButton type="button" class="p-button-outlined p-button-sm" [icon]="wasClicked('zone', lang)" iconPos="right"
               (click)="addZone(lang)" translate [label]="'admin-warning.creation.parts.information.add-zone' | translate"
       ></button>
       <!-- insérer AN en vigueur -->
-      <button pButton type="button" [icon]="wasClicked('published', lang)" iconPos="right"
+      <button pButton type="button" class="p-button-outlined p-button-sm" [icon]="wasClicked('published', lang)" iconPos="right"
               (click)="addInEffectWarnings(lang)" translate [label]="'admin-warning.creation.parts.information.add-in-effect-warnings' | translate"
       ></button>
       <!-- insérer l'expression type -->
-      <button pButton type="button" [icon]="wasClicked('typeExpression', lang)" iconPos="right"
+      <button pButton type="button" class="p-button-outlined p-button-sm" [icon]="wasClicked('typeExpression', lang)" iconPos="right"
               (click)="addTypeExpression(lang)" translate [label]="'admin-warning.creation.parts.information.add-type-expression' | translate"
       ></button>
       <!-- insertar cartas afectadas -->
-      <button pButton type="button" [icon]="wasClicked('affectedCharts', lang)" iconPos="right"
+      <button pButton type="button" class="p-button-outlined p-button-sm" [icon]="wasClicked('affectedCharts', lang)" iconPos="right"
               (click)="addAffectedCharts(lang)" translate [label]="'admin-warning.creation.parts.information.add-affected-charts' | translate"
       ></button>
-      <label [ngClass]="{'error': !validFeaturePart && (isMandatoryLanguage(lang) && containsNonEmptyInformation(lang))}">
-        <span class="lang-label">{{lang}}</span><span *ngIf="isMandatoryLanguage(lang)" class="form-asterisk ">(*)</span>
-        <textarea pInputTextarea [rows]="10" [(ngModel)]="information[lang]" (ngModelChange)="informationChanged()">
-        </textarea>
-      </label>
     </div>
+    <textarea pInputTextarea [id]="'information-' + lang" [rows]="10" [(ngModel)]="information[lang]" (ngModelChange)="informationChanged()">
+    </textarea>
   </div>
 </div>

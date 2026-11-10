@@ -136,15 +136,12 @@
         {{warning.internalComment}}
       </p-accordionTab>
 
+      <!-- PISAC: la sección Estado solo muestra la fecha de creación (usuarios pro) y el estado.
+           Se quitan «Modificado desde», «Fecha estimada de publicación», «Fecha de revisión» y
+           «Fin de difusión» (siguen disponibles en el asistente de edición). -->
       <p-accordionTab [header]="'detail.state' | translate" [selected]="true">
         <ul>
-          <ng-container *ngIf="isProUser()">
-            <li>{{'detail.creation-date' | translate}} : {{warning?.creationDate | formatDatetime:'UTC'}}</li>
-            <li *ngIf="warning?.lastUpdate">{{'detail.modified' | translate}} : {{warning.lastUpdate | formatDatetime:'UTC'}} ({{lastUpdateUser}})</li>
-            <li *ngIf="warning?.estimatedPublicationDate">{{'detail.estimated-publication-date' | translate}} : {{warning.estimatedPublicationDate | formatDate}}</li>
-            <li *ngIf="warning?.reviewDate">{{'detail.review-date' | translate}} : {{warning.reviewDate | formatDate}}</li>
-            <li *ngIf="warning?.endOfBroadcastDate">{{'detail.end-of-broadcast-date' | translate}} : {{warning.endOfBroadcastDate | formatDate}}</li>
-          </ng-container>
+          <li *ngIf="isProUser()">{{'detail.creation-date' | translate}} : {{warning?.creationDate | formatDatetime:'UTC'}}</li>
           <li *ngIf="warning?.cancellationDate && warning?.status === 'CANCELLED'">{{'detail.cancelled' | translate}} : {{warning.cancellationDate | formatDatetime:'UTC'}}</li>
           <li>{{'infosource.details.status' | translate}} : <span *ngIf="warning?.status">{{'enum.warning-status' | translateStatus : warning.status.toLowerCase()}}</span></li>
         </ul>

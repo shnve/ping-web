@@ -1,14 +1,20 @@
-<div class="p-grid p-nogutter p-justify-end">
+<!-- PISAC (F5.3): barra de acciones inferior fija (sticky). Atrás a la izquierda, última modificación
+     en el centro y, a la derecha, Completar (secundario) y Siguiente (primario). -->
+<div class="pisac-action-bar">
   <ng-content></ng-content>
   <p-button (onClick)="prevPage()" *ngIf="!isPrerequisitesStep"
             [label]="'admin-warning.creation.labels.btn-back' | translate" class="prev-button"
-            icon="pi pi-angle-left"></p-button>
-  <aw-last-update-infos [anInformation]="anInformation" [displayInfos]="!isNotSaved() && anInformation.lastUpdateUser"></aw-last-update-infos>
-  <button (click)="save()" *ngIf="!isFinalizationStep" [label]="'admin-warning.creation.labels.btn-complete' | translate" [ngClass]="{'p-button-outlined btn-complete': !isFinalizationStep}"
-          pButton
-          type="button"></button>
-  <p-button *ngIf="isFinalizationStep" [label]="'admin-warning.creation.labels.btn-complete' | translate" class="p-button-outlined"
-            type="submit"></p-button>
-  <p-button (onClick)="nextPage()" *ngIf="!isFinalizationStep"
-            [label]="'admin-warning.creation.labels.btn-next' | translate" icon="pi pi-angle-right" iconPos="right"></p-button>
+            styleClass="p-button-outlined p-button-secondary" icon="pi pi-angle-left"></p-button>
+  <div class="pisac-action-bar__info">
+    <aw-last-update-infos [anInformation]="anInformation" [displayInfos]="!isNotSaved() && anInformation.lastUpdateUser"></aw-last-update-infos>
+  </div>
+  <div class="pisac-action-bar__group">
+    <button (click)="save()" *ngIf="!isFinalizationStep" [label]="'admin-warning.creation.labels.btn-complete' | translate" [ngClass]="{'p-button-outlined btn-complete': !isFinalizationStep}"
+            pButton icon="pi pi-check"
+            type="button"></button>
+    <p-button *ngIf="isFinalizationStep" [label]="'admin-warning.creation.labels.btn-complete' | translate" class="p-button-outlined"
+              icon="pi pi-check" styleClass="p-button-lg" type="submit"></p-button>
+    <p-button (onClick)="nextPage()" *ngIf="!isFinalizationStep"
+              [label]="'admin-warning.creation.labels.btn-next' | translate" icon="pi pi-angle-right" iconPos="right"></p-button>
+  </div>
 </div>

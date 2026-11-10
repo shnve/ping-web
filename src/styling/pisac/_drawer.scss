@@ -27,8 +27,18 @@ $drawer-top: $pisac-header-bar-h + $pisac-header-menu-h + 1px;
 
   .p-dialog-content {
     flex: 1 1 auto;
-    overflow-y: auto;
+    min-height: 0;
     padding: 0 0.25rem 1rem;
+  }
+
+  // details-modal.component.scss (compartido por los modales de detalle) pone
+  // `[_nghost] p-dialog .p-dialog .p-dialog-content { overflow-y: initial }`, con más especificidad
+  // que la regla de arriba, y el panel se quedaba sin scroll. El prefijo .p-dialog-mask la supera.
+  .p-dialog-mask &,
+  & {
+    > .p-dialog-content {
+      overflow-y: auto;
+    }
   }
 
   // El contenido de los modales SHOM está pensado a dos columnas: en el panel va a una sola
@@ -63,6 +73,19 @@ $drawer-top: $pisac-header-bar-h + $pisac-header-menu-h + 1px;
   .fr-modal__title {
     font-size: 1.25rem;
     line-height: 1.6rem;
+  }
+
+  // Las banderas del selector de idioma van en absoluto y details-modal pone `.lang-dropdown
+  // { position: unset }`: sin un contenedor posicionado dentro del scroll, se quedaban fijas
+  // flotando sobre el contenido al desplazarlo.
+  app-lang-dropdown {
+    position: relative;
+    display: inline-block;
+
+    .lang-choice-button {
+      top: 0;
+      left: 0;
+    }
   }
 
   .fr-grid-row {

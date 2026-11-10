@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
 /**
  * PISAC (F5): cabecera de página.
@@ -22,6 +22,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class PisacPageHeaderComponent {
   @Input() icon: string;
+  /** Evita que el atributo estático `title` del host muestre la clave como tooltip nativo. */
+  @HostBinding('attr.title') readonly hostTitle = null;
   @Input() title: string;
   @Input() subtitle: string;
   @Input() variant: 'gradient' | 'light' = 'gradient';

@@ -8,49 +8,43 @@
   [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
   [shouldShowRasterMarineWithAdditionalLayerForWestAfrica]="true"></sig-map>
 
-<div *ngIf="isEditionMode" class="manual-coords-panel"
-  style="margin-top: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
-  <strong style="display: block; margin-bottom: 10px;">{{ 'carto.manual-coords.title' | translate }}</strong>
+<!-- PISAC (F5.3): panel de coordenadas manuales sin estilos en línea; campos con pInputText y botones del tema -->
+<div *ngIf="isEditionMode" class="manual-coords-panel pisac-panel-muted">
+  <h3 class="pisac-subsection-title"><i class="pi pi-map-marker" aria-hidden="true"></i>{{ 'carto.manual-coords.title' | translate }}</h3>
 
-  <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+  <div class="manual-coords-row">
 
-    <div>
-      <label style="font-size: 0.85rem; display: block; margin-bottom: 3px;">{{ 'COORDINATES.LATITUDE' | translate }}</label>
-      <input type="text" 
-             [(ngModel)]="latText" 
+    <div class="pisac-field manual-coords-field">
+      <label for="manual-coords-lat">{{ 'COORDINATES.LATITUDE' | translate }}</label>
+      <input type="text" id="manual-coords-lat" pInputText
+             [(ngModel)]="latText"
              (ngModelChange)="latText = $event.toUpperCase()"
-             [ngModelOptions]="{standalone: true}" 
+             [ngModelOptions]="{standalone: true}"
              class="form-control"
-             placeholder="Ej: 49-59.61N" 
+             placeholder="Ej: 49-59.61N"
              pattern="^(0[0-9]|[1-8][0-9]|90)-(0[0-9]|[1-5][0-9])(\.\d+)?[NS]$"
-             style="width: 140px;"
              #latInput="ngModel">
-      <small *ngIf="latInput.invalid && latInput.dirty" style="color: red; display: block; margin-top: 3px;">Formato inválido</small>
+      <small *ngIf="latInput.invalid && latInput.dirty" class="p-error">Formato inválido</small>
     </div>
 
-    <div>
-      <label style="font-size: 0.85rem; display: block; margin-bottom: 3px;">{{ 'COORDINATES.LONGITUDE' | translate }}</label>
-      <input type="text" 
-             [(ngModel)]="lonText" 
+    <div class="pisac-field manual-coords-field">
+      <label for="manual-coords-lon">{{ 'COORDINATES.LONGITUDE' | translate }}</label>
+      <input type="text" id="manual-coords-lon" pInputText
+             [(ngModel)]="lonText"
              (ngModelChange)="lonText = $event.toUpperCase()"
-             [ngModelOptions]="{standalone: true}" 
+             [ngModelOptions]="{standalone: true}"
              class="form-control"
-             placeholder="Ej: 001-13.50E" 
+             placeholder="Ej: 001-13.50E"
              pattern="^(0[0-9]{2}|1[0-7][0-9]|180)-(0[0-9]|[1-5][0-9])(\.\d+)?[EW]$"
-             style="width: 140px;"
              #lonInput="ngModel">
-      <small *ngIf="lonInput.invalid && lonInput.dirty" style="color: red; display: block; margin-top: 3px;">Formato inválido</small>
+      <small *ngIf="lonInput.invalid && lonInput.dirty" class="p-error">Formato inválido</small>
     </div>
 
-    <div style="display: flex; gap: 5px;">
-      <button type="button" class="btn btn-primary" (click)="addPointToMap()"
-        style="background-color: #0055ff; color: white; border: none; padding: 6px 12px; border-radius: 4px; height: 38px;">
-        <i class="fas fa-map-marker-alt"></i> {{ 'carto.manual-coords.add-vertex' | translate }}
-      </button>
-      <button type="button" class="btn btn-secondary" (click)="clearManualCoords()"
-        style="background-color: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; height: 38px;">
-        <i class="fas fa-trash"></i> {{ 'carto.manual-coords.clear' | translate }}
-      </button>
+    <div class="manual-coords-actions">
+      <button pButton type="button" icon="pi pi-map-marker" (click)="addPointToMap()"
+              [label]="'carto.manual-coords.add-vertex' | translate"></button>
+      <button pButton type="button" icon="pi pi-trash" class="p-button-outlined p-button-danger" (click)="clearManualCoords()"
+              [label]="'carto.manual-coords.clear' | translate"></button>
     </div>
 
   </div>

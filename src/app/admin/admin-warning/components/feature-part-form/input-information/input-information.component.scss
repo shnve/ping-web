@@ -1,69 +1,74 @@
+// PISAC (F5.3): opciones de inserción en rejilla y bloques de texto por idioma.
 :host {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: block;
 }
 
-.p-col-fixed {
-  padding-left: 0;
-}
-
-.line-form {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin: 0.5em 0;
+.distance-unit-precision {
+  margin-bottom: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .div-info {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: var(--space-4);
   width: 100%;
-  gap: 0.5em;
-  margin: 0.5em 0;
-  padding-right: 15px;
-  padding-bottom: 15px;
+  padding-bottom: var(--space-4);
+}
 
-  .btn-toolbar {
-    & > button {
-      flex: 50%;
-      font-size: 0.9rem;
-      margin-right: 5px;
-      margin-bottom: 5px;
+.lang-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--pisac-surface);
+
+  &.error {
+    border-color: var(--pisac-danger);
+
+    .lang-header {
+      color: var(--pisac-danger);
     }
   }
 }
 
-label.error {
-  color: red;
+.lang-header {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  margin: 0;
+  color: var(--shn-navy);
 }
 
-label {
-  display: block;
-  margin: 20px 0;
+.lang-label {
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 
-  &.margin-label {
-    margin: 2px;
-  }
+.form-asterisk {
+  font-weight: 700;
+  color: var(--pisac-danger);
+}
 
-  &.no-margin {
-    margin: 0;
-  }
-
-  & > span.form-asterisk {
-    vertical-align: top;
-    font-size: 0.8rem;
-    margin-top: 10px;
-    font-weight: 500;
-  }
+.btn-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 textarea {
   width: 100%;
+  min-height: 200px;
+  resize: vertical;
 }
 
-.lang-label {
-  text-transform: uppercase;
-  margin-right: 7px;
-  vertical-align: top;
-  font-weight: bold;
+@media (max-width: 640px) {
+  .div-info {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

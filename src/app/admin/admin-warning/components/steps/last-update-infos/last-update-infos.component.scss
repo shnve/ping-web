@@ -1,3 +1,6 @@
+// PISAC (F5.3): el texto va en el centro de la barra de acciones; ya no necesita el margen fijo de 246 px.
 .last-update-infos {
-  margin-right: 246px;
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: var(--pisac-text-muted);
 }

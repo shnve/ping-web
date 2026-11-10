@@ -5,39 +5,44 @@
   </div>
   <p-card class="step-p-card">
     <form (ngSubmit)="save()" [formGroup]="anForm">
-      <div class="p-fluid p-grid p-formgrid">
+      <!-- PISAC (F5.3): fechas en dos columnas y comentario interno a todo el ancho -->
+      <pisac-card title="menu.admin-warning.edition.finalization" icon="pi pi-briefcase">
+        <div class="p-fluid pisac-form-grid--2 finalization-grid">
 
-        <!-- estimated publication date -->
-        <div class="p-field p-col-12 p-md-4">
-          <label for="estimatedPublicationDate" translate>admin-warning.creation.labels.lbl-estimated-date</label>
-          <p-calendar [dateFormat]="currentDateFormat"
-                      dataType="string"
-                      formControlName="estimatedPublicationDate"
-                      id="estimatedPublicationDate"
-                      ngDefaultControl
-          ></p-calendar>
-        </div>
+          <!-- estimated publication date -->
+          <div class="pisac-field">
+            <label for="estimatedPublicationDate" translate>admin-warning.creation.labels.lbl-estimated-date</label>
+            <p-calendar [dateFormat]="currentDateFormat"
+                        dataType="string"
+                        formControlName="estimatedPublicationDate"
+                        id="estimatedPublicationDate"
+                        inputId="estimatedPublicationDate-input"
+                        [showIcon]="true"
+                        ngDefaultControl
+            ></p-calendar>
+          </div>
 
-        <!-- review date -->
-        <div class="p-field p-col-12 p-md-4">
-          <label for="reviewDate" translate>admin-warning.creation.labels.lbl-review-date</label>
-          <p-calendar [dateFormat]="currentDateFormat"
-                      dataType="string"
-                      formControlName="reviewDate"
-                      id="reviewDate"
-                      ngDefaultControl
-          ></p-calendar>
-        </div>
+          <!-- review date -->
+          <div class="pisac-field">
+            <label for="reviewDate" translate>admin-warning.creation.labels.lbl-review-date</label>
+            <p-calendar [dateFormat]="currentDateFormat"
+                        dataType="string"
+                        formControlName="reviewDate"
+                        id="reviewDate"
+                        inputId="reviewDate-input"
+                        [showIcon]="true"
+                        ngDefaultControl
+            ></p-calendar>
+          </div>
 
-        <!-- internal comment -->
-        <div class="p-field p-col-12 p-md-4">
-          <div class="p-grid p-nogutter">
+          <!-- internal comment -->
+          <div class="pisac-field pisac-span-all">
             <label class="lbl-internal-comment" for="internalComment" translate>admin-warning.creation.labels.lbl-internal-comment</label>
-            <textarea cols="170" formControlName="internalComment" id="internalComment" pInputTextarea
-                      rows="10"></textarea>
+            <textarea formControlName="internalComment" id="internalComment" pInputTextarea
+                      rows="8"></textarea>
           </div>
         </div>
-      </div>
+      </pisac-card>
       <aw-step-save-button (savePageButton)="quickSave()"></aw-step-save-button>
       <aw-step-transition-button (nextPageButton)="nextPage()"
                                  (prevPageButton)="prevPage()"

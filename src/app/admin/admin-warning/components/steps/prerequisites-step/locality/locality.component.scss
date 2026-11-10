@@ -1,68 +1,62 @@
+// PISAC (F5.3): selector de localidades con etiqueta arriba y localidades elegidas como chips.
+:host {
+  display: block;
+  padding-top: var(--space-3);
+}
+
+.settings {
+  margin-bottom: var(--space-3);
+}
+
 :host ::ng-deep {
-  .p-element.p-multiselect-label-container {
-    min-width: 275px;
+  .localities-elements .p-dropdown {
+    width: 100%;
+  }
+
+  p-button.btn-save-locality > .p-button {
+    width: var(--pisac-control-h);
+    height: var(--pisac-control-h);
+    padding: 0;
+  }
+
+  p-button.btn-remove-locality > .p-button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    color: var(--pisac-neutral-600);
+
+    .p-button-icon {
+      font-size: 0.75rem;
+    }
+
+    &:enabled:hover {
+      color: var(--pisac-danger);
+      background: transparent;
+    }
   }
 }
 
-div.settings {
-  grid-gap: 5px;
-  margin-top: 15px;
+.locality-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-div.settings label {
-  text-align: right;
-}
-
-.center {
-  margin-left: 21px;
-  margin-top: 25px;
-}
-
-button {
+.locality-chip {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 2px;
+  padding: 2px 2px 2px 12px;
+  border: 1px solid var(--pisac-secondary-100);
+  border-radius: 999px;
+  background: var(--pisac-secondary-50);
 }
 
-span {
-  display: inline-block;
-}
-
-span :first-child {
-  margin-right: 6px;
-  margin-bottom: 5px;
-}
-
-li :first-child {
-  margin-bottom: 5px;
-}
-
-.locality-label {
-  margin-top: 8px;
-  margin-left: 10px;
-}
-
-span :last-child {
-  margin-left: 20px;
-}
-
-.multiSelect-width {
-  width: 315px;
-}
-
-li {
-  margin: 10px 0;
-}
-
-.last-update-infos {
-  margin-right: 5px;
-}
-
-.lbl-new-locality-name {
-  margin-right: 0.5rem;
-}
-
-.input-new-locality-name {
-  margin-top: 10px;
-  margin-bottom: 20px;
+.locality-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--shn-navy);
 }

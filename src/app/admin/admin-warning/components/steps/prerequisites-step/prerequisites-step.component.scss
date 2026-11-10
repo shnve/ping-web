@@ -1,230 +1,168 @@
 @import 'variables';
 
+// PISAC (F5.3): paso 1 (requisitos previos y partes). Etiquetas arriba (.pisac-field), rejillas
+// .pisac-form-grid--3 y secciones en <pisac-card>. Los estilos de solo lectura, grupos de opciones
+// y barra de acciones son globales (src/styling/pisac/_forms.scss).
+
+.prerequisites-row {
+  margin-bottom: var(--space-4);
+}
+
 :host ::ng-deep {
-  .p-error {
-    margin-left: .5rem;
-  }
-
-  p-multiselect {
-    & > .p-multiselect {
-      max-width: 320px;
-    }
-  }
-
-  p-multiselect.cancelled-warnings {
-    & > .p-multiselect {
-      max-width: 750px;
-    }
-  }
-
-  p-multiselect.readonly-mode {
-    & > .p-multiselect {
-      background: #969696;
-
-      .p-multiselect-label-container,
-      .p-multiselect-label,
-      .p-multiselect-trigger {
-        cursor: not-allowed;
-      }
-    }
-  }
-
-  p-dropdown.readonly-mode {
-    & > .p-dropdown {
-      background: #969696;
-
-      .p-dropdown-label,
-      .p-dropdown-clear-icon,
-      .p-dropdown-trigger {
-        cursor: not-allowed;
-      }
-    }
-  }
-
-  p-button.btn-reset-serie,
-  p-button.btn-add-area,
-  p-button.btn-save-locality {
-    & > .p-button {
-      width: 2.1rem;
-      height: 2.1rem;
-      margin: 0.2rem 1rem;
-    }
-  }
-
-  p-button.btn-reset-type-general {
-    & > .p-button {
-      width: 2.1rem;
-      height: 2.1rem;
-      margin-left: 1rem;
-    }
-  }
-
-  p-button.btn-remove-locality {
-    & > .p-button {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-  }
-
-  p-panel.selected-areas-localities {
-    & > .p-component {
-      margin-bottom: 1rem;
-    }
-  }
-
   p-radiobutton {
     margin-right: 0.5rem;
   }
 
-  .add-part-button > button {
-    width: calc(100% - 4.357rem);
+  // Número de aviso: campo corto + "/" + año
+  .number-reservation-group {
+    .input-number-reservation {
+      flex: 0 0 110px;
+      width: 110px;
+    }
+
+    .year-elements {
+      flex: 0 0 auto;
+      min-width: 110px;
+
+      .p-dropdown {
+        width: 100%;
+      }
+    }
   }
 
-  .area-grid-item {
-    min-width: 440px;
+  .label-separator-number-reservation {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--pisac-text-muted);
+  }
+
+  // Avisos cancelados y sectores (áreas generales): una columna, como el resto de los campos.
+  // Se anula el max-width: 40vw global de .p-multiselect-label-container (styles.scss), que dejaba
+  // la flecha a media caja y un hueco vacío a la derecha.
+  .cancelled-warnings-field,
+  .areas-field {
+    p-multiselect,
+    .p-multiselect {
+      width: 100%;
+    }
+
+    .p-multiselect-label-container {
+      max-width: none;
+    }
+  }
+
+  // Botones de icono junto a los selectores (candado de desbloqueo)
+  p-button.btn-reset-serie,
+  p-button.btn-reset-type-general {
+    & > .p-button {
+      width: var(--pisac-control-h);
+      height: var(--pisac-control-h);
+      padding: 0;
+    }
+  }
+
+  // Panel "Áreas y localidades seleccionadas"
+  p-panel.selected-areas-localities {
+    & > .p-panel {
+      margin-top: var(--space-2);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .p-panel-header {
+      background: var(--pisac-surface-muted);
+      font-weight: 700;
+      color: var(--shn-navy);
+    }
+
+    .p-dataview .p-dataview-content {
+      padding: 0;
+      background: transparent;
+    }
+  }
+
+  // Lista de partes: botón "Agregar parte" a todo el ancho de la columna
+  .add-part-button {
+    display: block;
+    margin-bottom: var(--space-3);
+
+    & > button {
+      width: 100%;
+    }
   }
 }
 
-.p-field {
-  margin-bottom: 1rem;
-
-  & > label {
-    display: inline-block;
-    margin-right: .5rem;
-  }
-}
-
-.serie-elements,
-.areas-elements,
-.localities-elements {
-  margin-right: 5px;
-  min-width: 212px;
-}
-
-.year-elements {
-  min-width: 40px;
+// Tarjetas de área seleccionada (2 columnas)
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: var(--space-4);
+  width: 100%;
 }
 
 .area-grid-item {
-  margin: .5em;
-  border: 1px solid var(--surface-d);
+  height: 100%;
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--pisac-surface);
 
   .area-grid-item-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0.5rem;
+    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--pisac-border-soft);
+    background: var(--pisac-surface-muted);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
   .area-grid-item-content {
+    padding: 0 var(--space-4) var(--space-3);
     text-align: left;
   }
 }
 
-
 .area-name {
-  font-size: 1.5rem;
+  font-size: 1.0625rem;
   font-weight: 700;
-}
-
-.area-description {
-  margin: 1rem;
-}
-
-.item-flex-display {
-  display: flex;
-  align-items: center;
-}
-
-.locality-name {
-  font-size: 1rem;
-  font-weight: normal;
-  margin-right: 5px;
-}
-
-.serie-warningNumber-fields,
-.areas-localities-fields {
-  display: flex;
-
-  .first-field {
-    margin-right: 90px;
-  }
-
-  .last-field {
-    margin-left: 90px;
-  }
-}
-
-.label-select-serie,
-.label-select-areas,
-.label-select-type-general,
-.label-cancellationTime,
-.label-timezone,
-.label-number-reservation,
-.label-model,
-.label-cancelled-warnings {
-  align-self: center;
-  margin-right: 0.5rem;
-}
-
-.label-separator-number-reservation {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  color: var(--shn-navy);
 }
 
 .next-available-number {
-  margin-left: 0.5rem;
   font-style: italic;
-  color: grey;
 }
 
-.p-button.p-button-outlined {
-  color: $primaryColor;
-  border-color: $primaryColor;
-  margin-right: 18px;
-}
-
-.input-number-reservation {
-  width: 100px;
-}
-
-.model-name {
-  width: 300px;
-}
-
-.col-75 {
-  float: left;
-  width: 80%;
-  margin: auto 5px;
-}
-
+// Partes: lista a la izquierda y mapa + formulario de la parte a la derecha
 .step-container {
   position: relative;
-  min-height: 250px;
-
-  .parts-list-container {
-    width: 260px;
-  }
-
-  .part-map-container {
-    padding: 0 0.5rem;
-  }
+  margin-top: var(--space-3);
 }
 
-.datetime-field {
-  display: flex;
+.parts-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
 }
 
-.info-timezone {
-  margin-left: 10px;
+.parts-list-container {
   display: flex;
-  align-items: center;
-  font-style: italic;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.part-map-container {
+  min-width: 0;
+
+  &:only-child {
+    grid-column: 1 / -1;
+  }
 }
 
 /* Responsive */
 @media all and (max-width: $screenSizeLaptop) {
-  .area-grid-container {
-    width: 100%;
+  .parts-layout {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

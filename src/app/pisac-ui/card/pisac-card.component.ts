@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
 /**
  * PISAC (F5): tarjeta de contenido con título opcional numerado (estilo Cartografía).
@@ -22,6 +22,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PisacCardComponent {
+  /** Evita que el atributo estático `title` del host muestre la clave como tooltip nativo. */
+  @HostBinding('attr.title') readonly hostTitle = null;
   @Input() title: string;
   @Input() subtitle: string;
   @Input() step: number | string;

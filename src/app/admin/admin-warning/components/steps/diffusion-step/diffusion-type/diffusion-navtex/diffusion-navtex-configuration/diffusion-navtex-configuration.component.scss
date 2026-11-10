@@ -1,24 +1,21 @@
 @import 'src/styling/variables';
 
-.label {
-  font-weight: bold;
-  margin-right: 10px;
-  width: 220px;
+// PISAC (F5.3): configuración NAVTEX en rejilla de 2 columnas con etiquetas arriba.
+.navtex-configuration {
+  max-width: 900px;
+  margin-bottom: var(--space-6);
 }
 
-.line-form {
-  display: flex;
-  align-items: center;
-  margin: 15px 0;
+// Día/hora de fin y número TA empiezan siempre una fila nueva (columna izquierda).
+.pisac-span-all-start {
+  grid-column-start: 1;
+}
 
-  &:first-child {
-    margin-top: 0;
-  }
-  &:last-child {
-    margin-bottom: 0;
-  }
+.field-validation-error {
+  font-size: 0.8125rem;
+  font-weight: 600;
 }
 
 .ng-invalid.ng-touched {
-  border-color: red;
+  border-color: var(--pisac-danger);
 }

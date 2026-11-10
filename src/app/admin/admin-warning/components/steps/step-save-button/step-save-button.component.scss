@@ -1,7 +1,22 @@
+// PISAC (F5.3): botón flotante de guardado rápido. Círculo de 48 px con sombra, siempre visible
+// a la derecha (debajo de la cabecera compacta de 64 px).
 .wrapper-btn-save {
   display: block;
   position: fixed;
-  top: 200px;
-  right: 25px;
+  top: 140px;
+  right: 24px;
+  z-index: 20;
   cursor: pointer;
+}
+
+:host ::ng-deep .btn-save .p-button {
+  width: var(--pisac-control-h-lg);
+  height: var(--pisac-control-h-lg);
+  padding: 0;
+  border-radius: 50%;
+  box-shadow: var(--pisac-shadow-md);
+
+  .p-button-icon {
+    font-size: 1.125rem;
+  }
 }

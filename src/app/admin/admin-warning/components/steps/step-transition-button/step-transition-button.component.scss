@@ -1,7 +1,6 @@
-@import 'variables';
-
-.p-button.p-button-outlined {
-    color: $primaryColor;
-    border-color: $primaryColor;
-    margin-right: 18px;
+// PISAC (F5.3): la barra usa la clase global .pisac-action-bar (src/styling/pisac/_forms.scss).
+// Aquí solo se ajusta el botón secundario "Completar" para que conserve el contorno marino.
+.p-button.p-button-outlined.btn-complete {
+  color: var(--shn-navy);
+  border-color: var(--shn-navy);
 }

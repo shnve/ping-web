@@ -5,11 +5,12 @@
   </div>
   <p-card class="step-p-card">
     <ng-template pTemplate="content">
-      <div class="p-fluid">
-        <div class="p-field p-grid align">
-          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="warnings"
-            translate>admin-warning.creation.labels.references.warnings</label>
-          <div class="col-75">
+      <!-- PISAC (F5.3): tarjeta, etiqueta arriba y, por tipo de referencia, selector + resumen en dos columnas -->
+      <pisac-card title="menu.admin-warning.edition.publics-references" icon="pi pi-bookmark">
+      <div class="p-fluid references-list">
+        <div class="pisac-field reference-row">
+          <label for="warningsReferences" translate>admin-warning.creation.labels.references.warnings</label>
+          <div class="reference-controls">
             <p-multiSelect [(ngModel)]="selectedWarningsReferences" [options]="optionsWarningsReferences"
               class="p-multi-select-references" [disabled]="isWarningModel"
               [placeholder]="'admin-warning.creation.labels.references.select-warnings' | translate"
@@ -32,10 +33,9 @@
             </p-accordion>
           </div>
         </div>
-        <div class="p-field p-grid align">
-          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="georegulations"
-            translate>admin-warning.creation.labels.references.georegulations</label>
-          <div class="col-75">
+        <div class="pisac-field reference-row">
+          <label for="georegulations" translate>admin-warning.creation.labels.references.georegulations</label>
+          <div class="reference-controls">
             <p-multiSelect [(ngModel)]="selectedGeoregulations" [options]="availableGeoregulations"
               [disabled]="isWarningModel"
               [placeholder]="'admin-warning.creation.labels.references.select-georegulations' | translate"
@@ -54,10 +54,9 @@
             </p-accordion>
           </div>
         </div>
-        <div class="p-field p-grid align">
-          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="maritimeEntities"
-            translate>admin-warning.creation.labels.references.entities</label>
-          <div class="col-75">
+        <div class="pisac-field reference-row">
+          <label for="maritimeEntities" translate>admin-warning.creation.labels.references.entities</label>
+          <div class="reference-controls">
             <p-multiSelect [(ngModel)]="selectedEntitiesReferences" [options]="optionsEntitiesReferences"
               [disabled]="isWarningModel"
               [placeholder]="'admin-warning.creation.labels.references.select-entities-references' | translate"
@@ -82,10 +81,9 @@
             </p-accordion>
           </div>
         </div>
-        <div class="p-field p-grid align">
-          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="maritimeEntities"
-            translate>admin-warning.creation.labels.references.attachments</label>
-          <div class="col-75">
+        <div class="pisac-field reference-row">
+          <label for="attachments" translate>admin-warning.creation.labels.references.attachments</label>
+          <div class="reference-controls">
             <p-multiSelect [(ngModel)]="selectedAttachments" [options]="availableAttachments"
               [disabled]="isWarningModel"
               [placeholder]="'admin-warning.creation.labels.references.select-attachments' | translate"
@@ -105,10 +103,12 @@
             </p-accordion>
           </div>
         </div>
-        <div class="p-field p-grid align">
-          <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" for="links" translate>georegulation.links</label>
-          <button [disabled]="isWarningModel" pButton type="button" class="save-button no-margin" icon="pi pi-plus-circle" iconPos="center"
-            (click)="displayModal=true"></button>
+        <div class="pisac-field reference-row">
+          <label for="add-link-reference" translate>georegulation.links</label>
+          <div>
+            <button [disabled]="isWarningModel" pButton type="button" id="add-link-reference" class="save-button no-margin p-button-outlined" icon="pi pi-plus"
+              [label]="'admin-warning.creation.labels.references.add-links' | translate" (click)="displayModal=true"></button>
+          </div>
         </div>
         <div class="url-link-list">
           <ul *ngIf="warningLinksPublicsReferences?.length">
@@ -125,6 +125,7 @@
           </ul>
         </div>
       </div>
+      </pisac-card>
     </ng-template>
     <ng-template pTemplate="footer">
       <aw-step-save-button (savePageButton)="quickSave()"></aw-step-save-button>
@@ -136,31 +137,28 @@
 </div>
 
 <p-dialog [header]="'admin-warning.creation.labels.references.add-links' | translate" [(visible)]="displayModal"
-  [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+  [modal]="true" [style]="{width: '50vw'}" [breakpoints]="{'768px': '95vw'}" [draggable]="false" [resizable]="false">
 
   <div class="p-fluid">
-    <div class="line-form p-field p-grid">
-      <label for="link-reference-title" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{'static-page.title' | translate }}
-        *</label>
-      <input id="link-reference-title" [(ngModel)]="linkReference.title" type="text">
+    <div class="pisac-field pisac-field--required">
+      <label for="link-reference-title">{{'static-page.title' | translate }}</label>
+      <input id="link-reference-title" [(ngModel)]="linkReference.title" type="text" pInputText>
     </div>
-    <div class="line-form p-field p-grid">
-      <label for="link-reference-international-title"
-        class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{'static-page.internationalTitle' | translate }}</label>
-      <input id="link-reference-international-title" [(ngModel)]="linkReference.internationalTitle" type="text">
+    <div class="pisac-field">
+      <label for="link-reference-international-title">{{'static-page.internationalTitle' | translate }}</label>
+      <input id="link-reference-international-title" [(ngModel)]="linkReference.internationalTitle" type="text" pInputText>
     </div>
-    <div class="line-form p-field p-grid">
-      <label for="link-reference-url" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
-        translate>maritime-entity.reference-url<span> *</span></label>
+    <div class="pisac-field pisac-field--required">
+      <label for="link-reference-url" translate>maritime-entity.reference-url</label>
       <textarea rows="5" cols="30" id="link-reference-url" [(ngModel)]="linkReference.url" pInputTextarea></textarea>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <div class="p-fluid">
-      <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancel()"
+    <div>
+      <button pButton type="button" class="p-button-outlined p-button-secondary" (click)="cancel()"
         [label]="'cancel' | translate"></button>
       <button pButton type="button" [disabled]="!linkReference?.title.length || !linkReference?.url.length"
-        class="p-button-sm" (click)="onSaveLinkReference()" [label]="'save' | translate">
+        (click)="onSaveLinkReference()" [label]="'save' | translate">
       </button>
     </div>
   </ng-template>
