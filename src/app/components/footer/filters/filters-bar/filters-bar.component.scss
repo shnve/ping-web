@@ -1,4 +1,5 @@
 @import 'src/styling/variables';
+@import 'pisac/mixins';
 
 $filtersMenuZIndex: $menuZIndex + 11;
 $filtersBarZIndex: $filtersMenuZIndex + 1;
@@ -148,3 +149,6 @@ hr {
   position: relative;
   top: -1px;
 }
+
+// PISAC (F4.5): barra y panel de filtros móviles como bottom sheet (ver src/styling/pisac/_mixins.scss)
+@include pisac-mobile-filter-sheet($screenSizeTablet);

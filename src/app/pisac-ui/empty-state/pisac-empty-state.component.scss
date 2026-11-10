@@ -1,0 +1,96 @@
+:host {
+  display: block;
+}
+
+.pisac-empty-state {
+  --empty-accent: var(--shn-navy);
+  --empty-bg: var(--pisac-primary-50);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 560px;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem;
+  border: 1px dashed var(--pisac-border);
+  border-radius: 12px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.pisac-empty-state__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--empty-bg);
+  color: var(--empty-accent);
+  font-size: 1.5rem;
+
+  i {
+    font-size: inherit;
+  }
+}
+
+.pisac-empty-state__title {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--shn-navy);
+}
+
+.pisac-empty-state__message {
+  margin: 0.25rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--pisac-text-muted);
+}
+
+.pisac-empty-state__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:empty {
+    display: none;
+  }
+}
+
+// Advertencia (naranja)
+.pisac-empty-state--warn {
+  --empty-accent: #9A4A0B;
+  --empty-bg: var(--pisac-accent-50);
+}
+
+// Versión compacta en línea
+.pisac-empty-state--compact {
+  flex-direction: row;
+  align-items: flex-start;
+  max-width: none;
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--pisac-border-soft);
+  border-left: 4px solid var(--empty-accent);
+  background: var(--pisac-surface-muted);
+  text-align: left;
+
+  .pisac-empty-state__icon {
+    width: auto;
+    height: auto;
+    background: transparent;
+    font-size: 1.125rem;
+  }
+
+  .pisac-empty-state__title {
+    font-size: 0.9375rem;
+  }
+
+  .pisac-empty-state__actions {
+    margin-left: auto;
+  }
+}

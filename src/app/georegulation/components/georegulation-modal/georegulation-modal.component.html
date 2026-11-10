@@ -1,11 +1,14 @@
+<!-- PISAC (F4): con [drawer]="true" el detalle se abre como panel lateral derecho, no modal, sin tapar el mapa -->
 <p-dialog [(visible)]="display"
-          [draggable]="true"
-          [resizable]="true"
+          [draggable]="!drawer"
+          [resizable]="!drawer"
           [closable]="true"
-          modal="true"
-          dismissableMask="true"
+          [modal]="!drawer"
+          [dismissableMask]="!drawer"
+          [position]="drawer ? 'right' : 'center'"
+          [styleClass]="drawer ? 'pisac-detail-drawer' : ''"
           [breakpoints]="{'480px': '100vw'}"
-          [style]="{width: '80vw', 'max-height': '98vh'}"
+          [style]="drawer ? {width: 'min(600px, 100vw)'} : {width: '80vw', 'max-height': '98vh'}"
           (onHide)="hide()"
 >
   <div class="fr-container fr-container--fluid fr-container-md">
@@ -115,7 +118,8 @@
 
             <div class="fr-container--fluid">
               <div class="fr-grid-row fr-grid-row--gutters">
-                <div class="fr-col fr-col-md-8">
+                <!-- En el panel lateral (drawer) no se repite el mapa: el mapa principal ya muestra la regulación -->
+                <div class="fr-col fr-col-md-8" *ngIf="!drawer">
                   <div *ngIf="georegulation">
                     <georegulation-modal-map [modelItem]="georegulation" #map
                                               [height]="mapHeight"
@@ -138,13 +142,27 @@
                 </div>
 
                 <div class="fr-col fr-col-md-4">
+                  <div *ngIf="drawer" class="p-col-11 p-as-center p-ac-center"><i class="pi pi-exclamation-triangle"></i> {{'georegulation.modal.warning' | translate}}</div>
                   <georegulation-detail #georegulationDetail [georegulation]="georegulation"
                                         [proUser]="proUser"
-                                        (allFeaturesVisualized)="visualizeAllFeatures()"
-                                        (featurePartClicked)="selectFeaturePart($event)"
+                                        (allFeaturesVisualized)="drawer ? focusOnMainMap() : visualizeAllFeatures()"
+                                        (featurePartClicked)="drawer ? focusOnMainMap($event) : selectFeaturePart($event)"
                     ></georegulation-detail>
                 </div>
               </div>
+            </div>
+            <!-- PISAC (F4): en el panel lateral el mapa de detalle no se muestra, pero el PDF lo necesita.
+                 Se crea fuera de pantalla solo al pedir el PDF (pdfMapRequested) y se captura desde ahí. -->
+            <div *ngIf="drawer && pdfMapRequested && georegulation" class="pisac-pdf-map-host" aria-hidden="true">
+              <georegulation-modal-map [modelItem]="georegulation" #map
+                                       [height]="pdfMapHeight"
+                                       [showLayers]="false"
+                                       [showZoneX]="false"
+                                       [canShowRasterMarineLayer]="true"
+                                       [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
+                                       [notionType]="notionType"
+                                       partsAttributeName="parts">
+              </georegulation-modal-map>
             </div>
           </div>
       </div>

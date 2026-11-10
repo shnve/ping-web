@@ -50,6 +50,8 @@ import { FilterBannerComponent } from './components/filter-banner/filter-banner.
 import { InfosourceIdentifierComponent } from './components/infosource-identifier/infosource-identifier.component';
 import { InputDateRangeComponent } from './components/input-date-ranges/input-date-range/input-date-range.component';
 import { InputDateRangesComponent } from './components/input-date-ranges/input-date-ranges.component';
+import { MapListPanelComponent } from './components/map-list-panel/map-list-panel.component';
+import { PisacUiModule } from '@app/pisac-ui/pisac-ui.module';
 import { PaginatedTableComponent } from './components/paginated-table/paginated-table.component';
 import { PingPaginatorComponent } from './components/ping-paginator/ping-paginator.component';
 import { SelectButtonComponent } from './components/select-button/select-button.component';
@@ -85,6 +87,7 @@ import { SharedPipeModule } from './shared-pipe.module';
     SelectSerieItemComponent,
     WarningModalComponent,
     DisclaimerComponent,
+    MapListPanelComponent,
     WarningCancellationComponent,
     StaticPageLoaderComponent,
     SendResetPasswordEmailComponent,
@@ -144,7 +147,8 @@ import { SharedPipeModule } from './shared-pipe.module';
     PrimeTriStateCheckboxModule,
     PrimeBadgeModule,
     PrimeMenuModule,
-    NgPipesModule
+    NgPipesModule,
+    PisacUiModule
   ],
   exports: [
     WarningTableComponent,
@@ -168,6 +172,7 @@ import { SharedPipeModule } from './shared-pipe.module';
     AreaDropdownComponent,
     PingPaginatorComponent,
     // Modules
+    PisacUiModule,
     FormsModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
@@ -191,6 +196,7 @@ import { SharedPipeModule } from './shared-pipe.module';
     PrimeCardModule,
     NgxIntlTelInputModule,
     DisclaimerComponent,
+    MapListPanelComponent,
     PrimeTabViewModule,
     AttachmentsComponent,
     PrimeTagModule,

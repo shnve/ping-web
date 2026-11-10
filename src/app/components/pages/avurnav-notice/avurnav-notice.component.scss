@@ -22,77 +22,57 @@
   min-height: 420px;
 }
 
-// F4: panel de lista a la izquierda + mapa
-.pisac-map-workspace {
-  position: relative;
-  display: flex;
-  flex: 1 1 auto;
-  min-height: 0;
-
-  sig-map {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-}
+// F4: .pisac-map-workspace (panel de lista + mapa) y .area-selector son globales: src/styling/pisac/_map.scss
 
 .avurnav-notice-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
   padding: 0.5rem 0.75rem;
   background: #ffffff;
   border-bottom: 1px solid var(--pisac-border-soft);
+}
 
-  .label-area {
-    font-weight: 600;
-    color: var(--pisac-neutral-700);
+// Acceso secundario al listado completo / volver al mapa
+.view-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 38px;
+  padding: 0 1rem;
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  color: $shn-navy;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+
+  &:hover {
+    background: var(--pisac-primary-50);
+    border-color: $shn-navy;
+  }
+
+  &--primary {
+    background: $shn-navy;
+    border-color: $shn-navy;
+    color: #ffffff;
+
+    &:hover {
+      background: $shn-navy-deep;
+      border-color: $shn-navy-deep;
+    }
   }
 }
 
-:host ::ng-deep {
-  // Selector Mapa / Tabla como control segmentado
-  .visualisation-selector {
-    .p-selectbutton {
-      display: inline-flex;
-      align-items: stretch;
-      gap: 0;
-      padding: 3px;
-      background: var(--pisac-neutral-100);
-      border-radius: var(--radius-md);
-    }
-
-    .p-buttonset .p-button {
-      min-height: 38px;
-      background: transparent;
-      border: none;
-      border-radius: 6px;
-      padding: 0 1.5rem;
-      color: var(--pisac-neutral-700);
-
-      &:not(.p-highlight):hover {
-        background: rgba(0, 43, 92, 0.06);
-        color: $shn-navy;
-      }
-
-      &.p-highlight {
-        background: $shn-navy;
-        box-shadow: var(--pisac-shadow-sm);
-        color: #ffffff;
-      }
-
-      .p-button-label {
-        font-weight: 600;
-      }
-    }
-  }
-
-  .message-container {
-    font-size: 1.125rem;
-    line-height: 2rem;
-
-    .info-icon {
-      font-size: 1.25rem;
-      margin: 0 6px;
-    }
+// Móvil: solo el icono en el botón secundario para dejar sitio al selector de área
+@media (max-width: $screenSizeTablet) {
+  .view-switch-btn span {
+    display: none;
   }
 }
+
+// F5: los mensajes "sin serie / sin área" usan <pisac-empty-state> (src/app/pisac-ui/)

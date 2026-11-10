@@ -31,6 +31,9 @@ export interface MapGeoregulation extends MapModelItem {
   type?: GeoregulationType;
   isTemporary: boolean;
   isNew: boolean;
+  /** PISAC: título enviado por `api/georegulations/map` para la lista lateral del visor. */
+  title?: string;
+  internationalTitle?: string;
 }
 
 export interface GeoregulationPart {

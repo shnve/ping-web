@@ -101,6 +101,17 @@
               </div>
             </div>
           </div>
+          <!-- PISAC (F4): en el panel lateral el mapa de detalle no se muestra, pero el PDF lo necesita.
+               Se crea fuera de pantalla solo al pedir el PDF (pdfMapRequested) y se captura desde ahí. -->
+          <div *ngIf="drawer && pdfMapRequested && canDisplayMap && warning" class="pisac-pdf-map-host" aria-hidden="true">
+            <sig-warning-detail-map #map
+                                    [modelItem]="warning"
+                                    [height]="pdfMapHeight"
+                                    [notionType]="notionType"
+                                    [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
+                                    [shouldShowRasterMarineWithAdditionalLayerForWestAfrica]="true"
+            ></sig-warning-detail-map>
+          </div>
         </div>
     </div>
   </div>

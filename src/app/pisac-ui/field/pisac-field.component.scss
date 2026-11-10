@@ -1,0 +1,49 @@
+// La base (.pisac-field, etiqueta y asterisco de obligatorio) está en src/styling/pisac/_forms.scss;
+// aquí solo se agregan la ayuda, el error y el control a todo el ancho.
+:host {
+  display: block;
+}
+
+.pisac-field__control {
+  display: flex;
+  flex-direction: column;
+
+  // Los controles ocupan todo el ancho del campo
+  ::ng-deep > input,
+  ::ng-deep > textarea,
+  ::ng-deep > .p-inputtext,
+  ::ng-deep > p-dropdown .p-dropdown,
+  ::ng-deep > p-multiselect .p-multiselect,
+  ::ng-deep > p-calendar .p-calendar,
+  ::ng-deep > p-inputnumber .p-inputnumber {
+    width: 100%;
+  }
+}
+
+.pisac-field__hint {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--pisac-text-muted);
+}
+
+.pisac-field__error {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--pisac-danger);
+}
+
+// Borde rojo en el control cuando hay error
+.pisac-field--invalid .pisac-field__control ::ng-deep {
+  .p-inputtext,
+  .p-dropdown,
+  .p-multiselect,
+  .p-calendar .p-inputtext,
+  input,
+  textarea {
+    border-color: var(--pisac-danger);
+  }
+}

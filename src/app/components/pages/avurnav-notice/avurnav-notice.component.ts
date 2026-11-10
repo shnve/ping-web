@@ -32,7 +32,6 @@ import {
   defaultValuesMapFilter, defaultValuesTableFilter
 } from '../../../models/warning-filters.model';
 import { JsonWarning, MainWarningPart, MapWarning, TableWarning } from '../../../models/warning.model';
-import { SelectButtonOption } from '../../../shared/components/select-button/select-button.component';
 import { TableState } from '../../../states/table.state';
 import { ModelItemFilterState } from '../../../states/warning-filter.state';
 
@@ -58,10 +57,6 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
   /** Aviso abierto en el panel de detalle (resaltado en la lista del mapa). */
   selectedWarningId: string;
   visualisationMode: VisualizationMode = VisualizationMode.MAP;
-  visualisationModeOptions: SelectButtonOption[] = [
-    { code: VisualizationMode.MAP, translateKey: 'visualization.options.map' },
-    { code: VisualizationMode.TABLE, translateKey: 'visualization.options.table' }
-  ];
   mapWarnings$: Observable<MapWarning[]>;
   tableWarnings: TableWarning[] | JsonWarning[];
   totalWarnings = 0;
@@ -243,6 +238,21 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
   /** El mapa cambia de ancho al plegar/desplegar el panel: OpenLayers recalcula su tamaño con 'resize'. */
   onMapPanelToggle(): void {
     setTimeout(() => window.dispatchEvent(new Event('resize')), 220);
+  }
+
+  /**
+   * PISAC (F4): abre el listado completo de avisos (filtros avanzados por serie, subzona, categoría...,
+   * vista detallada y exportación PDF / S-124 / GPX). Sustituye al antiguo selector Mapa/Tabla.
+   */
+  showTableView(): void {
+    this.showModal = false;
+    this.visualisationMode = VisualizationMode.TABLE;
+  }
+
+  /** PISAC (F4): vuelve al visor map-first desde el listado completo. */
+  showMapView(): void {
+    this.showModal = false;
+    this.visualisationMode = VisualizationMode.MAP;
   }
 
   private getFeaturesExtent(features: Feature[]): Extent | null {

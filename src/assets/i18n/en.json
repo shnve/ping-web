@@ -1690,6 +1690,9 @@
   "visualization": {
     "options": {
       "map": "Map",
+      "full-list": "List and export",
+      "full-list-hint": "View the full list of warnings with advanced filters and PDF, S-124 and GPX export",
+      "back-to-map": "Back to map",
       "table": "Table"
     }
   },
@@ -3550,5 +3553,17 @@
       "NOTICE": "Notice",
       "NOTICE_TP": "T&P notice"
     }
+  },
+  "georegulation-panel": {
+    "title": "Regulations on the map",
+    "search": "Search by number or title",
+    "locate": "Show on map and details",
+    "collapse": "Hide list",
+    "expand": "Show regulations list",
+    "empty": "No regulations visible with the current filters.",
+    "no-results": "No regulation matches the search.",
+    "new": "New",
+    "temporary": "Temporary",
+    "permanent": "Permanent"
   }
 }

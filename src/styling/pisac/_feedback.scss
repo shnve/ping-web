@@ -1,0 +1,176 @@
+// =====================================================================================
+// PISAC (F6): avisos emergentes. Notificaciones (p-toast del componente toaster),
+// confirmaciones (p-confirmPopup / p-confirmDialog) y aviso de uso (shared-disclaimer).
+// Solo estilos globales: no se tocan las plantillas SHOM (salvo la clase del disclaimer).
+// =====================================================================================
+
+// ---- Notificaciones (toaster, abajo a la derecha) ----
+// Tarjeta blanca con franja de color según la severidad, en lugar del fondo de color pleno.
+// `body` + `:is(...)` para superar las reglas del tema Lara (.p-toast .p-toast-message.p-toast-message-info …).
+body .p-toast {
+  .p-toast-message:is(.p-toast-message-success, .p-toast-message-warn, .p-toast-message-error, .p-toast-message-info) {
+    --toast-accent: var(--pisac-info);
+
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--pisac-border-soft);
+    border-left: 4px solid var(--toast-accent);
+    border-radius: var(--radius-md);
+    background: #ffffff;
+    box-shadow: var(--pisac-shadow-md);
+    color: var(--pisac-text);
+
+    &.p-toast-message-success { --toast-accent: var(--pisac-success); }
+    &.p-toast-message-warn { --toast-accent: var(--pisac-warning); }
+    &.p-toast-message-error { --toast-accent: var(--pisac-danger); }
+    &.p-toast-message-info { --toast-accent: var(--pisac-info); }
+
+    .p-toast-message-content {
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+      border: none;
+    }
+
+    .p-toast-message-icon {
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+      font-size: 1.25rem;
+      color: var(--toast-accent);
+    }
+
+    .p-toast-message-text {
+      margin: 0;
+    }
+
+    .p-toast-summary {
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--shn-navy);
+    }
+
+    .p-toast-detail {
+      margin-top: 0.2rem;
+      font-size: 0.875rem;
+      line-height: 1.4;
+      color: var(--pisac-text-muted);
+    }
+
+    .p-toast-icon-close {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      color: var(--pisac-text-muted);
+
+      &:hover {
+        background: var(--pisac-neutral-100, #f1f5f9);
+        color: var(--shn-navy);
+      }
+    }
+  }
+}
+
+// ---- Confirmaciones en globo (p-confirmPopup) ----
+.p-confirm-popup {
+  border: 1px solid var(--pisac-border-soft);
+  border-top: 3px solid var(--shn-orange);
+  border-radius: var(--radius-md);
+  box-shadow: var(--pisac-shadow-md);
+
+  .p-confirm-popup-content {
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 1.125rem 0.5rem;
+  }
+
+  .p-confirm-popup-icon {
+    font-size: 1.375rem;
+    color: var(--shn-orange);
+  }
+
+  .p-confirm-popup-message {
+    margin: 0;
+    line-height: 1.45;
+    color: var(--pisac-text);
+  }
+
+  // Botones a la derecha: "No" como texto y "Sí" como botón principal (orden de PrimeNG: rechazar, aceptar)
+  .p-confirm-popup-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem 1rem;
+
+    button {
+      margin: 0;
+      min-height: 36px;
+    }
+  }
+}
+
+// ---- Diálogo de confirmación (p-confirmDialog) ----
+.p-confirm-dialog {
+  .p-dialog-header {
+    border-top: 3px solid var(--shn-orange);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .p-confirm-dialog-icon {
+    font-size: 1.5rem;
+    color: var(--shn-orange);
+  }
+
+  .p-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+
+    button {
+      margin: 0;
+    }
+  }
+}
+
+// ---- Aviso de uso (shared-disclaimer: "Advertencia de uso") ----
+.p-dialog.pisac-disclaimer {
+  border-top: 4px solid var(--shn-orange);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--pisac-shadow-md);
+
+  .p-dialog-header {
+    gap: 0.5rem;
+    padding: 1rem 1.25rem 0.5rem;
+    border-bottom: none;
+
+    .p-dialog-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.125rem;
+      color: var(--shn-navy);
+
+      // Icono de advertencia antes del título
+      &::before {
+        content: '\e922'; // pi-exclamation-triangle (primeicons)
+        font-family: 'primeicons';
+        font-size: 1.125rem;
+        color: var(--shn-orange);
+      }
+    }
+  }
+
+  .p-dialog-content {
+    padding: 0.25rem 1.25rem 0.75rem;
+    line-height: 1.55;
+    color: var(--pisac-text);
+
+    p {
+      margin: 0 0 0.5rem;
+    }
+  }
+
+  .p-dialog-footer {
+    padding: 0.75rem 1.25rem 1rem;
+    border-top: 1px solid var(--pisac-border-soft);
+  }
+}

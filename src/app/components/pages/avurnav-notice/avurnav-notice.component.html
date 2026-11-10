@@ -1,12 +1,23 @@
 <div class="avurnav-notice-page">
+  <!-- PISAC (F4): barra superior con el selector de área siempre visible y el acceso al listado/exportación -->
   <div class="avurnav-notice-header">
-    <shared-select-button
-        class="visualisation-selector"
-        [(ngModel)]="visualisationMode"
-        [options]="visualisationModeOptions"
-    ></shared-select-button>
-    <span class="label-area" translate>menu.area</span>
-    <app-area-dropdown class="app-area-dropdown"></app-area-dropdown>
+    <div class="area-selector">
+      <i class="pi pi-map area-selector__icon" aria-hidden="true"></i>
+      <span class="label-area" translate>menu.area</span>
+      <app-area-dropdown class="app-area-dropdown"></app-area-dropdown>
+    </div>
+    <button *ngIf="visualisationMode === 'map'; else backToMapButton"
+            type="button" class="view-switch-btn" (click)="showTableView()"
+            [title]="'visualization.options.full-list-hint' | translate">
+      <i class="pi pi-table" aria-hidden="true"></i>
+      <span>{{ 'visualization.options.full-list' | translate }}</span>
+    </button>
+    <ng-template #backToMapButton>
+      <button type="button" class="view-switch-btn view-switch-btn--primary" (click)="showMapView()">
+        <i class="pi pi-map" aria-hidden="true"></i>
+        <span>{{ 'visualization.options.back-to-map' | translate }}</span>
+      </button>
+    </ng-template>
   </div>
   <div *ngIf="visualisationMode === 'map'" class="avurnav-map-view">
     <shared-disclaimer [displayDisclaimer]="displayMapDisclaimer"
@@ -113,25 +124,12 @@
       </div>
 
       <ng-template #noSerieWarnMessage>
-        <p-messages severity="warn">
-          <ng-template pTemplate>
-            <div class="message-container">
-              <i class="info-icon pi pi-info-circle"></i>
-              <span translate>table.no-serie-selected</span>
-            </div>
-          </ng-template>
-        </p-messages>
+        <!-- PISAC (F5): estado vacío en lugar de p-messages con fuente de 1.5rem -->
+        <pisac-empty-state icon="pi pi-filter" title="table.no-serie-selected"></pisac-empty-state>
       </ng-template>
     </div>
     <ng-template #noAreaWarnMessage>
-      <p-messages severity="warn">
-        <ng-template pTemplate>
-          <div class="message-container">
-            <i class="info-icon pi pi-info-circle"></i>
-            <span translate>table.no-area-selected</span>
-          </div>
-        </ng-template>
-      </p-messages>
+      <pisac-empty-state icon="pi pi-map" title="table.no-area-selected"></pisac-empty-state>
     </ng-template>
   </div>
   <shared-warning-modal *ngIf="showModal" #modal

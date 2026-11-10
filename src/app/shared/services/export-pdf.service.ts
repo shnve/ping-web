@@ -34,6 +34,40 @@ import { getSharedLinkUrl } from '@shared/warning-utils';
 const DISPLAYED_DATE_FORMAT = 'dd/MM/yyyy';
 const mime = 'image/png';
 const HR_HTML = '<hr/>';
+/**
+ * PISAC: cabecera de los PDF de pdfMake (logos | texto | QR en una fila), con el texto CENTRADO EN LA HOJA.
+ * html-to-pdfmake interpreta el atributo `width` de las imágenes en px y lo convierte a pt (× 0,75).
+ * Por eso las columnas se definen en pt y el `width` de cada imagen se calcula en px con `ptToPx`.
+ * Las columnas laterales son simétricas (logos | * | QR alineado a la derecha). Con 515 pt de ancho útil
+ * y la línea del SHN de ≈269 pt a 8 pt, el máximo para los logos es ≈115 pt (antes 116 px = 87 pt reales;
+ * imagen 2420×841 px → 40 pt de alto).
+ */
+const PDF_PX_TO_PT = 0.75;
+const PDF_HEADER_LOGO_WIDTH_PT = 115;
+/** El QR se genera con `QrCodeService.getImageQrcode(url, 75)` → 75 px = 56,25 pt, alineado a la derecha. */
+const PDF_HEADER_FONT_SIZE = 8;
+const ptToPx = (pt: number): number => Math.round(pt / PDF_PX_TO_PT);
+/**
+ * Layout de tabla sin bordes ni relleno para la cabecera: los logos empiezan exactamente en el margen
+ * izquierdo (alineados con el título "Detalle Advertencia - Aviso :"), el QR termina en el margen derecho
+ * y la columna central abarca justo el espacio entre ambos, así el texto queda centrado entre ellos.
+ */
+const PDF_HEADER_TABLE_LAYOUT = 'pisacHeader';
+const PDF_TABLE_LAYOUTS = {
+  [PDF_HEADER_TABLE_LAYOUT]: {
+    hLineWidth: () => 0,
+    vLineWidth: () => 0,
+    paddingLeft: () => 0,
+    paddingRight: () => 0,
+    paddingTop: () => 0,
+    paddingBottom: () => 0
+  }
+};
+/**
+ * Tiempo máximo (ms) de espera a que el mapa termine de cargar teselas antes de capturarlo para el PDF.
+ * Se mantiene corto: el navegador solo permite abrir la pestaña del PDF poco después del clic del usuario.
+ */
+const PDF_MAP_RENDER_TIMEOUT = 2500;
 
 @Injectable({
   providedIn: 'root'
@@ -83,20 +117,42 @@ export class ExportPdfService {
     private readonly infosourcePartFormatDetailsModalObjectPipe: InfosourcePartFormatDetailsModalObjectPipe,
     private readonly translate: TranslateService) { }
 
+  /**
+   * PISAC: cabecera institucional de los PDF generados con pdfMake, en una sola fila:
+   * logos (Armada/SHN, OCHINA, INEA) a la izquierda · texto institucional al centro · QR a la derecha.
+   * Las columnas laterales miden exactamente lo mismo que su imagen, así el texto queda centrado
+   * entre el borde derecho de los logos y el borde izquierdo del QR. `noWrap` mantiene en una sola
+   * línea el nombre completo del SHN.
+   */
   private buildPdfHeaderHtml(logoDataUrl: string, qrCodeHtml?: string): string {
-    const institutionalTextHtml = `<p data-pdfmake='{"margin": [2, 1, 0, 0], "fontSize": 8.5, "bold": true, "alignment": "center"}' style="text-align: center;">República Bolivariana de Venezuela</p>`
-      + `<p data-pdfmake='{"margin": [2, 1, 0, 0], "fontSize": 8.5, "alignment": "center"}' style="text-align: center;">Ministerio del Poder Popular para la Defensa</p>`
-      + `<p data-pdfmake='{"margin": [2, 1, 0, 0], "fontSize": 8.5, "alignment": "center"}' style="text-align: center;">Armada Bolivariana</p>`
-      + `<p data-pdfmake='{"margin": [2, 1, 0, 0], "fontSize": 8.5, "alignment": "center"}' style="text-align: center;">Servicio de Hidrografía, Oceanografía, Meteorología y Cartografiado Náutico</p>`;
-    const logoCell = logoDataUrl ? `<td style="border: none;"><img src="${logoDataUrl}" width="116"></td>` : '';
-    const textCell = `<td style="border: none; text-align: center;" data-pdfmake='{"alignment": "center"}'>${institutionalTextHtml}</td>`;
-    const qrCell = qrCodeHtml
-      ? `<td style="border: none;" class="qrCode"><p data-pdfmake='{"margin": [0, -6, 0, 0], "alignment": "right"}'>${qrCodeHtml}</p></td>`
-      : `<td style="border: none;"></td>`;
-    const widths = logoDataUrl
-      ? '[116, "*", 116]'
-      : (qrCodeHtml ? '["*", 116]' : '["*"]');
-    return `<table data-pdfmake='{"widths": ${widths}}'><tr>${logoCell}${textCell}${logoDataUrl || qrCodeHtml ? qrCell : ''}</tr></table>`;
+    const line = (text: string, bold = false) =>
+      `<p data-pdfmake='{"margin": [0, 0.5, 0, 0], "fontSize": ${PDF_HEADER_FONT_SIZE}, "bold": ${bold}, "alignment": "center", "noWrap": true}' style="text-align: center;">${text}</p>`;
+    const institutionalTextHtml = line('República Bolivariana de Venezuela', true)
+      + line('Ministerio del Poder Popular para la Defensa')
+      + line('Armada Bolivariana')
+      + line('Servicio de Hidrografía, Oceanografía, Meteorología y Cartografiado Náutico');
+
+    const cells: string[] = [];
+    const widths: (number | string)[] = [];
+    const hasSideColumns = !!(logoDataUrl || qrCodeHtml);
+    if (hasSideColumns) {
+      cells.push(logoDataUrl
+        ? `<td style="border: none;"><img src="${logoDataUrl}" width="${ptToPx(PDF_HEADER_LOGO_WIDTH_PT)}"></td>`
+        : `<td style="border: none;"></td>`);
+      widths.push(PDF_HEADER_LOGO_WIDTH_PT);
+    }
+    // Texto centrado verticalmente respecto a la franja de logos y el QR
+    cells.push(`<td style="border: none; text-align: center;" data-pdfmake='{"alignment": "center", "margin": [0, 5, 0, 0]}'>${institutionalTextHtml}</td>`);
+    widths.push('*');
+    if (hasSideColumns) {
+      // Columna derecha del mismo ancho que la de logos (simétrica): el texto queda centrado en la hoja
+      cells.push(qrCodeHtml
+        ? `<td style="border: none;" class="qrCode"><p data-pdfmake='{"margin": [0, 0, 0, 0], "alignment": "right"}'>${qrCodeHtml}</p></td>`
+        : `<td style="border: none;"></td>`);
+      widths.push(PDF_HEADER_LOGO_WIDTH_PT);
+    }
+    const tableProps = JSON.stringify({ widths, layout: PDF_HEADER_TABLE_LAYOUT, margin: [0, 0, 0, 6] });
+    return `<table data-pdfmake='${tableProps}'><tr>${cells.join('')}</tr></table>`;
   }
 
   private buildGeneratedDateTime(): string {
@@ -161,13 +217,21 @@ export class ExportPdfService {
           maxZoom: 13
         });
       }
-      olMap.renderSync();
+      // PISAC: esperar a que el mapa cargue las teselas del nuevo encuadre (antes solo renderSync,
+      // que capturaba el mapa a medio cargar)
+      await this.waitForMapRender(olMap);
 
       const size = olMap.getSize();
       const mapWidthPx = size && size[0] > 0 ? size[0] : 600;
       const width = Math.min(460, Math.round(mapWidthPx * 0.65));
 
-      const imageData = this.getMapAsImage(cartoMapCanvasCssSelectors, olMap, mime, imageOptions);
+      let imageData = '';
+      try {
+        imageData = this.getMapAsImage(cartoMapCanvasCssSelectors, olMap, mime, imageOptions);
+      } catch (error) {
+        // Canvas "contaminado" por una capa sin CORS: se genera el PDF sin mapa en lugar de fallar
+        console.warn('[PISAC] No se pudo capturar el mapa para el PDF', error);
+      }
       mapImage = imageData ? `<img src="${imageData}" width="${width}" style="text-align: center;">` : '';
     }
 
@@ -200,6 +264,22 @@ export class ExportPdfService {
                         <div class="map-carto">${mapImage}</div>
                         <div>${builtHtmlItem}</div>`;
     this.createPdf(htmlContent, pdfName, linkUrl);
+  }
+
+  /** Resuelve cuando OpenLayers termina de dibujar todas las capas (evento 'rendercomplete') o al vencer el tiempo. */
+  private waitForMapRender(olMap: Map): Promise<void> {
+    return new Promise<void>(resolve => {
+      let finished = false;
+      const finish = () => {
+        if (!finished) {
+          finished = true;
+          resolve();
+        }
+      };
+      olMap.once('rendercomplete', finish);
+      setTimeout(finish, PDF_MAP_RENDER_TIMEOUT);
+      olMap.render();
+    });
   }
 
   private createPdf(htmlContent: string, pdfName: string, linkUrl?: string): void {
@@ -273,7 +353,7 @@ export class ExportPdfService {
         return currentNode.pageNumbers.length > 1 && currentNode.startPosition && currentNode.startPosition.verticalRatio > 0.4;
       }
     };
-    this.pdfMake.createPdf(docDefinition).open();
+    this.pdfMake.createPdf(docDefinition, PDF_TABLE_LAYOUTS).open();
   }
 
   private convertWarningToTableWarning(warning: Warning): TableWarning {
@@ -659,21 +739,43 @@ export class ExportPdfService {
     // set font color to black
     pdf.setTextColor('#000000');
 
-    // header
-    let yPos = 12;
+    // header (PISAC): logos a la izquierda y texto institucional centrado en el espacio restante.
+    // El tamaño de letra se ajusta para que el nombre completo del SHN quepa en una sola línea.
+    const institutionalLines = [
+      'República Bolivariana de Venezuela',
+      'Ministerio del Poder Popular para la Defensa',
+      'Armada Bolivariana',
+      'Servicio de Hidrografía, Oceanografía, Meteorología y Cartografiado Náutico'
+    ];
+    let textLeft = marginHorizontal;
+    let headerBottom = 16;
     if (logoDataUrl) {
-      pdf.addImage(logoDataUrl, 'PNG', marginHorizontal, 8, 96, 33);
+      const logoWidth = 135;
+      const logoHeight = Math.round(logoWidth * 841 / 2420);
+      pdf.addImage(logoDataUrl, 'PNG', marginHorizontal, 8, logoWidth, logoHeight);
+      textLeft = marginHorizontal + logoWidth + 6;
+      headerBottom = 8 + logoHeight;
     }
-    pdf.setFontSize(8);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('República Bolivariana de Venezuela', middleWidth, 16, { align: 'center' });
+    const textAreaWidth = pageWidth - marginHorizontal - textLeft;
+    const textCenter = textLeft + textAreaWidth / 2;
     pdf.setFont('helvetica', 'normal');
-    pdf.text('Ministerio del Poder Popular para la Defensa', middleWidth, 25, { align: 'center' });
-    pdf.text('Armada Bolivariana', middleWidth, 34, { align: 'center' });
-    pdf.text('Servicio de Hidrografía, Oceanografía, Meteorología y Cartografiado Náutico', middleWidth, 43, { align: 'center' });
-    if (logoDataUrl) {
-      yPos = 56;
+    let fontSize = 8.5;
+    pdf.setFontSize(fontSize);
+    const longestWidth = Math.max(...institutionalLines.map(text => pdf.getTextWidth(text)));
+    if (longestWidth > textAreaWidth) {
+      fontSize = Math.max(6, fontSize * textAreaWidth / longestWidth);
+      pdf.setFontSize(fontSize);
     }
+    // Interlineado en unidades del documento (el tamaño de letra está en pt)
+    const lineStep = (pdf.getLineHeight() / pdf.internal.scaleFactor) * 1.05;
+    let textY = 8 + Math.max(0, (headerBottom - 8 - lineStep * institutionalLines.length) / 2) + lineStep * 0.8;
+    institutionalLines.forEach((text, index) => {
+      pdf.setFont('helvetica', index === 0 ? 'bold' : 'normal');
+      pdf.text(text, textCenter, textY, { align: 'center' });
+      textY += lineStep;
+    });
+    pdf.setFont('helvetica', 'normal');
+    let yPos = Math.max(headerBottom, textY) + 12;
 
     // title
     pdf.setFontSize(12);
@@ -722,7 +824,19 @@ export class ExportPdfService {
     // Total page number
     pdf.putTotalPages(totalPagesExp);
 
-    pdf.output('dataurlnewwindow', { filename: pdfName });
+    // PISAC: 'dataurlnewwindow' deja una pestaña en blanco (Chrome/Edge bloquean abrir URLs data: en
+    // una ventana nueva). Se abre el PDF como blob y, si el navegador bloquea la ventana, se descarga.
+    this.openJsPdf(pdf, pdfName);
+  }
+
+  private openJsPdf(pdf: jsPDF, pdfName: string): void {
+    const blobUrl = URL.createObjectURL(pdf.output('blob'));
+    const pdfWindow = window.open(blobUrl, '_blank');
+    if (!pdfWindow) {
+      pdf.save(pdfName);
+    }
+    // Liberar la URL cuando el visor ya haya cargado el documento
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
   }
 
   private buildWarningTablePdfTitle(serie: Serie, isDetails = false): string {

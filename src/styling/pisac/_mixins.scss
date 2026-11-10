@@ -52,3 +52,92 @@
     }
   }
 }
+
+// PISAC (F4.5): barra de filtros móvil como "bottom sheet" (filters-bar, table-filters-bar y
+// georegulation-map-filter-bar). Se incluye AL FINAL del .scss de cada barra para sobrescribir el estilo
+// heredado de SHOM (barra gris #333 y panel blanco a pantalla completa) sin tocar sus plantillas.
+// $bar-height: alto de la barra inferior; $breakpoint: ancho máximo en el que se muestra la barra.
+@mixin pisac-mobile-filter-sheet($breakpoint: 768px, $bar-height: 52px) {
+  @media all and (max-width: $breakpoint) {
+    // Barra inferior: marina, con esquinas superiores redondeadas y sombra
+    .filter-bar {
+      height: calc(#{$bar-height} + env(safe-area-inset-bottom, 0px));
+      padding: 0 0.75rem env(safe-area-inset-bottom, 0px);
+      background-color: var(--shn-navy);
+      border-top: 3px solid var(--shn-orange);
+      border-radius: 14px 14px 0 0;
+      box-shadow: 0 -6px 18px rgba(0, 43, 92, 0.25);
+      font-size: 1rem;
+      font-weight: 600;
+
+      .filter-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .icon-left-position,
+      .icon-right-position {
+        font-size: 1.25rem;
+        opacity: 0.85;
+      }
+    }
+
+    // Panel de filtros: hoja que sube desde abajo (máx. 80 % del alto) con un fondo oscurecido detrás
+    .filter-content.show-filter-content {
+      top: auto;
+      bottom: 0;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 1.25rem 1rem calc(#{$bar-height} + 1rem + env(safe-area-inset-bottom, 0px));
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 0 0 100vmax rgba(0, 20, 45, 0.45), 0 -8px 24px rgba(0, 43, 92, 0.2);
+      animation: pisac-sheet-up 0.22s ease-out;
+
+      // Asa visual de la hoja
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0.5rem;
+        left: 50%;
+        width: 44px;
+        height: 4px;
+        margin-left: -22px;
+        border-radius: 999px;
+        background: var(--pisac-neutral-300, #cbd5e1);
+      }
+    }
+
+    .filter-content-header-title {
+      justify-content: flex-start;
+      margin: 0 2.5rem 0.25rem 0;
+      font-size: 1.0625rem;
+      color: var(--shn-navy);
+    }
+
+    hr {
+      width: 100%;
+      border-top: 1px solid var(--pisac-border-soft);
+    }
+
+    :host ::ng-deep .p-overlaypanel-close {
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 999px;
+      background: var(--pisac-neutral-100, #f1f5f9);
+      color: var(--shn-navy);
+    }
+
+    :host ::ng-deep .p-badge.p-badge-info {
+      background-color: var(--shn-orange);
+      color: var(--shn-navy);
+    }
+  }
+
+  @keyframes pisac-sheet-up {
+    from { transform: translateY(24px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+}

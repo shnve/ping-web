@@ -1,0 +1,210 @@
+// =====================================================================================
+// PISAC (F6): ventanas de detalle (avisos, regulaciones, contribuciones, levantamientos,
+// expedientes y suscripciones). Todas comparten la estructura SHOM (fr-modal__*, fr-callout,
+// p-fieldset). Estas reglas mejoran su presentación SIN tocar sus plantillas (nivel N1).
+// Alcance limitado a .p-dialog .fr-modal__body para no afectar a otras pantallas.
+// =====================================================================================
+
+.p-dialog .fr-modal__body {
+  // ---- Resumen (fr-callout): de lista con viñetas a rejilla de datos ----
+  // La estructura varía según la ventana (ul > li, ul > div > li, ul > div > ul > li...), así que
+  // la rejilla se aplica a cualquier elemento que contenga <li> directos (:has).
+  .fr-callout {
+    padding: 0.875rem 1.25rem;
+    border: 1px solid var(--pisac-border-soft);
+    border-radius: var(--radius-md);
+    box-shadow: inset 4px 0 0 0 var(--pisac-secondary);
+
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    :has(> li) {
+      display: grid;
+      // auto-fit: si hay un solo dato ocupa todo el ancho (no se corta en una columna angosta)
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 0 2rem;
+
+      // Bloques intercalados entre los datos (cabeceras, contenedores) ocupan todo el ancho
+      > :not(li) {
+        grid-column: 1 / -1;
+      }
+
+      // Selector más específico que la regla encapsulada `.fr-callout li` de details-modal
+      > li {
+        position: relative;
+        margin: 0;
+        padding: 0.3rem 0 0.3rem 0.875rem;
+        list-style: none;
+        font-size: 0.9375rem;
+        line-height: 1.45;
+        color: var(--pisac-text);
+        overflow-wrap: anywhere;
+
+        // Marcador discreto en lugar de la viñeta circular
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0.85rem;
+          left: 0;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: var(--pisac-secondary);
+        }
+      }
+    }
+  }
+
+  // ---- Secciones del detalle (p-fieldset): listas sin viñetas, como filas de datos ----
+  // ---- Tarjetas de "Parte N" (p-card): un solo borde (el de la tarjeta) ----
+  // SHOM dibuja además un recuadro completo alrededor de la cabecera de la parte (.part-header),
+  // que junto al borde de la tarjeta producía una doble división. Se deja solo una línea inferior.
+  .p-card {
+    overflow: hidden;
+    box-shadow: none;
+
+    // .p-component suma especificidad frente a la regla encapsulada de infosource-modal-body
+    &.p-component .p-card-body {
+      padding-bottom: 0.25rem;
+    }
+
+    // El contenido de la parte (.infosource-feature-item, .warning-feature-item…) traía otro borde
+    // completo dentro de la tarjeta: segunda causa de la doble división
+    &.p-component [class$='-feature-item'] {
+      border: none;
+    }
+
+    .part-header {
+      margin: 0;
+      padding: 0.25rem 0.5rem 0.25rem 0;
+      border: none;
+      border-bottom: 1px solid var(--pisac-border-soft);
+      background: var(--pisac-surface-muted);
+
+      .part-number {
+        font-weight: 600;
+        color: var(--shn-navy);
+      }
+    }
+  }
+
+  // ---- Acordeones del detalle (Colaborador, Adjuntos…): mismas filas de datos sin viñetas ----
+  .p-accordion-content > ul,
+  .p-accordion-content > div > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    > li {
+      margin: 0;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--pisac-border-soft);
+      list-style: none;
+      line-height: 1.45;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    ul {
+      margin: 0.25rem 0 0;
+      padding-left: 1rem;
+      list-style: none;
+
+      li {
+        margin: 0;
+        padding: 0.15rem 0;
+        border: none;
+        list-style: none;
+        color: var(--pisac-text-muted);
+      }
+    }
+  }
+
+  // Lista de datos dentro de cada parte: sin viñetas
+  .p-card .content-list > li,
+  .p-card ul.content-list li {
+    margin: 0;
+    padding: 0.15rem 0;
+    list-style: none;
+  }
+
+  .p-fieldset {
+    border-radius: var(--radius-md);
+
+    .p-fieldset-legend {
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .p-fieldset-content > ul,
+    .p-fieldset-content > div > ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      > li {
+        margin: 0;
+        padding: 0.45rem 0;
+        border-bottom: 1px solid var(--pisac-border-soft);
+        line-height: 1.45;
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+
+      // Sublistas (p. ej. teléfonos): sangría ligera y sin viñetas
+      ul {
+        margin: 0.25rem 0 0;
+        padding-left: 1rem;
+        list-style: none;
+
+        li {
+          padding: 0.15rem 0;
+          border: none;
+          color: var(--pisac-text-muted);
+        }
+      }
+    }
+  }
+
+  // ---- Título: tamaño acorde y sin cortar números largos ----
+  .fr-modal__title {
+    margin: 0;
+    font-size: 1.375rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  // Estado como etiqueta de color junto al título (p. ej. contribuciones)
+  .header-content-title {
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+  }
+
+  .pisac-modal-status .p-tag {
+    font-size: 0.8125rem;
+    padding: 0.25rem 0.625rem;
+    white-space: nowrap;
+  }
+
+  // ---- Botones de herramientas de la cabecera (compartir, PDF): cuadrados de 40 px ----
+  .fr-header__tools-links .fr-btn[class*='pi-'] {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    padding: 0;
+    justify-content: center;
+    border: 1px solid var(--pisac-border);
+    border-radius: var(--radius-md);
+
+    &:hover {
+      border-color: var(--shn-navy);
+      background-color: var(--pisac-primary-50);
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<header class="pisac-page-header" [class.pisac-page-header--light]="variant === 'light'">
+  <div class="pisac-page-header__info">
+    <div *ngIf="icon" class="pisac-page-header__icon" aria-hidden="true">
+      <i [class]="icon"></i>
+    </div>
+    <div class="pisac-page-header__text">
+      <h1 class="pisac-page-header__title">{{ title | translate }}</h1>
+      <p *ngIf="subtitle" class="pisac-page-header__subtitle">{{ subtitle | translate }}</p>
+      <ng-content select="[subtitle]"></ng-content>
+    </div>
+  </div>
+  <div class="pisac-page-header__actions">
+    <ng-content select="[actions]"></ng-content>
+  </div>
+</header>

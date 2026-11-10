@@ -1,6 +1,10 @@
+<!-- PISAC (F4): barra superior con el selector de área siempre visible (mismo diseño que el visor de avisos) -->
 <div class="georegulation-header">
-  <span class="label-area" translate>menu.area</span>
-  <app-area-dropdown class="app-area-dropdown"></app-area-dropdown>
+  <div class="area-selector">
+    <i class="pi pi-map area-selector__icon" aria-hidden="true"></i>
+    <span class="label-area" translate>menu.area</span>
+    <app-area-dropdown class="app-area-dropdown"></app-area-dropdown>
+  </div>
 </div>
 <shared-disclaimer [displayDisclaimer]="displayAreaDisclaimer"
                    [header]="'home-page.disclaimer.title'"
@@ -16,26 +20,55 @@
 <georegulation-map-filter-banner (filterHasChanged)="loadMapGeoregulations($event)"
   [filterState]="mapFilterStateGeoregulation">
 </georegulation-map-filter-banner>
-<sig-map class="sig-map--fill" [georegulations]="mapGeoregulations$ | async"
-  [getDetailWarnings]="false"
-  [getDetailGeoregulations]="true"
-  [showGeoregulations]="true"
-  [canShowHideGeoregulationLayers]="false"
-  [canShowRasterMarineLayer]="true"
-  [extent]="selectedAreaExtent"
-  (georegulationsSelected)="displayGeoregulationModal($event)"
-  [popover]="true"
-  [showZoneX]="false"
-  [showLabels]="false"
-  [enableGotoLegend]="true"
-  [enableLabelsShowHide]="true"
-  [enableLayersShowHide]="true"
-  [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
-></sig-map>
+<!-- PISAC (F4): lista de regulaciones sincronizada con el mapa + mapa a todo el alto -->
+<div class="pisac-map-workspace">
+  <shared-map-list-panel [items]="mapGeoregulations$ | async"
+                         [selectedId]="showModal ? selectedGeoregulationId : null"
+                         [labels]="panelLabels"
+                         storageKey="pisac.georegulationPanel.collapsed"
+                         [searchTextFn]="searchTextFn"
+                         (itemSelected)="onGeoregulationListSelect($event)"
+                         (collapsedChange)="onMapPanelToggle()">
+    <ng-template let-georegulation>
+      <span class="map-list-card__top">
+        <span class="map-list-card__number">{{ georegulation.mainNumber }}</span>
+        <span class="map-list-card__badges">
+          <span *ngIf="georegulation.isNew" class="map-list-card__type" data-type="NEW" translate>georegulation-panel.new</span>
+          <span class="map-list-card__type" [attr.data-type]="georegulation.isTemporary ? 'TEMPORARY' : 'PERMANENT'">
+            {{ (georegulation.isTemporary ? 'georegulation-panel.temporary' : 'georegulation-panel.permanent') | translate }}
+          </span>
+        </span>
+      </span>
+      <span *ngIf="georegulationTitle(georegulation) as title" class="map-list-card__detail">{{ title }}</span>
+      <span class="map-list-card__action">
+        <i class="pi pi-map-marker"></i>
+        <span translate>georegulation-panel.locate</span>
+      </span>
+    </ng-template>
+  </shared-map-list-panel>
+  <sig-map #map class="sig-map--fill" [georegulations]="mapGeoregulations$ | async"
+    [getDetailWarnings]="false"
+    [getDetailGeoregulations]="true"
+    [showGeoregulations]="true"
+    [canShowHideGeoregulationLayers]="false"
+    [canShowRasterMarineLayer]="true"
+    [extent]="selectedAreaExtent"
+    (georegulationsSelected)="displayGeoregulationModal($event)"
+    [popover]="true"
+    [showZoneX]="false"
+    [showLabels]="false"
+    [enableGotoLegend]="true"
+    [enableLabelsShowHide]="true"
+    [enableLayersShowHide]="true"
+    [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
+  ></sig-map>
+</div>
 <georegulation-map-filter-bar (filterHasChanged)="loadMapGeoregulations($event)"
   [filterState]="mapFilterStateGeoregulation">
 </georegulation-map-filter-bar>
 <georegulation-modal *ngIf="showModal" #modal
   (onClose)="closeModal()"
-  [georegulationIds]="selectedGeoregulationIds">
+  [georegulationIds]="selectedGeoregulationIds"
+  [drawer]="true"
+  (focusFeatures)="focusFeaturesOnMap($event)">
 </georegulation-modal>

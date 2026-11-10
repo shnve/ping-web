@@ -22,8 +22,12 @@
             <div class="fr-header__body-row">
               <div class="header-content-title">
                 <h1 class="fr-modal__title">
-                  {{infosourcePartial | infosourceFormatDetailsModalTitle}}
+                  {{infosourcePartial | infosourceFormatDetailsModalTitle:'title'}}
                 </h1>
+                <!-- PISAC (F6): estado como etiqueta de color (antes formaba parte del título) -->
+                <p-tag *ngIf="headerStatusSource?.status" class="pisac-modal-status"
+                       [value]="headerStatusSource | infosourceFormatDetailsModalTitle:'status'"
+                       [severity]="headerStatusSource.status | infosourceStatusSeverity"></p-tag>
               </div>
               <div class="fr-header__tools">
                 <div class="fr-header__tools-links">

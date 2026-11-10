@@ -1,0 +1,42 @@
+<aside class="panel" [attr.aria-label]="labels?.title | translate">
+  <div class="panel__header">
+    <div class="panel__title">
+      <h2>{{ labels?.title | translate }}</h2>
+      <span class="panel__count">{{ filteredItems.length }}</span>
+    </div>
+    <button type="button" class="panel__toggle" (click)="toggle()"
+            [title]="labels?.collapse | translate" [attr.aria-label]="labels?.collapse | translate">
+      <i class="pi pi-angle-double-left"></i>
+    </button>
+  </div>
+
+  <div class="panel__search">
+    <span class="p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <input pInputText type="search" [(ngModel)]="searchText" (ngModelChange)="applyFilter()"
+             [placeholder]="labels?.search | translate" [attr.aria-label]="labels?.search | translate" />
+    </span>
+  </div>
+
+  <ul class="panel__list" *ngIf="filteredItems.length; else emptyState">
+    <li *ngFor="let item of filteredItems; trackBy: trackById">
+      <button type="button" class="map-list-card" [class.selected]="item.id === selectedId" (click)="select(item)">
+        <ng-container *ngTemplateOutlet="cardTemplate; context: { $implicit: item }"></ng-container>
+      </button>
+    </li>
+  </ul>
+
+  <ng-template #emptyState>
+    <div class="panel__empty">
+      <i class="pi pi-info-circle"></i>
+      <span>{{ (searchText ? labels?.noResults : labels?.empty) | translate }}</span>
+    </div>
+  </ng-template>
+</aside>
+
+<!-- Pestaña para volver a abrir el panel cuando está plegado -->
+<button type="button" class="panel-reopen" (click)="toggle()"
+        [title]="labels?.expand | translate" [attr.aria-label]="labels?.expand | translate">
+  <i class="pi pi-list"></i>
+  <span class="panel-reopen__count">{{ filteredItems.length }}</span>
+</button>

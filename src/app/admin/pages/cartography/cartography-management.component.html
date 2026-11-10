@@ -1,35 +1,19 @@
 <div class="carto-page">
-  <!-- ENCABEZADO PRINCIPAL -->
-  <div class="carto-header">
-    <div class="header-info">
-      <div class="header-icon">
-        <i class="pi pi-compass"></i>
-      </div>
-      <div>
-        <h1>Automatización de Cartografía Náutica</h1>
-        <p>Conversión desatendida de GeoPDF y GeoTIFF a Cloud Optimized GeoTIFF (EPSG:3395) y sincronización con GeoServer</p>
-      </div>
-    </div>
-    <div>
-      <button pButton
-              type="button"
-              label="Actualizar Estado"
-              icon="pi pi-refresh"
-              class="btn-header-refresh"
-              (click)="refreshBandsStatus()">
-      </button>
-    </div>
-  </div>
+  <!-- ENCABEZADO PRINCIPAL (F5: pisac-page-header) -->
+  <pisac-page-header icon="pi pi-compass"
+                     title="Automatización de Cartografía Náutica"
+                     subtitle="Conversión desatendida de GeoPDF y GeoTIFF a Cloud Optimized GeoTIFF (EPSG:3395) y sincronización con GeoServer">
+    <button actions
+            pButton
+            type="button"
+            label="Actualizar Estado"
+            icon="pi pi-refresh"
+            (click)="refreshBandsStatus()">
+    </button>
+  </pisac-page-header>
 
   <!-- PASO 1: CONFIGURACIÓN DE DESTINO -->
-  <div class="carto-card">
-    <div class="card-title-row">
-      <div class="step-title">
-        <span class="step-number">1</span>
-        <span>Selección de Banda Náutica y Opciones</span>
-      </div>
-    </div>
-
+  <pisac-card [step]="1" title="Selección de Banda Náutica y Opciones">
     <div class="band-config-grid">
       <div class="config-field">
         <label for="bandSelect">
@@ -81,17 +65,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </pisac-card>
 
   <!-- PASO 2: ZONA DRAG & DROP -->
-  <div class="carto-card">
-    <div class="card-title-row">
-      <div class="step-title">
-        <span class="step-number">2</span>
-        <span>Cargar Cartas Náuticas (GeoPDF o GeoTIFF)</span>
-      </div>
-    </div>
-
+  <pisac-card [step]="2" title="Cargar Cartas Náuticas (GeoPDF o GeoTIFF)">
     <!-- Input file nativo 100% oculto -->
     <input type="file"
            #fileInput
@@ -137,35 +114,29 @@
         </span>
       </div>
     </div>
-  </div>
+  </pisac-card>
 
   <!-- PASO 3: COLA DE PROCESAMIENTO (VISIBLE AL AGREGAR ARCHIVOS) -->
-  <div class="carto-card queue-card" *ngIf="fileQueue.length > 0">
-    <div class="card-title-row">
-      <div class="step-title">
-        <span class="step-number">3</span>
-        <span>Cola de Conversión y Despliegue ({{ selectedFilesCount }} archivos &bull; {{ totalSizeMb }} MB)</span>
-      </div>
+  <pisac-card class="queue-card" *ngIf="fileQueue.length > 0" [step]="3"
+              [title]="'Cola de Conversión y Despliegue (' + selectedFilesCount + ' archivos • ' + totalSizeMb + ' MB)'">
+    <div card-actions class="queue-header-actions">
+      <button pButton
+              type="button"
+              label="Limpiar Cola"
+              icon="pi pi-trash"
+              class="p-button-outlined p-button-danger p-button-sm"
+              [disabled]="isProcessingBatch"
+              (click)="clearQueue()">
+      </button>
 
-      <div class="queue-header-actions">
-        <button pButton
-                type="button"
-                label="Limpiar Cola"
-                icon="pi pi-trash"
-                class="p-button-outlined p-button-danger p-button-sm"
-                [disabled]="isProcessingBatch"
-                (click)="clearQueue()">
-        </button>
-
-        <button pButton
-                type="button"
-                [label]="isProcessingBatch ? 'Procesando Lote...' : 'Procesar Todo el Lote'"
-                [icon]="isProcessingBatch ? 'pi pi-spin pi-spinner' : 'pi pi-play'"
-                class="p-button-success p-button-sm"
-                [disabled]="isProcessingBatch || fileQueue.length === 0"
-                (click)="processBatch()">
-        </button>
-      </div>
+      <button pButton
+              type="button"
+              [label]="isProcessingBatch ? 'Procesando Lote...' : 'Procesar Todo el Lote'"
+              [icon]="isProcessingBatch ? 'pi pi-spin pi-spinner' : 'pi pi-play'"
+              class="p-button-success p-button-sm"
+              [disabled]="isProcessingBatch || fileQueue.length === 0"
+              (click)="processBatch()">
+      </button>
     </div>
 
     <p-table [value]="fileQueue" responsiveLayout="scroll" styleClass="p-datatable-sm p-datatable-striped">
@@ -263,17 +234,10 @@
         </tr>
       </ng-template>
     </p-table>
-  </div>
+  </pisac-card>
 
   <!-- MONITOREO DE CAPAS GEOSERVER -->
-  <div class="carto-card geoserver-section">
-    <div class="card-title-row">
-      <div class="step-title">
-        <i class="pi pi-server" style="color: #0284c7;"></i>
-        <span>Capas Náuticas en GeoServer (GeoTIFF / ImageMosaic)</span>
-      </div>
-    </div>
-
+  <pisac-card class="geoserver-section" icon="pi pi-server" title="Capas Náuticas en GeoServer (GeoTIFF / ImageMosaic)">
     <div class="bands-grid">
       <div class="band-tile" *ngFor="let band of bands">
         <div>
@@ -306,5 +270,5 @@
         </button>
       </div>
     </div>
-  </div>
+  </pisac-card>
 </div>

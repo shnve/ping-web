@@ -15,7 +15,7 @@
   },
   "lang": "es",
   "title": "PISAC",
-  "title.description": "PISAC - Plataforma de información de seguridad acuática",
+  "title.description": "PISAC - Plataforma de Información de Seguridad Acuática",
   "logo.french-republic": "República Bolivariana de Venezuela",
   "logo.shom": "Ciencia y Patria",
   "logo.mer": "Logo SS Mar y biodiversidad",
@@ -1701,6 +1701,9 @@
   "visualization": {
     "options": {
       "map": "Mapa",
+      "full-list": "Listado y exportación",
+      "full-list-hint": "Ver el listado completo de avisos con filtros avanzados y exportación PDF, S-124 y GPX",
+      "back-to-map": "Volver al mapa",
       "table": "Tabla"
     }
   },
@@ -3561,5 +3564,17 @@
       "NOTICE": "Aviso",
       "NOTICE_TP": "Aviso T&P"
     }
+  },
+  "georegulation-panel": {
+    "title": "Regulaciones en el mapa",
+    "search": "Buscar por número o título",
+    "locate": "Ver en el mapa y detalle",
+    "collapse": "Ocultar lista",
+    "expand": "Mostrar lista de regulaciones",
+    "empty": "No hay regulaciones visibles con los filtros actuales.",
+    "no-results": "Ninguna regulación coincide con la búsqueda.",
+    "new": "Nueva",
+    "temporary": "Temporal",
+    "permanent": "Permanente"
   }
 }

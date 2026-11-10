@@ -1,0 +1,11 @@
+<div class="pisac-field" [class.pisac-field--required]="required" [class.pisac-field--invalid]="showError">
+  <label *ngIf="label" [attr.for]="for">{{ label | translate }}</label>
+  <div class="pisac-field__control">
+    <ng-content></ng-content>
+  </div>
+  <small *ngIf="hint && !showError" class="pisac-field__hint">{{ hint | translate }}</small>
+  <small *ngIf="showError" class="pisac-field__error" role="alert" [attr.id]="errorId">
+    <i class="pi pi-exclamation-circle" aria-hidden="true"></i>
+    {{ error | translate }}
+  </small>
+</div>

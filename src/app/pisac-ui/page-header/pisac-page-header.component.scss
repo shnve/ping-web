@@ -1,0 +1,118 @@
+:host {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.pisac-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.75rem 2rem;
+  border-radius: 12px;
+  border-bottom: 3px solid var(--shn-orange);
+  background: linear-gradient(135deg, var(--shn-navy-deep) 0%, var(--shn-navy) 55%, #0A4A86 100%);
+  box-shadow: var(--pisac-shadow-md);
+  color: #ffffff;
+}
+
+.pisac-page-header__info {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.pisac-page-header__icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 1.75rem;
+  color: #ffffff;
+
+  i {
+    font-size: inherit;
+  }
+}
+
+.pisac-page-header__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+.pisac-page-header__subtitle {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.pisac-page-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  &:empty {
+    display: none;
+  }
+}
+
+// Botones de acción sobre el fondo marino: translúcidos
+.pisac-page-header:not(.pisac-page-header--light) .pisac-page-header__actions ::ng-deep .p-button:not(.p-button-danger):not(.p-button-success) {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+
+  &:enabled:hover {
+    background: rgba(255, 255, 255, 0.28);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+  }
+}
+
+// Variante clara: listas y formularios
+.pisac-page-header--light {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--pisac-border-soft);
+  border-left: 4px solid var(--shn-navy);
+  border-bottom: 1px solid var(--pisac-border-soft);
+  background: #ffffff;
+  box-shadow: var(--pisac-shadow-sm);
+  color: var(--shn-navy);
+
+  .pisac-page-header__icon {
+    width: 44px;
+    height: 44px;
+    background: var(--pisac-primary-50);
+    font-size: 1.375rem;
+    color: var(--shn-navy);
+  }
+
+  .pisac-page-header__title {
+    font-size: 1.375rem;
+  }
+
+  .pisac-page-header__subtitle {
+    color: var(--pisac-text-muted);
+  }
+}
+
+@media (max-width: 768px) {
+  .pisac-page-header {
+    padding: 1.25rem;
+  }
+
+  .pisac-page-header__title {
+    font-size: 1.25rem;
+  }
+}

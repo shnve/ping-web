@@ -115,7 +115,7 @@ export class SurveyModalComponent extends DetailsModalComponent implements OnIni
   }
 
   generatePdf(event: any): void {
-    this.exportPdfService.exportSurveyModal(this.currentSurvey, this.mapComponent?.map.olMap);
+    this.exportPdfService.exportSurveyModal(this.currentSurvey, this.mapComponent?.map?.olMap);
     event.preventDefault();
   }
 

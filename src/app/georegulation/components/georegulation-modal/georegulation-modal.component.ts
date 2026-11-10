@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DownloadService } from '@app/admin/admin-warning/services/download.service';
 import { AuthService } from '@app/auth/auth.service';
@@ -22,6 +22,7 @@ import { GeoregulationFeatureFactory } from '@app/sig/core/georegulation-feature
 import { environment } from '@env/environment';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { saveAs } from 'file-saver';
+import Feature from 'ol/Feature';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { Menu } from 'primeng/menu';
 import { OverlayPanel } from 'primeng/overlaypanel';
@@ -49,6 +50,13 @@ export class GeoregulationModalComponent extends DetailsModalComponent implement
   @ViewChild('manageButton') manageButton: ElementRef;
 
   @Input() georegulationIds: string[] = [];
+  /** PISAC (F4): mostrar el detalle como panel lateral derecho no modal (visor de regulaciones). */
+  @Input() drawer = false;
+  /** PISAC (F4): en modo panel, geometrías a centrar en el mapa principal (todas o las de una parte). */
+  @Output() focusFeatures = new EventEmitter<Feature[]>();
+  /** PISAC (F4): crea el mapa de detalle fuera de pantalla para incluirlo en el PDF desde el panel lateral. */
+  pdfMapRequested = false;
+  readonly pdfMapHeight = 450;
 
   currentPosition = 0;
   hasPrevious: boolean;
@@ -371,15 +379,44 @@ export class GeoregulationModalComponent extends DetailsModalComponent implement
     }
   }
 
-  generatePdf($event: any): void {
+  /** PISAC (F4): en modo panel, centra el mapa principal en la regulación completa o en una de sus partes. */
+  focusOnMainMap(part?: GeoregulationPartModalDetails): void {
+    const parts: GeoregulationPartModalDetails[] = part ? [part] : (this.georegulation?.parts ?? []);
+    const features = parts.reduce<Feature[]>((acc, current) => acc.concat(current?.features ?? []), []);
+    if (features.length) {
+      this.focusFeatures.emit(features);
+    }
+  }
+
+  async generatePdf($event: any): Promise<void> {
+    $event?.preventDefault();
+    // PISAC (F4): en el panel lateral no hay mapa de detalle; se crea fuera de pantalla para capturarlo
+    if (this.drawer && !this.mapComponent) {
+      this.pdfMapRequested = true;
+      await this.waitForPdfMap();
+    }
     const cartoMapCanvasCssSelectors = 'georegulation-modal-map > .carto-map-container > .sc-carto-map-container >'
       + '.map-container > .ol-viewport > .ol-layers .ol-layer canvas';
     const number = this.formatGeoregulationNumberPipe.transform(this.georegulation.mainNumber);
     const html = buildHtmlFromModalDetails(this.translate, this.formatGeoregulationNumberPipe, this.localizedDatePipe, this.translateNamePipe, this.formatMonthPipe, this.georegulation);
     const pdfName = `${number}.pdf`;
     const title = `${number} ${this.translate.instant('detail.title')} (${this.translate.instant('enum.georegulation-status.' + this.georegulation.status.toLowerCase()).toLowerCase()})`;
-    this.exportPdfService.exportModal(cartoMapCanvasCssSelectors, pdfName, [title], this.mapComponent.map.olMap, html);
-    $event.preventDefault();
+    this.exportPdfService.exportModal(cartoMapCanvasCssSelectors, pdfName, [title], this.mapComponent?.map?.olMap, html);
+  }
+
+  /** Espera a que exista el mapa fuera de pantalla (creado por *ngIf tras la detección de cambios). */
+  private waitForPdfMap(): Promise<void> {
+    return new Promise<void>(resolve => {
+      const startedAt = Date.now();
+      const check = () => {
+        if (this.mapComponent?.map?.olMap || Date.now() - startedAt > 1500) {
+          resolve();
+          return;
+        }
+        setTimeout(check, 50);
+      };
+      setTimeout(check, 0);
+    });
   }
 
   confirmDownload(): void {

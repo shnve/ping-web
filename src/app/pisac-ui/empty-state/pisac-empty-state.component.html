@@ -1,0 +1,16 @@
+<div class="pisac-empty-state"
+     [class.pisac-empty-state--warn]="severity === 'warn'"
+     [class.pisac-empty-state--compact]="compact"
+     role="status">
+  <div class="pisac-empty-state__icon" aria-hidden="true">
+    <i [class]="icon"></i>
+  </div>
+  <div class="pisac-empty-state__text">
+    <p *ngIf="title" class="pisac-empty-state__title">{{ title | translate }}</p>
+    <p *ngIf="message" class="pisac-empty-state__message">{{ message | translate }}</p>
+    <ng-content select="[message]"></ng-content>
+  </div>
+  <div class="pisac-empty-state__actions">
+    <ng-content></ng-content>
+  </div>
+</div>

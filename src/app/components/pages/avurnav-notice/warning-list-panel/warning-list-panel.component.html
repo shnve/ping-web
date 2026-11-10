@@ -1,53 +1,22 @@
-<aside class="panel" [attr.aria-label]="'map-panel.title' | translate">
-  <div class="panel__header">
-    <div class="panel__title">
-      <h2 translate>map-panel.title</h2>
-      <span class="panel__count">{{ filteredWarnings.length }}</span>
-    </div>
-    <button type="button" class="panel__toggle" (click)="toggle()"
-            [title]="'map-panel.collapse' | translate" [attr.aria-label]="'map-panel.collapse' | translate">
-      <i class="pi pi-angle-double-left"></i>
-    </button>
-  </div>
-
-  <div class="panel__search">
-    <span class="p-input-icon-left">
-      <i class="pi pi-search"></i>
-      <input pInputText type="search" [(ngModel)]="searchText" (ngModelChange)="applyFilter()"
-             [placeholder]="'map-panel.search' | translate" [attr.aria-label]="'map-panel.search' | translate" />
+<shared-map-list-panel [items]="warnings"
+                       [selectedId]="selectedWarningId"
+                       [labels]="labels"
+                       storageKey="pisac.mapPanel.collapsed"
+                       [sortFn]="sortFn"
+                       [searchTextFn]="searchTextFn"
+                       (itemSelected)="warningSelected.emit($event)"
+                       (collapsedChange)="collapsedChange.emit($event)">
+  <ng-template let-warning>
+    <span class="map-list-card__top">
+      <span class="map-list-card__number">{{ warning | formatWarningNumber }}</span>
+      <span class="map-list-card__type" [attr.data-type]="warning.globalWarningType">
+        {{ ('map-panel.type.' + warning.globalWarningType) | translate }}
+      </span>
     </span>
-  </div>
-
-  <ul class="panel__list" *ngIf="filteredWarnings.length; else emptyState">
-    <li *ngFor="let warning of filteredWarnings; trackBy: trackById">
-      <button type="button" class="warning-card" [class.selected]="warning.id === selectedWarningId"
-              (click)="select(warning)">
-        <span class="warning-card__top">
-          <span class="warning-card__number">{{ warning | formatWarningNumber }}</span>
-          <span class="warning-card__type" [attr.data-type]="warning.globalWarningType">
-            {{ ('map-panel.type.' + warning.globalWarningType) | translate }}
-          </span>
-        </span>
-        <span class="warning-card__detail">{{ typeDetails(warning) }}</span>
-        <span class="warning-card__action">
-          <i class="pi pi-map-marker"></i>
-          <span translate>map-panel.locate</span>
-        </span>
-      </button>
-    </li>
-  </ul>
-
-  <ng-template #emptyState>
-    <div class="panel__empty">
-      <i class="pi pi-info-circle"></i>
-      <span>{{ (searchText ? 'map-panel.no-results' : 'map-panel.empty') | translate }}</span>
-    </div>
+    <span class="map-list-card__detail">{{ typeDetails(warning) }}</span>
+    <span class="map-list-card__action">
+      <i class="pi pi-map-marker"></i>
+      <span translate>map-panel.locate</span>
+    </span>
   </ng-template>
-</aside>
-
-<!-- Pestaña para volver a abrir el panel cuando está plegado -->
-<button type="button" class="panel-reopen" (click)="toggle()"
-        [title]="'map-panel.expand' | translate" [attr.aria-label]="'map-panel.expand' | translate">
-  <i class="pi pi-list"></i>
-  <span class="panel-reopen__count">{{ filteredWarnings.length }}</span>
-</button>
+</shared-map-list-panel>

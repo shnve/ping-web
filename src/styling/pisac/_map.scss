@@ -31,3 +31,39 @@
     }
   }
 }
+
+// ---------------------------------------------------------------------------------------------
+// PISAC (F4): piezas comunes de los visores "map-first" (avisos y regulaciones)
+// ---------------------------------------------------------------------------------------------
+
+// Panel de lista a la izquierda + mapa ocupando el resto del alto y del ancho
+.pisac-map-workspace {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  sig-map {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+// Selector de área: acceso directo y siempre visible en la barra superior del visor
+.area-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+
+  .area-selector__icon {
+    color: var(--shn-orange);
+    font-size: 1.125rem;
+  }
+
+  .label-area {
+    font-weight: 600;
+    color: var(--pisac-neutral-700);
+    white-space: nowrap;
+  }
+}

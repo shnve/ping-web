@@ -1679,6 +1679,9 @@
   "visualization": {
     "options": {
       "map": "Carte",
+      "full-list": "Liste et export",
+      "full-list-hint": "Afficher la liste complète des avertissements avec filtres avancés et export PDF, S-124 et GPX",
+      "back-to-map": "Retour à la carte",
       "table": "Tableau"
     }
   },
@@ -3536,5 +3539,17 @@
       "NOTICE": "Avis",
       "NOTICE_TP": "Avis T&P"
     }
+  },
+  "georegulation-panel": {
+    "title": "Réglementations sur la carte",
+    "search": "Rechercher par numéro ou titre",
+    "locate": "Voir sur la carte et le détail",
+    "collapse": "Masquer la liste",
+    "expand": "Afficher la liste des réglementations",
+    "empty": "Aucune réglementation visible avec les filtres actuels.",
+    "no-results": "Aucune réglementation ne correspond à la recherche.",
+    "new": "Nouvelle",
+    "temporary": "Temporaire",
+    "permanent": "Permanente"
   }
 }

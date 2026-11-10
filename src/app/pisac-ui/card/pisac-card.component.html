@@ -1,0 +1,20 @@
+<section class="pisac-card">
+  <div *ngIf="title || step || icon" class="pisac-card__header">
+    <div class="pisac-card__title-wrap">
+      <span *ngIf="step !== undefined && step !== null; else iconTpl" class="pisac-card__step">{{ step }}</span>
+      <ng-template #iconTpl>
+        <i *ngIf="icon" [class]="icon + ' pisac-card__icon'" aria-hidden="true"></i>
+      </ng-template>
+      <div>
+        <h2 class="pisac-card__title">{{ title | translate }}</h2>
+        <p *ngIf="subtitle" class="pisac-card__subtitle">{{ subtitle | translate }}</p>
+      </div>
+    </div>
+    <div class="pisac-card__actions">
+      <ng-content select="[card-actions]"></ng-content>
+    </div>
+  </div>
+  <div class="pisac-card__body">
+    <ng-content></ng-content>
+  </div>
+</section>

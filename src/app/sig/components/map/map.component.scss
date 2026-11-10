@@ -14,10 +14,18 @@ $control-margin-right: 18px;
 .carto-map-container {
   display: flex;
   flex-direction: column;
-  height: 65vh;
+  /* PISAC: la altura de 65vh se aplica solo a sig-map (ver regla siguiente) */
   /* Forzamos una altura fija aquí si la herencia falla */
   width: 100%;
   position: relative;
+}
+
+/* PISAC: altura por defecto (65vh) solo para los mapas sig-map embebidos (formularios, suscripciones).
+   Este componente usa ViewEncapsulation.None: antes la altura estaba en la regla global .carto-map-container
+   y también se imponía a los mapas de detalle de las ventanas (shared-details-map y derivados), que miden
+   ≈53vh ([height]) y dejaban un hueco en blanco debajo del mapa. */
+sig-map > .carto-map-container {
+  height: 65vh;
 }
 
 /* Modo "relleno" (vistas map-first): el mapa toma todo el alto de su contenedor flexible.

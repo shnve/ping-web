@@ -431,8 +431,14 @@ export class InfosourceModalComponent extends DetailsModalComponent implements O
     this.addToFolderPanel.hide();
   }
 
+  /** PISAC (F6): origen del estado para la etiqueta de color junto al título (detalle completo o parcial). */
+  get headerStatusSource(): Partial<Infosource> {
+    return this.infosource?.status ? this.infosource : this.infosourcePartial;
+  }
+
   generatePdf($event: any): void {
-    this.exportPdfService.exportInfosourceModal(this.infosource, this.mapComponent.map.olMap);
+    // PISAC: sin geometrías no hay mapa (canDisplayMap = false); el PDF se genera igual, sin imagen del mapa
+    this.exportPdfService.exportInfosourceModal(this.infosource, this.mapComponent?.map?.olMap);
     $event.preventDefault();
   }
 

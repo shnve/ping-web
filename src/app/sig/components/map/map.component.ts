@@ -535,6 +535,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   }
 
   ngAfterViewInit(): void {
+    this.observeHostResize();
     this.showLabelsPreviousValue = this.showLabels;
     const showRasterMarineWithAdditionalLayerForWestAfrica = this.shouldShowRasterMarineWithAdditionalLayerForWestAfrica && this.authService.hasAnyRoleOnShomService();
 
@@ -1786,7 +1787,36 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     }
   }*/
 
+  /**
+   * PISAC: OpenLayers 6 solo recalcula el tamaño del mapa con 'window:resize'. Si el mapa se crea oculto
+   * (acordeón cerrado, pestaña o paso no visible, como en la creación de suscripciones), queda con
+   * tamaño 0 y en blanco al mostrarse. Se observa el tamaño del componente y, al cambiar, se llama a
+   * updateSize(); si pasa de oculto a visible y hay geometrías propias, se centra en ellas.
+   */
+  private hostResizeObserver: ResizeObserver;
+  private hostWasHidden = false;
+
+  private observeHostResize(): void {
+    if (typeof ResizeObserver === 'undefined') {
+      return;
+    }
+    this.hostResizeObserver = new ResizeObserver(entries => {
+      const { width, height } = entries[0]?.contentRect ?? { width: 0, height: 0 };
+      const isHidden = width === 0 || height === 0;
+      const olMap = this.map?.olMap;
+      if (!isHidden && olMap) {
+        olMap.updateSize();
+        if (this.hostWasHidden && this.geometriesLayer?.getSource()?.getFeatures().length) {
+          this.centerOnFeatures(this.geometriesLayer);
+        }
+      }
+      this.hostWasHidden = isHidden;
+    });
+    this.hostResizeObserver.observe(this.element.nativeElement);
+  }
+
   ngOnDestroy(): void {
+    this.hostResizeObserver?.disconnect();
     // 1. Matar suscripciones primero
     this.destroy$.next();
     this.destroy$.complete();

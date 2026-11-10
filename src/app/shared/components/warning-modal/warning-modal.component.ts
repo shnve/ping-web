@@ -41,6 +41,9 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
   @Input() mainWarningsParts: Partial<MainWarningPart>[] = [];
   /** PISAC (F4): mostrar el detalle como panel lateral derecho no modal (vistas de mapa). */
   @Input() drawer = false;
+  /** PISAC (F4): crea el mapa de detalle fuera de pantalla para incluirlo en el PDF desde el panel lateral. */
+  pdfMapRequested = false;
+  readonly pdfMapHeight = 450;
   /** PISAC (F4): en modo panel, geometrías a centrar en el mapa principal (todas o las de una parte). */
   @Output() focusFeatures = new EventEmitter<Feature[]>();
   @Input() selectedStatus = '';
@@ -431,9 +434,29 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
     this.currentSharedLinkUrl = getSharedLinkUrl(this.warningPart.id, window.location.href);
   }
 
-  generatePdf($event: any): void {
-    this.exportPdfService.exportWarningModal(this.warning, this.mapComponent?.map.olMap);
-    $event.preventDefault();
+  async generatePdf($event: any): Promise<void> {
+    $event?.preventDefault();
+    // PISAC (F4): en el panel lateral no hay mapa de detalle; se crea fuera de pantalla para capturarlo
+    if (this.drawer && this.canDisplayMap && !this.mapComponent) {
+      this.pdfMapRequested = true;
+      await this.waitForPdfMap();
+    }
+    this.exportPdfService.exportWarningModal(this.warning, this.mapComponent?.map?.olMap);
+  }
+
+  /** Espera a que exista el mapa fuera de pantalla (creado por *ngIf tras la detección de cambios). */
+  private waitForPdfMap(): Promise<void> {
+    return new Promise<void>(resolve => {
+      const startedAt = Date.now();
+      const check = () => {
+        if (this.mapComponent?.map?.olMap || Date.now() - startedAt > 1500) {
+          resolve();
+          return;
+        }
+        setTimeout(check, 50);
+      };
+      setTimeout(check, 0);
+    });
   }
 
   get canManage(): boolean {

@@ -1,6 +1,6 @@
 <p-dialog header="{{header | translate}}" [(visible)]="displayDisclaimer" [position]="position"
-          [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [baseZIndex]="10000"
-          [modal]="false" [draggable]="false" [resizable]="false" [closable]="false">
+          [breakpoints]="{'960px': '75vw', '640px': 'calc(100vw - 1.5rem)'}" [style]="{width: '50vw'}" [baseZIndex]="10000"
+          [modal]="false" [draggable]="false" [resizable]="false" [closable]="false" styleClass="pisac-disclaimer">
   <p [innerHTML]="content | translate | safeHtml"></p>
   <div class="p-field-checkbox">
     <p-checkbox id="disclaimer-checkbox" [(ngModel)]="checked" binary="true" inputId="binary"

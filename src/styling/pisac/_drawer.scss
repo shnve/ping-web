@@ -76,6 +76,14 @@ $drawer-top: $pisac-header-bar-h + $pisac-header-menu-h + 1px;
     width: 100%;
     max-width: 100%;
   }
+
+  // En la ventana centrada el detalle tiene su propio scroll (50–57vh) junto al mapa; en el panel
+  // lateral ya hace scroll todo el panel, así que el detalle ocupa el alto completo
+  .warning-modal-detail,
+  .georegulation-detail {
+    max-height: none;
+    overflow: visible;
+  }
 }
 
 @media (max-width: 768px) {
@@ -83,4 +91,15 @@ $drawer-top: $pisac-header-bar-h + $pisac-header-menu-h + 1px;
     height: 100vh;
     border-radius: 0;
   }
+}
+
+// PISAC (F4): mapa de detalle fuera de pantalla, solo para capturarlo en el PDF desde el panel lateral
+// (avisos y regulaciones). Necesita un tamaño real para que OpenLayers lo dibuje; por eso se desplaza
+// fuera de la vista en vez de ocultarlo.
+.pisac-pdf-map-host {
+  position: absolute;
+  top: 0;
+  left: -10000px;
+  width: 900px;
+  pointer-events: none;
 }
