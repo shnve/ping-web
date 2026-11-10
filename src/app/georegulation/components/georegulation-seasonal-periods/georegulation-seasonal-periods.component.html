@@ -1,12 +1,16 @@
-<div>
+<!-- PISAC (F5.3.2): períodos en filas (período + quitar) y botón "Añadir" en contorno al final -->
+<div class="seasonal-periods">
+  <div *ngFor="let seasonalPeriod of seasonalPeriods; let index=index" class="seasonal-period-line">
+    <georegulation-seasonal-period [ngModel]="seasonalPeriod" (ngModelChange)="seasonalPeriodsChanged()" [disabled]="disabled"></georegulation-seasonal-period>
+    <button pButton type="button" icon="pi pi-trash" iconPos="left" (click)="remove(index)"
+            class="p-button-text p-button-rounded p-button-danger" [disabled]="disabled"
+            [title]="'remove' | translate"></button>
+  </div>
   <button pButton type="button"
         icon="pi pi-plus"
+        class="p-button-outlined p-button-sm btn-add-seasonal-period"
         (click)="add()"
         [label]="'georegulation.creation.add-seasonal-period' | translate"
         [disabled]="disabled"
   ></button>
-  <div *ngFor="let seasonalPeriod of seasonalPeriods; let index=index">
-    <georegulation-seasonal-period [ngModel]="seasonalPeriod" (ngModelChange)="seasonalPeriodsChanged()" [disabled]="disabled"></georegulation-seasonal-period>
-    <button pButton type="button" icon="pi pi-trash" iconPos="left" (click)="remove(index)" class="p-button-danger" [disabled]="disabled"></button>
-  </div>
 </div>

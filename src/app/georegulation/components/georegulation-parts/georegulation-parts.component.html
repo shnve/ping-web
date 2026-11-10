@@ -1,48 +1,53 @@
-<div class="container">
-  <p-button (onClick)="addFeaturePart()"
-            *ngIf="!featureParts?.length"
-            [label]="'admin-warning.creation.parts.add-part' | translate"
-  ></p-button>
-  <span *ngIf="!featureParts?.length" class="add-part-star"> * </span>
-  <div class="parts-container">
-    <div class="p-grid">
-      <div *ngIf="featureParts?.length" class="p-col-fixed parts-list-container">
+<!-- PISAC (F5.3.2): lista de partes a la izquierda (280 px) y mapa + formulario de la parte a la derecha,
+     igual que en el asistente de avisos. Sin partes, solo el botón "Añadir parte". -->
+<div class="parts-root">
+  <div *ngIf="!featureParts?.length" class="parts-empty">
+    <p-button (onClick)="addFeaturePart()"
+              icon="pi pi-plus"
+              [label]="'admin-warning.creation.parts.add-part' | translate"
+    ></p-button>
+    <span class="add-part-star">*</span>
+  </div>
+  <div class="parts-layout" *ngIf="featureParts?.length || selectedPart">
+    <div *ngIf="featureParts?.length" class="parts-list-container">
+      <div class="add-part-row">
         <p-button (onClick)="addFeaturePart()"
                   [disabled]="disabled"
+                  icon="pi pi-plus"
                   [label]="'admin-warning.creation.parts.add-part' | translate"
                   class="add-part-button"
         ></p-button>
-        <span class="add-part-star"> * </span>
-        <georegulation-parts-list (partRemoved)="removePart($event)"
-                               (partSelected)="selectPart($event)"
-                               [featureParts]="featureParts"
-                               [readonly]="disabled"
-                               [selectedParts]="[selectedPart]"
-                               [validFeaturePart]="areFeaturePartsValid()"
-        ></georegulation-parts-list>
+        <span class="add-part-star">*</span>
       </div>
-      <div class="p-col part-map-container">
-        <div *ngIf="selectedPart">
-          <georegulation-parts-map #geometriesForm
-                                   [featurePart]="selectedPart"
-                                   [featureParts]="featureParts"
-                                   [disabled]="disabled"
-                                   [issuingServiceId]="issuingServiceId">
-          </georegulation-parts-map>
-        </div>
-        <georegulation-part-form #georegulationPartForm *ngIf="selectedPart"
-                              (partChanged)="partChanged($event)"
-                              [featurePart]="selectedPart"
-                              [timezone]="timezone"
-                              [geometries]="getGeometries()"
-                              [validFeaturePart]="hasValidPart(selectedPart)"
-                              [showRestrictionCategories]="showRestrictionCategories"
-                              [showCalendarPeriods]="showCalendarPeriods"
-                              [disabled]="disabled"
-                              [submitted]="submitted"
-                              [partIndex]="getNumberForSearchedPart(selectedPart)"
-        ></georegulation-part-form>
+      <georegulation-parts-list (partRemoved)="removePart($event)"
+                                (partSelected)="selectPart($event)"
+                                [featureParts]="featureParts"
+                                [readonly]="disabled"
+                                [selectedParts]="[selectedPart]"
+                                [validFeaturePart]="areFeaturePartsValid()"
+      ></georegulation-parts-list>
+    </div>
+    <div class="part-map-container">
+      <div *ngIf="selectedPart">
+        <georegulation-parts-map #geometriesForm
+                                 [featurePart]="selectedPart"
+                                 [featureParts]="featureParts"
+                                 [disabled]="disabled"
+                                 [issuingServiceId]="issuingServiceId">
+        </georegulation-parts-map>
       </div>
+      <georegulation-part-form #georegulationPartForm *ngIf="selectedPart"
+                            (partChanged)="partChanged($event)"
+                            [featurePart]="selectedPart"
+                            [timezone]="timezone"
+                            [geometries]="getGeometries()"
+                            [validFeaturePart]="hasValidPart(selectedPart)"
+                            [showRestrictionCategories]="showRestrictionCategories"
+                            [showCalendarPeriods]="showCalendarPeriods"
+                            [disabled]="disabled"
+                            [submitted]="submitted"
+                            [partIndex]="getNumberForSearchedPart(selectedPart)"
+      ></georegulation-part-form>
     </div>
   </div>
 </div>

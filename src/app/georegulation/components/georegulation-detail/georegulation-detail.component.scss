@@ -82,6 +82,18 @@
   margin-top: 1rem;
 }
 
+// PISAC: separación entre tarjetas de partes y antes de "Archivos adjuntos" / "Comentario interno"
+// (antes quedaban pegadas)
+.georegulation-detail p-card {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.detail-extra-accordion {
+  display: block;
+  margin-top: 1.25rem;
+}
+
 .fr-col.fr-col-8.part-number {
   margin-left: 1rem;
 }

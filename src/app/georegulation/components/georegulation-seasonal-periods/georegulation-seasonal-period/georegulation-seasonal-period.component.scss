@@ -1,13 +1,33 @@
-:host ::ng-deep {
-  .p-dropdown {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
+// PISAC (F5.3.2): período estacional en una fila flexible (antes márgenes fijos de 10 px y error en rojo puro)
+:host {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-span.field-validation-error {
-  color: red;
-  font-size: 0.9rem;
+.seasonal-period-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.seasonal-period-word {
   font-weight: 600;
-  margin-left: 20px;
+  color: var(--pisac-neutral-700);
+}
+
+.field-validation-error {
+  display: block;
+  margin-top: var(--space-1);
+}
+
+:host ::ng-deep {
+  .seasonal-day {
+    width: 110px;
+  }
+
+  .seasonal-month {
+    width: 160px;
+  }
 }

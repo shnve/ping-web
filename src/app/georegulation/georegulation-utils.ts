@@ -34,7 +34,9 @@ export function buildHtmlFromModalDetails(translate: TranslateService,
   translateNamePipe: TranslateNamePipe,
   formatMonthPipe: FormatMonthPipe,
   georegulation: GeoregulationModalDetails): string {
-  const html = [`<div>! ${translate.instant('georegulation.modal.warning')}</div>`];
+  // PISAC: aviso de valor indicativo como nota al pie del mapa (pequeño, gris, cursiva y sin "!")
+  const html = [`<p data-pdfmake='{"fontSize": 8, "italics": true, "color": "#555555", "margin": [0, 2, 0, 0]}'>`
+    + `${translate.instant('georegulation.modal.warning')}</p>`];
   addHtmlBreakLine(html);
 
   html.push(`<strong>${translate.instant('georegulation.modal.details-fieldset')}</strong>`);

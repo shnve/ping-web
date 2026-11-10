@@ -5,6 +5,7 @@ import { SeasonalPeriodFormElement } from '@app/georegulation/models/georegulati
 @Component({
   selector: 'georegulation-seasonal-periods',
   templateUrl: './georegulation-seasonal-periods.component.html',
+  styleUrls: ['./georegulation-seasonal-periods.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => GeoregulationSeasonalPeriodsComponent),

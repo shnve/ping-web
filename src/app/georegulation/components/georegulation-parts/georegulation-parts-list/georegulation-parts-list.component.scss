@@ -26,8 +26,10 @@
 }
 
 :host ::ng-deep {
-  p-listbox > div {
-    width: 174px;
+  // PISAC (F5.3.2): la lista ocupa todo el ancho de la columna de partes
+  p-listbox > div,
+  p-orderList .p-orderlist {
+    width: 100%;
   }
 
   p-orderList {
@@ -42,9 +44,9 @@
 
   p-orderList.style-readonly {
     .p-orderlist .p-orderlist-controls .p-button {
-      border: 1px solid #999999;
-      background-color: darkgrey;
-      color: #fff;
+      border: 1px solid var(--pisac-border-soft);
+      background-color: var(--pisac-neutral-100);
+      color: var(--pisac-neutral-500);
       cursor: not-allowed;
       pointer-events: none;
     }
@@ -64,5 +66,5 @@
 }
 
 .item-container.error {
-  color: red;
+  color: var(--pisac-danger);
 }

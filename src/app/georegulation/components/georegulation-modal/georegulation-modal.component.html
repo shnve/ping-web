@@ -134,7 +134,7 @@
                                               (geometriesBeingClicked)="highlightFeaturePartOnClickOnGeometry($event)"
                                               partsAttributeName="parts">
                     </georegulation-modal-map>
-                    <div class="p-col-11 p-as-center p-ac-center"><i class="pi pi-exclamation-triangle"></i> {{'georegulation.modal.warning' | translate}}</div>
+                    <div class="georegulation-map-note"><i class="pi pi-info-circle" aria-hidden="true"></i> {{'georegulation.modal.warning' | translate}}</div>
                     <ng-template #noGeometryData>
                       <div translate>detail.no-geometry-data</div>
                     </ng-template>
@@ -142,7 +142,7 @@
                 </div>
 
                 <div class="fr-col fr-col-md-4">
-                  <div *ngIf="drawer" class="p-col-11 p-as-center p-ac-center"><i class="pi pi-exclamation-triangle"></i> {{'georegulation.modal.warning' | translate}}</div>
+                  <div *ngIf="drawer" class="georegulation-map-note"><i class="pi pi-info-circle" aria-hidden="true"></i> {{'georegulation.modal.warning' | translate}}</div>
                   <georegulation-detail #georegulationDetail [georegulation]="georegulation"
                                         [proUser]="proUser"
                                         (allFeaturesVisualized)="drawer ? focusOnMainMap() : visualizeAllFeatures()"

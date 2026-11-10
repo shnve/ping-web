@@ -758,7 +758,15 @@
         "at-least-one-invalid-seasonal-period": "Au moins une période saisonnière est invalide",
         "form-invalid": "Certains champs obligatoires n'ont pas été renseignés"
       },
-      "add-seasonal-period": "Ajouter une période saisonnière"
+      "add-seasonal-period": "Ajouter une période saisonnière",
+      "sections": {
+        "general": "Informations générales",
+        "content": "Objet et résumé",
+        "validity": "Validité et portée",
+        "parts": "Parties",
+        "links": "Liens et pièces jointes",
+        "publication": "Publication"
+      }
     },
     "edition": {
       "title": "Edition d'un géo-règlement",

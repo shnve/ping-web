@@ -1,63 +1,62 @@
 @import 'variables';
 
-* {
-  box-sizing: border-box;
-}
-
-input[type=text] {
-  padding: 9px;
-  resize: vertical;
-}
-
-.col-25 {
-  float: left;
-  width: 20%;
-  margin-top: 6px;
-}
-
-.col-75 {
-  float: left;
-  width: 80%;
-  margin-top: 6px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: '';
-  display: table;
-  clear: both;
-}
-
-.row {
+// PISAC (F5.3.2): número de georregulación. Los 4 controles en rejilla (antes 4 columnas flotantes de
+// 20 % que dejaban un hueco a la derecha) y vista previa del número formateado como ayuda.
+.number-container {
   display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.number-preview {
+  display: inline-flex;
   align-items: center;
-  padding: 0;
-  margin: 0;
-  color: black;
+  gap: var(--space-1);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--pisac-text-muted);
+
+  i {
+    font-size: 0.75rem;
+  }
 }
 
-.row.number-preview {
-  margin-top: 6px;
+@media (max-width: 960px) {
+  .number-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-@media screen and (max-width: 600px) {
-  .col-25, .col-75, input[type=submit] {
-    width: 100%;
-    margin-top: 0;
+@media (max-width: 640px) {
+  .number-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 :host ::ng-deep {
-  .p-button-label {
-    font-weight: 500;
-  }
+  .number-grid {
+    > input,
+    > p-dropdown,
+    > p-multiselect,
+    > p-calendar,
+    .p-dropdown,
+    .p-multiselect,
+    .p-calendar {
+      width: 100%;
+      min-width: 0;
+    }
 
-  .p-multiselect {
-    padding: 0;
-    min-width: 200px;
-  }
-
-  .p-multiselect-label-container {
-    max-width: 250px;
+    // Anula el max-width: 40vw global de styles.scss
+    .p-multiselect-label-container {
+      max-width: none;
+    }
   }
 }

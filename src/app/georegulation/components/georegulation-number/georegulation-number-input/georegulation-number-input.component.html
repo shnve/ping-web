@@ -1,62 +1,54 @@
+<!-- PISAC (F5.3.2): año, texto, autoridades y fecha en una rejilla de 4 columnas; vista previa del número debajo -->
 <div class="number-container">
-    <div class="row">
-        <div class="col-25">
-            <p-dropdown #dropdownYear [(ngModel)]="year"
-                        [options]="availableYears"
-                        [autoDisplayFirst]="false"
-                        [filter]="true"
-                        [showClear]="true"
-                        resetFilterOnHide="true"
-                        [placeholder]="'georegulation.creation.number.year-placeholder' | translate"
-                        (ngModelChange)="propertiesChanged()"
-                        [ngClass]="{'error': invalidNumber}"
-                        ngDefaultControl
-                        [disabled]="disabled"
-            ></p-dropdown>
-        </div>
-        <div class="col-25">
-            <input type="text" pInputText [(ngModel)]="text"
-                    (ngModelChange)="propertiesChanged()"
-                    [placeholder]="'georegulation.creation.number.text-placeholder' | translate"
-                    [disabled]="disabled">
-        </div>
-        <div class="col-25">
-            <p-multiSelect [(ngModel)]="authorities"
-                    [options]="availableAuthorities"
+    <div class="number-grid">
+        <p-dropdown #dropdownYear [(ngModel)]="year"
+                    [options]="availableYears"
+                    [autoDisplayFirst]="false"
                     [filter]="true"
-                    [optionLabel]="authoritiesOptionLabel"
-                    [placeholder]="'georegulation.creation.number.authorities-default-label' | translate"
-                    class="multiselect"
+                    [showClear]="true"
                     resetFilterOnHide="true"
+                    [placeholder]="'georegulation.creation.number.year-placeholder' | translate"
                     (ngModelChange)="propertiesChanged()"
+                    [ngClass]="{'error': invalidNumber}"
                     ngDefaultControl
                     [disabled]="disabled"
-            ></p-multiSelect>
-        </div>
-        <div class="col-25">
-            <p-calendar monthNavigator="true"
-                yearNavigator="true"
-                hourFormat="24"
-                [yearRange]="yearRange"
-                [showTime]="false"
-                dateFormat="ddmmyy"
-                [placeholder]="'georegulation.creation.number.date-placeholder' | translate"
-                [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
-                [(ngModel)]="date"
+        ></p-dropdown>
+        <input type="text" pInputText [(ngModel)]="text"
                 (ngModelChange)="propertiesChanged()"
-                [ngClass]="{'error': invalidNumber}"
-                dataType="string"
+                [placeholder]="'georegulation.creation.number.text-placeholder' | translate"
+                [disabled]="disabled">
+        <p-multiSelect [(ngModel)]="authorities"
+                [options]="availableAuthorities"
+                [filter]="true"
+                [optionLabel]="authoritiesOptionLabel"
+                [placeholder]="'georegulation.creation.number.authorities-default-label' | translate"
+                class="multiselect"
+                resetFilterOnHide="true"
+                (ngModelChange)="propertiesChanged()"
+                ngDefaultControl
                 [disabled]="disabled"
-            ></p-calendar>
-        </div>
+        ></p-multiSelect>
+        <p-calendar monthNavigator="true"
+            yearNavigator="true"
+            hourFormat="24"
+            [yearRange]="yearRange"
+            [showTime]="false"
+            [showIcon]="true"
+            dateFormat="ddmmyy"
+            [placeholder]="'georegulation.creation.number.date-placeholder' | translate"
+            [firstDayOfWeek]="'filter.filter-form.first-day-of-week' | translate"
+            [(ngModel)]="date"
+            (ngModelChange)="propertiesChanged()"
+            [ngClass]="{'error': invalidNumber}"
+            dataType="string"
+            [disabled]="disabled"
+        ></p-calendar>
     </div>
-
 
     <!-- message if number is incomplete -->
-    <div class="row" *ngIf="invalidNumber">
-        <small class="p-error" translate>georegulation.creation.errors.incomplete-number</small>
+    <small class="p-error" *ngIf="invalidNumber" translate>georegulation.creation.errors.incomplete-number</small>
+
+    <div class="number-preview" *ngIf="grNumber | georegulationFormatNumber as preview">
+        <i class="pi pi-hashtag" aria-hidden="true"></i>{{ preview }}
     </div>
-
-    <div class="row number-preview">{{grNumber | georegulationFormatNumber}}</div>
-
 </div>

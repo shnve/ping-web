@@ -1,40 +1,45 @@
-<form [formGroup]="form">
-  <div *ngIf="showCalendarPeriods">
-    <div class="label">
+<!-- PISAC (F5.3.2): campos de la parte con etiqueta arriba, restricciones de buque en tarjetas internas y
+     subtítulos de sección. Se quitan las etiquetas anidadas (<label> envolviendo bloques enteros). -->
+<form [formGroup]="form" class="georegulation-part-form">
+  <div *ngIf="showCalendarPeriods" class="pisac-field">
+    <label for="calendar-periods">
       {{ 'georegulation.calendar-periods' | translate }}
       ({{ 'admin-warning.creation.labels.date-range-timezone' | translate}} : {{timezone}})
-    </div>
+    </label>
     <shared-input-date-ranges id="calendar-periods" formControlName="calendarPeriods"
       [showDateTimeToggleButton]="false"></shared-input-date-ranges>
   </div>
-  <div class="row">
-    <div class="label">
-      {{'georegulation.seasonal-periods' | translate}}
-    </div>
+
+  <div class="pisac-field">
+    <label for="seasonal-periods">{{'georegulation.seasonal-periods' | translate}}</label>
     <georegulation-seasonal-periods id="seasonal-periods"
       formControlName="seasonalPeriods"></georegulation-seasonal-periods>
   </div>
-  <label>
-    <div class="formgroup-inline" *ngIf="showRestrictionCategories">
-      <div class="p-field div-details">
-        <span translate>georegulation.restriction-categories</span>
-        <p-multiSelect class="p-col" formControlName="types" [options]="availableRestrictionCategories"
-          [placeholder]="'georegulation.restriction-categories-placeholder' | translate"
-          [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate" optionLabel="value" optionValue="key">
-        </p-multiSelect>
-      </div>
-    </div>
-  </label>
-  <span class="title-label" translate>
-    <span translate>georegulation.concerned-by-restriction-vessel</span>
-    <u><span translate>georegulation.concerned-by-restriction-exclusively</span></u>
-    <span translate>georegulation.concerned-by-restriction</span>
-  </span>
-  <label>
-    <div class="formgroup-inline">
-      <span translate>georegulation.restriction-length-vessel</span>
-      <div class="p-col-75 input-vessel-restriction">
-        <p-dropdown id="choiceLengthVessel" formControlName="choiceLengthVessel"
+
+  <div class="pisac-field div-details" *ngIf="showRestrictionCategories">
+    <label for="restriction-categories" translate>georegulation.restriction-categories</label>
+    <p-multiSelect inputId="restriction-categories" formControlName="types" [options]="availableRestrictionCategories"
+      [placeholder]="'georegulation.restriction-categories-placeholder' | translate"
+      [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate" optionLabel="value" optionValue="key">
+    </p-multiSelect>
+  </div>
+
+  <h3 class="pisac-subsection-title title-label">
+    <i class="pi pi-filter" aria-hidden="true"></i>
+    <span>
+      <span translate>georegulation.concerned-by-restriction-vessel</span>
+      <u><span translate>georegulation.concerned-by-restriction-exclusively</span></u>
+      <span translate>georegulation.concerned-by-restriction</span>
+    </span>
+  </h3>
+
+  <!-- Una restricción por fila (antes 2 columnas): el arqueo bruto tiene 3 controles y quedaba apretado -->
+  <div class="vessel-restrictions">
+    <!-- Eslora -->
+    <div class="pisac-field vessel-restriction">
+      <label for="choiceLengthVessel" translate>georegulation.restriction-length-vessel</label>
+      <div class="input-vessel-restriction">
+        <p-dropdown id="choiceLengthVessel" inputId="choiceLengthVessel" formControlName="choiceLengthVessel"
           [placeholder]="'georegulation.restriction-length-vessel-placholder' | translate"
           [options]="listGeoregulationRestrictionVessel" optionLabel="label" optionValue="value"
           resetFilterOnHide="true" [showClear]="true">
@@ -42,27 +47,19 @@
         <input formControlName="lengthVessel" id="lengthVessel" pInputText type="number" min="0"
           (change)="choiceRestrictionUpdate($event)" (keyup)="choiceRestrictionUpdate($event)"
           [placeholder]="'georegulation.length-vessel-placholder' | translate" />
-        <p translate>georegulation.unit-restriction-length-vessel</p>
-
-        <div class="row" *ngIf="choiceLengthVessel.errors?.restrictionVessel">
-          <div class="col-75">
-            <small class="p-error" translate>georegulation.creation.errors.missing-choice-restriction-vessel</small>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="lengthVessel.errors?.restrictionVessel">
-          <div class="col-75">
-            <small class="p-error" translate>georegulation.creation.errors.missing-length-restriction-vessel</small>
-          </div>
-        </div>
+        <span class="unit-label" translate>georegulation.unit-restriction-length-vessel</span>
       </div>
+      <small class="p-error" *ngIf="choiceLengthVessel.errors?.restrictionVessel"
+        translate>georegulation.creation.errors.missing-choice-restriction-vessel</small>
+      <small class="p-error" *ngIf="lengthVessel.errors?.restrictionVessel"
+        translate>georegulation.creation.errors.missing-length-restriction-vessel</small>
     </div>
-  </label>
-  <label>
-    <div class="formgroup-inline">
-      <span translate>georegulation.restriction-gross-tonnage-vessel</span>
+
+    <!-- Arqueo bruto -->
+    <div class="pisac-field vessel-restriction">
+      <label for="choiceGrossTonnageVessel" translate>georegulation.restriction-gross-tonnage-vessel</label>
       <div class="input-vessel-restriction">
-        <p-dropdown id="choiceGrossTonnageVessel" formControlName="choiceGrossTonnageVessel"
+        <p-dropdown id="choiceGrossTonnageVessel" inputId="choiceGrossTonnageVessel" formControlName="choiceGrossTonnageVessel"
           [placeholder]="'georegulation.restriction-gross-tonnage-vessel-placholder' | translate"
           [options]="listGeoregulationRestrictionVessel" [optionLabel]="'label' | translate" optionValue="value"
           resetFilterOnHide="true" [showClear]="true">
@@ -75,45 +72,27 @@
           [options]="listGeoregulationPartVesselUnitGrossTonnage" [optionLabel]="'label' | translate"
           optionValue="value" resetFilterOnHide="true" [showClear]="true">
         </p-dropdown>
-
-        <div class="row" *ngIf="choiceGrossTonnageVessel.errors?.restrictionVessel">
-          <div class="col-75">
-            <small class="p-error" translate>georegulation.creation.errors.missing-choice-restriction-vessel</small>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="grossTonnageVessel.errors?.restrictionVessel">
-          <div class="col-75">
-            <small class="p-error"
-              translate>georegulation.creation.errors.missing-gross-tonnage-restriction-vessel</small>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="unitsGrossTonnageVessel.errors?.restrictionVessel">
-          <div class="col-75">
-            <small class="p-error"
-              translate>georegulation.creation.errors.missing-unit-gross-tonnage-restriction-vessel</small>
-          </div>
-        </div>
       </div>
+      <small class="p-error" *ngIf="choiceGrossTonnageVessel.errors?.restrictionVessel"
+        translate>georegulation.creation.errors.missing-choice-restriction-vessel</small>
+      <small class="p-error" *ngIf="grossTonnageVessel.errors?.restrictionVessel"
+        translate>georegulation.creation.errors.missing-gross-tonnage-restriction-vessel</small>
+      <small class="p-error" *ngIf="unitsGrossTonnageVessel.errors?.restrictionVessel"
+        translate>georegulation.creation.errors.missing-unit-gross-tonnage-restriction-vessel</small>
     </div>
-  </label>
-  <label class="label-checkbox">
-    <div class="formgroup-inline">
-      <div class="row">
-        <div class="col-25">
-          <label for="isCommercialShip" translate>georegulation.commercial-ship</label>
-        </div>
-        <div class="col-75 p-field-checkbox">
-          <p-checkbox formControlName="isCommercialShip" [binary]="true"></p-checkbox>
-        </div>
-      </div>
-    </div>
-  </label>
-  <label>
-    <span class="title-label" translate>admin-warning.creation.labels.information</span>
-    <georegulation-input-informations [geometries]="geometries" [validFeaturePart]="validFeaturePart"
-      [partIndex]="partIndex" formControlName="informations">
-    </georegulation-input-informations>
-  </label>
+  </div>
+
+  <!-- Buque comercial -->
+  <div class="commercial-ship">
+    <p-checkbox inputId="isCommercialShip" formControlName="isCommercialShip" [binary]="true"></p-checkbox>
+    <label for="isCommercialShip" translate>georegulation.commercial-ship</label>
+  </div>
+
+  <h3 class="pisac-subsection-title title-label">
+    <i class="pi pi-align-left" aria-hidden="true"></i>
+    <span translate>admin-warning.creation.labels.information</span>
+  </h3>
+  <georegulation-input-informations [geometries]="geometries" [validFeaturePart]="validFeaturePart"
+    [partIndex]="partIndex" formControlName="informations">
+  </georegulation-input-informations>
 </form>

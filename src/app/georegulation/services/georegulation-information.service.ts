@@ -41,13 +41,13 @@ export class GeoregulationInformationService extends InformationService {
   }
 
   formatGeometries(geometries: Feature[], translatedTemplates: Map<string, object>, lang: string,
-    isAffectedArea = false, distanceUnit?: string, precision = 4): string {
+    isAffectedArea = false, distanceUnit?: string, precision = 2): string {
     return geometries.map(g => this.formatGeometry(g, translatedTemplates, lang, isAffectedArea, distanceUnit, precision))
       .reduce((acc, curr) => acc + (acc !== '' ? '\n' : '') + curr, '');
   }
 
   formatGeometry(geometry: Feature, translatedTemplates: Map<string, object>, lang: string,
-    isAffectedArea = false, distanceUnit?: string, precision = 4): string {
+    isAffectedArea = false, distanceUnit?: string, precision = 2): string {
     switch (geometry.getGeometry().getType()) {
       case GeometryType.POINT:
         return this.formatGeometryAsPoint(geometry, precision);
@@ -62,7 +62,7 @@ export class GeoregulationInformationService extends InformationService {
     }
   }
 
-  formatGeometryAsPoint(geometry: Feature, precision = 4): string {
+  formatGeometryAsPoint(geometry: Feature, precision = 2): string {
     const point = geometry.getGeometry() as Point;
     const featureLabel = geometry.get(FEATURE_LABEL_PROPERTY) ? `${geometry.get(FEATURE_LABEL_PROPERTY)} ` : '';
     const simpleGeom = point as SimpleGeometry;
@@ -72,7 +72,7 @@ export class GeoregulationInformationService extends InformationService {
     return featureLabel + this.convertCoordinates(point.getFlatCoordinates(), precision);
   }
 
-  formatGeometryAsPolyline(geometry: Feature, translatedTemplates: Map<string, object>, lang: string, precision = 4): string {
+  formatGeometryAsPolyline(geometry: Feature, translatedTemplates: Map<string, object>, lang: string, precision = 2): string {
     const labels: Array<string> = geometry.get(VERTEX_LABELS_PROPERTY) ?? [];
     const featureLabel = geometry.get(FEATURE_LABEL_PROPERTY);
     const hasLabels = labels.some(val => val !== '');
@@ -97,12 +97,12 @@ export class GeoregulationInformationService extends InformationService {
       );
   }
 
-  protected convertCoordinates(coordinates: Coordinate, precision = 4): string {
-    return this.mousePositionFormatter.covertCoordinateToDms(convertMercatToLonLat(coordinates), 'DD°MM,mm\'C', precision);
+  protected convertCoordinates(coordinates: Coordinate, precision = 2): string {
+    return this.mousePositionFormatter.covertCoordinateToDms(convertMercatToLonLat(coordinates), 'DD-MM.mmC', precision);
   }
 
   formatGeometryAsPolygon(geometry: Feature, translatedTemplates: Map<string, object>, lang: string,
-    isAffectedArea = false, precision = 4): string {
+    isAffectedArea = false, precision = 2): string {
     const labels: Array<string> = geometry.get(VERTEX_LABELS_PROPERTY) ?? [];
     const featureLabel = geometry.get(FEATURE_LABEL_PROPERTY);
     const hasLabels = labels.length && labels.some(val => val && val !== '');
@@ -136,7 +136,7 @@ export class GeoregulationInformationService extends InformationService {
   }
 
   formatGeometryAsCircle(geometry: Feature, translatedTemplates: Map<string, object>, lang: string,
-    isAffectedArea = false, distanceUnit?: string, precision = 4): string {
+    isAffectedArea = false, distanceUnit?: string, precision = 2): string {
     const circle = geometry.getGeometry() as Circle;
     const featureLabel = geometry.get(FEATURE_LABEL_PROPERTY);
     const hasFeatureLabel = !!featureLabel;

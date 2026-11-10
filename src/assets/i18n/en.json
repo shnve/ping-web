@@ -769,7 +769,15 @@
         "at-least-one-invalid-seasonal-period": "At least one seasonal period is invalid",
         "form-invalid": "Some mandatory fields have not been filled in"
       },
-      "add-seasonal-period": "Add a seasonal period"
+      "add-seasonal-period": "Add a seasonal period",
+      "sections": {
+        "general": "General information",
+        "content": "Object and summary",
+        "validity": "Validity and scope",
+        "parts": "Parts",
+        "links": "Links and attachments",
+        "publication": "Publication"
+      }
     },
     "edition": {
       "title": "Edition of georegulation",

@@ -1,144 +1,155 @@
 @import 'variables';
 
-* {
-  box-sizing: border-box;
+// PISAC (F5.3.2): formulario de georregulación. La maquetación (etiquetas arriba, rejillas, grupos de
+// opciones y barra de acciones) viene de las utilidades globales de src/styling/pisac/_forms.scss;
+// aquí solo el contenedor de página, los bloques ES/EN y ajustes de controles.
+
+.georegulation-form-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-6);
+
+  pisac-page-header {
+    display: block;
+    margin-bottom: var(--space-4);
+  }
+
+  pisac-card {
+    display: block;
+    margin-bottom: var(--space-4);
+  }
 }
 
-input[type=text], select, textarea {
-  padding: 9px;
-  resize: vertical;
+// Separación entre filas dentro de una tarjeta (el último bloque no la necesita)
+.georegulation-row {
+  margin-bottom: var(--space-4);
 }
 
-input[type=submit]:hover {
-  background-color: #45a049;
+// Estado (borrador / publicada) bajo el título en edición
+.georegulation-status {
+  margin: var(--space-1) 0 0;
 }
 
-.container {
-  padding: 20px;
+.georegulation-status__tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--pisac-primary-50);
+  color: var(--shn-navy);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.georegulation-title {
-  font-weight: bold;
-  margin-bottom: 5px;
+// Objeto y resumen: un bloque por idioma, en 2 columnas
+.lang-textareas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
 }
 
-.col-25 {
-  float: left;
-  width: 20%;
-  margin-top: 6px;
-}
-
-.col-25.lbl-additional-numbers {
+.lang-block {
   display: flex;
-  align-self: start;
-  margin-top: 15px;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--pisac-surface);
 }
 
-.col-25.lbl-top {
-  display: flex;
-  align-self: start;
+.lang-header {
+  margin: 0;
+  color: var(--shn-navy);
 }
 
-.col-75 {
-  float: left;
-  width: 80%;
-  margin-top: 6px;
-}
-
-.col-75.textareas {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.p-button {
-  &.p-button-outlined {
-    color: $primaryColor;
-    border-color: $primaryColor;
-    margin-top: 20px;
-    margin-right: 20px;
-  }
-
-  &.p-button-danger {
-    margin-top: 20px;
-  }
-}
-
-.div-textareas {
-  width: 100%;
-  padding-right: 15px;
-  flex: 50%;
-  padding-bottom: 15px;
-}
-
-.lang-label-error {
-  margin-left: 10px;
-  color: red;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: '';
-  display: table;
-  clear: both;
-}
-
-.p-field-checkbox {
-  padding-top: 0.6rem;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin: 0 0 5px 0;
-  color: black;
-}
-
-@media screen and (max-width: 600px) {
-  .col-25, .col-75, input[type=submit] {
-    width: 100%;
-    margin-top: 0;
-  }
-}
-
-:host ::ng-deep {
-  .p-button-label {
-    font-weight: 600;
-  }
-
-  p-multiselect {
-    padding: 0;
-  }
-
-  .p-multiselect-label-container {
-    max-width: 900px;
-  }
-
-  p-radiobutton {
-    margin-right: 0.5rem;
-  }
-}
-
-label {
-  display: block;
-  margin: 8px 0;
-  padding: 12px 7px 12px 0;
-
-  & > span.form-asterisk {
-    vertical-align: top;
-    font-size: 0.8rem;
-    margin-top: 10px;
-    font-weight: 500;
-  }
+.lang-label {
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 textarea {
   width: 100%;
+  min-height: 120px;
+  resize: vertical;
 }
 
-.lang-label {
-  text-transform: uppercase;
-  margin-right: 7px;
-  vertical-align: top;
+// Listas de solo lectura (actividades / entidades cuando el formulario está bloqueado)
+.readonly-list {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  list-style: none;
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--pisac-neutral-100);
+
+  li + li {
+    margin-top: var(--space-1);
+  }
+}
+
+.error-message-localization {
+  display: block;
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 768px) {
+  .georegulation-form-page {
+    padding: var(--space-3);
+  }
+
+  .lang-textareas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+:host ::ng-deep {
+  .georegulation-form-page {
+    // Los controles directos de .pisac-field ya van a todo el ancho (regla global de _forms.scss).
+    // Anula el max-width: 40vw global de styles.scss (dejaba la flecha a media caja)
+    .pisac-field > p-multiselect .p-multiselect-label-container {
+      max-width: none;
+    }
+  }
+
+  // La barra de acciones está fuera de una tarjeta: sin márgenes negativos
+  .georegulation-form-page > form > .pisac-action-bar {
+    margin: var(--space-2) 0 0;
+    border: 1px solid var(--pisac-border-soft);
+    border-radius: var(--radius-lg);
+  }
+}
+
+// Enlaces y adjuntos apilados a todo el ancho
+.links-attachments {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+:host ::ng-deep .links-attachments {
+  // Zona de carga: alto flexible para que el texto y el botón Cancelar no se salgan del recuadro
+  app-attachments .drop-container {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    min-height: 200px;
+    padding: var(--space-4);
+  }
+
+  // Campo URL + botón añadir en una fila con ancho cómodo
+  shared-url-links .url-link-add .row {
+    display: flex;
+    gap: var(--space-2);
+    margin: 0;
+
+    input {
+      flex: 1 1 auto;
+      max-width: 640px;
+    }
+  }
 }

@@ -769,7 +769,15 @@
         "at-least-one-invalid-seasonal-period": "Al menos un período estacional es inválido",
         "form-invalid": "Algunos campos obligatorios no han sido completados"
       },
-      "add-seasonal-period": "Añadir un período estacional"
+      "add-seasonal-period": "Añadir un período estacional",
+      "sections": {
+        "general": "Datos generales",
+        "content": "Objeto y resumen",
+        "validity": "Vigencia y alcance",
+        "parts": "Partes",
+        "links": "Enlaces y adjuntos",
+        "publication": "Publicación"
+      }
     },
     "edition": {
       "title": "Edición de georregulación",

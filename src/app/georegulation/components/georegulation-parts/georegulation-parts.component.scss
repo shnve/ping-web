@@ -1,26 +1,57 @@
-:host ::ng-deep {
-  .add-part-button > button {
-    width: calc(100% - 4.357rem);
-  }
-  .add-part-star {
-    position: absolute;
-    padding: 5px 0 0 5px;
+@import 'variables';
+
+// PISAC (F5.3.2): lista de partes + mapa/formulario de la parte, como en el asistente de avisos
+.parts-empty,
+.add-part-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+}
+
+.add-part-star {
+  font-weight: 700;
+  color: var(--pisac-danger);
+}
+
+.parts-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.parts-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.part-map-container {
+  min-width: 0;
+
+  &:only-child {
+    grid-column: 1 / -1;
   }
 }
 
-.parts-container {
-  margin-top: 25px;
+:host ::ng-deep {
+  .add-part-button {
+    flex: 1 1 auto;
 
-  .parts-list-container {
-    width: 260px;
-  }
-
-  .part-map-container {
-    padding: 0 0.5rem;
+    > button {
+      width: 100%;
+    }
   }
 }
 
 .error-message-geometry {
-  margin: 10px 0 0 ;
+  margin: 10px 0 0;
   width: 100%;
+}
+
+@media all and (max-width: $screenSizeLaptop) {
+  .parts-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

@@ -1,86 +1,83 @@
 @import 'variables';
 
+// PISAC (F5.3.2): un bloque por idioma (2 columnas en escritorio), como en el formulario de avisos.
 :host {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-2);
 }
 
-.div-info {
-  width: 100%;
-  padding-right: 15px;
-  flex: 50%;
-  padding-bottom: 15px;
-
-  .btn-toolbar {
-    margin-top: 35px;
-    & > button {
-      font-size: 0.9rem;
-      margin-right: 5px;
-    }
-  }
+.lang-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--pisac-surface);
 }
 
 .div-info.error {
-  color: red;
+  border-color: var(--pisac-danger);
+  color: var(--pisac-danger);
 }
 
-label {
-  display: block;
+.lang-header {
+  margin: 0;
+  color: var(--shn-navy);
+}
 
-  &.margin-label {
-    margin: 2px;
+.lang-label {
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--shn-navy);
+}
+
+// Opciones de inserción + botón en una fila que se adapta
+.btn-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+
+  .pisac-field {
+    flex: 1 1 160px;
+    margin-bottom: 0;
   }
 
-  &.no-margin {
-    margin: 0;
+  .button-add-geometries {
+    flex: 0 0 auto;
   }
+}
 
-  & > span.form-asterisk {
-    vertical-align: top;
-    font-size: 0.8rem;
-    margin-top: 10px;
-    font-weight: 500;
-  }
+.clipboard-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.clipboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 textarea {
   width: 100%;
   resize: vertical;
 
-  &[readonly=""] {
-    background-color: $brightGray;
+  &[readonly] {
+    background-color: var(--pisac-neutral-100);
+    color: var(--pisac-neutral-700);
   }
 }
 
-.lang-label {
-  text-transform: uppercase;
-  margin-right: 7px;
-  vertical-align: top;
-  display: flex;
-  align-items: center;
-
-  .btn-copy-to-clipboard {
-    margin-left: auto;
-    margin-bottom: 0.5rem;
-  }
-}
-
-.p-col-fixed {
-  padding-left: 0;
-}
-
-.line-form {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin: 0.5em 0;
-
-  &:first-child {
-    margin-top: 0;
-  }
-  &:last-child {
-    margin-bottom: 0;
+@media (max-width: 640px) {
+  :host {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

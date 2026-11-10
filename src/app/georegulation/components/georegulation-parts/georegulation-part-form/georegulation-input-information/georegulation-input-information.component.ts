@@ -56,7 +56,7 @@ export class GeoregulationInputInformationComponent implements ControlValueAcces
 
   private selectedDistanceUnitsByLang: DistanceUnitByLangs[] = [];
 
-  protected availablePrecision: string[] = ['0', '1', '2', '3', '4'];
+  protected availablePrecision: string[] = ['0', '1', '2'];
   private selectedPrecisionByLang: PrecisiontByLang[] = [];
 
   constructor(private readonly informationService: GeoregulationInformationService,

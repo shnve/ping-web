@@ -1,3 +1,28 @@
+// PISAC (F5.3.2): filas de números adicionales con el botón de quitar alineado a la derecha
+:host {
+  display: block;
+}
+
+.additional-numbers-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
 .line {
-  margin: 3px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--pisac-surface-muted);
+
+  georegulation-number-input {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
 }

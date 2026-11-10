@@ -113,7 +113,7 @@
       </p-card>
     </ng-container>
 
-    <p-accordion expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" multiple="true">
+    <p-accordion class="detail-extra-accordion" expandIcon="pi pi-chevron-down" collapseIcon="pi pi-chevron-up" multiple="true">
       <p-accordionTab *ngIf="georegulation?.attachments?.length" [header]="'georegulation.modal.attachments-fieldset' | translate">
         <ul>
           <li *ngFor="let attachment of georegulation.attachments" class="p-fileupload-row">

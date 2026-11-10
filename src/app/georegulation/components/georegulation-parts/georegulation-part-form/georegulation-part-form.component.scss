@@ -1,87 +1,87 @@
-label, .label {
+// PISAC (F5.3.2): formulario de una parte de la georregulación (debajo del mapa de geometrías).
+.georegulation-part-form {
   display: block;
-  margin: 15px 2px 15px 0;
-}
-
-.label-checkbox {
-  width: fit-content;
-}
-
-.title-label {
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-size: 110%;
-}
-
-georegulation-seasonal-periods {
-  padding: 0 0.5em;
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--pisac-border-soft);
 }
 
 .div-details {
-  display: flex;
+  max-width: 560px;
+}
 
-  & > span {
-    align-self: center;
-  }
+.title-label {
+  margin-top: var(--space-4);
 
-  & > span.form-asterisk {
-    align-self: baseline;
-    font-size: 0.8rem;
-    margin-top: 10px;
-    font-weight: 500;
+  u {
+    text-underline-offset: 3px;
   }
 }
 
-.row {
+.vessel-restrictions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.vessel-restriction {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--pisac-surface-muted);
+}
+
+// Selector "mayor que / menor que" + valor + unidad en una fila, con anchos holgados y fijos
+// para que ambas restricciones (eslora y arqueo) queden alineadas en columnas.
+.input-vessel-restriction {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(140px, 200px) minmax(180px, 240px);
+  justify-content: start;
+  gap: var(--space-3);
+  align-items: center;
+
+  input {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.unit-label {
+  font-weight: 600;
+  color: var(--pisac-neutral-700);
+  white-space: nowrap;
+}
+
+.commercial-ship {
   display: flex;
   align-items: center;
-  padding: 0;
-  margin: 5px 0 5px 0;
-  color: black;
-}
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
 
-.div-details.error {
-  color: red;
-}
-
-.formgroup-inline {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  align-items: first baseline;
-
-  > span {
-    white-space: nowrap;
+  label {
+    font-weight: 600;
+    color: var(--pisac-neutral-700);
+    cursor: pointer;
   }
-
-  > .input-vessel-restriction {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: start;
-    flex-wrap: wrap;
-    
-    > .row {
-      flex-basis: 100%;
-    }
-  }
-}
-
-.p-field-checkbox {
-  margin-left: 0.5rem;
 }
 
 :host ::ng-deep {
-  .p-multiselect {
-    width: 350px;
+  .input-vessel-restriction {
+    p-dropdown,
+    .p-dropdown {
+      width: 100%;
+      min-width: 0;
+    }
   }
 
-  p-multiSelect {
-    padding: 0.5rem;
+  .div-details .p-multiselect-label-container {
+    max-width: none;
+  }
+}
 
-    .p-col {
-      flex-grow: 0;
-    }
+@media (max-width: 640px) {
+  .input-vessel-restriction {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
