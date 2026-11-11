@@ -1,4 +1,5 @@
-<div class="container">
+<!-- PISAC (F5.3.3): campos propios con etiqueta arriba; se proyectan en la rejilla del formulario común. -->
+<div class="report-container">
   <form #form (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)" [formGroup]="reportBathyDangerForm">
     <infosource-shared-report-form #sharedReport
                                    [infosourceId]="infosourceId"
@@ -10,29 +11,19 @@
                                    [contributorChoicePlaceholder]="'infosource.creation.bathy.report-danger.producer-service-choice'">
 
       <!-- Survey period -->
-      <div class="row">
-        <div class="col-25">
-          <label for="surveyPeriod">{{'infosource.creation.bathy.report-danger.survey-period' | translate}} *</label>
-        </div>
-        <div class="col-75">
-          <shared-input-date-range #surveyPeriodComponent id="surveyPeriod"
-            formControlName="surveyPeriod" [(ngModel)]="infosourceDangerReport.surveyPeriod"
-            [showDateTimeToggleButton]="false" (dateTimeValidated)="dateValidated($event)"
-          ></shared-input-date-range>
-          <span *ngIf="submitted && invalidDate"class="field-validation-error">
-            <span translate>admin-warning.creation.errors.invalid-daterange</span>
-          </span>
-        </div>
+      <div class="pisac-field pisac-field--required pisac-span-all">
+        <label for="surveyPeriod">{{'infosource.creation.bathy.report-danger.survey-period' | translate}}</label>
+        <shared-input-date-range #surveyPeriodComponent id="surveyPeriod"
+          formControlName="surveyPeriod" [(ngModel)]="infosourceDangerReport.surveyPeriod"
+          [showDateTimeToggleButton]="false" (dateTimeValidated)="dateValidated($event)"
+        ></shared-input-date-range>
+        <small *ngIf="submitted && invalidDate" class="p-error" translate>admin-warning.creation.errors.invalid-daterange</small>
       </div>
 
       <!-- Additional informations -->
-      <div class="row">
-        <div class="col-25">
-            <label for="confidentialityInformation" translate>infosource.creation.bathy.report-danger.additional-informations</label>
-        </div>
-        <div class="col-75">
-            <textarea cols="110" formControlName="confidentialityInformation" id="confidentialityInformation" pInputTextarea rows="10"></textarea>
-        </div>
+      <div class="pisac-field pisac-span-all">
+        <label for="confidentialityInformation" translate>infosource.creation.bathy.report-danger.additional-informations</label>
+        <textarea formControlName="confidentialityInformation" id="confidentialityInformation" pInputTextarea rows="5"></textarea>
       </div>
     </infosource-shared-report-form>
   </form>

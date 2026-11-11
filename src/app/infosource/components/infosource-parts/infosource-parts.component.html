@@ -1,13 +1,17 @@
+<!-- PISAC (F5.3.3): lista de partes a la izquierda (280 px) y mapa + formulario de la parte a la derecha,
+     igual que en avisos y georregulaciones. Sin partes, solo el botón "Añadir parte". -->
 <div class="main-container">
   <p-button
             (onClick)="addFeaturePart()"
             *ngIf="!featureParts?.length"
+            icon="pi pi-plus"
             [label]="'admin-warning.creation.parts.add-part' | translate"
   ></p-button>
   <div *ngIf="featureParts?.length" class="parts-container">
-    <div *ngIf="featureParts?.length" class="p-col-fixed parts-list-container">
+    <div *ngIf="featureParts?.length" class="parts-list-container">
       <p-button (onClick)="addFeaturePart()"
                 [disabled]="disabled"
+                icon="pi pi-plus"
                 [label]="'admin-warning.creation.parts.add-part' | translate"
                 class="add-part-button"
       ></p-button>
@@ -19,7 +23,7 @@
                              [validFeaturePart]="areFeaturePartsValid()"
       ></infosource-feature-parts-list>
     </div>
-    <div *ngIf="featureParts?.length" class="p-col part-map-container">
+    <div *ngIf="featureParts?.length" class="part-map-container">
       <div *ngIf="selectedPart">
         <infosource-parts-map #geometriesForm [featurePart]="selectedPart" [featureParts]="featureParts"
                               [disabled]="disabled"

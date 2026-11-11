@@ -1,56 +1,41 @@
-<div class="container">
+<!-- PISAC (F5.3.3): campos propios con etiqueta arriba; se proyectan en la rejilla del formulario común. -->
+<div class="report-container">
     <form #form (ngSubmit)="validate()" (keydown.enter)="enterKeyEvent($event)" [formGroup]="reportMapAnoForm">
         <infosource-shared-report-form #sharedReport [infosourceId]="infosourceId"
             [infosSourceReport]="infosourceHazardReport" formControlName="sharedReportForm" [submitted]="submitted"
             (hasAttachmentsIdsChanged)="hasAttachmentsIdsChangedValues($event)" [locationMessage]="'infosource.report-hazard.anomaly-location'"
             [titleLabel]="'infosource.report-hazard.new-report-hazard'">
             <!-- Markup type list -->
-            <div class="row">
-                <div class="col-25">
-                    <label for="markupType" translate>infosource.report-hazard.markup-type.title<span>*</span>
-                    </label>
-                </div>
-                <div class="col-75">
-                    <p-dropdown
-                        [ngClass]="{'ng-dirty': (markupType.invalid && submitted) || (markupType.dirty && markupType.invalid)}"
-                        [options]="markupTypes" [showClear]="true"
-                        [placeholder]="'infosource.report-hazard.markup-type.placeholder' | translate" filter="true"
-                        formControlName="markupType" id="markupType" ngDefaultControl>
-                        <ng-template let-item pTemplate="item">
-                            <span class="p-button-label">{{'infosource.report-hazard.markup-type.' + item
-                                | translate}}
-                            </span>
-                        </ng-template>
-                        <ng-template let-item pTemplate="selectedItem">
-                            <span class="p-button-label">{{'infosource.report-hazard.markup-type.' + item
-                                | translate}}
-                            </span>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-            </div>
-
-            <div class="row" *ngIf="(markupType.invalid && submitted) || (markupType.dirty && markupType.invalid)">
-                <div class="col-25">
-                </div>
-                <div class="col-75">
-                    <small class="p-error" translate>infosource.report-hazard.errors.markupType-invalid
-                    </small>
-                </div>
+            <div class="pisac-field pisac-field--required">
+                <label for="markupType" translate>infosource.report-hazard.markup-type.title</label>
+                <p-dropdown
+                    [ngClass]="{'ng-dirty': (markupType.invalid && submitted) || (markupType.dirty && markupType.invalid)}"
+                    [options]="markupTypes" [showClear]="true"
+                    [placeholder]="'infosource.report-hazard.markup-type.placeholder' | translate" filter="true"
+                    formControlName="markupType" id="markupType" ngDefaultControl>
+                    <ng-template let-item pTemplate="item">
+                        <span class="p-button-label">{{'infosource.report-hazard.markup-type.' + item
+                            | translate}}
+                        </span>
+                    </ng-template>
+                    <ng-template let-item pTemplate="selectedItem">
+                        <span class="p-button-label">{{'infosource.report-hazard.markup-type.' + item
+                            | translate}}
+                        </span>
+                    </ng-template>
+                </p-dropdown>
+                <small class="p-error" *ngIf="(markupType.invalid && submitted) || (markupType.dirty && markupType.invalid)"
+                    translate>infosource.report-hazard.errors.markupType-invalid</small>
             </div>
 
             <!-- Object name -->
-            <div class="row" *ngIf="reportMapAnoForm.get('markupType').value || infosourceHazardReport.objectName">
-                <div class="col-25">
-                    <label for="objectName">
-                        {{ 'infosource.report-hazard.object-name' | translate:
-                        { 'objectName' : 'infosource.report-hazard.markup-type.inputName.'
-                        + reportMapAnoForm.get('markupType').value | translate } }}
-                    </label>
-                </div>
-                <div class="col-75">
-                    <input type="text" formControlName="objectName" id="objectName" pInputText>
-                </div>
+            <div class="pisac-field" *ngIf="reportMapAnoForm.get('markupType').value || infosourceHazardReport.objectName">
+                <label for="objectName">
+                    {{ 'infosource.report-hazard.object-name' | translate:
+                    { 'objectName' : 'infosource.report-hazard.markup-type.inputName.'
+                    + reportMapAnoForm.get('markupType').value | translate } }}
+                </label>
+                <input type="text" formControlName="objectName" id="objectName" pInputText>
             </div>
         </infosource-shared-report-form>
     </form>

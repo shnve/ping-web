@@ -1,4 +1,7 @@
-:host ::ng-deep .attachments-label {
-  position: relative;
-  top: -91px;
+// PISAC (F5.3.3): la maquetación de los campos (etiqueta arriba, rejilla de 2 columnas) la ponen el formulario
+// común (shared-report-form) y las utilidades globales de src/styling/pisac/_forms.scss. Se eliminan las filas
+// col-25/col-75 flotantes y los label { padding } que desalineaban los campos proyectados.
+
+:host {
+  display: block;
 }

@@ -245,6 +245,13 @@ export abstract class StepComponent implements OnInit, OnDestroy {
       return throwError(err);
     }
 
+    // PISAC: reglas de negocio rechazadas por el backend (400) con un mensaje claro en lugar del genérico
+    const businessRuleKey = err?.status === 400 ? getWarningBusinessRuleMessageKey(err.error?.message) : null;
+    if (businessRuleKey) {
+      this.showToast(businessRuleKey);
+      return throwError(err);
+    }
+
     let toastMessageKey = `message.error.api.cannot-${saveKey}-warning`;
 
     if (this.isDraft()) {
@@ -435,4 +442,26 @@ export abstract class StepComponent implements OnInit, OnDestroy {
       dateRange.dateEnd = formatDate(dateRange.dateEnd);
     });
   }
+}
+
+
+// PISAC: mensajes del backend (BadRequestException, HTTP 400) al guardar una advertencia → clave i18n clara.
+const WARNING_BUSINESS_RULE_MESSAGES: Array<[string, string]> = [
+  ['At least one infosource cannot be linked', 'infosource-not-linkable'],
+  ['Warning number is reserved for this year', 'number-reserved'],
+  ['At least one general area does not belong to serie', 'general-area-not-in-serie'],
+  ['At least one locality does not belong to subarea of serie', 'locality-not-in-serie'],
+  ['Cancelled warning ids do not match rules', 'linked-warnings-invalid'],
+  ['Replaced warning ids do not match rules', 'linked-warnings-invalid'],
+  ['Parent warning ids do not match rules', 'linked-warnings-invalid'],
+  ['Information and details are not filled for at least one feature part', 'part-without-information'],
+  ['Warning must be in DRAFT or MODEL status', 'status-not-editable']
+];
+
+export function getWarningBusinessRuleMessageKey(backendMessage: string | undefined): string | null {
+  if (!backendMessage) {
+    return null;
+  }
+  const match = WARNING_BUSINESS_RULE_MESSAGES.find(([message]) => backendMessage.startsWith(message));
+  return match ? `message.error.api.warning-rules.${match[1]}` : null;
 }

@@ -1,20 +1,38 @@
+@import 'variables';
+
+// PISAC (F5.3.3): lista de partes + mapa/formulario de la parte, como en avisos y georregulaciones
+// (antes 20 % / 80 % con una lista fija de 260 px que no cabía en la columna).
+.parts-container {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.parts-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.part-map-container {
+  min-width: 0;
+}
+
+.error-message-localization {
+  display: block;
+  margin-top: var(--space-3);
+}
+
 :host ::ng-deep {
   .add-part-button > button {
-    width: calc(100% - 4.357rem);
+    width: 100%;
   }
 }
 
-.parts-container {
-  display: grid;
-  grid-template-columns: 20% 80%;
-  gap: 1em;
-
-  .parts-list-container {
-    width: 260px;
-    padding: unset;
-  }
-
-  .part-map-container {
-    padding: 0 1em 0 0;
+@media all and (max-width: $screenSizeLaptop) {
+  .parts-container {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

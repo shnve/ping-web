@@ -1,74 +1,70 @@
+@import 'variables';
+
+// PISAC (F5.3.3): un bloque por idioma (2 columnas en escritorio), como en avisos y georregulaciones.
 :host {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.lang-block {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--pisac-surface);
+}
+
+.div-info.error {
+  border-color: var(--pisac-danger);
+
+  .lang-label {
+    color: var(--pisac-danger);
+  }
+}
+
+.lang-header {
+  margin: 0;
+}
+
+.lang-label {
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--shn-navy);
+}
+
+.form-asterisk {
+  margin-left: 2px;
+  font-weight: 700;
+  color: var(--pisac-danger);
+}
+
+// Opciones de inserción y botones en filas que se adaptan
+.btn-toolbar {
+  display: flex;
   flex-wrap: wrap;
-}
+  align-items: flex-end;
+  gap: var(--space-3);
 
-.div-info {
-  width: 100%;
-  padding-right: 15px;
-  flex: 50%;
-  padding-bottom: 15px;
-
-  .btn-toolbar {
-    & > button {
-      font-size: 0.9rem;
-      margin-right: 5px;
-      margin-bottom: 5px;
-    }
-  }
-}
-
-label.error {
-  color: red;
-}
-
-label {
-  display: block;
-  margin: 8px 0;
-
-  &.margin-label {
-    margin: 2px;
-  }
-
-  &.no-margin {
-    margin: 0;
-  }
-
-  & > span.form-asterisk {
-    vertical-align: top;
-    font-size: 0.8rem;
-    margin-top: 10px;
-    font-weight: 500;
+  .pisac-field {
+    flex: 1 1 160px;
+    margin-bottom: 0;
   }
 }
 
 textarea {
   width: 100%;
+  resize: vertical;
 }
 
-.lang-label {
-  text-transform: uppercase;
-  margin-right: 7px;
-  vertical-align: top;
-  font-weight: bold;
-}
-
-.p-col-fixed {
-  padding-left: 0;
-}
-
-.line-form {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin: 0.5em 0;
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
+@media (max-width: 640px) {
+  :host {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

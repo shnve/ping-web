@@ -1,4 +1,7 @@
-label, .label {
+// PISAC (F5.3.3): formulario de una parte (debajo del mapa de geometrías), como en georregulaciones.
+.infosource-part-form {
   display: block;
-  margin: 15px 2px 15px 0;
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--pisac-border-soft);
 }

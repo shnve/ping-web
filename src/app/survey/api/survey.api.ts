@@ -67,7 +67,8 @@ export abstract class AbstractSurveyApi {
 
     // The backend returned an unsuccessful response code.
     // The response body may contain clues as to what went wrong.
-    if (error.status === 500) {
+    // PISAC: BadRequestException ahora responde 400 (antes 500); se aceptan ambos códigos.
+    if (error.status === 500 || error.status === 400) {
       const message = error.error.message;
       if (message === 'check.survey.name-and-location.already-used') {
         return throwError({ nameAndLocation: 'name-and-location.already-used' });

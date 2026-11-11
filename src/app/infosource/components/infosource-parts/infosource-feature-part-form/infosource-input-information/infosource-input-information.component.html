@@ -1,40 +1,41 @@
-<div *ngFor="let lang of langs; let index = index" class="div-info">
+<!-- PISAC (F5.3.3): un bloque por idioma con texto y opciones de inserción (etiqueta arriba), como en
+     georregulaciones. Se quitan las etiquetas anidadas (<label> dentro de <label>). -->
+<div *ngFor="let lang of langs; let index = index" class="div-info lang-block" [ngClass]="{'error': !validFeaturePart[lang]}">
+  <label class="lang-header" [attr.for]="'is-information-' + lang">
+    <span class="lang-label">{{lang | uppercase}}</span><span *ngIf="isMandatoryLanguage(lang)" class="form-asterisk">*</span>
+  </label>
+  <textarea pInputTextarea [id]="'is-information-' + lang" [rows]="8" [(ngModel)]="information[lang]" (ngModelChange)="informationChanged()"></textarea>
+
   <div class="btn-toolbar">
-    <label>
-      <div class="line-form">
-          <label for="circle-distance-unit" class="p-col-fixed no-margin">{{ 'admin-warning.creation.parts.information.radiusDistanceUnit' | translate }}</label>
-          <p-dropdown [options]="availableDistanceUnits" 
-                      [(ngModel)]="selectedDistanceUnitsByLang[index].selectedDistanceUnit" 
-                      ngDefaultControl>
-                      <ng-template pTemplate="item" let-item>
-                      {{item.name | translate}}
-                      </ng-template>
-                      <ng-template pTemplate="selectedItem" let-item>
-                      {{item.name | translate}}
-                      </ng-template>
-          </p-dropdown>
-      </div>
-    </label>
-    <label>
-      <div class="line-form">
-          <label for="decimal-minute-precision" class="p-col-fixed no-margin">{{ 'admin-warning.creation.parts.information.decimal-minute-precision' | translate }}</label>
-          <p-dropdown [options]="availablePrecision" 
-                      [(ngModel)]="selectedPrecisionByLang[index].selectedPrecision" 
-                      ngDefaultControl>
-          </p-dropdown>
-      </div>
-    </label>
+    <div class="pisac-field">
+      <label [attr.for]="'is-circle-distance-unit-' + lang">{{ 'admin-warning.creation.parts.information.radiusDistanceUnit' | translate }}</label>
+      <p-dropdown [inputId]="'is-circle-distance-unit-' + lang" [options]="availableDistanceUnits"
+                  [(ngModel)]="selectedDistanceUnitsByLang[index].selectedDistanceUnit"
+                  ngDefaultControl>
+                  <ng-template pTemplate="item" let-item>
+                  {{item.name | translate}}
+                  </ng-template>
+                  <ng-template pTemplate="selectedItem" let-item>
+                  {{item.name | translate}}
+                  </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="pisac-field">
+      <label [attr.for]="'is-decimal-minute-precision-' + lang">{{ 'admin-warning.creation.parts.information.decimal-minute-precision' | translate }}</label>
+      <p-dropdown [inputId]="'is-decimal-minute-precision-' + lang" [options]="availablePrecision"
+                  [(ngModel)]="selectedPrecisionByLang[index].selectedPrecision"
+                  ngDefaultControl>
+      </p-dropdown>
+    </div>
+  </div>
+  <div class="btn-toolbar">
     <!-- insérer géométries -->
-    <button pButton type="button" [icon]="wasClicked('geometry', lang)" iconPos="right"
+    <button pButton type="button" class="p-button-outlined" [icon]="wasClicked('geometry', lang)" iconPos="right"
             (click)="addGeometry(lang)" translate [label]="'admin-warning.creation.parts.information.add-geometry' | translate"
     ></button>
     <!-- insérer périodes -->
-    <button pButton type="button" [icon]="wasClicked('periods', lang)" iconPos="right"
+    <button pButton type="button" class="p-button-outlined" [icon]="wasClicked('periods', lang)" iconPos="right"
             (click)="addPeriods(lang)" translate [label]="'admin-warning.creation.parts.information.add-periods' | translate"
     ></button>
   </div>
-  <label  [ngClass]="{'error': !validFeaturePart[lang]}">
-      <span class="lang-label">{{lang | uppercase}}</span><span *ngIf="isMandatoryLanguage(lang)" class="form-asterisk">(*)</span>
-      <textarea pInputTextarea [rows]="10" [(ngModel)]="information[lang]" (ngModelChange)="informationChanged()"></textarea>
-  </label>
 </div>

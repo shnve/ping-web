@@ -1,60 +1,51 @@
 @import 'variables';
 
-:host ::ng-deep {
-  .p-error {
-    margin-left: 0rem;
+// PISAC (F5.3.3): formulario común de contribuciones. La maquetación (etiquetas arriba, rejillas y barra de
+// acciones) viene de las utilidades globales de src/styling/pisac/_forms.scss; aquí solo el contenedor de
+// página y ajustes de controles. También lo usa report-activity-forecast (styleUrls compartido).
+
+.report-form-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-6);
+
+  pisac-page-header {
+    display: block;
+    margin-bottom: var(--space-4);
   }
 
-  .p-panel .p-panel-header {
-    margin-top: 0.5em;
+  pisac-card {
+    display: block;
+    margin-bottom: var(--space-4);
   }
 
-  p-multiselect {
-    padding: 0;
-
-    & > .p-multiselect {
-      max-width: 320px;
-    }
+  // La barra de acciones está fuera de una tarjeta: sin márgenes negativos
+  > .pisac-action-bar,
+  form > .pisac-action-bar {
+    margin: var(--space-2) 0 0;
+    border: 1px solid var(--pisac-border-soft);
+    border-radius: var(--radius-lg);
   }
+}
 
-  p-multiselect.readonly-mode {
-    & > .p-multiselect {
-      background: $accountCreationFormSubTitleColor;
+// Mensaje informativo de la barra de acciones
+.pisac-action-bar__info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 
-      .p-multiselect-label-container,
-      .p-multiselect-label,
-      .p-multiselect-trigger {
-        cursor: not-allowed;
-      }
-    }
+  .pi {
+    color: var(--pisac-secondary-700);
   }
+}
 
-  p-dropdown.readonly-mode {
-    & > .p-dropdown {
-      background: $accountCreationFormSubTitleColor;
+.error-message-localization {
+  display: block;
+  margin-top: var(--space-3);
+}
 
-      .p-dropdown-label,
-      .p-dropdown-clear-icon,
-      .p-dropdown-trigger {
-        cursor: not-allowed;
-      }
-    }
-  }
-
-  p-card {
-
-    &.p-element.header {
-      font-style: italic;
-    }
-
-    & > .p-component {
-      margin: 1rem;
-    }
-
-    div.p-card-content {
-      padding: 0;
-    }
-  }
+textarea {
+  resize: vertical;
 }
 
 .send-panel-header {
@@ -70,101 +61,34 @@
   }
 }
 
-.section-header {
-  margin-bottom: 5px;
-  border: 1px;
-}
-
-.new-report-hazard {
-  font-weight: bold;
-  margin: 7px;
-}
-
-.contribution-information-message {
-  margin-top: 12px;
-  margin-bottom: 15px;
-}
-
-
-.attachments-label {
-  position: relative;
-  top: -9px;
-  padding-right: 110px;
-}
-
-
-.p-button.p-button-outlined {
-  color: $primaryColor;
-  border-color: $primaryColor;
-  margin-right: 18px;
-}
-
-
-.error-message-localization {
-  margin: 10px 0 0 ;
-  width: 100%;
-}
-
-textarea {
-  box-sizing: border-box;
-  max-width: 50%;
-}
-
-input[type=text], select, textarea {
-  width: 100%;
-  padding: 12px;
-  resize: vertical;
-}
-
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
-}
-
-input[type=submit] {
-  background-color: #04AA6D;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  float: right;
-}
-
-input[type=submit]:hover {
-  background-color: #45a049;
-}
-
-.col-25 {
-  float: left;
-  width: 20%;
-  margin-top: 6px;
-}
-
-.col-75 {
-  float: left;
-  width: 80%;
-  margin-top: 6px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-
-@media screen and (max-width: 600px) {
-  .col-25, .col-75, input[type=submit] {
-    width: 100%;
-    margin-top: 0;
+:host ::ng-deep {
+  // Anula el max-width: 40vw / 320px heredado: los selectores ocupan todo el campo
+  .report-fields p-multiselect > .p-multiselect,
+  .report-fields .p-multiselect-label-container {
+    max-width: none;
   }
-}
 
-@media screen and (min-width: 1760px) {
+  p-multiselect.readonly-mode {
+    & > .p-multiselect {
+      background: var(--pisac-neutral-100);
 
-  .attachments-label {
-    padding-right: 227px;
+      .p-multiselect-label-container,
+      .p-multiselect-label,
+      .p-multiselect-trigger {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  p-dropdown.readonly-mode {
+    & > .p-dropdown {
+      background: var(--pisac-neutral-100);
+
+      .p-dropdown-label,
+      .p-dropdown-clear-icon,
+      .p-dropdown-trigger {
+        cursor: not-allowed;
+      }
+    }
   }
 }

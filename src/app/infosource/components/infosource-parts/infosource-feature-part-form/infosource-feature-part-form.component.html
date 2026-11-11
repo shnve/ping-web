@@ -1,10 +1,14 @@
-<form [formGroup]="form">
-  <div>
-    <div class="label">{{'admin-warning.creation.labels.date-ranges' | translate}} ({{ 'admin-warning.creation.labels.date-range-timezone' | translate}} : {{timezone}})</div>
-    <shared-input-date-ranges formControlName="dateRanges"></shared-input-date-ranges>
+<!-- PISAC (F5.3.3): períodos y texto de la parte con etiqueta arriba y subtítulo de sección -->
+<form [formGroup]="form" class="infosource-part-form">
+  <div class="pisac-field">
+    <label for="infosource-part-date-ranges">{{'admin-warning.creation.labels.date-ranges' | translate}} ({{ 'admin-warning.creation.labels.date-range-timezone' | translate}} : {{timezone}})</label>
+    <shared-input-date-ranges id="infosource-part-date-ranges" formControlName="dateRanges"></shared-input-date-ranges>
   </div>
   <div class="input-information">
-    <span class="information-label" translate>admin-warning.creation.labels.information</span>
+    <h3 class="pisac-subsection-title">
+      <i class="pi pi-align-left" aria-hidden="true"></i>
+      <span translate>admin-warning.creation.labels.information</span>
+    </h3>
     <infosource-input-information [geometries]="geometries" [dateRanges]="featurePart?.dateRanges" [validFeaturePart]="validFeaturePart" [timezone]="timezone"
       [partIndex]="partIndex" formControlName="information">
     </infosource-input-information>
