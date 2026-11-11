@@ -1415,7 +1415,10 @@
     }
   },
   "folder-creation": {
-    "title": "Folder creation:",
+    "title": "Folder creation",
+    "sections": {
+      "general": "Folder details"
+    },
     "object": "Object",
     "review-date": "Review date",
     "comment": "Comment",
@@ -1433,7 +1436,7 @@
     }
   },
   "folder-modification": {
-    "title": "Case modification:"
+    "title": "Folder modification"
   },
   "folder-attachment-download": {
     "title": "The attachment will start downloading...",
@@ -1450,6 +1453,10 @@
   },
   "subscription-creation": {
     "page-title": "Subscription creation:",
+    "sections": {
+      "scope": "Subscription scope",
+      "notification": "Notification"
+    },
     "service": "Maritime service subscriber",
     "title": "Subscription title",
     "area": "Area",

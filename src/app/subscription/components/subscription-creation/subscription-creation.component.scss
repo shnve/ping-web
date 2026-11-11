@@ -1,97 +1,47 @@
-.container {
-  border-radius: 5px;
-  padding: 20px;
-}
+// PISAC (F5.3.4): formulario de suscripción. La maquetación (etiquetas arriba, rejilla, grupos de opciones y
+// barra de acciones) viene de las utilidades globales de src/styling/pisac/_forms.scss; aquí solo el contenedor
+// de página y ajustes de los selectores con fichas (chips).
 
-.col-25 {
-  float: left;
-  width: 20%;
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
+.subscription-form-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-6);
 
-.col-75 {
-  float: left;
-  width: 80%;
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
+  pisac-page-header {
+    display: block;
+    margin-bottom: var(--space-4);
+  }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+  pisac-card {
+    display: block;
+    margin-bottom: var(--space-4);
+  }
 
-.subscription-title {
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-.button {
-  margin-top: 10px;
-  margin-left: 296px;
+  // La barra de acciones está fuera de una tarjeta: sin márgenes negativos
+  form > .pisac-action-bar {
+    margin: var(--space-2) 0 0;
+    border: 1px solid var(--pisac-border-soft);
+    border-radius: var(--radius-lg);
+  }
 }
 
 :host ::ng-deep {
-  p-radiobutton {
-    margin-right: 0.5rem;
-  }
-
-  p-multiselect.readonly-mode {
-    & > .p-multiselect {
-      background:#969696;
-
-      .p-multiselect-label-container,
-      .p-multiselect-label,
-      .p-multiselect-trigger {
-        cursor: not-allowed;
-      }
+  .subscription-form-page {
+    // Anula el max-width: 40vw heredado de styles.scss
+    .p-multiselect-label-container {
+      max-width: none;
     }
-  }
 
-  p-multiselect.fullwidth {
-    > .p-multiselect.p-component.p-inputwrapper.p-multiselect-chip {
-      width: 100%;
-    }
-  }
-
-  p-multiselect {
+    // Las fichas (chips) se reparten en varias líneas dentro del selector
     .p-multiselect-label {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
       white-space: normal;
     }
   }
 
-  p-dropdown.readonly-mode {
-    & > .p-dropdown {
-      background: #969696;
-
-      .p-dropdown-label,
-      .p-dropdown-trigger {
-        cursor: not-allowed;
-      }
-    }
-  }
-
   .map-selected-sub-areas {
-    margin-top: 6px;
-  }
-
-  .p-multiselect-label {
-    flex-wrap: wrap;
-    width: 100%;
-    display: flex;
-  }
-
-  .p-multiselect-chip {
-    width: 100%;
-  }
-
-  .tooltip-about-sending-mail {
-    width: 80%;
-    float: right;
-    font-style: italic;
-    color: grey;
+    margin-top: var(--space-2);
   }
 }

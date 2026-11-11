@@ -186,7 +186,10 @@ export class AppModule {
 }
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', `.json?v=${environment.version}`);
+  // PISAC: en desarrollo, marca de tiempo para que el navegador no use una copia vieja de los .json de idioma
+  // (con ?v=<versión> fija, las claves nuevas no aparecían hasta vaciar la caché). En producción, la versión.
+  const cacheBuster = environment.production ? environment.version : Date.now();
+  return new TranslateHttpLoader(http, './assets/i18n/', `.json?v=${cacheBuster}`);
 }
 
 export function permissionsProviderFactory(provider: PermissionsProvider): () => Promise<any> {

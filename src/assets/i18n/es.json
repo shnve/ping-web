@@ -1426,7 +1426,10 @@
     }
   },
   "folder-creation": {
-    "title": "Creación de expediente:",
+    "title": "Creación de expediente",
+    "sections": {
+      "general": "Datos del expediente"
+    },
     "object": "Objeto",
     "review-date": "Fecha de revisión",
     "comment": "Comentario",
@@ -1444,7 +1447,7 @@
     }
   },
   "folder-modification": {
-    "title": "Modificación de un expediente:"
+    "title": "Modificación de expediente"
   },
   "folder-attachment-download": {
     "title": "La descarga del adjunto comenzará...",
@@ -1461,6 +1464,10 @@
   },
   "subscription-creation": {
     "page-title": "Creación de suscripción:",
+    "sections": {
+      "scope": "Alcance de la suscripción",
+      "notification": "Notificación"
+    },
     "service": "Servicio marítimo suscriptor",
     "title": "Título de la suscripción",
     "area": "Área",

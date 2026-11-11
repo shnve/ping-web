@@ -1,232 +1,170 @@
-<div class="container">
+<!-- PISAC (F5.3.4): formulario de suscripción en tarjetas (alcance + notificación), etiquetas arriba, rejilla de
+     2 columnas y barra de acciones inferior. No cambia la lógica: se conservan formControlName, eventos y
+     condiciones *ngIf. -->
+<div class="subscription-form-page">
   <form #form (ngSubmit)="validate()" [formGroup]="subscriptionForm">
-    <h2 class="subscription-title" translate>subscription-creation.page-title</h2>
-    <div class="row"></div>
+    <pisac-page-header variant="light" icon="pi pi-bell" title="subscription-creation.page-title"></pisac-page-header>
 
-    <!-- Service -->
+    <!-- ===== Alcance de la suscripción ===== -->
+    <pisac-card title="subscription-creation.sections.scope" icon="pi pi-filter">
+      <div class="pisac-form-grid--2">
+        <!-- Service -->
+        <div class="pisac-field pisac-field--required" *ngIf="serviceUser">
+          <label for="service" translate>subscription-creation.service</label>
+          <p-dropdown id="service" inputId="service" formControlName="service"
+                      [options]="maritimeServicesWithRoles" optionValue="id"
+                      [placeholder]="'subscription-creation.ph-service' | translate"
+                      (ngModelChange)="onSelectService($event)">
+            <ng-template let-item pTemplate="item">
+              <span>{{item | translateName}}</span>
+            </ng-template>
+            <ng-template let-item pTemplate="selectedItem">
+              <span>{{item | translateName}}</span>
+            </ng-template>
+          </p-dropdown>
+          <small class="p-error" *ngIf="(service.invalid && submitted) || (service.dirty && service.invalid)"
+                 translate>subscription-creation.errors.service-invalid</small>
+        </div>
 
-    <div class="row" *ngIf="serviceUser">
-      <div class="col-25">
-        <label for="service" translate>subscription-creation.service<span> *</span></label>
-      </div>
-      <div class="col-75">
-        <p-dropdown id="service" formControlName="service"
-                    [options]="maritimeServicesWithRoles" optionValue="id"
-                    [placeholder]="'subscription-creation.ph-service' | translate" display="chip"
-                    (ngModelChange)="onSelectService($event)">
-          <ng-template let-item pTemplate="item">
-            <span>{{item | translateName}}</span>
-          </ng-template>
-          <ng-template let-item pTemplate="selectedItem">
-            <span>{{item | translateName}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-    </div>
+        <!-- Title -->
+        <div class="pisac-field pisac-field--required">
+          <label for="title" translate>subscription-creation.title</label>
+          <input type="text" formControlName="title" id="title" pInputText>
+          <small class="p-error" *ngIf="(title.invalid && submitted) || (title.dirty && title.invalid)"
+                 translate>subscription-creation.errors.title-invalid</small>
+        </div>
 
-    <div class="row" *ngIf="(service.invalid && submitted) || (service.dirty && service.invalid)">
-      <div class="col-25"></div>
-      <div class="col-75">
-        <small class="p-error" translate>subscription-creation.errors.service-invalid</small>
-      </div>
-    </div>
+        <!-- Area -->
+        <div class="pisac-field pisac-field--required">
+          <label for="area" translate>subscription-creation.area</label>
+          <p-dropdown id="area" inputId="area" formControlName="area"
+                      [options]="areas$ | async" optionValue="id"
+                      [placeholder]="'subscription-creation.ph-area' | translate"
+                      (ngModelChange)="onSelectArea($event)">
+            <ng-template let-item pTemplate="item">
+              <span>{{item | translateName}}</span>
+            </ng-template>
+            <ng-template let-item pTemplate="selectedItem">
+              <span>{{item | translateName}}</span>
+            </ng-template>
+          </p-dropdown>
+          <small class="p-error" *ngIf="(area.invalid && submitted) || (area.dirty && area.invalid)"
+                 translate>subscription-creation.errors.area-invalid</small>
+        </div>
 
-    <!-- Title -->
+        <!-- Maritime entities for geographic extent (from selected service) -->
+        <div class="pisac-field" *ngIf="serviceUser">
+          <label for="maritimeEntitiesGeographicExtent" translate>subscription-creation.maritime-entities-geographic-extent</label>
+          <p-multiSelect [ngClass]="{'readonly-mode': !serviceSelected}" [readonly]="!serviceSelected"
+                         id="maritimeEntitiesGeographicExtent" inputId="maritimeEntitiesGeographicExtent" formControlName="maritimeEntitiesGeographicExtent"
+                         [options]="maritimeEntitiesByService" [optionLabel]="displayedLabel" optionValue="id"
+                         [placeholder]="'subscription-creation.ph-maritime-entities' | translate" display="chip">
+          </p-multiSelect>
+        </div>
 
-    <div class="row">
-      <div class="col-25">
-        <label for="title" translate>subscription-creation.title<span> *</span></label>
-      </div>
-      <div class="col-75">
-        <input type="text" formControlName="title" id="title" pInputText>
-      </div>
-    </div>
+        <!-- Serie (from selected area) -->
+        <div class="pisac-field pisac-field--required" *ngIf="warningCreation">
+          <label for="serie" translate>subscription-creation.serie</label>
+          <p-dropdown [ngClass]="{'readonly-mode': !areaSelected}" [readonly]="!areaSelected"
+                      id="serie" inputId="serie" formControlName="serie"
+                      [options]="seriesByArea" optionValue="id"
+                      [placeholder]="'subscription-creation.ph-serie' | translate"
+                      (ngModelChange)="onSelectSerie($event)">
+            <ng-template let-item pTemplate="item">
+              <span>{{item | translateName}}</span>
+            </ng-template>
+            <ng-template let-item pTemplate="selectedItem">
+              <span>{{item | translateName}}</span>
+            </ng-template>
+          </p-dropdown>
+          <small class="p-error" *ngIf="(serie.invalid && submitted) || (serie.dirty && serie.invalid)"
+                 translate>subscription-creation.errors.serie-invalid</small>
+        </div>
 
-    <div class="row" *ngIf="(title.invalid && submitted) || (title.dirty && title.invalid)">
-      <div class="col-25">
-      </div>
-      <div class="col-75">
-        <small class="p-error" translate>subscription-creation.errors.title-invalid</small>
-      </div>
-    </div>
+        <!-- Language (for bilingual series) -->
+        <div class="pisac-field pisac-field--required" *ngIf="warningCreation && bilingualSerieSelected">
+          <label translate>subscription-creation.language</label>
+          <div class="pisac-choice-group">
+            <p-radioButton [value]="'fr'" [label]="'subscription-creation.french-language' | translate" formControlName="lang"></p-radioButton>
+            <p-radioButton [value]="'en'" [label]="'subscription-creation.english-language' | translate" formControlName="lang"></p-radioButton>
+          </div>
+        </div>
 
-    <!-- Area -->
+        <!-- Warning general type -->
+        <div class="pisac-field pisac-span-all" *ngIf="warningCreation">
+          <label for="warningHazardTypeGenerals" translate>subscription-creation.warning-hazard-general-types</label>
+          <p-multiSelect id="warningHazardTypeGenerals" inputId="warningHazardTypeGenerals" formControlName="warningHazardTypeGenerals"
+                         [options]="availableCategories" optionLabel="value" optionValue="key" [maxSelectedLabels]="availableCategories.length"
+                         [placeholder]="'subscription-creation.ph-warning-hazard-general-types' | translate" display="chip">
+          </p-multiSelect>
+        </div>
 
-    <div class="row">
-      <div class="col-25">
-        <label for="area" translate>subscription-creation.area<span> *</span></label>
-      </div>
-      <div class="col-75">
-        <p-dropdown id="area" formControlName="area"
-                    [options]="areas$ | async" optionValue="id"
-                    [placeholder]="'subscription-creation.ph-area' | translate" display="chip"
-                    (ngModelChange)="onSelectArea($event)">
-          <ng-template let-item pTemplate="item">
-            <span>{{item | translateName}}</span>
-          </ng-template>
-          <ng-template let-item pTemplate="selectedItem">
-            <span>{{item | translateName}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-    </div>
+        <!-- Sub-areas (from selected serie) -->
+        <div class="pisac-field pisac-span-all" *ngIf="warningCreation">
+          <label for="subAreas" translate>subscription-creation.sub-areas</label>
+          <p-multiSelect [ngClass]="{'readonly-mode': !serieSelected}" [readonly]="!serieSelected"
+                         id="subAreas" inputId="subAreas" formControlName="subAreas"
+                         [options]="subAreasBySerie" [optionLabel]="displayedLabel" optionValue="id"
+                         [placeholder]="'subscription-creation.ph-sub-areas' | translate" display="chip"
+                         (ngModelChange)="onChangeSubAreas($event)">
+          </p-multiSelect>
+          <p-accordion styleClass="map-selected-sub-areas">
+            <p-accordionTab [header]="'subscription-creation.map-selected-sub-areas' | translate">
+              <sig-map [geometriesLayer]="geometriesLayer"></sig-map>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
 
-    <!-- Maritime entities for geographic extent (from selected service) -->
+        <!-- Maritime entities (from selected area) -->
 
-    <div class="row" *ngIf="serviceUser">
-      <div class="col-25">
-        <label for="maritimeEntitiesGeographicExtent" translate>subscription-creation.maritime-entities-geographic-extent</label>
-      </div>
-      <div class="col-75">
-        <p-multiSelect [ngClass]="{'readonly-mode': !serviceSelected}" [readonly]="!serviceSelected"
-                       id="maritimeEntitiesGeographicExtent" formControlName="maritimeEntitiesGeographicExtent"
-                       [options]="maritimeEntitiesByService" [optionLabel]="displayedLabel" optionValue="id"
-                       [placeholder]="'subscription-creation.ph-maritime-entities' | translate" display="chip">
-        </p-multiSelect>
-      </div>
-    </div>
+        <!-- Temporally removed: DO NOT REMOVE LINES BELOW
+        <div class="row" *ngIf="!warningCreation">
+          <div class="col-25">
+            <label for="maritimeEntities" translate>subscription-creation.maritime-entities-in-area</label>
+          </div>
+          <div class="col-75">
+            <p-multiSelect [ngClass]="{'readonly-mode': !areaSelected || !serviceSelected}" [readonly]="!areaSelected || !serviceSelected"
+                           id="maritimeEntities" formControlName="maritimeEntities" [group]="true"
+                           [options]="groupedMaritimeEntitiesByArea" [optionLabel]="displayedLabel" optionValue="id"
+                           [placeholder]="'subscription-creation.ph-maritime-entities' | translate" display="chip">
+              <ng-template let-group pTemplate="group">
+                <span>{{('subscription-creation.' + group.label) | translate}}</span>
+              </ng-template>
+            </p-multiSelect>
+          </div>
+        </div> -->
 
-    <div class="row" *ngIf="(area.invalid && submitted) || (area.dirty && area.invalid)">
-      <div class="col-25"></div>
-      <div class="col-75">
-        <small class="p-error" translate>subscription-creation.errors.area-invalid</small>
+        <!-- Georegulation types -->
+        <div class="pisac-field pisac-field--required pisac-span-all" *ngIf="!warningCreation">
+          <label for="georegulationTypes" translate>subscription-creation.georegulation-types</label>
+          <p-multiSelect id="georegulationTypes" inputId="georegulationTypes" formControlName="georegulationTypes"
+                         [options]="availableGeoregulationTypes" optionLabel="value" optionValue="key" [maxSelectedLabels]="availableGeoregulationTypes.length"
+                         [placeholder]="'subscription-creation.ph-georegulation-types' | translate" display="chip">
+          </p-multiSelect>
+          <small class="p-error" *ngIf="(georegulationTypes.invalid && submitted) || (georegulationTypes.dirty && georegulationTypes.invalid)"
+                 translate>subscription-creation.errors.georegulation-types-invalid</small>
+        </div>
       </div>
-    </div>
+    </pisac-card>
 
-    <!-- Serie (from selected area) -->
-
-    <div class="row" *ngIf="warningCreation">
-      <div class="col-25">
-        <label for="serie" translate>subscription-creation.serie<span> *</span></label>
+    <!-- ===== Notificación ===== -->
+    <pisac-card title="subscription-creation.sections.notification" icon="pi pi-envelope">
+      <div class="pisac-field pisac-field--required">
+        <label translate>subscription-creation.sending-mail</label>
+        <div class="pisac-choice-group">
+          <p-radioButton [value]="true" [label]="'subscription-creation.true-value' | translate" formControlName="sendingMail"></p-radioButton>
+          <p-radioButton [value]="false" [label]="'subscription-creation.false-value' | translate" formControlName="sendingMail"></p-radioButton>
+        </div>
+        <span class="pisac-field__hint tooltip-about-sending-mail" translate>subscription-creation.tooltip-about-sending-mail</span>
       </div>
-      <div class="col-75">
-        <p-dropdown [ngClass]="{'readonly-mode': !areaSelected}" [readonly]="!areaSelected"
-                    id="serie" formControlName="serie"
-                    [options]="seriesByArea" optionValue="id"
-                    [placeholder]="'subscription-creation.ph-serie' | translate" display="chip"
-                    (ngModelChange)="onSelectSerie($event)">
-          <ng-template let-item pTemplate="item">
-            <span>{{item | translateName}}</span>
-          </ng-template>
-          <ng-template let-item pTemplate="selectedItem">
-            <span>{{item | translateName}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-    </div>
+    </pisac-card>
 
-    <div class="row" *ngIf="(serie.invalid && submitted) || (serie.dirty && serie.invalid)">
-      <div class="col-25"></div>
-      <div class="col-75">
-        <small class="p-error" translate>subscription-creation.errors.serie-invalid</small>
-      </div>
-    </div>
-
-    <!-- Language (for bilingual series) -->
-
-    <div class="row" *ngIf="warningCreation && bilingualSerieSelected">
-      <div class="col-25">
-        <label translate>subscription-creation.language<span> *</span></label>
-      </div>
-      <div class="col-75 p-field-checkbox">
-        <p-radioButton [value]="'fr'" [label]="'subscription-creation.french-language' | translate" formControlName="lang"></p-radioButton>
-        <p-radioButton [value]="'en'" [label]="'subscription-creation.english-language' | translate" formControlName="lang"></p-radioButton>
-      </div>
-    </div>
-
-    <!-- Sub-areas (from selected serie) -->
-
-    <div class="row" *ngIf="warningCreation">
-      <div class="col-25">
-        <label for="subAreas" translate>subscription-creation.sub-areas</label>
-      </div>
-      <div class="col-75">
-        <p-multiSelect [ngClass]="{'readonly-mode': !serieSelected}" [readonly]="!serieSelected"
-                       id="subAreas" formControlName="subAreas"
-                       [options]="subAreasBySerie" [optionLabel]="displayedLabel" optionValue="id"
-                       [placeholder]="'subscription-creation.ph-sub-areas' | translate" display="chip"
-                       (ngModelChange)="onChangeSubAreas($event)">
-        </p-multiSelect>
-        <p-accordion styleClass="map-selected-sub-areas">
-          <p-accordionTab [header]="'subscription-creation.map-selected-sub-areas' | translate">
-            <sig-map [geometriesLayer]="geometriesLayer"></sig-map>
-          </p-accordionTab>
-        </p-accordion>
-      </div>
-    </div>
-
-    <!-- Warning general type -->
-
-    <div class="row" *ngIf="warningCreation">
-      <div class="col-25">
-        <label for="warningHazardTypeGenerals" translate>subscription-creation.warning-hazard-general-types</label>
-      </div>
-      <div class="col-75">
-        <p-multiSelect id="warningHazardTypeGenerals" formControlName="warningHazardTypeGenerals" class="fullwidth"
-                       [options]="availableCategories" optionLabel="value" optionValue="key" [maxSelectedLabels]="availableCategories.length"
-                       [placeholder]="'subscription-creation.ph-warning-hazard-general-types' | translate" display="chip">
-        </p-multiSelect>
+    <!-- Barra de acciones inferior -->
+    <div class="pisac-action-bar">
+      <div class="pisac-action-bar__info"></div>
+      <div class="pisac-action-bar__group">
+        <p-button [label]="'subscription-creation.create-subscription' | translate" icon="pi pi-check" type="submit"></p-button>
       </div>
     </div>
-
-    <!-- Maritime entities (from selected area) -->
-
-    <!-- Temporally removed: DO NOT REMOVE LINES BELOW
-    <div class="row" *ngIf="!warningCreation">
-      <div class="col-25">
-        <label for="maritimeEntities" translate>subscription-creation.maritime-entities-in-area</label>
-      </div>
-      <div class="col-75">
-        <p-multiSelect [ngClass]="{'readonly-mode': !areaSelected || !serviceSelected}" [readonly]="!areaSelected || !serviceSelected"
-                       id="maritimeEntities" formControlName="maritimeEntities" [group]="true"
-                       [options]="groupedMaritimeEntitiesByArea" [optionLabel]="displayedLabel" optionValue="id"
-                       [placeholder]="'subscription-creation.ph-maritime-entities' | translate" display="chip">
-          <ng-template let-group pTemplate="group">
-            <span>{{('subscription-creation.' + group.label) | translate}}</span>
-          </ng-template>
-        </p-multiSelect>
-      </div>
-    </div> -->
-
-    <!-- Georegulation types -->
-
-    <div class="row" *ngIf="!warningCreation">
-      <div class="col-25">
-        <label for="georegulationTypes" translate>subscription-creation.georegulation-types<span> *</span></label>
-      </div>
-      <div class="col-75">
-        <p-multiSelect id="georegulationTypes" formControlName="georegulationTypes"
-                       [options]="availableGeoregulationTypes" optionLabel="value" optionValue="key" [maxSelectedLabels]="availableGeoregulationTypes.length"
-                       [placeholder]="'subscription-creation.ph-georegulation-types' | translate" display="chip">
-        </p-multiSelect>
-      </div>
-    </div>
-
-    <div class="row" *ngIf="(georegulationTypes.invalid && submitted) || (georegulationTypes.dirty && georegulationTypes.invalid)">
-      <div class="col-25"></div>
-      <div class="col-75">
-        <small class="p-error" translate>subscription-creation.errors.georegulation-types-invalid</small>
-      </div>
-    </div>
-
-    <!-- Sending mail -->
-
-    <div class="row">
-      <div class="col-25">
-        <label translate>subscription-creation.sending-mail<span> *</span></label>
-      </div>
-      <div class="col-75 p-field-checkbox">
-        <p-radioButton [value]="true" [label]="'subscription-creation.true-value' | translate" formControlName="sendingMail"></p-radioButton>
-        <p-radioButton [value]="false" [label]="'subscription-creation.false-value' | translate" formControlName="sendingMail"></p-radioButton>
-      </div>
-      <span class="tooltip-about-sending-mail" translate>subscription-creation.tooltip-about-sending-mail</span>
-    </div>
-
-    <div>
-      <div class="p-grid p-nogutter p-justify-start">
-        <p-button [label]="'subscription-creation.create-subscription' | translate" type="submit"></p-button>
-      </div>
-    </div>
-
   </form>
 </div>

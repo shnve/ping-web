@@ -1404,7 +1404,10 @@
     }
   },
   "folder-creation": {
-    "title": "Création d'une affaire :",
+    "title": "Création d'une affaire",
+    "sections": {
+      "general": "Données du dossier"
+    },
     "object": "Objet",
     "review-date": "Date d'examen",
     "comment": "Commentaire",
@@ -1422,7 +1425,7 @@
     }
   },
   "folder-modification": {
-    "title": "Modification d'une affaire :"
+    "title": "Modification d'une affaire"
   },
   "subscription-table": {
     "columns": {
@@ -1435,6 +1438,10 @@
   },
   "subscription-creation": {
     "page-title": "Création d'un abonnement :",
+    "sections": {
+      "scope": "Périmètre de l'abonnement",
+      "notification": "Notification"
+    },
     "service": "Service maritime abonné",
     "title": "Titre de l'abonnement",
     "area": "Région",
