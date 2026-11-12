@@ -1,53 +1,30 @@
-@import 'src/styling/variables';
+// PISAC (F5.3.5): validación de cuenta en una tarjeta (contenedor .pisac-form-page de _forms.scss).
+// Se eliminan los títulos grises en mayúsculas, el ancho fijo de 300 px y el rojo puro del error.
 
-$accountValidationFormWidth: 300px;
-$accountValidationFormTitleColor: #505050;
-$accountValidationFormSubTitleColor: #969696;
-$accountValidationProgressSpinnerSize: 50px;
-$accountValidationErrorColor: red;
-$accountValidationErrorFontSize: 16px;
-
-h2 {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 26px;
-  color: $accountValidationFormSubTitleColor;
-  text-transform: uppercase;
-  line-height: 26px;
-  font-weight: 600;
+.validation-progress {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-4) 0;
 }
 
-h3 {
-  display: block;
-  text-align: center;
-  margin-top: 9px;
-  margin-bottom: 20px;
-  font-size: 20px;
-  color: $accountValidationFormTitleColor;
-  text-transform: uppercase;
-  line-height: 22px;
-  font-weight: 400;
-}
+.validation-error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
 
-.form-group {
-  text-align: center;
-  padding-bottom: 20px;
-  margin: 0 auto 20px;
-  width: 100%;
-  max-width: $accountValidationFormWidth;
-}
-
-.form-group.error span.account-validation-error {
-  color: $accountValidationErrorColor;
-  display: block;
-  margin-bottom: 10px;
-  font-size: $accountValidationErrorFontSize;
+  .account-validation-error {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+    font-weight: 600;
+    color: var(--pisac-danger);
+  }
 }
 
 :host ::ng-deep {
   .p-dialog {
-
     p {
       margin: 0;
     }
@@ -62,9 +39,9 @@ h3 {
       min-width: 6rem;
     }
   }
-  
+
   .custom-spinner {
-    width: $accountValidationProgressSpinnerSize;
-    height: $accountValidationProgressSpinnerSize;
+    width: 48px;
+    height: 48px;
   }
 }

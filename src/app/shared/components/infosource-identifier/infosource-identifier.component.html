@@ -1,6 +1,7 @@
-<form *ngIf="this.identifier" (ngSubmit)="goToContributions()" class="form">
-  <div class="contributions-description" [innerHTML]="'account.contributions.description' | translate:{identifier: this.identifier}"></div>
-  <div>
-    <p-button type="submit" [label]="'account.contributions.submit' | translate" ngDefaultControl></p-button>
+<!-- PISAC (F5.3.5): fila de acción (identificador a la izquierda, botón a la derecha). Misma lógica. -->
+<form *ngIf="this.identifier" (ngSubmit)="goToContributions()" class="pisac-action-row">
+  <div class="pisac-action-row__text contributions-description" [innerHTML]="'account.contributions.description' | translate:{identifier: this.identifier}"></div>
+  <div class="pisac-action-row__actions">
+    <p-button type="submit" icon="pi pi-list" styleClass="p-button-outlined" [label]="'account.contributions.submit' | translate" ngDefaultControl></p-button>
   </div>
 </form>

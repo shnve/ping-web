@@ -167,9 +167,9 @@
     "description": "Finalisation de l'authentification"
   },
   "paginator": {
-      "next-page": "Page suivante",
-      "previous-page": "Page précédente",
-      "items-per-page": "Éléments par page"
+    "next-page": "Page suivante",
+    "previous-page": "Page précédente",
+    "items-per-page": "Éléments par page"
   },
   "pages": {
     "not-found": {
@@ -950,9 +950,9 @@
       }
     },
     "status": {
-      "not-available":  "Non disponible",
+      "not-available": "Non disponible",
       "pending": "En attente",
-      "compliant":  "Conforme",
+      "compliant": "Conforme",
       "not-compliant": "Non conforme"
     },
     "no-survey": "Aucun levé fourni",
@@ -1003,7 +1003,7 @@
         "end-date": "Date de fin du levé",
         "activities-and-restrictions": "Activité et restriction de diffusion",
         "selected-activity": "Activité selectionnée",
-        "broadcast-restriction":"Restriction de diffusion",
+        "broadcast-restriction": "Restriction de diffusion",
         "additional-information": "Commentaire (facultatif)",
         "global-stats": {
           "probes-qty": "Nombre de sondes",
@@ -1157,16 +1157,17 @@
     "creation": {
       "title": "Création de compte",
       "credentials": {
-        "title": "Vos identifiants:",
+        "title": "Vos identifiants",
         "email": "Adresse email (obligatoire)",
         "password": "Mot de passe (obligatoire)",
         "identifier": "Identifiant (pseudo)"
       },
       "information": {
-        "title": "Vos informations personnelles:",
+        "title": "Vos informations personnelles",
         "gender": {
           "mr": "M.",
-          "mrs": "Mme"
+          "mrs": "Mme",
+          "label": "Civilité"
         },
         "firstname": "Prénom (obligatoire)",
         "lastname": "Nom (obligatoire)",
@@ -1194,7 +1195,9 @@
         "user-status": "Mise à jour du statut de l'utilisateur",
         "user-status.true": "Activé",
         "user-status.false": "Désactivé",
-        "user-status-update-confirm": "Êtes-vous sûr(e) de vouloir modifier le statut de cet utilisateur ?"
+        "user-status-update-confirm": "Êtes-vous sûr(e) de vouloir modifier le statut de cet utilisateur ?",
+        "ph-preferred-area": "Sélectionnez une zone",
+        "captcha": "Vérification : saisissez les caractères de l'image"
       },
       "submit": "Valider",
       "errors": {
@@ -1232,6 +1235,10 @@
         "title": "Félicitations !",
         "content": "Votre compte a été enregistré. Vous allez être redirigé vers la page de connexion pour finaliser la création du compte.",
         "edit-content": "Votre compte a été modifié. Vous allez être redirigé vers la page d'accueil."
+      },
+      "sections": {
+        "notifications": "Notifications",
+        "confirmation": "Conditions et vérification"
       }
     },
     "edition": {
@@ -1261,7 +1268,8 @@
     },
     "contributions": {
       "description": "Votre identifiant unique pour vos contributions : {{identifier}}<br/><br/>Cet identifiant a été généré automatiquement à la création de votre compte. Il est utilisé pour identifier de manière unique vos contributions.",
-      "submit": "Voir mes contributions"
+      "submit": "Voir mes contributions",
+      "title": "Mes contributions"
     },
     "reset-password": {
       "description": "Vous souhaitez modifier votre mot de passe ?<br />Merci de cliquer sur le bouton ci-dessous pour initialiser la procédure",
@@ -1270,6 +1278,9 @@
     "delete-account": {
       "description": "Vous souhaitez supprimer votre profil ?<br />Merci de cliquer sur le bouton ci-dessous pour initialiser la procédure",
       "submit": "Supprimer le compte"
+    },
+    "sign-in-up": {
+      "title": "Connectez-vous ou inscrivez-vous"
     }
   },
   "carto": {
@@ -1396,7 +1407,7 @@
     "study-update": "Modification de l'étude",
     "references": "Parution(s) au GAN"
   },
-  "folder-modal-reference" : {
+  "folder-modal-reference": {
     "columns": {
       "type": "Type de référence",
       "value": "Numéro de la référence",
@@ -1430,7 +1441,7 @@
   "subscription-table": {
     "columns": {
       "title": "Titre",
-      "maritimeServiceSubscriber" : "Service maritime abonné",
+      "maritimeServiceSubscriber": "Service maritime abonné",
       "creation-date": "Date de création",
       "area-name": "Région",
       "sending-mail": "Envoi par mail"
@@ -2809,7 +2820,7 @@
     "survey-broadcast-restriction": {
       "without-broadcast-restriction": "Sans restriction de diffusion",
       "3-years": "3 ans",
-      "10-years":  "10 ans"
+      "10-years": "10 ans"
     },
     "survey-activity": {
       "participatory-bathymetry-activities": "Bathymétrie participative",
@@ -3251,10 +3262,10 @@
         "height-out-of-range": "Veuillez saisir une hauteur entre {{minRange}}px et {{maxRange}}px"
       }
     },
-    "edit" : {
+    "edit": {
       "title": "Editer une image statique"
     },
-    "show" : {
+    "show": {
       "title": "Visualiser une image statique"
     },
     "delete": {
@@ -3330,7 +3341,7 @@
         "lbl-available-warning-number": "prochain disponible: {{availableWarningNumber}}",
         "lbl-select-year": "Année",
         "lbl-timezone": "Fuseau horaire",
-        "lbl-timezone-info" : "pour affichage des périodes de l'événement en heure locale dans PING",
+        "lbl-timezone-info": "pour affichage des périodes de l'événement en heure locale dans PING",
         "lbl-add-cancellation-date-to-telex": "Ajouter la date d'auto-annulation dans le TELEX",
         "lbl-rb-not-display-cancellation-date": "Non, mention 'ANNULER CE MSG' dans le TELEX",
         "btn-next": "Suivant",
@@ -3512,7 +3523,8 @@
     "error": "Le rôle n'a pas pu être assigné",
     "action": "Action",
     "extract": "Retirer",
-    "delete": "Le rôle a bien été retiré à l'utilisateur"
+    "delete": "Le rôle a bien été retiré à l'utilisateur",
+    "assigned-services": "Services attribués"
   },
   "role": {
     "service-admin": "Administrateur",
@@ -3573,5 +3585,12 @@
     "new": "Nouvelle",
     "temporary": "Temporaire",
     "permanent": "Permanente"
+  },
+  "pro-user-form": {
+    "sections": {
+      "role": "Rôle et service",
+      "account": "Compte et sécurité"
+    },
+    "ph-select": "Sélectionnez une option"
   }
 }

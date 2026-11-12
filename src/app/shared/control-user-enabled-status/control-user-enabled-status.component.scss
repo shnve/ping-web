@@ -1,26 +1,9 @@
-@import 'src/styling/variables';
-
+// PISAC (F5.3.5): la fila usa .pisac-action-row y .pisac-field de src/styling/pisac/_forms.scss (antes, caja
+// con sombra de la clase global `.form` y texto centrado).
 :host {
-  margin: 0 auto;
-
-  form {
-    text-align: center;
-    padding-bottom: 20px;
-
-    .form-group {
-      margin: 0 auto 20px;
-      width: 100%;
-      max-width: $accountCreationFormWidth;
-
-      button[type="submit"] {
-        margin: 0 auto;
-        display: inline-block;
-      }
-    }
-  }
+  display: block;
 }
 
-.label {
-  display: block;
-  margin-bottom: 2px;
+.pisac-field {
+  margin-bottom: 0;
 }

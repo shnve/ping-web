@@ -1,23 +1,23 @@
+// PISAC (F5.3.5): tarjeta centrada (contenedor .pisac-form-page de _forms.scss). Se eliminan los botones
+// redondeados con texto de 25 px y márgenes fijos de 20-30 px.
+
 .sign-in-up-page {
-  display: flex;
-  flex-direction: column;
-
-
-  h2.sign-in-up-page-item {
-    margin: 30px;
-  }
-
-  .sign-in-up-page-item {
-    text-align: center;
-  }
-
   .main-title {
-    align-self: center;
+    margin: 0 0 var(--space-6);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--pisac-text);
   }
-}
 
-button {
-  margin-top: 20px;
-  margin-right: 20px;
-  font-size: 25px;
+  .sign-in-up-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+
+    // «Acceso privado» (profesionales) queda a la derecha, separado de las acciones del público
+    .button-pro {
+      margin-left: auto;
+    }
+  }
 }

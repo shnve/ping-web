@@ -1,17 +1,20 @@
-<div class="account">
-  <h3 translate>account.validation.title</h3>
+<!-- PISAC (F5.3.5): validación de cuenta en una tarjeta centrada con progreso y error. Misma lógica. -->
+<div class="pisac-form-page pisac-form-page--narrow account">
+  <pisac-card title="account.validation.title" icon="pi pi-user-plus">
+    <!-- Progress spinner displayed while submitting form (i.e. creating user server-side) -->
+    <div class="validation-progress" *ngIf="submitting">
+      <p-progressSpinner styleClass="custom-spinner" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+    </div>
 
-  <!-- Progress spinner displayed while submitting form (i.e. creating user server-side) -->
-  <div class="form-group" *ngIf="submitting">
-    <p-progressSpinner styleClass="custom-spinner" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
-  </div>
-
-  <div class="form-group" [ngClass]="{'error': errors}" *ngIf="errors">
-    <span *ngIf="errors" class="account-validation-error">
-      <span id="validation-error" translate>{{ errors }}</span>
-    </span>
-    <a routerLink="/account-creation" translate>account.validation.retry</a>
-  </div>
+    <div class="validation-error" *ngIf="errors">
+      <p class="account-validation-error">
+        <i class="pi pi-exclamation-circle" aria-hidden="true"></i>
+        <span id="validation-error">{{ errors | translate }}</span>
+      </p>
+      <a pButton class="p-button-outlined" icon="pi pi-arrow-left" routerLink="/account-creation"
+        [label]="'account.validation.retry' | translate"></a>
+    </div>
+  </pisac-card>
 
   <!-- Modal dialog used to show account validation confirmation before redirect to another page -->
   <p-dialog [(visible)]="displayConfirmModal" [modal]="true" [closable]="false"

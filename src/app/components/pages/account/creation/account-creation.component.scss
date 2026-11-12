@@ -1,277 +1,92 @@
-@import 'src/styling/variables';
+// PISAC (F5.3.5): registro de cuenta. La maquetación (contenedor de página, tarjetas, etiquetas arriba, rejilla,
+// casillas y barra de acciones) viene de las utilidades globales de src/styling/pisac/_forms.scss. Aquí solo el
+// captcha, el indicador de progreso y el diálogo de confirmación. Se eliminan los campos flotantes de 295 px,
+// los bordes #e1e1e1 sin radio, los títulos grises en mayúsculas y el rojo puro de los errores.
 
-:host {
-  margin: 0 auto;
+:host ::ng-deep {
+  // Captcha: lienzo con borde suave y, debajo, la respuesta con los botones de audio y recarga
+  #captcha {
+    .captcha-container {
+      display: inline-flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      max-width: 100%;
+      box-shadow: none;
 
-  ::ng-deep {
-    p-password, ngx-intl-tel-input {
-      width: 100%;
-      max-width: $accountCreationFormInputWidth;
+      > canvas {
+        max-width: 100%;
+        border: 1px solid var(--pisac-border-soft);
+        border-radius: var(--radius-md);
+      }
     }
 
-    p-password > div {
+    .captcha-actions {
       display: flex;
-
-      > input {
-        flex-grow: 1.1;
-      }
-    }
-
-    .p-password {
-      display: block;
-
-      input {
-        width: 100%;
-        height: $accountCreationFormInputHeight;
-        border: 1px solid $accountCreationFormBorderColor;
-        padding: $accountCreationFormInputVerticalPadding $accountCreationFormInputHorizontalPadding;
-        font-size: $accountCreationFormInputFontSize;
-        border-radius: 0;
-      }
-
-      input.p-inputtext:enabled:hover {
-        border-color: $accountCreationFormBorderColor;
-      }
-
-      .p-password-panel {
-        font-size: $accountCreationFormInputFontSize;
-      }
-    }
-
-    .iti {
-      font-size: $accountCreationFormInputFontSize;
-      width: 100%;
-      max-width: $accountCreationFormWidth;
-      margin: 0 auto 20px;
-
-      input {
-        width: 100%;
-        max-width: $accountCreationFormInputWidth;
-        height: $accountCreationFormInputHeight;
-        border: 1px solid $accountCreationFormBorderColor;
-        padding: $accountCreationFormInputVerticalPadding $accountCreationFormInputHorizontalPadding;
-        border-radius: 0;
-      }
-    }
-
-    #captcha {
-      .captcha-container {
-        width: 100%;
-        max-width: $accountCreationFormInputWidth;
-        box-shadow: none;
-
-        & > canvas {
-          width: $accountCreationFormInputWidth;
-        }
-      }
-
-      .captcha-actions {
-        display: flex;
-        justify-content: space-between;
-
-        input[type="text"] {
-          border-radius: 0;
-          width: $accountCreationFormCaptchaWidth;
-        }
-
-        a.cpt-btn {
-          padding: 5px;
-          width: 32px;
-          background-image: none;
-          transform: scale(1.6);
-        }
-      }
-
-      input[type="button"] {
-        display: none;
-      }
-    }
-
-    .p-dialog {
-
-      p {
-        margin: 0;
-      }
-
-      .p-dialog-footer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .p-button {
-        min-width: 6rem;
-      }
-    }
-
-    .custom-spinner {
-      width: $accountCreationFormProgressSpinnerSize;
-      height: $accountCreationFormProgressSpinnerSize;
-    }
-
-    p-togglebutton.ng-invalid > .p-togglebutton.p-button {
-      color: $accountCreationFormErrorColor;
-      border-color: $accountCreationFormErrorColor;
-    }
-
-    .p-dropdown {
-      width: 100%;
-      height: $accountCreationFormInputHeight;
-      border: 1px solid $accountCreationFormBorderColor;
-      padding: $accountCreationFormInputVerticalPadding 6px;
-      font-size: $accountCreationFormInputFontSize;
-      border-radius: 0;
-      line-height: 22px;
-    }
-  }
-
-  h2 {
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 26px;
-    color: $accountCreationFormSubTitleColor;
-    text-transform: uppercase;
-    line-height: 26px;
-    font-weight: 600;
-  }
-
-  h3 {
-    display: block;
-    text-align: center;
-    margin-top: 9px;
-    margin-bottom: 30px;
-    font-size: 20px;
-    color: $accountCreationFormTitleColor;
-    text-transform: uppercase;
-    line-height: 22px;
-    font-weight: 400;
-  }
-
-  hr {
-    text-align: center;
-    margin: 20px auto;
-    width: 100%;
-    max-width: $accountCreationFormWidth;
-    border-color: $accountCreationFormBorderColor;
-  }
-
-  form {
-    text-align: center;
-    padding-bottom: 20px;
-
-    .form-optional {
-      text-align: left;
-    }
-
-    .form-group {
-      margin: 0 auto 30px;
-      width: 100%;
-      max-width: $accountCreationFormWidth;
-
-      .p-field-radiobutton {
-        position: relative;
-        display: inline-block;
-
-        & > label {
-          position: relative;
-          padding: 5px 20px 0 11px;
-          display: inline-block;
-          margin: 0 10px 0 0;
-          line-height: 20px;
-        }
-      }
-
-      .p-field-togglebutton {
-        text-align: left;
-        display: flex;
-        flex-direction: row;
-
-        & > label {
-          position: relative;
-          display: inline;
-          margin: 0 0 5px 24px;
-          line-height: 20px;
-          padding-top: 0;
-        }
-      }
+      align-items: center;
+      gap: var(--space-2);
 
       input[type="text"] {
-        width: 100%;
-        height: $accountCreationFormInputHeight;
-        border: 1px solid $accountCreationFormBorderColor;
-        padding: $accountCreationFormInputVerticalPadding $accountCreationFormInputHorizontalPadding;
-        font-size: $accountCreationFormInputFontSize;
-        border-radius: 0;
+        flex: 1 1 auto;
+        min-width: 0;
       }
 
-      button[type="submit"] {
-        margin: 0 auto;
-        display: inline-block;
-      }
-
-      .form-mandatory {
-        display: flex;
-        flex-direction: row;
-
-        .form-asterisk {
-          margin-left: 3px;
-        }
-      }
-
-      &.line-form {
-        display: flex;
+      a.cpt-btn {
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        width: var(--pisac-control-h);
+        height: var(--pisac-control-h);
+        border: 1px solid var(--pisac-border);
+        border-radius: 6px;
+        background-image: none;
+        color: var(--shn-navy);
+        font-size: 1.25rem;
+        text-decoration: none;
 
-        .label {
-          margin-right: 10px;
-          margin-bottom: 0;
-        }
-
-        .lbl-notification {
-          margin-left: -8px;
-          margin-bottom: 5px;
-          max-width: $accountCreationFormWidth;
-          text-align: left;
+        &:hover {
+          border-color: var(--pisac-primary-700);
+          background: var(--pisac-secondary-50);
         }
       }
     }
 
-    .form-group.phone-numbers {
-      text-align: left;
+    // El botón «Check» lo dispara el envío del formulario
+    input[type="button"] {
+      display: none;
+    }
+  }
+
+  .custom-spinner {
+    width: 32px;
+    height: 32px;
+  }
+
+  .p-dialog {
+    p {
+      margin: 0;
     }
 
-    .form-group.error span.field-validation-error {
-      color: $accountCreationFormErrorColor;
-      display: block;
-      margin-bottom: 10px;
-      text-align: left;
-      font-size: $accountCreationFormInputFontSize;
-      line-height: 16px;
+    .p-dialog-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .form-group.error input[type="text"].error,
-    .form-group.error .p-field-togglebutton.error > label > a {
-      color: $accountCreationFormErrorColor;
-      border-color: $accountCreationFormErrorColor;
+    .p-button {
+      min-width: 6rem;
     }
   }
 }
 
-.input-field {
-  flex-grow: 1;
-}
-
-.checkbox-group {
+.account-creation-page .pisac-action-bar__info {
   display: flex;
   align-items: center;
-}
+  gap: var(--space-3);
 
-.lbl-accept {
-  max-width: $accountCreationFormWidth;
-  text-align: left;
-
-  em {
-    font-style: italic;
+  .submit-error {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--pisac-danger);
   }
 }

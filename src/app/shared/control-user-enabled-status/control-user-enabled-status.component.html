@@ -1,6 +1,8 @@
-<form [formGroup]="form" *ngIf="form" class="form">
-  <div class="form-group">
-    <label for="user-status" class="label p-col-fixed" translate>account.creation.information.user-status</label>
+<!-- PISAC (F5.3.5): estado del usuario como fila de acción (selector a la izquierda, Guardar a la derecha).
+     Misma lógica y confirmación. -->
+<form [formGroup]="form" *ngIf="form" class="pisac-action-row">
+  <div class="pisac-field pisac-action-row__text">
+    <label for="user-status" translate>account.creation.information.user-status</label>
     <p-selectButton id="user-status"
                     [options]="booleanOptions"
                     ngDefaultControl
@@ -11,8 +13,8 @@
       </ng-template>
     </p-selectButton>
   </div>
-  <div>
+  <div class="pisac-action-row__actions">
     <p-confirmPopup></p-confirmPopup>
-    <p-button type="button" (onClick)="confirmSave($event)" [label]="'save' | translate" [disabled]="userStatus.value === this.enabled" ngDefaultControl></p-button>
+    <p-button type="button" icon="pi pi-save" (onClick)="confirmSave($event)" [label]="'save' | translate" [disabled]="userStatus.value === this.enabled" ngDefaultControl></p-button>
   </div>
 </form>

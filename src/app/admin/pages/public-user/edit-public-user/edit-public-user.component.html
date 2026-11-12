@@ -1,17 +1,22 @@
-<h1 translate *ngIf="disabled; else editTitle">public-user-list.title.show</h1>
-<ng-template #editTitle>
-  <h1 translate>public-user-list.title.edit</h1>
-</ng-template>
-<app-edit-user-form *ngIf="user$ | async as user"
-  [userId]="userId" [user]="user" [disabled]="disabled"
-></app-edit-user-form>
-<app-control-user-enabled-status *ngIf="isFunctionalAdmin && user$ | async as user"
-  [userId]="userId" [enabled]="isEnabled" [disabled]="disabled" [isPublicUser]="true"
-></app-control-user-enabled-status>
-<ng-template *ngIf="!disabled">
-  <br/>
-  <hr/><br/>
-  <h3 translate>account.edition.security-title</h3>
-  <app-update-email [userId]="userId" ></app-update-email><br><br>
-  <app-reset-password [userId]="userId"></app-reset-password>
-</ng-template>
+<!-- PISAC (F5.3.5): cabecera, datos de la cuenta y estado del usuario en una tarjeta. Mismas condiciones.
+     El bloque «Información de seguridad» se conserva tal cual: está en un <ng-template> con *ngIf y Angular
+     no lo muestra nunca (comportamiento heredado de SHOM). -->
+<div class="pisac-form-page public-user-page">
+  <pisac-page-header variant="light" icon="pi pi-user"
+    [title]="disabled ? 'public-user-list.title.show' : 'public-user-list.title.edit'"></pisac-page-header>
+  <app-edit-user-form *ngIf="user$ | async as user"
+    [userId]="userId" [user]="user" [disabled]="disabled"
+  ></app-edit-user-form>
+  <pisac-card *ngIf="isFunctionalAdmin && user$ | async as user" title="pro-user-form.sections.account" icon="pi pi-shield">
+    <app-control-user-enabled-status
+      [userId]="userId" [enabled]="isEnabled" [disabled]="disabled" [isPublicUser]="true"
+    ></app-control-user-enabled-status>
+  </pisac-card>
+  <ng-template *ngIf="!disabled">
+    <br/>
+    <hr/><br/>
+    <h3 translate>account.edition.security-title</h3>
+    <app-update-email [userId]="userId" ></app-update-email><br><br>
+    <app-reset-password [userId]="userId"></app-reset-password>
+  </ng-template>
+</div>

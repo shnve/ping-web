@@ -1,5 +1,12 @@
-<div class="account">
+<!-- PISAC (F5.3.5): «Mi cuenta» con cabecera, datos de la cuenta y una tarjeta de seguridad con las acciones
+     de contraseña y eliminación. Mismos componentes y entradas. -->
+<div class="pisac-form-page pisac-form-page--narrow account">
+  <pisac-page-header variant="light" icon="pi pi-user-edit" title="account-panel.already-registered.button.my-account"></pisac-page-header>
   <app-edit-user-form [userId]="userId" [disabled]="disabled"></app-edit-user-form>
-  <app-send-reset-password-email></app-send-reset-password-email>
-  <app-delete-user></app-delete-user>
+  <pisac-card title="account.edition.security-title" icon="pi pi-shield">
+    <div class="pisac-action-list">
+      <app-send-reset-password-email></app-send-reset-password-email>
+      <app-delete-user></app-delete-user>
+    </div>
+  </pisac-card>
 </div>

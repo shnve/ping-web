@@ -1168,16 +1168,17 @@
     "creation": {
       "title": "Creación de cuenta",
       "credentials": {
-        "title": "Tus credenciales:",
+        "title": "Tus credenciales",
         "email": "Dirección de correo electrónico (obligatorio)",
         "password": "Contraseña (obligatorio)",
         "identifier": "Identificador (apodo)"
       },
       "information": {
-        "title": "Tu información personal:",
+        "title": "Tu información personal",
         "gender": {
           "mr": "Sr.",
-          "mrs": "Sra."
+          "mrs": "Sra.",
+          "label": "Tratamiento"
         },
         "firstname": "Nombre (obligatorio)",
         "lastname": "Apellido (obligatorio)",
@@ -1205,7 +1206,9 @@
         "user-status": "Actualizar estado del usuario",
         "user-status.true": "Activado",
         "user-status.false": "Desactivado",
-        "user-status-update-confirm": "¿Estás seguro de que quieres actualizar el estado del usuario?"
+        "user-status-update-confirm": "¿Estás seguro de que quieres actualizar el estado del usuario?",
+        "ph-preferred-area": "Seleccione un área",
+        "captcha": "Verificación: escriba los caracteres de la imagen"
       },
       "submit": "Enviar",
       "errors": {
@@ -1243,6 +1246,10 @@
         "title": "¡Felicidades!",
         "content": "Tu cuenta ha sido creada. Serás redirigido a la página de inicio de sesión para finalizar la creación de tu cuenta.",
         "edit-content": "Tu cuenta ha sido modificada. Serás redirigido a la página de inicio."
+      },
+      "sections": {
+        "notifications": "Notificaciones",
+        "confirmation": "Condiciones y verificación"
       }
     },
     "edition": {
@@ -1272,7 +1279,8 @@
     },
     "contributions": {
       "description": "Tu identificador único para tus contribuciones : {{identifier}}<br/><br/>Este identificador ha sido generado automáticamente en la creación de la cuenta. Se utiliza como identificador único para tus contribuciones.",
-      "submit": "Ver mis contribuciones"
+      "submit": "Ver mis contribuciones",
+      "title": "Mis contribuciones"
     },
     "reset-password": {
       "description": "¿Quieres actualizar tu contraseña actual?<br />Envía el formulario para inicializar el proceso.",
@@ -1281,6 +1289,9 @@
     "delete-account": {
       "description": "¿Quieres eliminar tu perfil?<br />Envía el formulario para inicializar el proceso.",
       "submit": "Eliminar cuenta"
+    },
+    "sign-in-up": {
+      "title": "Inicia sesión o regístrate"
     }
   },
   "carto": {
@@ -3537,7 +3548,8 @@
     "error": "Error durante la asignación",
     "action": "Acción",
     "extract": "Eliminar",
-    "delete": "El rol ha sido eliminado"
+    "delete": "El rol ha sido eliminado",
+    "assigned-services": "Servicios asignados"
   },
   "role": {
     "service-admin": "Administrador",
@@ -3598,5 +3610,12 @@
     "new": "Nueva",
     "temporary": "Temporal",
     "permanent": "Permanente"
+  },
+  "pro-user-form": {
+    "sections": {
+      "role": "Rol y servicio",
+      "account": "Cuenta y seguridad"
+    },
+    "ph-select": "Seleccione una opción"
   }
 }

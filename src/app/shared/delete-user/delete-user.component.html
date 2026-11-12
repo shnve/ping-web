@@ -1,8 +1,8 @@
-<form  class="form" (ngSubmit)="confirm()">
-  <!-- Password -->
-  <div class="edit-profile-description" innerHTML="{{'account.delete-account.description' | translate}}"></div>
-  <div>
-    <button pButton pRipple type="submit" [label]="'account.delete-account.submit' | translate" class="p-button-raised p-button-danger"></button>
+<!-- PISAC (F5.3.5): fila de acción con botón de peligro en contorno. Misma lógica y diálogo de confirmación. -->
+<form class="pisac-action-row" (ngSubmit)="confirm()">
+  <div class="pisac-action-row__text edit-profile-description" [innerHTML]="'account.delete-account.description' | translate"></div>
+  <div class="pisac-action-row__actions">
+    <button pButton pRipple type="submit" icon="pi pi-trash" [label]="'account.delete-account.submit' | translate" class="p-button-outlined p-button-danger"></button>
   </div>
 </form>
 

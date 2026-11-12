@@ -1168,16 +1168,17 @@
     "creation": {
       "title": "Account creation",
       "credentials": {
-        "title": "Your credentials:",
+        "title": "Your credentials",
         "email": "Email address (mandatory)",
         "password": "Password (mandatory)",
         "identifier": "Identifier (nickname)"
       },
       "information": {
-        "title": "Your personal information:",
+        "title": "Your personal information",
         "gender": {
           "mr": "Mr",
-          "mrs": "Mrs"
+          "mrs": "Mrs",
+          "label": "Title"
         },
         "firstname": "First name (mandatory)",
         "lastname": "Last name (mandatory)",
@@ -1205,7 +1206,9 @@
         "user-status": "Update user status",
         "user-status.true": "Enabled",
         "user-status.false": "Disabled",
-        "user-status-update-confirm": "Are you sure you want to update user status ?"
+        "user-status-update-confirm": "Are you sure you want to update user status ?",
+        "ph-preferred-area": "Select an area",
+        "captcha": "Verification: type the characters shown in the image"
       },
       "submit": "Submit",
       "errors": {
@@ -1243,6 +1246,10 @@
         "title": "Congratulations !",
         "content": "Your account has been created. You are going to be redirected to login page in order to finalize your account creation.",
         "edit-content": "Your account has been modified. You are going to be redirected to the home page."
+      },
+      "sections": {
+        "notifications": "Notifications",
+        "confirmation": "Terms and verification"
       }
     },
     "edition": {
@@ -1272,7 +1279,8 @@
     },
     "contributions": {
       "description": "Your unique identifier for your contributions : {{identifier}}<br/><br/>This identifier has been automatically generated at account creation. It is used as unique identifier for your contributions.",
-      "submit": "See my contributions"
+      "submit": "See my contributions",
+      "title": "My contributions"
     },
     "reset-password": {
       "description": "You want to update your current password ?<br />Submit the form to initialize the process.",
@@ -1281,6 +1289,9 @@
     "delete-account": {
       "description": "You want to delete your profile ?<br />Submit the form to initialize the process.",
       "submit": "Delete account"
+    },
+    "sign-in-up": {
+      "title": "Sign in or register"
     }
   },
   "carto": {
@@ -3526,7 +3537,8 @@
     "error": "Error during assignment",
     "action": "Action",
     "extract": "Remove",
-    "delete": "The role has been removed"
+    "delete": "The role has been removed",
+    "assigned-services": "Assigned services"
   },
   "role": {
     "service-admin": "Administrator",
@@ -3587,5 +3599,12 @@
     "new": "New",
     "temporary": "Temporary",
     "permanent": "Permanent"
+  },
+  "pro-user-form": {
+    "sections": {
+      "role": "Role and service",
+      "account": "Account and security"
+    },
+    "ph-select": "Select an option"
   }
 }

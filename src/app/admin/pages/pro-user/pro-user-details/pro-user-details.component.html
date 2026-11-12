@@ -1,8 +1,10 @@
-<h1 translate *ngIf="disabled; else editTitle">pro-user-list.title.show</h1>
-<ng-template #editTitle>
- <h1 translate>pro-user-list.title.edit</h1>
-</ng-template>
-<div class="p-grid">
-    <div class="p-col"><app-pro-user-form *ngIf="proUser" [user]="proUser" [disabled]="disabled"></app-pro-user-form></div>
-    <div class="p-col"><app-service-assign-for-user *ngIf="hasServicesLink" [userId]="proUser.id"></app-service-assign-for-user></div>
+<!-- PISAC (F5.3.5): cabecera, formulario del usuario y, debajo, sus servicios asignados en una tarjeta
+     (antes, dos columnas con la tabla a la derecha). Mismas condiciones. -->
+<div class="pisac-form-page pro-user-page">
+  <pisac-page-header variant="light" icon="pi pi-user"
+    [title]="disabled ? 'pro-user-list.title.show' : 'pro-user-list.title.edit'"></pisac-page-header>
+  <app-pro-user-form *ngIf="proUser" [user]="proUser" [disabled]="disabled"></app-pro-user-form>
+  <pisac-card *ngIf="hasServicesLink" title="service-user-assign.assigned-services" icon="pi pi-sitemap">
+    <app-service-assign-for-user [userId]="proUser.id"></app-service-assign-for-user>
+  </pisac-card>
 </div>
