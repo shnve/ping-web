@@ -24,11 +24,11 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
     super();
     this.warningStyle = this.generateMaritimeReportTypeGeometryStyle({
       point: {
-        icon: './assets/images/icons/red-warning.png',
+        icon: './assets/images/icons/red-warning-queue.png',
         color: '#FF0000'
       },
       lineString: {
-        icon: './assets/images/icons/red-warning.png',
+        icon: './assets/images/icons/red-warning-queue.png',
         color: '#FF0000'
       },
       polygon: {
@@ -44,11 +44,11 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
     });
     this.noticeStyle = this.generateMaritimeReportTypeGeometryStyle({
       point: {
-        icon: './assets/images/icons/magenta-notice.png',
+        icon: './assets/images/icons/magenta-notice-queue.png',
         color: '#FF00FF'
       },
       lineString: {
-        icon: './assets/images/icons/magenta-notice.png',
+        icon: './assets/images/icons/magenta-notice-queue.png',
         color: '#FF00FF'
       },
       polygon: {
@@ -64,11 +64,11 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
     });
     this.noticeTPStyle = this.generateMaritimeReportTypeGeometryStyle({
       point: {
-        icon: './assets/images/icons/magenta-notice.png',
+        icon: './assets/images/icons/magenta-notice-queue.png',
         color: '#FF00FF'
       },
       lineString: {
-        icon: './assets/images/icons/magenta-notice.png',
+        icon: './assets/images/icons/magenta-notice-queue.png',
         color: '#FF00FF'
       },
       polygon: {

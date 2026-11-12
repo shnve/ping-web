@@ -1,5 +1,6 @@
 import { Circle, LineString, Point, Polygon } from 'ol/geom';
 import { Fill, Icon, Stroke, Style } from 'ol/style';
+import { Options as IconOptions } from 'ol/style/Icon';
 import IconOrigin from 'ol/style/IconOrigin';
 import Text from 'ol/style/Text';
 import { GeometryType } from '../utils/geometry';
@@ -21,6 +22,17 @@ export abstract class MaritimeReportStyleFactory {
     return pathParts.join('/');
   }
 
+  /**
+   * Los iconos "-queue" (con cola) apuntan con la punta de la cola, situada en su
+   * esquina inferior izquierda, a la posicion exacta del punto o del centro de la linea.
+   * El resto de iconos se centra sobre la posicion (comportamiento por defecto de OL).
+   */
+  protected getIconAnchorOptions(iconSrc: string): Pick<IconOptions, 'anchor' | 'anchorOrigin'> {
+    return /-queue\.png$/.test(iconSrc ?? '')
+      ? { anchor: [0, 0], anchorOrigin: IconOrigin.BOTTOM_LEFT }
+      : {};
+  }
+
   protected getRollOverStyle(styles: Style[], geometryType: GeometryType): Style[] {
     if (geometryType === GeometryType.POINT) {
       const iconImg = styles[0]?.getImage() as Icon;
@@ -39,6 +51,7 @@ export abstract class MaritimeReportStyleFactory {
       if (iconImg?.getSrc()) {
         const originalScale = iconImg.getScale() || 0.4;
         styles[1].setImage(new Icon({
+          ...this.getIconAnchorOptions(iconImg.getSrc()),
           src: this.getRolloverIconFromIconSrc(iconImg.getSrc()),
           scale: typeof originalScale === 'number' ? originalScale * 1.25 : 0.5
         }));
@@ -86,6 +99,7 @@ export abstract class MaritimeReportStyleFactory {
         }),
         new Style({
           image: options.lineString.icon ? new Icon({
+            ...this.getIconAnchorOptions(options.lineString.icon),
             src: options.lineString.icon,
             scale: options.iconScale ?? 0.4,
           }) : null,
