@@ -125,6 +125,8 @@ export const environment = {
       downloadGeometries: 'api/warnings/{{id}}/geometries/{{format}}?lang={{lang}}',
       downloadS124: 'nw/v1/Get_NW_Message',
       downloadS124Messages: 'nw/v1/Get_NW_Messages',
+      // PISAC: paquete S-124 firmado (.ZIP, inglés) de una advertencia publicada
+      downloadS124ExchangeSet: 'api/warnings/{{id}}/s124',
       downloadGpxZip: 'api/warnings/download-gpx-zip'
     },
     series: 'api/series',

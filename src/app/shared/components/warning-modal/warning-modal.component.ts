@@ -577,6 +577,29 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
       );
   }
 
+  /**
+   * PISAC: descarga el paquete S-124 firmado (.ZIP) en inglés, el mismo que entrega SECOM. Solo se ofrece en advertencias
+   * publicadas que producen S-124 (warning.s124Available, calculado en el backend); los avisos a los navegantes no lo tienen.
+   */
+  downloadS124ExchangeSet(): void {
+    if (!this.warning?.id) { return; }
+    this.warningApi.downloadS124ExchangeSet$(this.warning.id)
+      .pipe(this.scavenger.collect())
+      .subscribe({
+        next: response => {
+          const fallbackName = `${this.warning.nameOfSeries}-${this.warning.warningNumber}-${this.warning.year % 100}-S124.zip`;
+          saveAs(response.body, response.headers.get('filename') || fallbackName);
+        },
+        error: err => {
+          this.alertMessageService.add({
+            severity: 'error',
+            summary: 'message.summary.error',
+            detail: err?.status === 404 ? 'message.error.api.s124-exchange-set-not-available' : 'message.error.api.cannot-download-file'
+          });
+        }
+      });
+  }
+
   private setAllowedFormatToDownload(lang: string): void {
     this.allowedFormatToDownload = this.formatToDownload.filter(format =>
       (this.warning?.status === listWarningStatus.PUBLISHED || !format.onlyIfWarningPublished)

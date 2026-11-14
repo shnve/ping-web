@@ -192,7 +192,9 @@
   }
 
   // ---- Botones de herramientas de la cabecera (compartir, PDF): cuadrados de 40 px ----
-  .fr-header__tools-links .fr-btn[class*='pi-'] {
+  // .btn-s124: descarga del paquete S-124 (ícono SVG propio en lugar de PrimeIcons), mismo tamaño y estilo
+  .fr-header__tools-links .fr-btn[class*='pi-'],
+  .fr-header__tools-links .fr-btn.btn-s124 {
     width: 40px;
     min-width: 40px;
     height: 40px;
@@ -205,6 +207,17 @@
     &:hover {
       border-color: var(--shn-navy);
       background-color: var(--pisac-primary-50);
+    }
+  }
+
+  .fr-header__tools-links .btn-s124 {
+    display: inline-flex;
+    align-items: center;
+    color: var(--shn-navy);
+
+    .icon-s124 {
+      width: 24px;
+      height: 24px;
     }
   }
 }

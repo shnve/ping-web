@@ -36,6 +36,18 @@
                     <li *ngIf="hasGeometries">
                       <button type="button" class="fr-btn pi pi-download fr-btn--tertiary" (click)="downloadPanel.toggle($event)" [title]="'detail.download-geometries' | translate"></button>
                     </li>
+                    <!-- PISAC: paquete S-124 firmado (.ZIP, inglés). Solo advertencias publicadas que producen S-124 -->
+                    <li *ngIf="warning?.s124Available">
+                      <button type="button" class="fr-btn fr-btn--tertiary btn-s124" (click)="downloadS124ExchangeSet()"
+                              [title]="'detail.download-s124' | translate" [attr.aria-label]="'detail.download-s124' | translate">
+                        <svg class="icon-s124" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <path d="M12 2v8.2M8.6 7.2 12 10.6l3.4-3.4M5 12.2h14" fill="none" stroke="currentColor" stroke-width="1.8"
+                                stroke-linecap="round" stroke-linejoin="round"/>
+                          <text x="12" y="21.2" text-anchor="middle" font-size="7.6" font-weight="700" fill="currentColor"
+                                font-family="Arial, Helvetica, sans-serif">S124</text>
+                        </svg>
+                      </button>
+                    </li>
                     <li>
                       <button class="fr-btn pi pi-share-alt fr-btn--tertiary" [title]="'detail.share-direct-link' | translate" (click)="copySharedLinkUrl($event)" type="button"></button>
                     </li>

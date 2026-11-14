@@ -89,6 +89,8 @@ export interface TableWarning extends MainWarningPart {
 
 export interface JsonWarning extends MainWarningPart {
   globalWarningType: string;
+  /** PISAC: el paquete S-124 firmado (.ZIP en inglés) se puede descargar (solo advertencias publicadas que producen S-124) */
+  s124Available?: boolean;
   generalAreas?: { [lang: string]: Array<string> };
   localities?: { [lang: string]: Array<string> };
   warningHazardTypeGeneral: string;

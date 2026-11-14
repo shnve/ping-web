@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PaginatedModelItemTableViewDtos } from '@app/shared/models/paginated-table-view.model';
 import { Observable } from 'rxjs';
@@ -58,6 +58,7 @@ export class WarningApi {
   private readonly apiDownloadS124 = environment.baseApiUrl + environment.api.warnings.downloadS124;
   private readonly apiDownloadS124Messages = environment.baseApiUrl + environment.api.warnings.downloadS124Messages;
   private readonly apiDownloadGpxZip = environment.baseApiUrl + environment.api.warnings.downloadGpxZip;
+  private readonly apiDownloadS124ExchangeSet = environment.baseApiUrl + environment.api.warnings.downloadS124ExchangeSet;
 
   constructor(private readonly http: HttpClient) { }
 
@@ -102,5 +103,10 @@ export class WarningApi {
   downloadGpxAsZip$(params: WarningsDownloadGpxApiParams): Observable<Blob> {
     const httpParams = new HttpParams({ fromObject: params });
     return this.http.get(this.apiDownloadGpxZip, { params: httpParams, responseType: 'blob' });
+  }
+
+  /** PISAC: paquete S-124 firmado (.ZIP en inglés). La respuesta completa permite leer el nombre oficial del archivo. */
+  downloadS124ExchangeSet$(warningId: string): Observable<HttpResponse<Blob>> {
+    return this.http.get(this.apiDownloadS124ExchangeSet.replace('{{id}}', warningId), { observe: 'response', responseType: 'blob' });
   }
 }
