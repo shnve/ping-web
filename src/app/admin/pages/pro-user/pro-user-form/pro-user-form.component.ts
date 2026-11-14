@@ -180,11 +180,12 @@ export class ProUserFormComponent implements OnInit, OnDestroy, OnChangeLang {
           .subscribe();
       }
 
-    }, () => this.alertMessageService.add({
+    }, (error: { message?: string }) => this.alertMessageService.add({
       id: 'account-saved',
       severity: 'error',
       summary: 'message.summary.error',
-      detail: 'message.error.api.account-saved'
+      // PISAC: si el backend devuelve una clave de mensaje (ej. cuenta inexistente en Keycloak o correo ya usado), se muestra esa
+      detail: error?.message ?? 'message.error.api.account-saved'
     })));
   }
 

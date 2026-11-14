@@ -1,4 +1,17 @@
 {
+  "session-timeout": {
+    "warning": {
+      "title": "Su sesión está por cerrarse",
+      "text": "Por seguridad, la sesión se cierra tras un período sin actividad. Se cerrará en:",
+      "continue": "Continuar en la sesión",
+      "logout": "Cerrar sesión"
+    },
+    "closed": {
+      "summary": "Sesión cerrada",
+      "idle": "Su sesión se cerró por inactividad. Inicie sesión nuevamente para continuar.",
+      "expired": "Su sesión venció. Inicie sesión nuevamente para continuar."
+    }
+  },
   "COORDINATES": {
     "LATITUDE": "Latitud",
     "LONGITUDE": "Longitud"
@@ -78,11 +91,11 @@
       "title": "Administración",
       "area": "Lista de áreas",
       "serie": "Lista de series",
-      "maritime-entity": "Lista de entidades marítimas",
-      "maritime-service": "Lista de servicios marítimos",
+      "maritime-entity": "Lista de zonas de responsabilidad",
+      "maritime-service": "Lista de organismos",
       "sub-area": "Lista de subáreas",
       "public-user": "Lista de usuarios públicos",
-      "pro-user": "Lista de usuarios profesionales",
+      "pro-user": "Lista de usuarios institucionales",
       "add": "Añadir",
       "edit": "Editar",
       "show": "Detalles",
@@ -180,7 +193,8 @@
   "paginator": {
     "next-page": "Página siguiente",
     "previous-page": "Página anterior",
-    "items-per-page": "Elementos por página"
+    "items-per-page": "Elementos por página",
+    "of": "de"
   },
   "pages": {
     "not-found": {
@@ -237,12 +251,12 @@
   },
   "pro-user-role": {
     "FUNCTIONAL_ADMIN": "Administrador funcional",
-    "SERVICE_USER": "Usuario del servicio"
+    "SERVICE_USER": "Usuario del organismo"
   },
   "service-role": {
-    "SERVICE_ADMIN": "Administrador del servicio",
-    "SERVICE_OPERATOR": "Operador del servicio",
-    "SERVICE_VISITOR": "Visitante del servicio"
+    "SERVICE_ADMIN": "Administrador del organismo",
+    "SERVICE_OPERATOR": "Operador del organismo",
+    "SERVICE_VISITOR": "Visitante del organismo"
   },
   "infosource": {
     "home": {
@@ -289,8 +303,8 @@
           "danger-location": "Ubicación del peligro",
           "survey-period": "Período del levantamiento",
           "additional-informations": "Informaciones adicionales",
-          "producer-service": "Servicio productor",
-          "producer-service-choice": "Elección del servicio productor"
+          "producer-service": "Organismo productor",
+          "producer-service-choice": "Elección del organismo productor"
         }
       },
       "examples": {
@@ -306,10 +320,10 @@
       "new-report-hazard": "Nuevo reporte de anomalía en el balizamiento",
       "hazard-location": "Ubicación del peligro",
       "anomaly-location": "Localización de la anomalía",
-      "contributor-service": "Servicio colaborador",
-      "contributor-service-placeholder": "Por favor, selecciona el servicio colaborador",
-      "concerned-maritime-entities-placeholder": "Selecciona las entidades marítimas afectadas",
-      "concerned-maritime-entities": "Entidades marítimas afectadas",
+      "contributor-service": "Organismo colaborador",
+      "contributor-service-placeholder": "Por favor, selecciona el organismo colaborador",
+      "concerned-maritime-entities-placeholder": "Selecciona las zonas de responsabilidad afectadas",
+      "concerned-maritime-entities": "Zonas de responsabilidad afectadas",
       "internal-comment": "Comentario interno",
       "observation-date": "Fecha de observación",
       "markup-type": {
@@ -341,7 +355,7 @@
         "observation-date-invalid": "Fecha de observación (obligatorio)",
         "localization-invalid": "Localización (obligatorio)",
         "markupType-invalid": "Tipo de balizamiento (obligatorio)",
-        "concerned-maritime-entities-invalid": "Entidades marítimas afectadas (obligatorio)"
+        "concerned-maritime-entities-invalid": "Zonas de responsabilidad afectadas (obligatorio)"
       }
     },
     "sign-in-up-contribute-message": "Para transmitir nueva información que afecte la navegación, por favor crea tu cuenta o inicia sesión.",
@@ -366,7 +380,7 @@
           "georegulationType": "Tipo",
           "georegulationActivities": "Actividad(es) afectada(s)",
           "georegulationTitle": "Objeto",
-          "georegulationMaritimeEntity": "Entidades marítimas",
+          "georegulationMaritimeEntity": "Zonas de responsabilidad",
           "georegulationSummary": "Resumen",
           "georegulationAdditionNumbers": "Números adicionales",
           "ping-id": "ID de PISAC",
@@ -448,16 +462,16 @@
         "delete-error": "No se pudo eliminar la contribución"
       },
       "update-service-status": {
-        "title": "Estado por servicio",
-        "service": "Servicio",
+        "title": "Estado por organismo",
+        "service": "Organismo",
         "status": "Estado",
         "action": "Acción",
         "new-service-status": "Nuevo estado",
         "cancel": "Cancelar",
         "confirm": "Confirmar",
-        "show-panel": "Actualizar estado del servicio",
-        "success": "El estado del servicio ha sido actualizado",
-        "error": "Error al actualizar el estado del servicio",
+        "show-panel": "Actualizar estado por organismo",
+        "success": "El estado por organismo ha sido actualizado",
+        "error": "Error al actualizar el estado por organismo",
         "tag-name": "Nombre de la etiqueta",
         "add-new-tag": "Añadir nueva etiqueta y vincular directamente a la contribución",
         "link-tags": "Vincular etiquetas",
@@ -475,7 +489,7 @@
         "confirm": "Confirmar",
         "success": "La contribución se transfirió exitosamente",
         "error": "Error al transferir la contribución",
-        "no-transferable-services": "No hay servicios transferibles"
+        "no-transferable-services": "No hay organismos transferibles"
       },
       "create-warning": {
         "show-panel": "Crear advertencia",
@@ -552,8 +566,8 @@
       "new": "Crear nueva suscripción"
     },
     "modal": {
-      "service": "Servicio marítimo suscriptor",
-      "maritime-entities-geographic-extent": "Entidades marítimas por extensión geográfica",
+      "service": "Organismo suscriptor",
+      "maritime-entities-geographic-extent": "Zonas de responsabilidad por extensión geográfica",
       "area": "Área",
       "serie": "Series",
       "lang": "Idioma",
@@ -562,7 +576,7 @@
       "sub-areas": "Subáreas",
       "map-selected-sub-areas": "Mapa de subáreas seleccionadas",
       "warning-hazard-type-generals": "Tipos generales de peligro",
-      "maritime-entities-in-area": "Entidades marítimas en el área",
+      "maritime-entities-in-area": "Zonas de responsabilidad en el área",
       "georegulation-types": "Tipos de regulación",
       "sending-mail": "Envío por correo"
     },
@@ -596,9 +610,9 @@
     },
     "details": {
       "locality": "Localidad",
-      "concernedMaritimeEntities": "Entidades marítimas afectadas",
+      "concernedMaritimeEntities": "Zonas de responsabilidad afectadas",
       "object": "Objeto",
-      "sharedMaritimeServices": "Servicios marítimos compartidos",
+      "sharedMaritimeServices": "Organismos compartidos",
       "status": "Estado",
       "lastUpdate": "Última actualización",
       "delete": {
@@ -607,14 +621,14 @@
         "delete-error": "No se pudo eliminar el expediente"
       },
       "follow": {
-        "message": "Los servicios seleccionados podrán seguir este expediente en la tabla de expedientes seguidos.",
-        "follow-success": "El expediente se ha añadido al seguimiento de los servicios seleccionados",
-        "follow-error": "No se pudo añadir el expediente al seguimiento de los servicios seleccionados"
+        "message": "Los organismos seleccionados podrán seguir este expediente en la tabla de expedientes seguidos.",
+        "follow-success": "El expediente se ha añadido al seguimiento de los organismos seleccionados",
+        "follow-error": "No se pudo añadir el expediente al seguimiento de los organismos seleccionados"
       },
       "un-follow": {
         "un-follow-confirm": "Estás a punto de dejar de seguir este expediente, ¿estás seguro?",
-        "un-follow-success": "El expediente se ha eliminado del seguimiento del servicio",
-        "un-follow-error": "No se pudo eliminar el expediente del seguimiento del servicio"
+        "un-follow-success": "El expediente se ha eliminado del seguimiento del organismo",
+        "un-follow-error": "No se pudo eliminar el expediente del seguimiento del organismo"
       },
       "add-notion-to-folder": {
         "show-panel": "Añadir a un expediente",
@@ -623,7 +637,7 @@
         "select-folder": "Seleccionar un expediente",
         "success": "La noción se ha añadido al expediente",
         "error": "No se pudo añadir la noción al expediente",
-        "folders-linked-to-maritime-entities": "Expedientes vinculados a entidades marítimas",
+        "folders-linked-to-maritime-entities": "Expedientes vinculados a zonas de responsabilidad",
         "folder": "Expediente"
       },
       "create-study": "Crear estudio",
@@ -746,7 +760,7 @@
         "remove-link": "Eliminar enlace"
       },
       "errors": {
-        "issuing-service-invalid": "Servicio emisor inválido",
+        "issuing-service-invalid": "Organismo emisor inválido",
         "type-invalid": "Tipo inválido",
         "timezone-invalid": "Zona horaria inválida",
         "is-temporary-invalid": "Elige si la GR es temporal o no",
@@ -762,7 +776,7 @@
         "missing-choice-restriction-vessel": "La elección de restricción de buque es obligatoria",
         "missing-length-restriction-vessel": "La eslora del buque es obligatoria",
         "missing-gross-tonnage-restriction-vessel": "El tonelaje bruto del buque es obligatorio",
-        "missing-unit-gross-tonange-restriction-vessel": "La unidad de tonelaje bruto del buque es obligatoria",
+        "missing-unit-gross-tonnage-restriction-vessel": "La unidad de tonelaje bruto del buque es obligatoria",
         "main-number-unavailable": "El número principal ya está en uso",
         "invalid-additional-number": "Al menos un número adicional es inválido",
         "at-least-one-missing-geometry": "Falta la geometría en al menos una parte",
@@ -785,8 +799,8 @@
       "save": "Actualizar GR publicada",
       "cancel-message": "Todos los cambios se perderán. ¿Continuar?"
     },
-    "issuing-service": "Servicio emisor",
-    "issuing-service-placeholder": "Seleccionar servicio emisor",
+    "issuing-service": "Organismo emisor",
+    "issuing-service-placeholder": "Seleccionar organismo emisor",
     "type": {
       "title": "Tipo",
       "placeholder": "Seleccionar tipo de georregulación",
@@ -830,7 +844,7 @@
     "commercial-ship": "Buques comerciales",
     "restriction-categories": "Categorías de restricción",
     "restriction-categories-placeholder": "Seleccionar categorías de restricción",
-    "empty-available-maritime-entities": "Selecciona primero el servicio emisor",
+    "empty-available-maritime-entities": "Selecciona primero el organismo emisor",
     "information": {
       "add-geometry": "Generar geometrías",
       "btn-copy-to-clipboard": "Copiar contenido de texto en ",
@@ -845,7 +859,7 @@
       }
     },
     "modal": {
-      "warning": "Las áreas trazadas en PISAC solo tienen un valor indicativo. Los límites oficiales son los dados en el decreto.",
+      "warning": "Las áreas trazadas en PISAC solo tienen un valor referencial. Los límites oficiales son los publicados por el organismo competente.",
       "details-fieldset": "Detalles",
       "numbers": "Número(s)",
       "secondary-numbers": "Otro(s) número(s)",
@@ -865,7 +879,7 @@
       "type": "Tipo",
       "activities": "Actividad(es) afectada(s)",
       "title": "Objeto",
-      "entities": "Entidades marítimas",
+      "entities": "Zonas de responsabilidad",
       "summary": "Resumen SHN",
       "areas": "Área(s)",
       "no-part-information": "Sin información de partes",
@@ -877,7 +891,7 @@
       "status-published": "Publicado desde",
       "status-repealed": "Expirado desde",
       "last-update": "Última actualización en PISAC",
-      "issuing-service": "Servicio emisor",
+      "issuing-service": "Organismo emisor",
       "is-public": "Esta GR es pública",
       "is-not-public": "Esta GR no es pública",
       "internal-comment-fieldset": "Comentario interno",
@@ -985,7 +999,7 @@
         "name-and-location": "Nombre y ubicación del levantamiento",
         "area": "Área",
         "achievement-period": "Período de realización del levantamiento",
-        "contributor-service": "Servicio colaborador",
+        "contributor-service": "Organismo colaborador",
         "bathymetry-data-format": "Formato de datos de batimetría",
         "internal-comment": "Comentario interno",
         "issuer-types": "Tipos de emisor del levantamiento",
@@ -1029,7 +1043,7 @@
         "name-and-location": "Levantamiento del canal de acceso - Puerto de La Guaira",
         "goal": "Levantamiento de control batimétrico después del dragado",
         "area": "Seleccionar área",
-        "contributor-service": "Seleccionar servicio colaborador",
+        "contributor-service": "Seleccionar organismo colaborador",
         "issuer-types": "Seleccionar tipo de emisor",
         "email-address": "Dirección de correo electrónico",
         "epsg": "Seleccionar código EPSG",
@@ -1187,8 +1201,8 @@
         "phone": "Número de teléfono (uno obligatorio)",
         "phone-description": "Descripción",
         "role": "Rol (obligatorio)",
-        "service": "Servicio marítimo (obligatorio)",
-        "service-role": "Rol en el servicio (obligatorio)",
+        "service": "Organismo (obligatorio)",
+        "service-role": "Rol en el organismo (obligatorio)",
         "addPhone": "Añadir un número de teléfono",
         "home-phone": "Teléfono fijo",
         "organization": "Organización (opcional)",
@@ -1213,11 +1227,11 @@
       "submit": "Enviar",
       "errors": {
         "email-invalid": "Por favor, introduce un correo electrónico válido",
-        "password-invalid": "Por favor, introduce una contraseña válida",
+        "password-invalid": "La contraseña debe tener al menos 12 caracteres, una mayúscula, una minúscula, un número y un símbolo",
         "firstName-invalid": "Por favor, introduce tu nombre",
         "lastName-invalid": "Por favor, introduce tu apellido",
         "role-invalid": "Por favor, introduce un rol",
-        "service-invalid": "Por favor, introduce un servicio marítimo",
+        "service-invalid": "Por favor, introduce un organismo",
         "hasAcceptedTos-invalid": "Por favor, acepta los Términos de Servicio para crear tu cuenta",
         "organization-invalid": "La organización es obligatoria para usuarios profesionales",
         "phonenumber-invalid": "Se requiere al menos un número de teléfono válido",
@@ -1239,7 +1253,8 @@
           "tip1": "Al menos una minúscula",
           "tip2": "Al menos una mayúscula",
           "tip3": "Al menos un número",
-          "tip4": "Mínimo 10 caracteres"
+          "tip4": "Mínimo 12 caracteres",
+          "tip5": "Al menos un símbolo (ej. ! @ # $ %)"
         }
       },
       "modal": {
@@ -1304,7 +1319,8 @@
       "add-vertex": "Añadir Vértice",
       "clear": "Limpiar",
       "alert-title": "Atención",
-      "alert-detail": "Por favor ingrese Latitud y Longitud"
+      "alert-detail": "Por favor ingrese Latitud y Longitud",
+      "invalid-format": "Formato inválido"
     },
     "popover": {
       "and-more": "y {{number}} más"
@@ -1326,7 +1342,7 @@
       "invalid-polygon-vertices-number": "Al menos un polígono contiene demasiados vértices para batimetría IS"
     },
     "raster-marine": "Raster Marine",
-    "entities-maritimes-managed-or-observed-by-service": "Entidad(es) marítima(s) gestionada(s) u observada(s)"
+    "entities-maritimes-managed-or-observed-by-service": "Zona(s) de responsabilidad gestionada(s) u observada(s)"
   },
   "table": {
     "no-area-selected": "Primero debes seleccionar un área antes de mostrar la lista de ANs",
@@ -1344,7 +1360,7 @@
       "endOfBroadcastDate": "Fin de difusión",
       "reviewDate": "Revisión",
       "internalComment": "Comentario interno",
-      "entities": "Entidades marítimas",
+      "entities": "Zonas de responsabilidad",
       "folders": "Expedientes"
     },
     "pagination": "Mostrando del {first} al {last} de {totalRecords} registros",
@@ -1373,9 +1389,9 @@
       "area": "Área",
       "folderManager": "Gestor del expediente",
       "locality": "Localidad",
-      "concernedMaritimeEntities": "Entidades marítimas afectadas",
+      "concernedMaritimeEntities": "Zonas de responsabilidad afectadas",
       "object": "Objeto",
-      "sharedMaritimeServices": "Servicios marítimos compartidos",
+      "sharedMaritimeServices": "Organismos compartidos",
       "reviewDate": "Fecha de revisión",
       "reviewStatus": "Estado",
       "comment": "Comentario",
@@ -1407,11 +1423,11 @@
       "filename": "Archivo",
       "comment": "Comentario",
       "receptionDate": "Fecha de recepción",
-      "maritimeService": "Servicio marítimo",
+      "maritimeService": "Organismo",
       "action": "Acción"
     },
-    "maritime-services-of-folder-area": "Servicios marítimos del área del expediente",
-    "other-maritime-services": "Otros servicios marítimos",
+    "maritime-services-of-folder-area": "Organismos del área del expediente",
+    "other-maritime-services": "Otros organismos",
     "add-attachment": "Añadir un adjunto",
     "delete-confirm": "Estás a punto de eliminar este adjunto del expediente, ¿estás seguro?"
   },
@@ -1467,7 +1483,7 @@
   "subscription-table": {
     "columns": {
       "title": "Título",
-      "maritimeServiceSubscriber": "Servicio marítimo suscriptor",
+      "maritimeServiceSubscriber": "Organismo suscriptor",
       "creation-date": "Fecha de creación",
       "area-name": "Área",
       "sending-mail": "Envío por correo"
@@ -1479,7 +1495,7 @@
       "scope": "Alcance de la suscripción",
       "notification": "Notificación"
     },
-    "service": "Servicio marítimo suscriptor",
+    "service": "Organismo suscriptor",
     "title": "Título de la suscripción",
     "area": "Área",
     "serie": "Series",
@@ -1488,38 +1504,38 @@
     "sending-mail": "¿Activar notificaciones por correo?",
     "map-selected-sub-areas": "Mapa de subáreas seleccionadas",
     "warning-hazard-general-types": "Tipos generales de peligro",
-    "maritime-entities-geographic-extent": "Entidades marítimas por extensión geográfica",
-    "maritime-entities-in-area": "Entidades marítimas en el área",
-    "maritime-entities-in-service": "Entidades marítimas vinculadas al servicio",
-    "other-maritime-entities": "Otras entidades marítimas",
+    "maritime-entities-geographic-extent": "Zonas de responsabilidad por extensión geográfica",
+    "maritime-entities-in-area": "Zonas de responsabilidad en el área",
+    "maritime-entities-in-service": "Zonas de responsabilidad vinculadas al organismo",
+    "other-maritime-entities": "Otras zonas de responsabilidad",
     "georegulation-types": "Tipos de regulación",
-    "ph-service": "Por favor, selecciona un servicio marítimo",
+    "ph-service": "Por favor, selecciona un organismo",
     "ph-area": "Por favor, selecciona un área",
     "ph-serie": "Por favor, selecciona una serie",
     "ph-sub-areas": "Por favor, selecciona una o varias subárea(s)",
     "ph-warning-hazard-general-types": "Por favor, selecciona uno o varios tipo(s) de peligro",
-    "ph-maritime-entities": "Por favor, selecciona una o varias entidad(es) marítima(s)",
+    "ph-maritime-entities": "Por favor, selecciona una o varias zona(s) de responsabilidad",
     "ph-georegulation-types": "Por favor, selecciona uno o varios tipo(s) de georregulación",
     "create-subscription": "Crear una suscripción",
     "errors": {
-      "service-invalid": "Servicio marítimo inválido",
+      "service-invalid": "Organismo inválido",
       "title-invalid": "Título inválido",
       "area-invalid": "Área inválida",
       "serie-invalid": "Series inválidas",
       "georegulation-types-invalid": "Tipos de regulación inválidos (Obligatorio)"
     },
-    "tooltip-about-sending-mail": "Al marcar Sí, los usuarios del servicio recibirán los nuevos ANs por correo electrónico, siempre que hayan autorizado estos envíos en la configuración de su cuenta.",
+    "tooltip-about-sending-mail": "Al marcar Sí, los usuarios del organismo recibirán los nuevos ANs por correo electrónico, siempre que hayan autorizado estos envíos en la configuración de su cuenta.",
     "true-value": "Sí",
     "false-value": "No",
     "french-language": "Francés",
     "english-language": "Inglés"
   },
   "info-table": {
-    "no-service-selected": "Primero debes seleccionar un servicio antes de mostrar la lista de fuentes de información",
+    "no-service-selected": "Primero debes seleccionar un organismo antes de mostrar la lista de fuentes de información",
     "columns": {
       "nature": "Naturaleza",
       "description": "Descripción",
-      "concernedMaritimeEntities": "Entidades marítimas afectadas",
+      "concernedMaritimeEntities": "Zonas de responsabilidad afectadas",
       "tags": "Etiquetas",
       "comment": "Comentario",
       "lastUpdate": "Última actualización",
@@ -1531,7 +1547,7 @@
       "affairs": "Asuntos",
       "nauticalInformationsProduced": "Información náutica producida",
       "sending": "Emisión",
-      "stateService": "Estado del servicio",
+      "stateService": "Estado por organismo",
       "emitter": "Emisor",
       "truncatedDescription": "Descripción truncada",
       "internalComment": "Comentario interno",
@@ -1548,7 +1564,7 @@
       "type": "Tipo",
       "activities": "Actividades",
       "title": "Objeto",
-      "entities": "Entidades marítimas",
+      "entities": "Zonas de responsabilidad",
       "internal-comment": "Comentario interno",
       "last-update": "Última actualización",
       "publication-date": "Fecha de publicación",
@@ -1700,8 +1716,8 @@
     "send-georegulation-error": "No se pudo enviar la georregulación",
     "clone-georegulation-success": "La georregulación ha sido clonada",
     "clone-georegulation-error": "No se pudo clonar la georregulación,",
-    "notify-folder-placeholder": "Seleccionar los servicios a notificar",
-    "follow-folder-placeholder": "Seleccionar los servicios para el seguimiento",
+    "notify-folder-placeholder": "Seleccionar los organismos a notificar",
+    "follow-folder-placeholder": "Seleccionar los organismos para el seguimiento",
     "notify-folder-cancel": "Cancelar",
     "notify-folder-confirm": "Confirmar",
     "notify-folder-success": "El expediente ha sido notificado",
@@ -1745,7 +1761,7 @@
       "NOT_SEASONAL_PERIOD": "No Estacional",
       "other-filters": "Otros filtros",
       "select-serie": "Seleccionar serie",
-      "select-service": "Seleccionar servicio marítimo",
+      "select-service": "Seleccionar organismo",
       "select-area": "Seleccionar un área",
       "table-view": {
         "list": "Lista",
@@ -1772,8 +1788,8 @@
         "replace": "reemplaza a {{referenceNumber}}",
         "natures": "{{count}} naturalezas",
         "nature": "1 naturaleza",
-        "maritime-entities": "{{count}} entidades",
-        "maritime-entity": "1 entidad",
+        "maritime-entities": "{{count}} zonas",
+        "maritime-entity": "1 zona",
         "maritime-entities-cover": "{{count}} coberturas",
         "maritime-entity-cover": "1 cobertura",
         "tags": "{{count}} etiquetas",
@@ -1783,8 +1799,8 @@
         "recipients": "{{count}} destinatarios",
         "recipient": "1 destinatario",
         "affair-number": "asunto #{{number}}",
-        "service-statuses": "{{count}} estados de servicio",
-        "service-status": "1 estado de servicio",
+        "service-statuses": "{{count}} estados por organismo",
+        "service-status": "1 estado por organismo",
         "rejected-infosources": "Rechazado",
         "archived-infosources": "Archivado",
         "folders": "{{count}} expedientes",
@@ -1803,8 +1819,8 @@
           "main-number-date": "Fecha {{date}}",
           "activities": "{{count}} actividades",
           "activity": "{{count}} actividad",
-          "entities": "{{count}} entidades",
-          "entity": "{{count}} entidad",
+          "entities": "{{count}} zonas",
+          "entity": "{{count}} zona",
           "is-public-yes": "Público",
           "is-public-no": "No público",
           "is-new-yes": "Nuevo",
@@ -1840,11 +1856,11 @@
       "categories": "Categorías: ",
       "folders": "Expedientes: ",
       "all-categories": "Todas las categorías",
-      "all-entities": "Todas las entidades",
+      "all-entities": "Todas las zonas",
       "all-folders": "Todos los expedientes",
-      "entities": "Entidades marítimas",
-      "entity-cover": "Cobertura de la entidad",
-      "entities-placeholder": "Elige entidades marítimas",
+      "entities": "Zonas de responsabilidad",
+      "entity-cover": "Cobertura de la zona",
+      "entities-placeholder": "Elige zonas de responsabilidad",
       "date-placeholder": "dd/mm/aaaa",
       "first-day-of-week": "1",
       "event-period": "Período de eventos",
@@ -1865,12 +1881,12 @@
       "display-rejected": "Mostrar rechazados: ",
       "display-archived": "Mostrar archivados: ",
       "all-natures": "Todas las naturalezas",
-      "all-maritime-entities": "Todas las entidades marítimas",
+      "all-maritime-entities": "Todas las zonas de responsabilidad",
       "all-tags": "Todas las etiquetas",
-      "all-service-statuses": "Todos los estados de servicio",
+      "all-service-statuses": "Todos los estados por organismo",
       "all-recipients": "Todos los destinatarios",
       "natures": "Naturalezas : ",
-      "maritime-entities": "Entidades marítimas: ",
+      "maritime-entities": "Zonas de responsabilidad: ",
       "tags": "Etiquetas: ",
       "last-update-period": "Período de última actualización: ",
       "number": "Número IS: ",
@@ -1878,12 +1894,12 @@
       "sending-year": "Año de envío: ",
       "recipients": "Destinatarios: ",
       "affair-number": "Número de asunto: ",
-      "service-statuses": "Estados de servicio: "
+      "service-statuses": "Estados por organismo: "
     },
     "folder-filter-form": {
-      "all-maritime-entities": "Todas las entidades marítimas",
+      "all-maritime-entities": "Todas las zonas de responsabilidad",
       "all-areas": "Todas las áreas",
-      "maritime-entities": "Entidades marítimas: ",
+      "maritime-entities": "Zonas de responsabilidad: ",
       "last-update-period": "Período de última actualización: ",
       "second-part-number": "Número del año del expediente",
       "areas": "Áreas: ",
@@ -1949,17 +1965,17 @@
     "error.api.cannot-save-sub-area": "No se pudo guardar la subárea.",
     "error.api.cannot-get-base-map-layer": "No se pudo cargar el mapa base.",
     "error.api.cannot-get-series": "No se pudieron cargar las series",
-    "error.api.cannot-get-services": "No se pudieron cargar los servicios marítimos",
-    "error.api.cannot-save-maritime-service": "No se pudo guardar el servicio marítimo",
-    "error.api.cannot-add-service-tag": "No se pudo añadir la etiqueta al servicio marítimo",
-    "error.api.cannot-add-maritime-entity-reference": "No se pudo añadir la referencia a la entidad marítima",
-    "error.api.cannot-update-maritime-entity-reference": "No se pudo actualizar la referencia de la entidad",
+    "error.api.cannot-get-services": "No se pudieron cargar los organismos",
+    "error.api.cannot-save-maritime-service": "No se pudo guardar el organismo",
+    "error.api.cannot-add-service-tag": "No se pudo añadir la etiqueta al organismo",
+    "error.api.cannot-add-maritime-entity-reference": "No se pudo añadir la referencia a la zona de responsabilidad",
+    "error.api.cannot-update-maritime-entity-reference": "No se pudo actualizar la referencia de la zona de responsabilidad",
     "error.api.cannot-add-warning-link-reference": "No se pudo añadir el enlace a la advertencia",
     "error.api.cannot-update-warning-link-reference": "No se pudo actualizar el enlace",
     "error.api.cannot-delete-warning-link-reference": "No se pudo eliminar el enlace",
     "error.api.filter.cannot-get-warnings": "No se pudieron cargar las advertencias que coinciden con este filtro",
     "error.api.filter.cannot-get-georegulations": "No se pudieron cargar las georregulaciones que coinciden con este filtro",
-    "error.api.cannot-save-maritime-entity": "No se pudo guardar la entidad marítima.",
+    "error.api.cannot-save-maritime-entity": "No se pudo guardar la zona de responsabilidad.",
     "error.api.cannot-save-attachment": "No se pudo guardar el archivo adjunto.",
     "error.api.malicious-attachment": "Archivo malicioso detectado.",
     "error.api.antivirus-analysis-unavailable": "El análisis no se puede hacer ahora, se hará automáticamente más tarde.",
@@ -1974,7 +1990,7 @@
     "error.api.warning-current-status-invalid": "Acceso público restringido para advertencias en estado de borrador o modelo",
     "error.api.georegulation-current-status-invalid": "Acceso público restringido para GRs en borrador",
     "error.api.cannot-update-warning-draft": "No se pudo actualizar el borrador de la advertencia",
-    "error.api.warning-rules.infosource-not-linkable": "No se puede guardar: una de las contribuciones vinculadas no pertenece al servicio de la serie.",
+    "error.api.warning-rules.infosource-not-linkable": "No se puede guardar: una de las contribuciones vinculadas no pertenece al organismo de la serie.",
     "error.api.warning-rules.number-reserved": "El número de advertencia ya está reservado para este año en la serie.",
     "error.api.warning-rules.general-area-not-in-serie": "Una de las zonas generales no pertenece a la serie seleccionada.",
     "error.api.warning-rules.locality-not-in-serie": "Una de las localidades no pertenece a las subzonas de la serie.",
@@ -2021,10 +2037,13 @@
     "warn.filter.no-georegulation.found": "No se encontró ninguna georregulación con este filtro",
     "success.api.email-updated": "El correo ha sido actualizado",
     "error.api.email-updated": "El correo no fue actualizado",
+    "error.api.pro-user-keycloak-account-not-found": "La cuenta de acceso de este usuario no existe en Keycloak. Debe volver a crearse para que pueda iniciar sesión.",
+    "error.api.pro-user-email-already-used": "Ya existe una cuenta de acceso con ese correo electrónico.",
     "success.api.password-updated": "La contraseña ha sido actualizada",
     "error.api.password-updated": "La contraseña no fue actualizada (debe ser diferente de las 3 últimas utilizadas)",
     "success.api.account-updated": "La cuenta ha sido actualizada",
     "error.api.account-updated": "La cuenta no fue actualizada",
+    "error.api.account-saved": "La cuenta no fue guardada",
     "success.api.create-pro-user": "La cuenta ha sido creada",
     "success.api.edit-pro-user": "La cuenta ha sido actualizada",
     "success.api.account-saved": "La cuenta fue guardada",
@@ -2054,11 +2073,11 @@
     "success.api.create-staticPage": "La página estática ha sido creada",
     "success.api.edit-staticPage": "La página estática ha sido actualizada",
     "success.api.delete-staticPage": "La página estática ha sido eliminada",
-    "success.api.create-maritime-entity": "La entidad marítima ha sido creada",
-    "success.api.edit-maritime-entity": "La entidad marítima ha sido actualizada",
-    "success.api.create-maritime-service": "El servicio marítimo ha sido creado",
-    "success.api.edit-maritime-service": "El servicio marítimo ha sido actualizado",
-    "success.api.add-service-tag": "La etiqueta ha sido añadida al servicio",
+    "success.api.create-maritime-entity": "La zona de responsabilidad ha sido creada",
+    "success.api.edit-maritime-entity": "La zona de responsabilidad ha sido actualizada",
+    "success.api.create-maritime-service": "El organismo ha sido creado",
+    "success.api.edit-maritime-service": "El organismo ha sido actualizado",
+    "success.api.add-service-tag": "La etiqueta ha sido añadida al organismo",
     "success.api.edit-service-tag": "La etiqueta ha sido modificada exitosamente",
     "success.api.add-maritime-entity-reference": "La referencia ha sido añadida exitosamente",
     "success.api.edit-maritime-entity-reference": "La referencia ha sido actualizada exitosamente",
@@ -2066,7 +2085,7 @@
     "success.api.add-warning-link-reference": "El enlace ha sido añadido exitosamente",
     "success.api.edit-warning-link-reference": "El enlace ha sido actualizado exitosamente",
     "success.api.delete-warning-link-reference": "El enlace ha sido eliminado exitosamente",
-    "success.api.delete-service-tag": "La etiqueta ha sido eliminada exitosamente del servicio y de todas las fuentes vinculadas",
+    "success.api.delete-service-tag": "La etiqueta ha sido eliminada exitosamente del organismo y de todas las fuentes vinculadas",
     "success.api.create-sub-area": "La subárea ha sido creada",
     "success.api.edit-sub-area": "La subárea ha sido actualizada",
     "success.api.delete-locality": "La localidad ha sido eliminada",
@@ -2092,7 +2111,7 @@
     "error.authentication": "La autenticación ha fallado.",
     "network-error": "Error del lado del cliente o de la red",
     "unhandled-error": "Error desconocido no manejado del lado del servidor",
-    "warn.api.georegulation.tables": "El usuario del servicio no tiene ningún rol en ninguna autoridad del servicio",
+    "warn.api.georegulation.tables": "El usuario no tiene ningún rol en ningún organismo de tipo autoridad",
     "generate-s124.error": "Error al generar el archivo S-124",
     "generate-gpx-zip.error": "Error al generar el archivo ZIP que contiene los archivos GPX",
     "success.api.user-status-updated": "El estado del usuario ha sido actualizado",
@@ -2951,7 +2970,8 @@
     "country": "País",
     "geom": "Geometría",
     "borderAreas": "Áreas limítrofes",
-    "all-areas": "Todas las áreas"
+    "all-areas": "Todas las áreas",
+    "urn-pattern-error": "El URN debe tener un formato válido (ej. urn:ping:area:01). No se permiten espacios ni acentos."
   },
   "maritime-entity": {
     "urn": "URN",
@@ -2959,26 +2979,28 @@
     "internationalName": "Nombre internacional",
     "info": "Información en español",
     "englishInfo": "Información en inglés",
-    "type": "Tipo de entidad",
+    "type": "Tipo de zona",
     "geom": "Geometría",
     "areas": "Áreas",
-    "additional-services": "Servicios adicionales",
-    "filter-additional-services": "Filtrar por servicio adicional",
-    "filter-main-service": "Filtrar por servicio principal",
+    "additional-services": "Organismos adicionales",
+    "filter-additional-services": "Filtrar por organismo adicional",
+    "filter-main-service": "Filtrar por organismo principal",
     "filter-areas": "Filtrar por área",
     "filter-type": "Filtrar por tipo",
     "filter-name": "Filtrar por nombre",
-    "select-service": "Seleccionar un servicio marítimo",
+    "select-service": "Seleccionar un organismo",
     "all-areas": "Todas las áreas",
-    "all-services": "Todos los servicios",
+    "all-services": "Todos los organismos",
     "sissy-id": "Id SISSY",
-    "add-reference": "Añadir referencia a entidad marítima",
-    "reference": "Referencias de entidades marítimas",
+    "add-reference": "Añadir referencia a zona de responsabilidad",
+    "reference": "Referencias de zonas de responsabilidad",
     "reference-data": "Datos",
     "reference-attachment": "Adjunto (foto, etc... máx. 50 MB)",
     "reference-url": "Url",
     "reference-attachment-or-url": "Adjuntos / Url",
-    "confirm-delete-reference": "¿Estás seguro de que quieres eliminar esta referencia?"
+    "confirm-delete-reference": "¿Estás seguro de que quieres eliminar esta referencia?",
+    "urn-pattern-error": "El URN debe tener un formato válido (ej. urn:mrn:shn:entidad:01). No se permiten espacios ni acentos.",
+    "no-reference": "Esta zona no tiene referencias."
   },
   "maritime-entity-type": {
     "SERVICE_AREA": "Zona de servicio"
@@ -2986,13 +3008,13 @@
   "serie": {
     "urn": "URN",
     "name": "Nombre en español",
-    "internationalName": "Nombre",
+    "internationalName": "Nombre en inglés",
     "info": "Descripción en español",
-    "englishInfo": "Descripción",
+    "englishInfo": "Descripción en inglés",
     "type": "Tipo de serie",
     "mandatoryLanguages": "Idiomas obligatorios",
     "optionalLanguages": "Idiomas opcionales",
-    "maritimeService": "Servicio marítimo",
+    "maritimeService": "Organismo",
     "subAreas": "Subáreas",
     "ranges": "Numeración",
     "addRange": "Añadir un rango",
@@ -3000,7 +3022,7 @@
     "select-mandatory-language": "Seleccionar uno o dos idiomas obligatorios",
     "select-optional-language": "Seleccionar uno o dos idiomas opcionales",
     "select-sub-area": "Seleccionar subáreas",
-    "select-maritime-service": "Seleccionar servicio marítimo",
+    "select-maritime-service": "Seleccionar organismo",
     "only-two-languages": "Debes elegir un máximo de dos idiomas",
     "wrong-value": "Valor incorrecto",
     "diffusionNavtex": {
@@ -3008,7 +3030,8 @@
       "broadcastingStation": "Estación de difusión",
       "select-broadcasting-station": "Seleccionar estación de difusión"
     },
-    "s124-identifier": "Identificador S-124"
+    "s124-identifier": "Identificador S-124",
+    "urn-pattern-error": "El URN debe tener un formato válido (ej. urn:ping:serie:01). No se permiten espacios ni acentos."
   },
   "warning": {
     "diffusionNavtex": {
@@ -3047,16 +3070,16 @@
     "country": "País",
     "select-country": "Selecciona un país",
     "production-agency": "Agencia de producción",
-    "type": "Tipo de servicio",
+    "type": "Tipo de organismo",
     "authority-code": "Código de autoridad",
-    "select-type": "Selecciona un tipo de servicio",
-    "select-network": "Selecciona una red de servicio",
-    "network": "Red de servicio",
+    "select-type": "Selecciona un tipo de organismo",
+    "select-network": "Selecciona la red del organismo",
+    "network": "Red del organismo",
     "ping-partner": "Socio PISAC",
     "maritime-notice-producer": "Productor de AN",
     "folder-manager": "Gestor de expedientes",
     "survey-owner": "Propietario del levantamiento",
-    "shom-service": "Servicio SHN",
+    "shom-service": "Organismo SHN",
     "areas": "Áreas",
     "all-areas": "Seleccionar áreas",
     "tags": "Etiquetas",
@@ -3068,9 +3091,9 @@
     "s124-data-producer": "Productor de datos S-124"
   },
   "maritime-service-networks": {
-    "GOVERNMENT_SERVICE": "Servicio gubernamental",
-    "NON_STATE_OWNED_PUBLIC_SERVICE": "Servicio público no estatal",
-    "PRIVATE_SERVICE": "Servicio privado"
+    "GOVERNMENT_SERVICE": "Organismo gubernamental",
+    "NON_STATE_OWNED_PUBLIC_SERVICE": "Organismo público no estatal",
+    "PRIVATE_SERVICE": "Organismo privado"
   },
   "static-page": {
     "title": "Título",
@@ -3102,7 +3125,7 @@
     "table": {
       "urn": "URN",
       "name": "Nombre",
-      "service": "Servicio",
+      "service": "Organismo",
       "action": "Acción",
       "show": "Mostrar",
       "edit": "Editar"
@@ -3127,19 +3150,19 @@
   },
   "maritime-entity-list": {
     "title": {
-      "list": "Lista de entidades marítimas",
-      "add": "Añadir una entidad marítima",
-      "edit": "Editar una entidad marítima",
-      "show": "Detalles de la entidad marítima"
+      "list": "Lista de zonas de responsabilidad",
+      "add": "Añadir una zona de responsabilidad",
+      "edit": "Editar una zona de responsabilidad",
+      "show": "Detalles de la zona de responsabilidad"
     },
-    "add": "Añadir entidad marítima",
+    "add": "Añadir zona de responsabilidad",
     "table": {
       "urn": "URN",
       "name": "Nombre",
       "type": "Tipo",
       "area": "Área",
-      "main-service": "Servicio principal",
-      "additional-services": "Servicios adicionales",
+      "main-service": "Organismo principal",
+      "additional-services": "Organismos adicionales",
       "action": "Acciones",
       "show": "Mostrar",
       "edit": "Editar"
@@ -3147,14 +3170,14 @@
   },
   "maritime-services-list": {
     "title": {
-      "list": "Lista de servicios marítimos",
-      "add": "Añadir un servicio marítimo",
-      "edit": "Editar un servicio marítimo",
-      "show": "Detalles del servicio marítimo",
-      "linkedMaritimeEntities": "Lista de entidades marítimas vinculadas al servicio",
-      "observedMaritimeEntities": "Lista de entidades marítimas observadas por el servicio"
+      "list": "Lista de organismos",
+      "add": "Añadir un organismo",
+      "edit": "Editar un organismo",
+      "show": "Detalles del organismo",
+      "linkedMaritimeEntities": "Lista de zonas de responsabilidad vinculadas al organismo",
+      "observedMaritimeEntities": "Lista de zonas de responsabilidad observadas por el organismo"
     },
-    "add": "Añadir servicio marítimo",
+    "add": "Añadir organismo",
     "table": {
       "urn": "URN",
       "name": "Nombre",
@@ -3164,8 +3187,8 @@
       "show": "Mostrar",
       "edit": "Editar"
     },
-    "noLinkWithMaritimeEntity": "No está vinculado a ninguna entidad marítima.",
-    "noMaritimeEntityObserved": "No se observa ninguna entidad marítima."
+    "noLinkWithMaritimeEntity": "No está vinculado a ninguna zona de responsabilidad.",
+    "noMaritimeEntityObserved": "No se observa ninguna zona de responsabilidad."
   },
   "user-list": {
     "table": {
@@ -3185,12 +3208,12 @@
   },
   "pro-user-list": {
     "title": {
-      "list": "Lista de usuarios profesionales",
-      "add": "Añadir usuario profesional",
-      "edit": "Editar un usuario profesional",
-      "show": "Detalles del usuario profesional"
+      "list": "Lista de usuarios institucionales",
+      "add": "Añadir usuario institucional",
+      "edit": "Editar un usuario institucional",
+      "show": "Detalles del usuario institucional"
     },
-    "add": "Añadir usuario profesional"
+    "add": "Añadir usuario institucional"
   },
   "static-page-list": {
     "title": {
@@ -3409,7 +3432,7 @@
           "number-of-links": "{{linksLength}} enlace(s)",
           "add-links": "Añadir un enlace y vincular a la advertencia",
           "confirm-delete-link": "¿Estás seguro de que quieres eliminar este enlace?",
-          "entities": "Referencias de entidades",
+          "entities": "Referencias de zonas de responsabilidad",
           "select-entities-references": "Seleccionar referencias",
           "number-of-entities-references": "{{entitiesReferencesLength}} referencia(s)"
         },
@@ -3417,7 +3440,7 @@
         "replaced-warnings": "Advertencias reemplazadas",
         "referenced-warnings": "Advertencias padre",
         "linked-infosources": "Fuentes de información vinculadas",
-        "linked-entities": "Entidades marítimas vinculadas",
+        "linked-entities": "Zonas de responsabilidad vinculadas",
         "linked-georegulations": "Georregulaciones vinculadas",
         "information": "Información",
         "warning-type-details": "Categoría de peligro de la advertencia",
@@ -3535,13 +3558,13 @@
     }
   },
   "service-user-assign": {
-    "delete-message": "¿Estás seguro de eliminar el rol de este usuario en este servicio?",
-    "service": "Servicio",
+    "delete-message": "¿Estás seguro de eliminar el rol de este usuario en este organismo?",
+    "service": "Organismo",
     "user-email": "Usuario",
     "user-role": "Rol",
     "save": "Guardar",
     "add-user-title-card": "Añadir un usuario",
-    "tooltip-about-adding-user": "Para añadir a una persona ya registrada a un servicio y que no tiene derechos en los servicios administrados por el administrador, solo la administración funcional de SHN puede actuar.",
+    "tooltip-about-adding-user": "Para añadir a un organismo a una persona ya registrada que no tiene derechos en los organismos administrados por el administrador, solo la administración funcional de SHN puede actuar.",
     "select-user": "Seleccionar un usuario",
     "select-role": "Seleccionar un rol",
     "success": "El rol ha sido asignado",
@@ -3549,7 +3572,9 @@
     "action": "Acción",
     "extract": "Eliminar",
     "delete": "El rol ha sido eliminado",
-    "assigned-services": "Servicios asignados"
+    "assigned-services": "Organismos asignados",
+    "assigned-users": "Usuarios asignados",
+    "no-user": "Ningún usuario tiene rol en este organismo."
   },
   "role": {
     "service-admin": "Administrador",
@@ -3613,9 +3638,24 @@
   },
   "pro-user-form": {
     "sections": {
-      "role": "Rol y servicio",
+      "role": "Rol y organismo",
       "account": "Cuenta y seguridad"
     },
     "ph-select": "Seleccione una opción"
+  },
+  "admin-form": {
+    "sections": {
+      "general": "Datos generales",
+      "languages": "Idiomas",
+      "description": "Descripción y advertencia",
+      "scope": "Alcance",
+      "location": "Ubicación",
+      "services": "Organismos y regiones",
+      "roles": "Funciones del organismo",
+      "accessibility": "Accesibilidad y enlace",
+      "bilingual-description": "Descripción"
+    },
+    "required-note": "Los campos marcados con * son obligatorios.",
+    "delete-range": "Eliminar rango"
   }
 }

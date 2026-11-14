@@ -22,22 +22,16 @@
 .pisac-footer__brand {
   display: flex;
   align-items: center;
-  gap: var(--space-8);
+  min-width: 0;
+}
 
-  ::ng-deep img {
-    height: 64px;
-    width: auto;
-  }
-
-  // El directive envuelve el logo en un enlace heredado del DSFR: sin subrayado ni icono externo
-  ::ng-deep a {
-    display: inline-flex;
-    background-image: none;
-
-    &::after {
-      display: none;
-    }
-  }
+// Imagen a ~3x para pantallas de alta densidad; 46 px para no competir con los enlaces
+.pisac-footer__gov {
+  display: block;
+  height: 46px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .pisac-footer__links ul {
@@ -76,7 +70,8 @@
     padding: var(--space-4);
   }
 
-  .pisac-footer__brand ::ng-deep img {
-    height: 52px;
+  .pisac-footer__gov {
+    height: auto;
+    max-height: 40px;
   }
 }

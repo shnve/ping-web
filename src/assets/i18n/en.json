@@ -1,4 +1,17 @@
 {
+  "session-timeout": {
+    "warning": {
+      "title": "Your session is about to end",
+      "text": "For security reasons, the session ends after a period of inactivity. It will end in:",
+      "continue": "Stay signed in",
+      "logout": "Sign out"
+    },
+    "closed": {
+      "summary": "Session ended",
+      "idle": "Your session ended due to inactivity. Please sign in again to continue.",
+      "expired": "Your session has expired. Please sign in again to continue."
+    }
+  },
   "COORDINATES": {
     "LATITUDE": "Latitude",
     "LONGITUDE": "Longitude"
@@ -78,11 +91,11 @@
       "title": "Administration",
       "area": "Area list",
       "serie": "Series list",
-      "maritime-entity": "Maritime entity list",
-      "maritime-service": "Maritime service list",
+      "maritime-entity": "Areas of responsibility list",
+      "maritime-service": "Agency list",
       "sub-area": "Subarea list",
       "public-user": "Public user list",
-      "pro-user": "Pro user list",
+      "pro-user": "Institutional user list",
       "add": "Add",
       "edit": "Edit",
       "show": "Details",
@@ -180,7 +193,8 @@
   "paginator": {
     "next-page": "Next page",
     "previous-page": "Previous page",
-    "items-per-page": "Items per page"
+    "items-per-page": "Items per page",
+    "of": "of"
   },
   "pages": {
     "not-found": {
@@ -237,12 +251,12 @@
   },
   "pro-user-role": {
     "FUNCTIONAL_ADMIN": "Functional admin",
-    "SERVICE_USER": "Service user"
+    "SERVICE_USER": "Agency user"
   },
   "service-role": {
-    "SERVICE_ADMIN": "Service admin",
-    "SERVICE_OPERATOR": "Service operator",
-    "SERVICE_VISITOR": "Service visitor"
+    "SERVICE_ADMIN": "Agency admin",
+    "SERVICE_OPERATOR": "Agency operator",
+    "SERVICE_VISITOR": "Agency visitor"
   },
   "infosource": {
     "home": {
@@ -289,8 +303,8 @@
           "danger-location": "Danger location",
           "survey-period": "Survey period",
           "additional-informations": "Additional informations",
-          "producer-service": "Producer service",
-          "producer-service-choice": "Choice of producer service"
+          "producer-service": "Producer agency",
+          "producer-service-choice": "Choice of producer agency"
         }
       },
       "examples": {
@@ -306,10 +320,10 @@
       "new-report-hazard": "New anomaly on buoyage reporting",
       "hazard-location": "Location of the hazard",
       "anomaly-location": "Anomaly localization",
-      "contributor-service": "Contributor service",
-      "contributor-service-placeholder": "Please select the contributor service",
-      "concerned-maritime-entities-placeholder": "Select concerned maritime entities",
-      "concerned-maritime-entities": "Concerned maritime entities",
+      "contributor-service": "Contributor agency",
+      "contributor-service-placeholder": "Please select the contributor agency",
+      "concerned-maritime-entities-placeholder": "Select concerned areas of responsibility",
+      "concerned-maritime-entities": "Concerned areas of responsibility",
       "internal-comment": "Internal comment",
       "observation-date": "Observation date",
       "markup-type": {
@@ -341,7 +355,7 @@
         "observation-date-invalid": "Observation date (mandatory)",
         "localization-invalid": "Localization (mandatory)",
         "markupType-invalid": "Buoyage type (mandatory)",
-        "concerned-maritime-entities-invalid": "Concerned maritime entities (mandatory)"
+        "concerned-maritime-entities-invalid": "Concerned areas of responsibility (mandatory)"
       }
     },
     "sign-in-up-contribute-message": "To transmit new information affecting navigation, please create your account or log in.",
@@ -366,7 +380,7 @@
           "georegulationType": "Type",
           "georegulationActivities": "Activity(ies) concerned",
           "georegulationTitle": "Object",
-          "georegulationMaritimeEntity": "Maritime entities",
+          "georegulationMaritimeEntity": "Areas of responsibility",
           "georegulationSummary": "Summary",
           "georegulationAdditionNumbers": "Additional numbers",
           "ping-id": "PISAC id",
@@ -448,16 +462,16 @@
         "delete-error": "The contribution failed to be deleted"
       },
       "update-service-status": {
-        "title": "Status by service",
-        "service": "Service",
+        "title": "Status by agency",
+        "service": "Agency",
         "status": "Status",
         "action": "Action",
         "new-service-status": "New status",
         "cancel": "Cancel",
         "confirm": "Confirm",
-        "show-panel": "Update service status",
-        "success": "Service status has been updated",
-        "error": "Failed to update service status",
+        "show-panel": "Update status by agency",
+        "success": "Status by agency has been updated",
+        "error": "Failed to update status by agency",
         "tag-name": "Tag Name",
         "add-new-tag": "Add new tag and link directly to the contribution",
         "link-tags": "Link tags",
@@ -475,7 +489,7 @@
         "confirm": "Confirm",
         "success": "Contribution was successfully transfered",
         "error": "Failed to transfer contribution",
-        "no-transferable-services": "No transferable services"
+        "no-transferable-services": "No transferable agencies"
       },
       "create-warning": {
         "show-panel": "Create warning",
@@ -552,8 +566,8 @@
       "new": "Create new subscription"
     },
     "modal": {
-      "service": "Maritime service subscriber",
-      "maritime-entities-geographic-extent": "Maritime entities for geographic extent",
+      "service": "Subscriber agency",
+      "maritime-entities-geographic-extent": "Areas of responsibility for geographic extent",
       "area": "Area",
       "serie": "Series",
       "lang": "Language",
@@ -562,7 +576,7 @@
       "sub-areas": "Sub areas",
       "map-selected-sub-areas": "Map of selected sub areas",
       "warning-hazard-type-generals": "General hazard types",
-      "maritime-entities-in-area": "Maritime entities in area",
+      "maritime-entities-in-area": "Areas of responsibility in area",
       "georegulation-types": "Regulation types",
       "sending-mail": "Sending by mail"
     },
@@ -596,9 +610,9 @@
     },
     "details": {
       "locality": "Locality",
-      "concernedMaritimeEntities": "Concerned maritime entities",
+      "concernedMaritimeEntities": "Concerned areas of responsibility",
       "object": "Object",
-      "sharedMaritimeServices": "Shared maritime services",
+      "sharedMaritimeServices": "Shared agencies",
       "status": "Status",
       "lastUpdate": "Last update",
       "delete": {
@@ -607,14 +621,14 @@
         "delete-error": "The folder failed to be deleted"
       },
       "follow": {
-        "message": "The selected services will be able to follow this folder in the table of followed folders.",
-        "follow-success": "The folder has been added to the follow-up of the selected services",
-        "follow-error": "The folder failed to be added to the follow-up of the selected services"
+        "message": "The selected agencies will be able to follow this folder in the table of followed folders.",
+        "follow-success": "The folder has been added to the follow-up of the selected agencies",
+        "follow-error": "The folder failed to be added to the follow-up of the selected agencies"
       },
       "un-follow": {
         "un-follow-confirm": "You're about to unfollow this folder, are you sure ?",
-        "un-follow-success": "The folder has been removed from follow-up of service",
-        "un-follow-error": "The folder failed to be removed from follow-up of service"
+        "un-follow-success": "The folder has been removed from follow-up of agency",
+        "un-follow-error": "The folder failed to be removed from follow-up of agency"
       },
       "add-notion-to-folder": {
         "show-panel": "Add to a folder",
@@ -623,7 +637,7 @@
         "select-folder": "Select a folder",
         "success": "The notion has been added to the folder",
         "error": "Unable to add the notion to the folder",
-        "folders-linked-to-maritime-entities": "Folders linked to maritime entities",
+        "folders-linked-to-maritime-entities": "Folders linked to areas of responsibility",
         "folder": "Folder"
       },
       "create-study": "Create study",
@@ -746,7 +760,7 @@
         "remove-link": "Remove link"
       },
       "errors": {
-        "issuing-service-invalid": "Invalid issuing service",
+        "issuing-service-invalid": "Invalid issuing agency",
         "type-invalid": "Invalid type",
         "timezone-invalid": "Invalid timezone",
         "is-temporary-invalid": "Choose if GR is temporary or not",
@@ -762,7 +776,7 @@
         "missing-choice-restriction-vessel": "The choice of vessel restriction is mandatory",
         "missing-length-restriction-vessel": "The length of the vessel is mandatory",
         "missing-gross-tonnage-restriction-vessel": "The gross tonnage of the vessel is mandatory",
-        "missing-unit-gross-tonange-restriction-vessel": "The unit of the vessel's gross tonnage is mandatory",
+        "missing-unit-gross-tonnage-restriction-vessel": "The unit of the vessel's gross tonnage is mandatory",
         "main-number-unavailable": "Main number is already used",
         "invalid-additional-number": "At least one additional number is invalid",
         "at-least-one-missing-geometry": "At least one part is missing geometry",
@@ -785,8 +799,8 @@
       "save": "Update published GR",
       "cancel-message": "All changes will be lost. Continue ?"
     },
-    "issuing-service": "Issuing service",
-    "issuing-service-placeholder": "Select issuing service",
+    "issuing-service": "Issuing agency",
+    "issuing-service-placeholder": "Select issuing agency",
     "type": {
       "title": "Type",
       "placeholder": "Select georegulation type",
@@ -830,7 +844,7 @@
     "commercial-ship": "Commercial vessels",
     "restriction-categories": "Restriction categories",
     "restriction-categories-placeholder": "Select restriction categories",
-    "empty-available-maritime-entities": "Select issuing service first",
+    "empty-available-maritime-entities": "Select issuing agency first",
     "information": {
       "add-geometry": "Generate geometries",
       "btn-copy-to-clipboard": "Copy text content in ",
@@ -845,7 +859,7 @@
       }
     },
     "modal": {
-      "warning": "The areas plotted in PISAC have only an indicative value. The official boundaries are those given in the decree.",
+      "warning": "The areas plotted in PISAC are for reference only. The official boundaries are those published by the competent agency.",
       "details-fieldset": "Details",
       "numbers": "Number(s)",
       "secondary-numbers": "Other number(s)",
@@ -865,7 +879,7 @@
       "type": "Type",
       "activities": "Activity(ies) concerned",
       "title": "Object",
-      "entities": "Maritime entities",
+      "entities": "Areas of responsibility",
       "summary": "SHN summary",
       "areas": "Area(s)",
       "no-part-information": "No part information",
@@ -877,7 +891,7 @@
       "status-published": "Published from",
       "status-repealed": "Expired from",
       "last-update": "Last update in PISAC",
-      "issuing-service": "Issuing service",
+      "issuing-service": "Issuing agency",
       "is-public": "This GR is public",
       "is-not-public": "This GR is not public",
       "internal-comment-fieldset": "Internal comment",
@@ -985,7 +999,7 @@
         "name-and-location": "Survey name and location",
         "area": "Area",
         "achievement-period": "Survey achievement period",
-        "contributor-service": "Contributor service",
+        "contributor-service": "Contributor agency",
         "bathymetry-data-format": "Bathymetry data format",
         "internal-comment": "Internal comment",
         "issuer-types": "Survey issuer types",
@@ -1029,7 +1043,7 @@
         "name-and-location": "Access channel survey - Port of La Guaira",
         "goal": "Bathymetric control survey after dredging",
         "area": "Select area",
-        "contributor-service": "Select contributor service",
+        "contributor-service": "Select contributor agency",
         "issuer-types": "Select survey issuer type",
         "email-address": "Email address",
         "epsg": "Select EPSG code",
@@ -1187,8 +1201,8 @@
         "phone": "Phone number (one mandatory)",
         "phone-description": "Description",
         "role": "Role (mandatory)",
-        "service": "Maritime service (mandatory)",
-        "service-role": "Service role (mandatory)",
+        "service": "Agency (mandatory)",
+        "service-role": "Agency role (mandatory)",
         "addPhone": "Add a phone number",
         "home-phone": "Home phone",
         "organization": "Organization (optional)",
@@ -1213,11 +1227,11 @@
       "submit": "Submit",
       "errors": {
         "email-invalid": "Please enter valid email",
-        "password-invalid": "Please enter valid password",
+        "password-invalid": "The password must have at least 12 characters, one uppercase letter, one lowercase letter, one number and one symbol",
         "firstName-invalid": "Please enter your first name",
         "lastName-invalid": "Please enter your last name",
         "role-invalid": "Please enter a role",
-        "service-invalid": "Please enter a maritime service",
+        "service-invalid": "Please enter an agency",
         "hasAcceptedTos-invalid": "Please accept TOS to create your account",
         "organization-invalid": "Organization is mandatory for professional user",
         "phonenumber-invalid": "At least one valid phone number is required",
@@ -1237,9 +1251,10 @@
         "strong-label": "Strong",
         "footer": {
           "tip1": "At least one lowercase",
-          "tip2": "At least one lowercase",
+          "tip2": "At least one uppercase",
           "tip3": "At least one numeric",
-          "tip4": "Minimum 10 characters"
+          "tip4": "Minimum 12 characters",
+          "tip5": "At least one symbol (e.g. ! @ # $ %)"
         }
       },
       "modal": {
@@ -1315,7 +1330,10 @@
       "invalid-polygon-vertices-number": "At least one polygon contains too many vertices for bathy IS"
     },
     "raster-marine": "Raster Marine",
-    "entities-maritimes-managed-or-observed-by-service": "Maritime(s) entity(ies) managed or observed"
+    "entities-maritimes-managed-or-observed-by-service": "Area(s) of responsibility managed or observed",
+    "manual-coords": {
+      "invalid-format": "Invalid format"
+    }
   },
   "table": {
     "no-area-selected": "You must first select an area before displaying list of ANs",
@@ -1333,7 +1351,7 @@
       "endOfBroadcastDate": "End of broadcast",
       "reviewDate": "Review",
       "internalComment": "Internal comment",
-      "entities": "Maritime entities",
+      "entities": "Areas of responsibility",
       "folders": "Folders"
     },
     "pagination": "Showing {first} to {last} of {totalRecords} entries",
@@ -1362,9 +1380,9 @@
       "area": "Area",
       "folderManager": "Folder manager",
       "locality": "Locality",
-      "concernedMaritimeEntities": "Concerned maritime entities",
+      "concernedMaritimeEntities": "Concerned areas of responsibility",
       "object": "Object",
-      "sharedMaritimeServices": "Shared maritime services",
+      "sharedMaritimeServices": "Shared agencies",
       "reviewDate": "Review date",
       "reviewStatus": "Status",
       "comment": "Comment",
@@ -1396,11 +1414,11 @@
       "filename": "File",
       "comment": "Comment",
       "receptionDate": "Reception date",
-      "maritimeService": "Maritime service",
+      "maritimeService": "Agency",
       "action": "Action"
     },
-    "maritime-services-of-folder-area": "Maritime services of folder area",
-    "other-maritime-services": "Other martitime services",
+    "maritime-services-of-folder-area": "Agencies of folder area",
+    "other-maritime-services": "Other agencies",
     "add-attachment": "Add an attachment",
     "delete-confirm": "You're about to delete this attachment from folder, are you sure ?"
   },
@@ -1456,7 +1474,7 @@
   "subscription-table": {
     "columns": {
       "title": "Title",
-      "maritimeServiceSubscriber": "Maritime service subscriber",
+      "maritimeServiceSubscriber": "Subscriber agency",
       "creation-date": "Creation date",
       "area-name": "Area",
       "sending-mail": "Sending by mail"
@@ -1468,7 +1486,7 @@
       "scope": "Subscription scope",
       "notification": "Notification"
     },
-    "service": "Maritime service subscriber",
+    "service": "Subscriber agency",
     "title": "Subscription title",
     "area": "Area",
     "serie": "Series",
@@ -1477,38 +1495,38 @@
     "sending-mail": "Activate mail notifications ?",
     "map-selected-sub-areas": "Map of selected sub areas",
     "warning-hazard-general-types": "General hazard types",
-    "maritime-entities-geographic-extent": "Maritime entities for geographic extent",
-    "maritime-entities-in-area": "Maritime entities in area",
-    "maritime-entities-in-service": "Maritime entities linked to service",
-    "other-maritime-entities": "Other maritime entities",
+    "maritime-entities-geographic-extent": "Areas of responsibility for geographic extent",
+    "maritime-entities-in-area": "Areas of responsibility in area",
+    "maritime-entities-in-service": "Areas of responsibility linked to agency",
+    "other-maritime-entities": "Other areas of responsibility",
     "georegulation-types": "Regulation types",
-    "ph-service": "Please select a maritime service",
+    "ph-service": "Please select an agency",
     "ph-area": "Please select an area",
     "ph-serie": "Please select a series",
     "ph-sub-areas": "Please select one or many sub area(s)",
     "ph-warning-hazard-general-types": "Please select one or many general hazard type(s)",
-    "ph-maritime-entities": "Please select one or many maritime entity(ies)",
+    "ph-maritime-entities": "Please select one or many area(s) of responsibility",
     "ph-georegulation-types": "Please select one or many georegulation type(s)",
     "create-subscription": "Create a subscription",
     "errors": {
-      "service-invalid": "Invalid maritime service",
+      "service-invalid": "Invalid agency",
       "title-invalid": "Invalid title",
       "area-invalid": "Invalid area",
       "serie-invalid": "Invalid series",
       "georegulation-types-invalid": "Invalid regulation types (Mandatory)"
     },
-    "tooltip-about-sending-mail": "By checking Yes, users of the service will receive the new ANs by email provided that they have authorized these sendings in their account settings.",
+    "tooltip-about-sending-mail": "By checking Yes, users of the agency will receive the new ANs by email provided that they have authorized these sendings in their account settings.",
     "true-value": "Yes",
     "false-value": "No",
     "french-language": "French",
     "english-language": "English"
   },
   "info-table": {
-    "no-service-selected": "You must first select a service before displaying the list of information sources",
+    "no-service-selected": "You must first select an agency before displaying the list of information sources",
     "columns": {
       "nature": "Nature",
       "description": "Description",
-      "concernedMaritimeEntities": "Concerned maritime entities",
+      "concernedMaritimeEntities": "Concerned areas of responsibility",
       "tags": "Tags",
       "comment": "Comment",
       "lastUpdate": "Last update",
@@ -1520,7 +1538,7 @@
       "affairs": "Affairs",
       "nauticalInformationsProduced": "Nautical informations produced",
       "sending": "Issuing",
-      "stateService": "Service state",
+      "stateService": "Status by agency",
       "emitter": "Issuer",
       "truncatedDescription": "Truncated description",
       "internalComment": "Internal comment",
@@ -1537,7 +1555,7 @@
       "type": "Type",
       "activities": "Activities",
       "title": "Object",
-      "entities": "Maritime entities",
+      "entities": "Areas of responsibility",
       "internal-comment": "Internal comment",
       "last-update": "Last update",
       "publication-date": "Publication date",
@@ -1689,8 +1707,8 @@
     "send-georegulation-error": "Georegulation has not been sent",
     "clone-georegulation-success": "Georegulation has been cloned",
     "clone-georegulation-error": "Georegulation has not been cloned,",
-    "notify-folder-placeholder": "Select services to notify",
-    "follow-folder-placeholder": "Select services for the follow-up",
+    "notify-folder-placeholder": "Select agencies to notify",
+    "follow-folder-placeholder": "Select agencies for the follow-up",
     "notify-folder-cancel": "Cancel",
     "notify-folder-confirm": "Confirm",
     "notify-folder-success": "Folder has been notified",
@@ -1734,7 +1752,7 @@
       "NOT_SEASONAL_PERIOD": "Not Seasonal",
       "other-filters": "Other filters",
       "select-serie": "Select series",
-      "select-service": "Select maritime service",
+      "select-service": "Select agency",
       "select-area": "Select an area",
       "table-view": {
         "list": "List",
@@ -1761,8 +1779,8 @@
         "replace": "replace {{referenceNumber}}",
         "natures": "{{count}} natures",
         "nature": "1 nature",
-        "maritime-entities": "{{count}} entities",
-        "maritime-entity": "1 entity",
+        "maritime-entities": "{{count}} areas",
+        "maritime-entity": "1 area",
         "maritime-entities-cover": "{{count}} covers",
         "maritime-entity-cover": "1 coverage",
         "tags": "{{count}} tags",
@@ -1772,8 +1790,8 @@
         "recipients": "{{count}} recipients",
         "recipient": "1 recipient",
         "affair-number": "affair #{{number}}",
-        "service-statuses": "{{count}} service statuses",
-        "service-status": "1 service status",
+        "service-statuses": "{{count}} statuses by agency",
+        "service-status": "1 status by agency",
         "rejected-infosources": "Rejected",
         "archived-infosources": "Archived",
         "folders": "{{count}} folders",
@@ -1792,8 +1810,8 @@
           "main-number-date": "Date {{date}}",
           "activities": "{{count}} activities",
           "activity": "{{count}} activity",
-          "entities": "{{count}} entities",
-          "entity": "{{count}} entity",
+          "entities": "{{count}} areas",
+          "entity": "{{count}} area",
           "is-public-yes": "Public",
           "is-public-no": "Not public",
           "is-new-yes": "New",
@@ -1829,11 +1847,11 @@
       "categories": "Categories: ",
       "folders": "Folders: ",
       "all-categories": "All categories",
-      "all-entities": "All entities",
+      "all-entities": "All areas",
       "all-folders": "All folders",
-      "entities": "Maritime entities",
-      "entity-cover": "Entity coverage",
-      "entities-placeholder": "Choose maritime entities",
+      "entities": "Areas of responsibility",
+      "entity-cover": "Area coverage",
+      "entities-placeholder": "Choose areas of responsibility",
       "date-placeholder": "dd/mm/yyyy",
       "first-day-of-week": "0",
       "event-period": "Period of events",
@@ -1854,12 +1872,12 @@
       "display-rejected": "Display rejected: ",
       "display-archived": "Display archived: ",
       "all-natures": "All natures",
-      "all-maritime-entities": "All maritime entities",
+      "all-maritime-entities": "All areas of responsibility",
       "all-tags": "All tags",
-      "all-service-statuses": "All service statuses",
+      "all-service-statuses": "All statuses by agency",
       "all-recipients": "All recipients",
       "natures": "Natures: ",
-      "maritime-entities": "Maritime entities: ",
+      "maritime-entities": "Areas of responsibility: ",
       "tags": "Tags: ",
       "last-update-period": "Last update period: ",
       "number": "IS number: ",
@@ -1867,12 +1885,12 @@
       "sending-year": "Sending year: ",
       "recipients": "Recipients: ",
       "affair-number": "Affair number: ",
-      "service-statuses": "Service statuses: "
+      "service-statuses": "Statuses by agency: "
     },
     "folder-filter-form": {
-      "all-maritime-entities": "All maritime entities",
+      "all-maritime-entities": "All areas of responsibility",
       "all-areas": "All areas",
-      "maritime-entities": "Maritime entities: ",
+      "maritime-entities": "Areas of responsibility: ",
       "last-update-period": "Last update period: ",
       "second-part-number": "Folder year number",
       "areas": "Areas: ",
@@ -1938,17 +1956,17 @@
     "error.api.cannot-save-sub-area": "Unable to save sub area.",
     "error.api.cannot-get-base-map-layer": "Unable to load base map.",
     "error.api.cannot-get-series": "Unable to load series",
-    "error.api.cannot-get-services": "Unable to load maritime services",
-    "error.api.cannot-save-maritime-service": "Unable to save maritime service",
-    "error.api.cannot-add-service-tag": "Unable to add tag to maritime service",
-    "error.api.cannot-add-maritime-entity-reference": "Unable to add reference to maritime entity",
-    "error.api.cannot-update-maritime-entity-reference": "Unable to update entity reference",
+    "error.api.cannot-get-services": "Unable to load agencies",
+    "error.api.cannot-save-maritime-service": "Unable to save agency",
+    "error.api.cannot-add-service-tag": "Unable to add tag to agency",
+    "error.api.cannot-add-maritime-entity-reference": "Unable to add reference to area of responsibility",
+    "error.api.cannot-update-maritime-entity-reference": "Unable to update area of responsibility reference",
     "error.api.cannot-add-warning-link-reference": "Unable to add link to warning",
     "error.api.cannot-update-warning-link-reference": "Unable to update link",
     "error.api.cannot-delete-warning-link-reference": "Unable to delete link",
     "error.api.filter.cannot-get-warnings": "Unable to load warnings matching this filter",
     "error.api.filter.cannot-get-georegulations": "Unable to load georegulations matching this filter",
-    "error.api.cannot-save-maritime-entity": "Unable to save maritime entity.",
+    "error.api.cannot-save-maritime-entity": "Unable to save area of responsibility.",
     "error.api.cannot-save-attachment": "Unable to save attachment.",
     "error.api.malicious-attachment": "Malicious file detected.",
     "error.api.antivirus-analysis-unavailable": "Analysis cannot be done now, it will be automatically done later.",
@@ -1963,7 +1981,7 @@
     "error.api.warning-current-status-invalid": "Public access to draft and model warnings restricted",
     "error.api.georegulation-current-status-invalid": "Public access to draft GRs restricted",
     "error.api.cannot-update-warning-draft": "Unable to update the draft warning",
-    "error.api.warning-rules.infosource-not-linkable": "Cannot save: one of the linked contributions does not belong to the serie service.",
+    "error.api.warning-rules.infosource-not-linkable": "Cannot save: one of the linked contributions does not belong to the series agency.",
     "error.api.warning-rules.number-reserved": "The warning number is already reserved for this year in the serie.",
     "error.api.warning-rules.general-area-not-in-serie": "One of the general areas does not belong to the selected serie.",
     "error.api.warning-rules.locality-not-in-serie": "One of the localities does not belong to the sub-areas of the serie.",
@@ -2010,10 +2028,13 @@
     "warn.filter.no-georegulation.found": "No georegulation found with this filter",
     "success.api.email-updated": "Mail was updated",
     "error.api.email-updated": "Mail was not updated",
+    "error.api.pro-user-keycloak-account-not-found": "This user’s login account does not exist in Keycloak. It must be created again so the user can sign in.",
+    "error.api.pro-user-email-already-used": "A login account with that email address already exists.",
     "success.api.password-updated": "Password was updated",
     "error.api.password-updated": "Password was not updated (must be different from the last 3 used)",
     "success.api.account-updated": "Account was updated",
     "error.api.account-updated": "Account was not updated",
+    "error.api.account-saved": "The account was not saved",
     "success.api.create-pro-user": "Account has been created",
     "success.api.edit-pro-user": "Account has been updated",
     "success.api.account-saved": "Account was saved",
@@ -2043,11 +2064,11 @@
     "success.api.create-staticPage": "Static page has been created",
     "success.api.edit-staticPage": "Static page has been updated",
     "success.api.delete-staticPage": "Static page has been deleted",
-    "success.api.create-maritime-entity": "Maritime entity has been created",
-    "success.api.edit-maritime-entity": "Maritime entity has been updated",
-    "success.api.create-maritime-service": "Maritime service has been created",
-    "success.api.edit-maritime-service": "Maritime service has been updated",
-    "success.api.add-service-tag": "The tag has been added to the service",
+    "success.api.create-maritime-entity": "Area of responsibility has been created",
+    "success.api.edit-maritime-entity": "Area of responsibility has been updated",
+    "success.api.create-maritime-service": "Agency has been created",
+    "success.api.edit-maritime-service": "Agency has been updated",
+    "success.api.add-service-tag": "The tag has been added to the agency",
     "success.api.edit-service-tag": "The tag has been successfully modified",
     "success.api.add-maritime-entity-reference": "The reference has been successfully added",
     "success.api.edit-maritime-entity-reference": "The reference has been successfully updated",
@@ -2055,7 +2076,7 @@
     "success.api.add-warning-link-reference": "The link has been successfully added",
     "success.api.edit-warning-link-reference": "The link has been successfully updated",
     "success.api.delete-warning-link-reference": "The link has been successfully deleted",
-    "success.api.delete-service-tag": "The tag has been successfully removed from the service and from all linked information sources",
+    "success.api.delete-service-tag": "The tag has been successfully removed from the agency and from all linked information sources",
     "success.api.create-sub-area": "Sub-area has been created",
     "success.api.edit-sub-area": "Sub-area has bean updated",
     "success.api.delete-locality": "Locality has bean deleted",
@@ -2081,7 +2102,7 @@
     "error.authentication": "Authentication has failed.",
     "network-error": "Client-side or network error",
     "unhandled-error": "Unhandled unknown server-side error",
-    "warn.api.georegulation.tables": "Service user has no role on any authority service",
+    "warn.api.georegulation.tables": "User has no role in any authority-type agency",
     "generate-s124.error": "Failed to generate S-124 file",
     "generate-gpx-zip.error": "Failed to generate ZIP archive containing GPX files",
     "success.api.user-status-updated": "User status has been updated",
@@ -2940,7 +2961,8 @@
     "country": "Country",
     "geom": "Geometry",
     "borderAreas": "Bordering areas",
-    "all-areas": "All areas"
+    "all-areas": "All areas",
+    "urn-pattern-error": "The URN must have a valid format (e.g. urn:ping:area:01). Spaces and accents are not allowed."
   },
   "maritime-entity": {
     "urn": "URN",
@@ -2948,40 +2970,42 @@
     "internationalName": "International name",
     "info": "Information in french",
     "englishInfo": "Information",
-    "type": "Entity type",
+    "type": "Area type",
     "geom": "Geometry",
     "areas": "Areas",
-    "additional-services": "Additionnal services",
-    "filter-additional-services": "Filter by additional service",
-    "filter-main-service": "Filter by main service",
+    "additional-services": "Additional agencies",
+    "filter-additional-services": "Filter by additional agency",
+    "filter-main-service": "Filter by main agency",
     "filter-areas": "Filter by area",
     "filter-type": "Filter by type",
     "filter-name": "Filter by name",
-    "select-service": "Select a maritime service",
+    "select-service": "Select an agency",
     "all-areas": "All areas",
-    "all-services": "All services",
+    "all-services": "All agencies",
     "sissy-id": "SISSY id",
-    "add-reference": "Add reference to maritime entity",
-    "reference": "Maritime entity references",
+    "add-reference": "Add reference to area of responsibility",
+    "reference": "Area of responsibility references",
     "reference-data": "Datas",
     "reference-attachment": "Attachment (photo, etc... maxi 50 MB)",
     "reference-url": "Url",
     "reference-attachment-or-url": "Attachments / Url",
-    "confirm-delete-reference": "Are you sure you want to remove this reference ?"
+    "confirm-delete-reference": "Are you sure you want to remove this reference ?",
+    "urn-pattern-error": "The URN must have a valid format (e.g. urn:mrn:shn:entidad:01). Spaces and accents are not allowed.",
+    "no-reference": "This area has no references."
   },
   "maritime-entity-type": {
     "SERVICE_AREA": "Service zone"
   },
   "serie": {
     "urn": "URN",
-    "name": "French name",
-    "internationalName": "Name",
-    "info": "French description",
-    "englishInfo": "Description",
+    "name": "Spanish name",
+    "internationalName": "English name",
+    "info": "Spanish description",
+    "englishInfo": "English description",
     "type": "Series type",
     "mandatoryLanguages": "Mandatory languages",
     "optionalLanguages": "Optional languages",
-    "maritimeService": "Maritime service",
+    "maritimeService": "Agency",
     "subAreas": "Sub areas",
     "ranges": "Numbering",
     "addRange": "Add a range",
@@ -2989,7 +3013,7 @@
     "select-mandatory-language": "Select one or two mandatory languages",
     "select-optional-language": "Select one or two optional languages",
     "select-sub-area": "Select sub areas",
-    "select-maritime-service": "Select maritime service",
+    "select-maritime-service": "Select agency",
     "only-two-languages": "You must choose a maximum of two languages",
     "wrong-value": "Wrong value",
     "diffusionNavtex": {
@@ -2997,7 +3021,8 @@
       "broadcastingStation": "Broadcasting station",
       "select-broadcasting-station": "Select broadcasting station"
     },
-    "s124-identifier": "S-124 identifier"
+    "s124-identifier": "S-124 identifier",
+    "urn-pattern-error": "The URN must have a valid format (e.g. urn:ping:serie:01). Spaces and accents are not allowed."
   },
   "warning": {
     "diffusionNavtex": {
@@ -3036,16 +3061,16 @@
     "country": "Country",
     "select-country": "Select a country",
     "production-agency": "Production agency",
-    "type": "Service type",
+    "type": "Agency type",
     "authority-code": "Authority code",
-    "select-type": "Select a service type",
-    "select-network": "Select a service network",
-    "network": "Service network",
+    "select-type": "Select an agency type",
+    "select-network": "Select an agency network",
+    "network": "Agency network",
     "ping-partner": "PISAC partner",
     "maritime-notice-producer": "AN producer",
     "folder-manager": "Folder manager",
     "survey-owner": "Survey owner",
-    "shom-service": "SHN service",
+    "shom-service": "SHN agency",
     "areas": "Areas",
     "all-areas": "Select areas",
     "tags": "Tags",
@@ -3057,9 +3082,9 @@
     "s124-data-producer": "S-124 data producer"
   },
   "maritime-service-networks": {
-    "GOVERNMENT_SERVICE": "Government service",
-    "NON_STATE_OWNED_PUBLIC_SERVICE": "Non state owned public service",
-    "PRIVATE_SERVICE": "Private service"
+    "GOVERNMENT_SERVICE": "Government agency",
+    "NON_STATE_OWNED_PUBLIC_SERVICE": "Non-state-owned public agency",
+    "PRIVATE_SERVICE": "Private agency"
   },
   "static-page": {
     "title": "Title",
@@ -3091,7 +3116,7 @@
     "table": {
       "urn": "URN",
       "name": "Name",
-      "service": "Service",
+      "service": "Agency",
       "action": "Action",
       "show": "Show",
       "edit": "Edit"
@@ -3116,19 +3141,19 @@
   },
   "maritime-entity-list": {
     "title": {
-      "list": "List of maritime entities",
-      "add": "Add a maritime entity",
-      "edit": "Edit a maritime entity",
-      "show": "Maritime entity's details"
+      "list": "List of areas of responsibility",
+      "add": "Add an area of responsibility",
+      "edit": "Edit an area of responsibility",
+      "show": "Area of responsibility details"
     },
-    "add": "Add maritime entity",
+    "add": "Add area of responsibility",
     "table": {
       "urn": "URN",
       "name": "Name",
       "type": "Type",
       "area": "Area",
-      "main-service": "Main service",
-      "additional-services": "Additional services",
+      "main-service": "Main agency",
+      "additional-services": "Additional agencies",
       "action": "Actions",
       "show": "Show",
       "edit": "Edit"
@@ -3136,14 +3161,14 @@
   },
   "maritime-services-list": {
     "title": {
-      "list": "List of maritime services",
-      "add": "Add a maritime service",
-      "edit": "Edit a maritime service",
-      "show": "Maritime service's details",
-      "linkedMaritimeEntities": "List of maritime entities linked to the service",
-      "observedMaritimeEntities": "List of maritime entities observed by the service"
+      "list": "List of agencies",
+      "add": "Add an agency",
+      "edit": "Edit an agency",
+      "show": "Agency details",
+      "linkedMaritimeEntities": "List of areas of responsibility linked to the agency",
+      "observedMaritimeEntities": "List of areas of responsibility observed by the agency"
     },
-    "add": "Add maritime service",
+    "add": "Add agency",
     "table": {
       "urn": "URN",
       "name": "Name",
@@ -3153,8 +3178,8 @@
       "show": "Show",
       "edit": "Edit"
     },
-    "noLinkWithMaritimeEntity": "Linked to no maritime entity.",
-    "noMaritimeEntityObserved": "No maritime entity observed."
+    "noLinkWithMaritimeEntity": "Linked to no area of responsibility.",
+    "noMaritimeEntityObserved": "No area of responsibility observed."
   },
   "user-list": {
     "table": {
@@ -3174,12 +3199,12 @@
   },
   "pro-user-list": {
     "title": {
-      "list": "List of pro users",
-      "add": "Add a pro user",
-      "edit": "Edit a pro user",
-      "show": "Pro user's details"
+      "list": "List of institutional users",
+      "add": "Add an institutional user",
+      "edit": "Edit an institutional user",
+      "show": "Institutional user details"
     },
-    "add": "Add pro user"
+    "add": "Add institutional user"
   },
   "static-page-list": {
     "title": {
@@ -3398,7 +3423,7 @@
           "number-of-links": "{{linksLength}} link(s)",
           "add-links": "Add a link and link to warning",
           "confirm-delete-link": "Are you sure you want to remove this link ?",
-          "entities": "Entities references",
+          "entities": "Area of responsibility references",
           "select-entities-references": "Select references",
           "number-of-entities-references": "{{entitiesReferencesLength}} reference(s)"
         },
@@ -3406,7 +3431,7 @@
         "replaced-warnings": "Replaced warnings",
         "referenced-warnings": "Parent warnings",
         "linked-infosources": "Linked information sources",
-        "linked-entities": "Linked maritime entities",
+        "linked-entities": "Linked areas of responsibility",
         "linked-georegulations": "Linked georegulations",
         "information": "Information",
         "warning-type-details": "Warning danger category",
@@ -3524,13 +3549,13 @@
     }
   },
   "service-user-assign": {
-    "delete-message": "Are you sure to remove the role of this user on this service ?",
-    "service": "Service",
+    "delete-message": "Are you sure to remove the role of this user on this agency?",
+    "service": "Agency",
     "user-email": "User",
     "user-role": "Role",
     "save": "Save",
     "add-user-title-card": "Add a user",
-    "tooltip-about-adding-user": "To add a person already registered to a service and who has no rights in the services administered by the administrator, only the SHN functional administration can act.",
+    "tooltip-about-adding-user": "To add to an agency a person already registered who has no rights in the agencies administered by the administrator, only the SHN functional administration can act.",
     "select-user": "Select a user",
     "select-role": "Select a role",
     "success": "The role has been assigned",
@@ -3538,7 +3563,9 @@
     "action": "Action",
     "extract": "Remove",
     "delete": "The role has been removed",
-    "assigned-services": "Assigned services"
+    "assigned-services": "Assigned agencies",
+    "assigned-users": "Assigned users",
+    "no-user": "No user has a role in this agency."
   },
   "role": {
     "service-admin": "Administrator",
@@ -3602,9 +3629,24 @@
   },
   "pro-user-form": {
     "sections": {
-      "role": "Role and service",
+      "role": "Role and agency",
       "account": "Account and security"
     },
     "ph-select": "Select an option"
+  },
+  "admin-form": {
+    "sections": {
+      "general": "General information",
+      "languages": "Languages",
+      "description": "Description and disclaimer",
+      "scope": "Scope",
+      "location": "Location",
+      "services": "Agencies and regions",
+      "roles": "Agency roles",
+      "accessibility": "Accessibility and link",
+      "bilingual-description": "Description"
+    },
+    "required-note": "Fields marked with * are required.",
+    "delete-range": "Delete range"
   }
 }

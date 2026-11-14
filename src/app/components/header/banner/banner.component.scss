@@ -138,7 +138,8 @@ tr.notification {
   padding: 0 10px;
 }
 
-// Título institucional con la franja naranja de la guía (§12: "la franja naranja puede marcar títulos")
+// Título institucional, separado de los logos SHN / OCHINA por una línea fina gris
+// (antes una barra naranja; el naranja queda para los títulos de página).
 .title-container {
   line-height: 1.2;
   position: relative;
@@ -148,19 +149,11 @@ tr.notification {
     content: "";
     position: absolute;
     left: 0;
-    top: 4px;
-    bottom: 4px;
-    width: 4px;
-    border-radius: 2px;
-    background: $shn-orange;
-  }
-
-  .title-republic {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: var(--pisac-text-muted);
+    top: 50%;
+    height: 40px;
+    margin-top: -20px;
+    width: 1px;
+    background: var(--pisac-neutral-300);
   }
 
   .title-description {
@@ -267,10 +260,6 @@ tr.notification {
 
 @media only screen and (max-width: $screenSizeTablet) {
   .title-container {
-    .title-republic {
-      display: none;
-    }
-
     .title-description {
       font-size: 0.9375rem;
       line-height: 1.25;

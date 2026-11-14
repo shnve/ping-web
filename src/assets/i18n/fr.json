@@ -1,4 +1,17 @@
 {
+  "session-timeout": {
+    "warning": {
+      "title": "Votre session va bientôt se fermer",
+      "text": "Par sécurité, la session se ferme après une période d'inactivité. Elle se fermera dans :",
+      "continue": "Rester connecté",
+      "logout": "Se déconnecter"
+    },
+    "closed": {
+      "summary": "Session fermée",
+      "idle": "Votre session a été fermée pour inactivité. Reconnectez-vous pour continuer.",
+      "expired": "Votre session a expiré. Reconnectez-vous pour continuer."
+    }
+  },
   "COORDINATES": {
     "LATITUDE": "Latitude",
     "LONGITUDE": "Longitude"
@@ -169,7 +182,8 @@
   "paginator": {
     "next-page": "Page suivante",
     "previous-page": "Page précédente",
-    "items-per-page": "Éléments par page"
+    "items-per-page": "Éléments par page",
+    "of": "sur"
   },
   "pages": {
     "not-found": {
@@ -1202,7 +1216,7 @@
       "submit": "Valider",
       "errors": {
         "email-invalid": "Veuillez saisir un email valide",
-        "password-invalid": "Veuillez saisir un mot de passe valide",
+        "password-invalid": "Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un symbole",
         "firstName-invalid": "Veuillez saisir votre prénom",
         "lastName-invalid": "Veuillez saisir votre nom",
         "role-invalid": "Veuillez saisir un role",
@@ -1228,7 +1242,8 @@
           "tip1": "Au-moins 1 minuscule",
           "tip2": "Au-moins 1 majuscule",
           "tip3": "Au-moins 1 chiffre",
-          "tip4": "10 caractères minimum"
+          "tip4": "12 caractères minimum",
+          "tip5": "Au-moins 1 symbole (ex. ! @ # $ %)"
         }
       },
       "modal": {
@@ -1304,7 +1319,10 @@
       "invalid-polygon-vertices-number": "Un polygone possède trop de sommets pour une IS bathy"
     },
     "raster-marine": "Raster Marine",
-    "entities-maritimes-managed-or-observed-by-service": "Entité(s) maritime(s) gérée(s) ou observée(s)"
+    "entities-maritimes-managed-or-observed-by-service": "Entité(s) maritime(s) gérée(s) ou observée(s)",
+    "manual-coords": {
+      "invalid-format": "Format invalide"
+    }
   },
   "table": {
     "no-area-selected": "Vous devez sélectionner une région avant de pouvoir afficher la liste des ANs associés",
@@ -1999,6 +2017,8 @@
     "warn.filter.no-georegulation.found": "Aucun géo-règlement trouvé avec ce filtre",
     "success.api.email-updated": "Le mail a été mis à jour",
     "error.api.email-updated": "Le mail n'a pas été mis à jour",
+    "error.api.pro-user-keycloak-account-not-found": "Le compte de connexion de cet utilisateur n’existe pas dans Keycloak. Il doit être recréé pour que l’utilisateur puisse se connecter.",
+    "error.api.pro-user-email-already-used": "Un compte de connexion existe déjà avec cette adresse e-mail.",
     "success.api.password-updated": "Le mot de passe a été mis à jour",
     "error.api.password-updated": "Le mot de passe n'a pas été mis à jour (doit être différent des 3 derniers utilisés)",
     "success.api.account-updated": "Le compte a été mis à jour",
@@ -2927,7 +2947,8 @@
     "country": "Pays",
     "geom": "Géometrie",
     "borderAreas": "Régions limitrophes",
-    "all-areas": "Toutes les régions"
+    "all-areas": "Toutes les régions",
+    "urn-pattern-error": "L'URN doit avoir un format valide (ex. urn:ping:area:01). Les espaces et les accents ne sont pas autorisés."
   },
   "maritime-entity": {
     "urn": "URN",
@@ -2954,7 +2975,9 @@
     "reference-attachment": "Pièce jointe (photo, etc... maxi 50 Mo)",
     "reference-url": "Url",
     "reference-attachment-or-url": "Pièces jointes / Url",
-    "confirm-delete-reference": "Êtes-vous sûr(e) de vouloir supprimer cette référence ?"
+    "confirm-delete-reference": "Êtes-vous sûr(e) de vouloir supprimer cette référence ?",
+    "urn-pattern-error": "L'URN doit avoir un format valide (ex. urn:mrn:shn:entidad:01). Les espaces et les accents ne sont pas autorisés.",
+    "no-reference": "Cette entité n'a aucune référence."
   },
   "maritime-entity-type": {
     "SERVICE_AREA": "Zone de service"
@@ -2984,7 +3007,8 @@
       "broadcastingStation": "Station de radiodiffusion",
       "select-broadcasting-station": "Sélectionnez une station de radiodiffusion"
     },
-    "s124-identifier": "Identifiant S-124"
+    "s124-identifier": "Identifiant S-124",
+    "urn-pattern-error": "L'URN doit avoir un format valide (ex. urn:ping:serie:01). Les espaces et les accents ne sont pas autorisés."
   },
   "warning": {
     "diffusionNavtex": {
@@ -3524,7 +3548,9 @@
     "action": "Action",
     "extract": "Retirer",
     "delete": "Le rôle a bien été retiré à l'utilisateur",
-    "assigned-services": "Services attribués"
+    "assigned-services": "Services attribués",
+    "assigned-users": "Utilisateurs affectés",
+    "no-user": "Aucun utilisateur n'a de rôle dans ce service."
   },
   "role": {
     "service-admin": "Administrateur",
@@ -3592,5 +3618,20 @@
       "account": "Compte et sécurité"
     },
     "ph-select": "Sélectionnez une option"
+  },
+  "admin-form": {
+    "sections": {
+      "general": "Informations générales",
+      "languages": "Langues",
+      "description": "Description et avertissement",
+      "scope": "Périmètre",
+      "location": "Localisation",
+      "services": "Services et régions",
+      "roles": "Rôles du service",
+      "accessibility": "Accessibilité et lien",
+      "bilingual-description": "Description"
+    },
+    "required-note": "Les champs marqués d'un * sont obligatoires.",
+    "delete-range": "Supprimer la plage"
   }
 }
