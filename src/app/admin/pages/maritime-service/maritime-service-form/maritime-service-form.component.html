@@ -1,206 +1,221 @@
-<form [formGroup]="maritimeServiceForm" class="form" (ngSubmit)="saveMaritimeService()">
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-urn" class="label p-col-fixed" translate>maritime-service.urn</label>
-    <input id="maritime-service-urn" type="text" formControlName="urn" placeholder="urn:mrn:s124:service:...">
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-name" class="label p-col-fixed">{{ 'maritime-service.name' | translate }} *</label>
-    <input id="maritime-service-name" type="text" formControlName="name" required>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-iname" class="label p-col-fixed" translate>maritime-service.internationalName</label>
-    <input id="maritime-service-iname" type="text" formControlName="internationalName">
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-production-agency" class="label p-col-fixed">{{ 'maritime-service.production-agency' | translate }}
-      <span *ngIf="isProductionAgencyRequired "> *</span>
-    </label>
-    <input id="maritime-service-production-agency" type="text" formControlName="productionAgency" [required]="isProductionAgencyRequired">
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-info" class="label p-col-fixed" translate>maritime-service.info</label>
-    <textarea rows="5" cols="30" id="maritime-service-info" formControlName="information" pInputTextarea></textarea>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-englishInfo" class="label p-col-fixed" translate>maritime-service.localizedInfo</label>
-    <textarea rows="5" cols="30" id="maritime-service-englishInfo" formControlName="localizedInformation" pInputTextarea></textarea>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-country" class="label p-col-fixed" translate>maritime-service.country</label>
-    <p-dropdown id="maritime-service-country"
-                [options]="countryCodes"
-                optionLabel="value"
-                optionValue="value"
-                formControlName="country"
-                [placeholder]="'maritime-service.select-country' | translate"
-                showClear="true">
+<!-- PISAC (F5.4): servicio marítimo en tarjetas (datos generales, descripción, funciones del servicio, regiones y
+     etiquetas) con etiquetas arriba, rejilla de 2 columnas y barra de acciones. No cambia la lógica: se conservan
+     formControlName, eventos, condiciones, id de los campos y las clases que usan las pruebas (form, save-button). -->
+<form [formGroup]="maritimeServiceForm" class="form maritime-service-form" (ngSubmit)="saveMaritimeService()">
+  <!-- Datos generales -->
+  <pisac-card title="admin-form.sections.general" icon="pi pi-tag">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field">
+        <label for="maritime-service-urn" translate>maritime-service.urn</label>
+        <input id="maritime-service-urn" type="text" formControlName="urn" pInputText placeholder="urn:mrn:s124:service:...">
+      </div>
+      <div class="pisac-field pisac-field--required">
+        <label for="maritime-service-type" translate>maritime-service.type</label>
+        <p-dropdown id="maritime-service-type"
+                    [options]="maritimeServiceTypeEnum | orderBy"
+                    formControlName="type"
+                    [placeholder]="'maritime-service.select-type' | translate"
+                    required>
+          <ng-template let-item pTemplate="item">
+            <span>{{'enum.maritime-service-type.' + (item | lowercase) | translate}}</span>
+          </ng-template>
+          <ng-template let-item pTemplate="selectedItem">
+            <span>{{'enum.maritime-service-type.' + (item | lowercase) | translate}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="pisac-field pisac-field--required">
+        <label for="maritime-service-name" translate>maritime-service.name</label>
+        <input id="maritime-service-name" type="text" formControlName="name" pInputText required>
+      </div>
+      <div class="pisac-field">
+        <label for="maritime-service-iname" translate>maritime-service.internationalName</label>
+        <input id="maritime-service-iname" type="text" formControlName="internationalName" pInputText>
+      </div>
+      <div class="pisac-field" [class.pisac-field--required]="isProductionAgencyRequired">
+        <label for="maritime-service-production-agency" translate>maritime-service.production-agency</label>
+        <input id="maritime-service-production-agency" type="text" formControlName="productionAgency" pInputText
+          [required]="isProductionAgencyRequired">
+      </div>
+      <div class="pisac-field">
+        <label for="maritime-service-country" translate>maritime-service.country</label>
+        <p-dropdown id="maritime-service-country"
+                    [options]="countryCodes"
+                    optionLabel="value"
+                    optionValue="value"
+                    formControlName="country"
+                    [placeholder]="'maritime-service.select-country' | translate"
+                    showClear="true"
+                    [filter]="true"
+                    filterBy="value">
+        </p-dropdown>
+      </div>
+      <div class="pisac-field pisac-field--required">
+        <label for="maritime-service-network" translate>maritime-service.network</label>
+        <p-dropdown id="maritime-service-network"
+                    [options]="serviceNetworks | orderBy"
+                    formControlName="serviceNetwork"
+                    [placeholder]="'maritime-service.select-network' | translate"
+                    required>
+          <ng-template let-item pTemplate="item">
+            <span>{{'maritime-service-networks.' + item | translate}}</span>
+          </ng-template>
+          <ng-template let-item pTemplate="selectedItem">
+            <span>{{'maritime-service-networks.' + item | translate}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div *ngIf="type.value === 'AUTHORITY'" class="pisac-field pisac-field--required">
+        <label for="maritime-service-authority-code" translate>maritime-service.authority-code</label>
+        <input id="maritime-service-authority-code" type="text" formControlName="authorityCode" pInputText>
+      </div>
+      <div class="pisac-field">
+        <label for="maritime-service-info" translate>maritime-service.info</label>
+        <textarea rows="4" id="maritime-service-info" formControlName="information" pInputTextarea></textarea>
+      </div>
+      <div class="pisac-field">
+        <label for="maritime-service-englishInfo" translate>maritime-service.localizedInfo</label>
+        <textarea rows="4" id="maritime-service-englishInfo" formControlName="localizedInformation" pInputTextarea></textarea>
+      </div>
+    </div>
+  </pisac-card>
 
-    </p-dropdown>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-type" class="label p-col-fixed">{{ 'maritime-service.type' | translate }} *</label>
-    <p-dropdown id="maritime-service-type"
-                [options]="maritimeServiceTypeEnum | orderBy"
-                formControlName="type"
-                [placeholder]="'maritime-service.select-type' | translate"
-                required>
-      <ng-template let-item pTemplate="item">
-        <span class="p-button-label">{{'enum.maritime-service-type.' + (item | lowercase) | translate}}</span>
-      </ng-template>
-      <ng-template let-item pTemplate="selectedItem">
-        <span class="p-button-label">{{'enum.maritime-service-type.' + (item | lowercase) | translate}}</span>
-      </ng-template>
-    </p-dropdown>
-  </div>
+  <!-- Funciones del servicio -->
+  <pisac-card title="admin-form.sections.roles" icon="pi pi-cog">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field">
+        <label for="maritime-service-ping-partner" translate>maritime-service.ping-partner</label>
+        <p-selectButton id="maritime-service-ping-partner" [unselectable]="true" [options]="booleanOptions"
+          ngDefaultControl formControlName="pingPartner">
+          <ng-template let-item pTemplate>
+            <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+          </ng-template>
+        </p-selectButton>
+      </div>
+      <div class="pisac-field">
+        <label for="maritime-service-shom-service" translate>maritime-service.shom-service</label>
+        <p-selectButton id="maritime-service-shom-service" [options]="booleanOptions" ngDefaultControl
+          [unselectable]="true" formControlName="shomService">
+          <ng-template let-item pTemplate>
+            <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+          </ng-template>
+        </p-selectButton>
+      </div>
+      <div class="pisac-field">
+        <label for="maritime-service-maritime-notice-producer" translate>maritime-service.maritime-notice-producer</label>
+        <p-selectButton id="maritime-service-maritime-notice-producer" [options]="booleanOptions" ngDefaultControl
+          [unselectable]="true" (onOptionClick)="selectServiceMaritimeNoticeProducer($event)"
+          formControlName="maritimeNoticeProducer">
+          <ng-template let-item pTemplate>
+            <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+          </ng-template>
+        </p-selectButton>
+      </div>
+      <div class="pisac-field">
+        <label for="maritime-service-s124-data-producer" translate>maritime-service.s124-data-producer</label>
+        <p-selectButton id="maritime-service-s124-data-producer" [options]="booleanOptions" ngDefaultControl
+          [unselectable]="true" (onOptionClick)="selectServiceS124DataProducer($event)"
+          formControlName="s124DataProducer">
+          <ng-template let-item pTemplate>
+            <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+          </ng-template>
+        </p-selectButton>
+      </div>
+      <div class="pisac-field" [class.pisac-field--required]="isIhoProducerCodeRequired">
+        <label for="maritime-service-iho-producer-code" translate>maritime-service.iho-producer-code</label>
+        <input id="maritime-service-iho-producer-code" type="text" formControlName="ihoProducerCode" pInputText
+          [required]="isIhoProducerCodeRequired">
+      </div>
+      <div class="pisac-field">
+        <label for="maritime-service-folder-manager" translate>maritime-service.folder-manager</label>
+        <p-selectButton id="maritime-service-folder-manager" [options]="booleanOptions" ngDefaultControl
+          [unselectable]="true" formControlName="folderManager">
+          <ng-template let-item pTemplate>
+            <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+          </ng-template>
+        </p-selectButton>
+      </div>
+      <div class="pisac-field">
+        <label for="maritime-service-survey-owner" translate>maritime-service.survey-owner</label>
+        <p-selectButton id="maritime-service-survey-owner" [options]="booleanOptions" ngDefaultControl
+          [unselectable]="true" formControlName="surveyOwner">
+          <ng-template let-item pTemplate>
+            <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
+          </ng-template>
+        </p-selectButton>
+      </div>
+    </div>
+  </pisac-card>
 
-  <div *ngIf="type.value === 'AUTHORITY'" class="line-form p-field p-grid">
-    <label for="maritime-service-authority-code" class="label p-col-fixed">{{ 'maritime-service.authority-code' | translate }} *</label>
-    <input id="maritime-service-authority-code" type="text" formControlName="authorityCode">
-  </div>
+  <!-- Regiones y etiquetas -->
+  <pisac-card title="admin-form.sections.scope" icon="pi pi-map">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field pisac-span-all">
+        <label for="maritime-service-areas" translate>maritime-service.areas</label>
+        <p-multiSelect *ngIf="areas$ | async as areas"
+                       id="maritime-service-areas"
+                       formControlName="areas"
+                       [options]="areas"
+                       [optionLabel]="displayedAreaLabel"
+                       [maxSelectedLabels]="areas.length"
+                       optionValue="id"
+                       [placeholder]="'maritime-service.all-areas' | translate"
+                       display="chip">
+        </p-multiSelect>
+      </div>
 
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-network" class="label p-col-fixed">{{ 'maritime-service.network' | translate }} *</label>
-    <p-dropdown id="maritime-service-network"
-                [options]="serviceNetworks | orderBy"
-                formControlName="serviceNetwork"
-                [placeholder]="'maritime-service.select-network' | translate"
-                required>
-      <ng-template let-item  pTemplate="item">
-        <span class="p-button-label">{{'maritime-service-networks.' + item | translate}}</span>
-      </ng-template>
-      <ng-template let-item  pTemplate="selectedItem">
-        <span class="p-button-label">{{'maritime-service-networks.' + item | translate}}</span>
-      </ng-template>
-    </p-dropdown>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-ping-partner" class="label p-col-fixed" translate>maritime-service.ping-partner</label>
-    <p-selectButton id="maritime-service-ping-partner"
-                    [unselectable]="true"
-                    [options]="booleanOptions"
-                    ngDefaultControl
-                    formControlName="pingPartner">
-      <ng-template let-item pTemplate>
-        <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
-      </ng-template>
-    </p-selectButton>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-maritime-notice-producer" class="label p-col-fixed" translate>maritime-service.maritime-notice-producer</label>
-    <p-selectButton id="maritime-service-maritime-notice-producer"
-                    [options]="booleanOptions"
-                    ngDefaultControl
-                    [unselectable]="true"
-                    (onOptionClick)="selectServiceMaritimeNoticeProducer($event)"
-                    formControlName="maritimeNoticeProducer">
-      <ng-template let-item pTemplate>
-        <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
-      </ng-template>
-    </p-selectButton>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-s124-data-producer" class="label p-col-fixed" translate>maritime-service.s124-data-producer</label>
-    <p-selectButton id="maritime-service-s124-data-producer"
-                    [options]="booleanOptions"
-                    ngDefaultControl
-                    [unselectable]="true"
-                    (onOptionClick)="selectServiceS124DataProducer($event)"
-                    formControlName="s124DataProducer">
-      <ng-template let-item pTemplate>
-        <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
-      </ng-template>
-    </p-selectButton>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-iho-producer-code" class="label p-col-fixed">{{ 'maritime-service.iho-producer-code' | translate }}
-      <span *ngIf="isIhoProducerCodeRequired "> *</span>
-    </label>
-    <input id="maritime-service-iho-producer-code" type="text" formControlName="ihoProducerCode" [required]="isIhoProducerCodeRequired">
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-folder-manager" class="label p-col-fixed" translate>maritime-service.folder-manager</label>
-    <p-selectButton id="maritime-service-folder-manager"
-                    [options]="booleanOptions"
-                    ngDefaultControl
-                    [unselectable]="true"
-                    formControlName="folderManager">
-      <ng-template let-item pTemplate>
-        <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
-      </ng-template>
-    </p-selectButton>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-survey-owner" class="label p-col-fixed" translate>maritime-service.survey-owner</label>
-    <p-selectButton id="maritime-service-survey-owner"
-                    [options]="booleanOptions"
-                    ngDefaultControl
-                    [unselectable]="true"
-                    formControlName="surveyOwner">
-      <ng-template let-item pTemplate>
-        <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
-      </ng-template>
-    </p-selectButton>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-shom-service" class="label p-col-fixed" translate>maritime-service.shom-service</label>
-    <p-selectButton id="maritime-service-shom-service"
-                    [options]="booleanOptions"
-                    ngDefaultControl
-                    [unselectable]="true"
-                    formControlName="shomService">
-      <ng-template let-item pTemplate>
-        <span class="p-selectButton-label">{{'boolean.' + item | translate}}</span>
-      </ng-template>
-    </p-selectButton>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="maritime-service-areas" class="label p-col-fixed" translate>maritime-service.areas</label>
-    <p-multiSelect *ngIf="areas$ | async as areas"
-                   id="maritime-service-areas"
-                   formControlName="areas"
-                   [options]="areas"
-                   [optionLabel]="displayedAreaLabel"
-                   [maxSelectedLabels]="areas.length"
-                   optionValue="id"
-                   [placeholder]="'maritime-service.all-areas' | translate"
-                   display="chip">
-
-    </p-multiSelect>
-  </div>
-  <div class="line-form p-field p-grid no-align-items" *ngIf="maritimeService.id">
-    <label for="maritime-service-tags" class="label p-col-fixed" translate>maritime-service.tags</label>
-    <div class="p-grid">
-      <div class="p-dir-col">
-        <div class="p-col">
-          <input [placeholder]="'maritime-service.add-tag' | translate" type="text" pInputText class="p-inputtext-lg" formControlName="newTagName"/>
-          <button pButton [disabled]="disabled || newTagName.value.length === 0" type="button" class="save-button" icon="pi pi-plus-circle" iconPos="center" (click)="addNewTag()"></button>
+      <div class="pisac-field pisac-span-all" *ngIf="maritimeService.id">
+        <label for="maritime-service-tags" translate>maritime-service.tags</label>
+        <div class="pisac-input-group tag-input">
+          <input id="maritime-service-tags" [placeholder]="'maritime-service.add-tag' | translate" type="text" pInputText
+            formControlName="newTagName"/>
+          <button pButton [disabled]="disabled || newTagName.value.length === 0" type="button" class="p-button-outlined add-tag-button"
+            icon="pi pi-plus" [label]="'maritime-service.add-tag' | translate" (click)="addNewTag()"></button>
         </div>
         <p-confirmPopup [key]="confirmDeleteTag"></p-confirmPopup>
-        <p-chip *ngFor="let chip of tagChips">
-          <p-chip-text>{{chip.name}}</p-chip-text>
-          <button pButton *ngIf="!disabled" (click)="showEditModalDialog(chip)" type="button" icon="pi pi-pencil" class="p-button-rounded p-button-plain p-button-text"></button>
-          <button pButton *ngIf="!disabled" (click)="confirmDelete($event,chip.key)" type="button" icon="pi pi-times-circle" class="p-button-rounded p-button-plain p-button-text"></button>
-        </p-chip>
+        <div class="tag-list" *ngIf="tagChips?.length">
+          <p-chip *ngFor="let chip of tagChips">
+            <span class="tag-name">{{chip.name}}</span>
+            <button pButton *ngIf="!disabled" (click)="showEditModalDialog(chip)" type="button" icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-sm"
+              [title]="'maritime-service.edit-tag-name-header' | translate"
+              [attr.aria-label]="'maritime-service.edit-tag-name-header' | translate"></button>
+            <button pButton *ngIf="!disabled" (click)="confirmDelete($event,chip.key)" type="button" icon="pi pi-times"
+              class="p-button-rounded p-button-text p-button-sm p-button-danger"
+              [title]="'static-page-list.table.delete' | translate"
+              [attr.aria-label]="'static-page-list.table.delete' | translate"></button>
+          </p-chip>
+        </div>
       </div>
+    </div>
+  </pisac-card>
+
+  <div class="pisac-action-bar pisac-action-bar--detached">
+    <div class="pisac-action-bar__info">
+      <span *ngIf="!disabled" translate>admin-form.required-note</span>
+    </div>
+    <div class="pisac-action-bar__group">
+      <button *ngIf="disabled" pButton type="button" class="p-button-outlined" [label]="'return-to-list' | translate"
+        icon="pi pi-chevron-left" routerLink="/administration/service-maritime"></button>
+      <button *ngIf="!disabled" pButton type="button" class="p-button-outlined" [label]="'cancel' | translate"
+        icon="pi pi-times" routerLink="/administration/service-maritime"></button>
+      <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
+        [disabled]="!maritimeServiceForm.valid"></button>
     </div>
   </div>
-  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="!maritimeServiceForm.valid"></button>
-  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times" routerLink="/administration/service-maritime" ></button>
-  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left" routerLink="/administration/service-maritime" ></button>
 </form>
+
 <p-dialog [header]="'maritime-service.edit-tag-name-header' | translate"
-          [(visible)]="displayModal" [modal]="true" [style]="{width: '30vw'}"
+          [(visible)]="displayModal" [modal]="true" [style]="{width: 'min(480px, 92vw)'}"
           [draggable]="false" [resizable]="false">
-    <div class="p-fluid">
-      <label class="lbl-new-tag-name" for="new-tag-name" translate>maritime-service.new-tag-name</label>
-      <input id="new-tag-name" type="text" [(ngModel)]="tagChipToModify.name" [ngModelOptions]="{standalone: true}" pInputText>
-    </div>
-    <ng-template pTemplate="footer" >
-      <div class="p-fluid">
-        <button pButton type="button" class="p-button-sm p-button-secondary" (click)="displayModal=false" [label]="'cancel' | translate"></button>
-        <button pButton type="button" class="p-button-sm" [disabled]="tagChipToModify.name.length === 0" (click)="onSaveNewTagName()" [label]="'save' | translate"></button>
-      </div>
-      </ng-template>
+  <div class="pisac-field">
+    <label class="lbl-new-tag-name" for="new-tag-name" translate>maritime-service.new-tag-name</label>
+    <input id="new-tag-name" type="text" [(ngModel)]="tagChipToModify.name" [ngModelOptions]="{standalone: true}" pInputText>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" class="p-button-outlined" icon="pi pi-times" (click)="displayModal=false"
+      [label]="'cancel' | translate"></button>
+    <button pButton type="button" icon="pi pi-check" [disabled]="tagChipToModify.name.length === 0"
+      (click)="onSaveNewTagName()" [label]="'save' | translate"></button>
+  </ng-template>
 </p-dialog>
-
-

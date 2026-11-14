@@ -1,5 +1,8 @@
-<h1 *ngIf="disabled; else editTitle">{{'sub-area-list.title.show' | translate}} ({{(!subArea?.parents?.length ? 'detail.general-area' : 'folder.details.locality') | translate}})</h1>
-<ng-template #editTitle>
-  <h1>{{'sub-area-list.title.edit' | translate}} ({{(!subArea?.parents?.length ? 'detail.general-area' : 'folder.details.locality') | translate}})</h1>
-</ng-template>
-<app-sub-area-form *ngIf="subArea" [subArea]="subArea" [disabled]="disabled"></app-sub-area-form>
+<!-- PISAC (F5.4): cabecera (consulta o edición) con el tipo de subzona como subtítulo, y formulario en el
+     contenedor de página común. -->
+<div class="pisac-form-page">
+  <pisac-page-header variant="light" icon="pi pi-map"
+    [title]="disabled ? 'sub-area-list.title.show' : 'sub-area-list.title.edit'"
+    [subtitle]="!subArea?.parents?.length ? 'detail.general-area' : 'folder.details.locality'"></pisac-page-header>
+  <app-sub-area-form *ngIf="subArea" [subArea]="subArea" [disabled]="disabled"></app-sub-area-form>
+</div>

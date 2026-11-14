@@ -1,6 +1,11 @@
+<!-- PISAC (F5.4): cabecera de página clara, tabla y paginador en tarjeta, acciones de fila solo con icono. -->
 <ng-container *ngIf="pageItem">
-<h1 translate>maritime-services-list.title.list</h1>
-<button pButton *ngIf="canCreateModel" class="add-button p-button-sm" routerLink="./ajouter" [label]="'maritime-services-list.add' | translate" icon="pi pi-plus"></button>
+<div class="pisac-list-page">
+<pisac-page-header variant="light" icon="pi pi-sitemap" title="maritime-services-list.title.list">
+  <button actions pButton class="add-button" *ngIf="canCreateModel" routerLink="./ajouter" [label]="'maritime-services-list.add' | translate" icon="pi pi-plus"></button>
+</pisac-page-header>
+<div class="pisac-table-card">
+<div class="pisac-table-scroll">
 <table class="administration-table">
   <thead>
   <tr>
@@ -37,16 +42,19 @@
     <td>{{'enum.maritime-service-type.' + (service.type | lowercase) | translate}}</td>
     <td>{{displayArea(service)}}</td>
     <td>
-      <button pButton *ngIf="canPreview(service.id)" class="p-button-sm preview-button" routerLink="./{{service.id}}/details" [title]="'maritime-services-list.table.show' | translate" icon="pi pi-eye"></button>
-      <button pButton *ngIf="canEditModel" class="p-button-sm edit-button" routerLink="./{{service.id}}/edition" [title]="'maritime-services-list.table.edit' | translate" icon="pi pi-pencil"></button>
+      <button pButton *ngIf="canPreview(service.id)" class="p-button-sm p-button-text p-button-rounded preview-button" routerLink="./{{service.id}}/details" [title]="'maritime-services-list.table.show' | translate" [attr.aria-label]="'maritime-services-list.table.show' | translate" icon="pi pi-eye"></button>
+      <button pButton *ngIf="canEditModel" class="p-button-sm p-button-text p-button-rounded edit-button" routerLink="./{{service.id}}/edition" [title]="'maritime-services-list.table.edit' | translate" [attr.aria-label]="'maritime-services-list.table.edit' | translate" icon="pi pi-pencil"></button>
     </td>
   </tr>
   </tbody>
 </table>
+</div>
 <app-ping-paginator
   [page]="pageItem"
   [currentSize]="this.currentSize"
   [currentPage]="this.currentPage"
   (changePage)="this.handlePageEvent($event)"
 ></app-ping-paginator>
+</div>
+</div>
 </ng-container>

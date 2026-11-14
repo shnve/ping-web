@@ -318,6 +318,7 @@ export class MenuComponent implements OnInit, OnChangeLang {
             routerLink: '/administration/static-logo'
           },
           {
+            styleClass: this.styleClassItem,
             label: this.translate.instant('menu.admin.static-section'),
             routerLink: '/administration/static-section'
           },

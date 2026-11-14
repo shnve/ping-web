@@ -1,129 +1,147 @@
-<form [formGroup]="serieForm" class="form" (ngSubmit)="saveSerie()">
-  <div class="line-form p-field p-grid">
-    <label for="serie-urn" class="label p-col-fixed" translate>serie.urn</label>
-    <div style="padding: 0; margin: 0;">
-      <input id="serie-urn" type="text" formControlName="urn" class="form-control" placeholder="urn:mrn:s124:serie:...">
-      <div *ngIf="serieForm.get('urn')?.errors?.['pattern']"
-        style="font-size: 0.8rem; color: #dc3545; margin-top: 4px;">
-        El URN debe tener formato valido (ej. urn:ping:serie:01). No se permiten espacios ni acentos.
+<!-- PISAC (F5.4): serie en tarjetas (datos generales, idiomas, descripción en español e inglés, alcance y numeración, difusión
+     NAVTEX) con etiquetas arriba, rejilla de 2 columnas y barra de acciones. No cambia la lógica: se conservan
+     formControlName, ngModel de los rangos, condiciones, id de los campos y las clases que usan las pruebas
+     (form, save-button, add-range, serie-range, button-delete). -->
+<form [formGroup]="serieForm" class="form serie-form" (ngSubmit)="saveSerie()">
+  <!-- Datos generales -->
+  <pisac-card title="admin-form.sections.general" icon="pi pi-tag">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field">
+        <label for="serie-urn" translate>serie.urn</label>
+        <input id="serie-urn" type="text" formControlName="urn" pInputText placeholder="urn:mrn:s124:serie:...">
+        <small *ngIf="serieForm.get('urn')?.errors?.['pattern']" class="p-error" translate>serie.urn-pattern-error</small>
+      </div>
+      <div class="pisac-field">
+        <label for="serie-s124-identifier" translate>serie.s124-identifier</label>
+        <input id="serie-s124-identifier" type="text" formControlName="s124Identifier" pInputText>
+      </div>
+      <div class="pisac-field pisac-field--required">
+        <label for="serie-name" translate>serie.name</label>
+        <input id="serie-name" type="text" formControlName="name" pInputText required>
+      </div>
+      <div class="pisac-field">
+        <label for="serie-iname" translate>serie.internationalName</label>
+        <input id="serie-iname" type="text" formControlName="internationalName" pInputText>
+      </div>
+      <div class="pisac-field pisac-field--required">
+        <label for="serie-type" translate>serie.type</label>
+        <p-dropdown id="serie-type" [options]="serieTypes" [placeholder]="'serie.select-type' | translate"
+          formControlName="type">
+          <ng-template let-item pTemplate="item">
+            <span>{{'serie-type.' + item | translate}}</span>
+          </ng-template>
+          <ng-template let-item pTemplate="selectedItem">
+            <span>{{'serie-type.' + item | translate}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="pisac-field pisac-field--required">
+        <label for="serie-service" translate>serie.maritimeService</label>
+        <p-dropdown *ngIf="maritimeServices$ | async as services" id="serie-service" formControlName="maritimeService"
+          [options]="services | orderBy: (displayedLabel)" [optionLabel]="displayedLabel" optionValue="id"
+          [placeholder]="'serie.select-maritime-service' | translate">
+        </p-dropdown>
       </div>
     </div>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="serie-name" class="label p-col-fixed">{{ 'serie.name' | translate }} *</label>
-    <input id="serie-name" type="text" formControlName="name" required>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="serie-iname" class="label p-col-fixed" translate>serie.internationalName</label>
-    <input id="serie-iname" type="text" formControlName="internationalName">
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="serie-type" class="label p-col-fixed">{{ 'serie.type' | translate }} *</label>
-    <p-dropdown id="serie-type" [options]="serieTypes" [placeholder]="'serie.select-type' | translate"
-      formControlName="type">
-      <ng-template let-item pTemplate="item">
-        <span class="p-button-label">{{'serie-type.' + item | translate}}</span>
-      </ng-template>
-      <ng-template let-item pTemplate="selectedItem">
-        <span class="p-button-label">{{'serie-type.' + item | translate}}</span>
-      </ng-template>
-    </p-dropdown>
-  </div>
-  <div class="p-error" *ngIf="hasInvalidLanguageSize" translate>serie.only-two-languages</div>
-  <div class="line-form p-field p-grid">
-    <label for="serie-mandatory-languages" class="label p-col-fixed">{{ 'serie.mandatoryLanguages' | translate }}
-      *</label>
-    <p-multiSelect id="serie-mandatory-languages" [options]="languages" formControlName="mandatoryLanguages"
-      display="chip" [placeholder]="'serie.select-mandatory-language' | translate">>
-    </p-multiSelect>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="serie-optional-languages" class="label p-col-fixed" translate>serie.optionalLanguages</label>
-    <p-multiSelect id="serie-optional-languages" [options]="languages" formControlName="optionalLanguages"
-      display="chip" [placeholder]="'serie.select-optional-language' | translate">
-    </p-multiSelect>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="serie-info" class="label p-col-fixed" translate>serie.info</label>
-    <textarea rows="5" cols="30" id="serie-info" formControlName="information" pInputTextarea></textarea>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="serie-englishInfo" class="label p-col-fixed" translate>serie.englishInfo</label>
-    <textarea rows="5" cols="30" id="serie-englishInfo" formControlName="localizedInformation"
-      pInputTextarea></textarea>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="serie-service" class="label p-col-fixed">{{ 'serie.maritimeService' | translate }} *</label>
-    <p-dropdown *ngIf="maritimeServices$ | async as services" id="serie-service" formControlName="maritimeService"
-      [options]="services | orderBy: (displayedLabel)" [optionLabel]="displayedLabel" optionValue="id"
-      [placeholder]="'serie.select-maritime-service' | translate">
+  </pisac-card>
 
-    </p-dropdown>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="serie-sub-areas" class="label p-col-fixed" translate>serie.subAreas</label>
-    <p-multiSelect *ngIf="subAreas$ | async as subareas" class="serie-sub-areas" id="serie-sub-areas"
-      formControlName="subAreas" [options]="subareas | orderBy: (displayedLabel)" [optionLabel]="displayedLabel"
-      [maxSelectedLabels]="subareas.length" optionValue="id" display="chip"
-      [placeholder]="'serie.select-sub-area' | translate">
+  <!-- Idiomas (obligatorios y opcionales, en la misma fila) -->
+  <pisac-card title="admin-form.sections.languages" icon="pi pi-globe">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field pisac-field--required">
+        <label for="serie-mandatory-languages" translate>serie.mandatoryLanguages</label>
+        <p-multiSelect id="serie-mandatory-languages" [options]="languages" formControlName="mandatoryLanguages"
+          display="chip" [placeholder]="'serie.select-mandatory-language' | translate">
+        </p-multiSelect>
+      </div>
+      <div class="pisac-field">
+        <label for="serie-optional-languages" translate>serie.optionalLanguages</label>
+        <p-multiSelect id="serie-optional-languages" [options]="languages" formControlName="optionalLanguages"
+          display="chip" [placeholder]="'serie.select-optional-language' | translate">
+        </p-multiSelect>
+      </div>
+      <small class="p-error pisac-span-all" *ngIf="hasInvalidLanguageSize" translate>serie.only-two-languages</small>
+    </div>
+  </pisac-card>
 
-    </p-multiSelect>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label class="label p-col-fixed" translate>serie.ranges</label>
-    <div>
-      <div *ngFor="let range of serie.ranges;  let i = index; trackBy: trackByFn"
-        class="form-group p-grid p-formgrid p-fluid space-between">
-        <label class="p-col-12 p-mb-2 p-lg-5 p-mb-lg-0"
-          *ngFor="let limit of serie.ranges[i]; let j = index; trackBy: trackByFn">
-          <input type="number" [(ngModel)]="range[j]" [ngModelOptions]="{standalone: true}" class="serie-range"
-            [disabled]="disabled" min="1" [ngClass]="{'error': isWrongValue(i, j)}" [id]="'range-'+i+'-'+j">
-          <span *ngIf="isWrongValue(i, j)" class="field-validation-error">
-            <span translate>serie.wrong-value</span>
-          </span>
-        </label>
-        <div class="p-col-12 p-mb-2 p-lg-1 p-mb-lg-0 button-delete-div">
-          <button *ngIf="!disabled" pButton pRipple type="button" (click)="removeRange(i)"
-            [disabled]="serie.ranges.length === 1" icon="pi pi-times"
-            class="button-delete p-button-outlined p-button-sm"></button>
+  <!-- Descripción en español e inglés: tarjeta aparte para que no parezca ligada a los idiomas opcionales -->
+  <pisac-card title="admin-form.sections.bilingual-description" icon="pi pi-align-left">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field">
+        <label for="serie-info" translate>serie.info</label>
+        <textarea rows="5" id="serie-info" formControlName="information" pInputTextarea></textarea>
+      </div>
+      <div class="pisac-field">
+        <label for="serie-englishInfo" translate>serie.englishInfo</label>
+        <textarea rows="5" id="serie-englishInfo" formControlName="localizedInformation" pInputTextarea></textarea>
+      </div>
+    </div>
+  </pisac-card>
+
+  <!-- Alcance y numeración -->
+  <pisac-card title="admin-form.sections.scope" icon="pi pi-map">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field pisac-span-all">
+        <label for="serie-sub-areas" translate>serie.subAreas</label>
+        <p-multiSelect *ngIf="subAreas$ | async as subareas" class="serie-sub-areas" id="serie-sub-areas"
+          formControlName="subAreas" [options]="subareas | orderBy: (displayedLabel)" [optionLabel]="displayedLabel"
+          [maxSelectedLabels]="subareas.length" optionValue="id" display="chip"
+          [placeholder]="'serie.select-sub-area' | translate">
+        </p-multiSelect>
+      </div>
+
+      <div class="pisac-field pisac-span-all">
+        <label translate>serie.ranges</label>
+        <div class="range-list">
+          <div *ngFor="let range of serie.ranges; let i = index; trackBy: trackByFn" class="range-row">
+            <div *ngFor="let limit of serie.ranges[i]; let j = index; trackBy: trackByFn" class="range-limit">
+              <input type="number" pInputText [(ngModel)]="range[j]" [ngModelOptions]="{standalone: true}"
+                class="serie-range" [disabled]="disabled" min="1" [ngClass]="{'error': isWrongValue(i, j), 'ng-dirty ng-invalid': isWrongValue(i, j)}"
+                [id]="'range-'+i+'-'+j" [attr.aria-label]="('serie.ranges' | translate) + ' ' + (i + 1) + (j === 0 ? ' – min' : ' – max')">
+              <small *ngIf="isWrongValue(i, j)" class="p-error" translate>serie.wrong-value</small>
+            </div>
+            <button *ngIf="!disabled" pButton pRipple type="button" (click)="removeRange(i)"
+              [disabled]="serie.ranges.length === 1" icon="pi pi-trash"
+              class="button-delete p-button-text p-button-rounded p-button-danger"
+              [title]="'admin-form.delete-range' | translate" [attr.aria-label]="'admin-form.delete-range' | translate"></button>
+          </div>
+          <p-button class="add-range" styleClass="p-button-outlined p-button-sm" [label]="'serie.addRange' | translate"
+            type="button" icon="pi pi-plus" (onClick)="addRange()" [disabled]="disabled"></p-button>
         </div>
       </div>
-      <p-button class="add-range" [label]="'serie.addRange' | translate" type="button" icon="pi pi-plus"
-        (onClick)="addRange()" [disabled]="disabled"></p-button>
     </div>
-  </div>
+  </pisac-card>
 
-  <div class="line-form p-field p-grid">
-    <label for="serie-s124-identifier" class="label p-col-fixed" translate>serie.s124-identifier</label>
-    <input id="serie-s124-identifier" type="text" formControlName="s124Identifier">
-  </div>
-
-  <!-- Diffusion NAVTEX -->
-  <div>
-    <hr />
-    <span class="sub-section-title" translate>serie.diffusionNavtex.title</span>
-
-    <div class="line-form p-field p-grid">
-      <label for="navtex-source"
-        class="label p-col-fixed">{{ 'serie.diffusionNavtex.broadcastingStation' | translate }}</label>
-      <p-dropdown id="navtex-source" [options]="navtexSources"
-        [placeholder]="'serie.diffusionNavtex.select-broadcasting-station' | translate" formControlName="navtexSource"
-        [showClear]="navtexSource.value?.length">
-        <ng-template let-item pTemplate="item">
-          <span>{{'diffusion-navtex-source.' + item | translate}}</span>
-        </ng-template>
-        <ng-template let-item pTemplate="selectedItem">
-          <span>{{'diffusion-navtex-source.' + item | translate}}</span>
-        </ng-template>
-      </p-dropdown>
+  <!-- Difusión NAVTEX -->
+  <pisac-card title="serie.diffusionNavtex.title" icon="pi pi-wifi">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field">
+        <label for="navtex-source" translate>serie.diffusionNavtex.broadcastingStation</label>
+        <p-dropdown id="navtex-source" [options]="navtexSources"
+          [placeholder]="'serie.diffusionNavtex.select-broadcasting-station' | translate" formControlName="navtexSource"
+          [showClear]="navtexSource.value?.length">
+          <ng-template let-item pTemplate="item">
+            <span>{{'diffusion-navtex-source.' + item | translate}}</span>
+          </ng-template>
+          <ng-template let-item pTemplate="selectedItem">
+            <span>{{'diffusion-navtex-source.' + item | translate}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
     </div>
-  </div>
-  <div class="form-buttons">
-    <p-button *ngIf="!disabled" class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
-      [disabled]="!serieForm.valid || hasInvalidLanguageSize"></p-button>
-    <p-button *ngIf="disabled" [label]="'return-to-list' | translate" icon="pi pi-chevron-left"
-      routerLink="/administration/series"></p-button>
-    <p-button *ngIf="!disabled" [label]="'cancel' | translate" icon="pi pi-times"
-      routerLink="/administration/series"></p-button>
+  </pisac-card>
+
+  <div class="pisac-action-bar pisac-action-bar--detached">
+    <div class="pisac-action-bar__info">
+      <span *ngIf="!disabled" translate>admin-form.required-note</span>
+    </div>
+    <div class="pisac-action-bar__group">
+      <p-button *ngIf="disabled" styleClass="p-button-outlined" [label]="'return-to-list' | translate" icon="pi pi-chevron-left"
+        routerLink="/administration/series"></p-button>
+      <p-button *ngIf="!disabled" styleClass="p-button-outlined" [label]="'cancel' | translate" icon="pi pi-times"
+        routerLink="/administration/series"></p-button>
+      <p-button *ngIf="!disabled" class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
+        [disabled]="!serieForm.valid || hasInvalidLanguageSize"></p-button>
+    </div>
   </div>
 </form>

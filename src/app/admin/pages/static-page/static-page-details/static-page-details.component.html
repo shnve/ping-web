@@ -1,5 +1,6 @@
-<h1 translate *ngIf="disabled; else editTitle">static-page-list.title.show</h1>
-<ng-template #editTitle>
- <h1 translate>static-page-list.title.edit</h1>
-</ng-template>
-<app-static-page-form *ngIf="staticPage" [staticPage]="staticPage" [disabled]="disabled"></app-static-page-form>
+<!-- PISAC (F5.4): cabecera (consulta o edición) y formulario en el contenedor de página común. -->
+<div class="pisac-form-page">
+  <pisac-page-header variant="light" icon="pi pi-file"
+    [title]="disabled ? 'static-page-list.title.show' : 'static-page-list.title.edit'"></pisac-page-header>
+  <app-static-page-form *ngIf="staticPage" [staticPage]="staticPage" [disabled]="disabled"></app-static-page-form>
+</div>

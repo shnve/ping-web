@@ -79,7 +79,7 @@ describe('SubareaListComponent', () => {
   it('should show all informations about the page / content', done => {
     const listComponent: HTMLElement = fixture.nativeElement;
     expect(listComponent.querySelectorAll('.sub-area-list > .subArea').length).toEqual(5);
-    expect(listComponent.querySelector('.infos-page').innerHTML.trim()).toEqual('1 - 5 of 10');
+    expect(listComponent.querySelector('.infos-page').innerHTML.trim()).toEqual('1 - 5 paginator.of 10');
     done();
   });
 

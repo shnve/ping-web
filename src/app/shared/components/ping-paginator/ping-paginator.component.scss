@@ -1,33 +1,77 @@
+// PISAC (F5.4): paginador de las listas con tokens; dentro de `.pisac-table-card` actúa de pie de la tarjeta.
+:host {
+  display: block;
+}
+
 .ping-paginator {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
-  height: 50px;
-  width: 90%;
-  margin: auto;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.875rem;
+  color: var(--pisac-text-muted);
 
-  > div:first-of-type, .infos-page {
-    color: rgba(0,0,0,.54);
-    font-size: 12px;
-    margin: 0 4px;
+  .ping-paginator__label {
+    margin: 0;
+    font-size: inherit;
+    color: inherit;
+  }
+
+  .p-field {
+    margin: 0;
   }
 
   .infos-page {
-    margin: 0 15px;
+    min-width: 7rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
   }
 
-  > div:not(.p-field) {
-    line-height: 32px;
-    margin: 0 5px;
-  }
-
-  > div:last-of-type {
+  .ping-paginator__nav {
     display: flex;
-    justify-content: space-around;
-    height: 32px;
-    align-items: center;
+    gap: var(--space-1);
+  }
 
-    > i {
-      cursor: pointer;
+  .shom-button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    line-height: 1;
+    color: var(--pisac-primary);
+    cursor: pointer;
+    transition: background-color 0.12s ease;
+
+    .pi {
+      font-size: 1rem;
     }
+
+    &:hover:not(:disabled) {
+      background: var(--pisac-primary-100);
+    }
+
+    &:focus-visible {
+      outline: var(--focus);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      color: var(--pisac-neutral-300);
+      cursor: not-allowed;
+    }
+  }
+}
+
+:host-context(.pisac-table-card) .ping-paginator {
+  border-top: 1px solid var(--pisac-border-soft);
+}
+
+@media (max-width: 640px) {
+  .ping-paginator {
+    justify-content: space-between;
   }
 }

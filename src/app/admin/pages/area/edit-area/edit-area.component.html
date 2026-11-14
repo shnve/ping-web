@@ -1,5 +1,6 @@
-<h1 translate *ngIf="disabled; else editTitle">area-list.title.show</h1>
-<ng-template #editTitle>
- <h1 translate>area-list.title.edit</h1>
-</ng-template>
-<app-area-form *ngIf="area" [area]="area" [disabled]="disabled"></app-area-form>
+<!-- PISAC (F5.4): cabecera (consulta o edición) y formulario en el contenedor de página común. -->
+<div class="pisac-form-page">
+  <pisac-page-header variant="light" icon="pi pi-globe"
+    [title]="disabled ? 'area-list.title.show' : 'area-list.title.edit'"></pisac-page-header>
+  <app-area-form *ngIf="area" [area]="area" [disabled]="disabled"></app-area-form>
+</div>

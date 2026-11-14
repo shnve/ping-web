@@ -67,7 +67,7 @@ describe('AreaListComponent', () => {
   it('should show all informations about the page / content', () => {
     const areaListComponent: HTMLElement = fixture.nativeElement;
     expect(areaListComponent.querySelectorAll('table.administration-table > tbody tr').length).toEqual(5);
-    expect(areaListComponent.querySelector('.infos-page').innerHTML.trim()).toEqual('1 - 5 of 10');
+    expect(areaListComponent.querySelector('.infos-page').innerHTML.trim()).toEqual('1 - 5 paginator.of 10');
   });
 
   it('should show add button when functional admin', () => {

@@ -1,7 +1,12 @@
+<!-- PISAC (F5.4): cabecera de página clara, tabla y paginador en tarjeta, acciones de fila solo con icono. -->
 <ng-container *ngIf="pageItem">
+  <div class="pisac-list-page">
   <p-confirmPopup></p-confirmPopup>
-  <h1 translate>sub-area-list.title.list</h1>
-  <button pButton *ngIf="canCreateModel" class="add-button p-button-sm" routerLink="/administration/sous-zones/ajouter" [label]="'sub-area-list.add' | translate" icon="pi pi-plus"></button>
+  <pisac-page-header variant="light" icon="pi pi-map" title="sub-area-list.title.list">
+    <button actions pButton class="add-button" *ngIf="canCreateModel" routerLink="/administration/sous-zones/ajouter" [label]="'sub-area-list.add' | translate" icon="pi pi-plus"></button>
+  </pisac-page-header>
+  <div class="pisac-table-card">
+  <div class="pisac-table-scroll">
   <table class="administration-table" [attr.aria-label]="('sub-area-list.title.list' | translate)" [attr.aria-describedby]="('sub-area-list.title.list' | translate)">
     <thead class="wrapper">
       <tr>
@@ -71,23 +76,26 @@
             </ul>
           </td>
           <td>
-            <button pButton *ngIf="canPreviewModel" class="p-button-sm preview-button" routerLink="/administration/sous-zones/{{subArea.id}}/details" [label]="'sub-area-list.table.show' | translate" icon="pi pi-eye">
+            <button pButton *ngIf="canPreviewModel" class="p-button-sm p-button-text p-button-rounded preview-button" routerLink="/administration/sous-zones/{{subArea.id}}/details" [title]="'sub-area-list.table.show' | translate" [attr.aria-label]="'sub-area-list.table.show' | translate" icon="pi pi-eye">
               <span class="sr-only" translate>sub-area-list.table.show</span>
             </button>
-            <button pButton *ngIf="checkWritableAccess(subArea.maritimeServiceIds, subArea.series?.length)" class="p-button-sm edit-button" routerLink="/administration/sous-zones/{{subArea.id}}/edition" [label]="'sub-area-list.table.edit' | translate" icon="pi pi-pencil">
+            <button pButton *ngIf="checkWritableAccess(subArea.maritimeServiceIds, subArea.series?.length)" class="p-button-sm p-button-text p-button-rounded edit-button" routerLink="/administration/sous-zones/{{subArea.id}}/edition" [title]="'sub-area-list.table.edit' | translate" [attr.aria-label]="'sub-area-list.table.edit' | translate" icon="pi pi-pencil">
               <span class="sr-only" translate>sub-area-list.table.edit</span>
             </button>
-            <button pButton *ngIf="checkWritableAccess(subArea.maritimeServiceIds, subArea.series?.length) && subArea?.parents?.length" class="p-button-sm" (click)="confirmDelete($event, subArea.id)" icon="pi pi-trash">
+            <button pButton *ngIf="checkWritableAccess(subArea.maritimeServiceIds, subArea.series?.length) && subArea?.parents?.length" class="p-button-sm p-button-text p-button-rounded p-button-danger" (click)="confirmDelete($event, subArea.id)" [title]="'sub-area-list.table.delete' | translate" [attr.aria-label]="'sub-area-list.table.delete' | translate" icon="pi pi-trash">
               <span class="sr-only" translate>sub-area-list.table.delete</span>
             </button>
           </td>
         </tr>
     </tbody>
   </table>
+  </div>
   <app-ping-paginator
     [page]="pageItem"
     [currentSize]="this.currentSize"
     [currentPage]="this.currentPage"
     (changePage)="this.handlePageEvent($event)"
   ></app-ping-paginator>
+  </div>
+  </div>
 </ng-container>

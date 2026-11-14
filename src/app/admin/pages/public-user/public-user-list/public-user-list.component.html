@@ -1,6 +1,9 @@
+<!-- PISAC (F5.4): cabecera de página clara, tabla y paginador en tarjeta, acciones de fila solo con icono. -->
 <ng-container *ngIf="pageItem">
-<h1 translate>public-user-list.title.list</h1>
-<div></div>
+<div class="pisac-list-page">
+<pisac-page-header variant="light" icon="pi pi-users" title="public-user-list.title.list"></pisac-page-header>
+<div class="pisac-table-card">
+<div class="pisac-table-scroll">
 <table class="administration-table">
   <thead>
   <tr>
@@ -33,16 +36,19 @@
     <td>{{user.email}}</td>
     <td>{{user.status}}</td>
     <td>
-      <button pButton class="p-button-sm" routerLink="./{{user.id}}/details" [label]="'user-list.table.show' | translate" icon="pi pi-eye"></button>
-      <button pButton class="p-button-sm" routerLink="./{{user.id}}/edition" [label]="'user-list.table.edit' | translate" icon="pi pi-pencil"></button>
+      <button pButton class="p-button-sm p-button-text p-button-rounded" routerLink="./{{user.id}}/details" [title]="'user-list.table.show' | translate" [attr.aria-label]="'user-list.table.show' | translate" icon="pi pi-eye"></button>
+      <button pButton class="p-button-sm p-button-text p-button-rounded" routerLink="./{{user.id}}/edition" [title]="'user-list.table.edit' | translate" [attr.aria-label]="'user-list.table.edit' | translate" icon="pi pi-pencil"></button>
     </td>
   </tr>
   </tbody>
 </table>
+</div>
 <app-ping-paginator
   [page]="pageItem"
   [currentSize]="this.currentSize"
   [currentPage]="this.currentPage"
   (changePage)="this.handlePageEvent($event)"
 ></app-ping-paginator>
+</div>
+</div>
 </ng-container>

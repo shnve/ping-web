@@ -1,5 +1,6 @@
-<h1 translate *ngIf="disabled; else editTitle">serie-list.title.show</h1>
-<ng-template #editTitle>
- <h1 translate>serie-list.title.edit</h1>
-</ng-template>
-<app-serie-form [serie]="serie" *ngIf="serie" [disabled]="disabled"></app-serie-form>
+<!-- PISAC (F5.4): cabecera (consulta o edición) y formulario en el contenedor de página común. -->
+<div class="pisac-form-page">
+  <pisac-page-header variant="light" icon="pi pi-list"
+    [title]="disabled ? 'serie-list.title.show' : 'serie-list.title.edit'"></pisac-page-header>
+  <app-serie-form [serie]="serie" *ngIf="serie" [disabled]="disabled"></app-serie-form>
+</div>

@@ -1,140 +1,35 @@
-@import 'variables';
+// PISAC (F5.4): usuarios de un servicio marítimo. Tarjetas, tabla y rejilla vienen de las utilidades globales
+// (styling/pisac/_forms.scss y _admin.scss). Se eliminan la tabla `.fl-table` con bordes negros y cabecera de color,
+// la sombra de 35 px, las etiquetas de 200 px en línea y la nota gris en cursiva de 35rem.
+:host {
+  display: block;
 
-.label {
-  font-weight: bold;
-  margin-right: 10px;
-  width: 200px;
+  pisac-card {
+    display: block;
+    margin-bottom: var(--space-4);
+  }
 }
 
-.form {
-  margin: 10px 20px;
-  box-shadow: unset;
+.form.service-user-form {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
 }
 
-.line-form {
+.add-user-hint {
   display: flex;
-  align-items: center;
-  margin: 15px 0;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
 
-  &:first-child {
-    margin-top: 0;
-  }
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-.input {
-  min-width: 140px;
-  max-width: 570px;
-}
-
-
-/* Table Styles */
-.table-wrapper{
-  margin: 10px 20px 60px ;
-  box-shadow: 0 35px 50px rgba( 0, 0, 0, 0.2 );
-}
-
-.fl-table {
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: normal;
-  border: none;
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 100%;
-  white-space: nowrap;
-  background-color: white;
-}
-
-.fl-table td, .fl-table th {
-  text-align: center;
-  padding: 8px;
-}
-
-.fl-table td {
-  border: 1px solid black;
-  font-size: 12px;
-}
-
-.fl-table th {
-  background: $primaryColor;
-  color: $textSecondaryColor;
-  border: 1px solid black;
-}
-
-/* Responsive */
-@media (max-width: 767px) {
-  .fl-table {
-    display: block;
-    width: 100%;
-  }
-  .table-wrapper:before{
-    content: "Scroll horizontally >";
-    display: block;
-    text-align: right;
-    font-size: 11px;
-    color: white;
-    padding: 0 0 10px;
-  }
-  .fl-table thead, .fl-table tbody, .fl-table thead th {
-    display: block;
-  }
-  .fl-table thead th:nth-child(odd) {
-    border-right: none;
-  }
-  .fl-table thead th:last-child{
-    border-bottom: none;
-  }
-  .fl-table thead {
-    float: left;
-  }
-  .fl-table tbody {
-    width: auto;
-    position: relative;
-    overflow-x: auto;
-  }
-  .fl-table td, .fl-table th {
-    padding: 20px .625em .625em .625em;
-    height: 60px;
-    vertical-align: middle;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: auto;
-    font-size: 13px;
-    text-overflow: ellipsis;
-  }
-  .fl-table thead th {
-    text-align: left;
-    border-bottom: 1px solid #f7f7f9;
-    width: 60px;
-  }
-  .fl-table tbody tr {
-    display: table-cell;
-  }
-  .fl-table tbody tr:nth-child(odd) {
-    background: none;
-  }
-  .fl-table tr:nth-child(even) {
-    background: transparent;
-  }
-  .fl-table tr td:nth-child(odd) {
-    background: #F8F8F8;
-    border-right: 1px solid #E6E4E4;
-  }
-  .fl-table tr td:nth-child(even) {
-    border-right: 1px solid #E6E4E4;
-  }
-  .fl-table tbody td {
-    display: block;
-    text-align: center;
-    min-width: 120px;
+  .pi {
+    margin-top: 2px;
+    color: var(--pisac-secondary-700);
   }
 }
 
-.tooltip-about-adding-user {
-  width: 35rem;
-  display: inline-block;
-  font-style: italic;
-  color: grey;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-4);
 }

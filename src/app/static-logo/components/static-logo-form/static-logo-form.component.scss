@@ -1,44 +1,57 @@
-.label {
-  font-weight: bold;
-  margin-right: 10px;
-  width: 200px;
+// PISAC (F5.4): logotipo estático. Tarjetas, etiquetas arriba, rejilla y barra de acciones vienen de las utilidades
+// globales (styling/pisac/_forms.scss y _admin.scss). Aquí solo el selector de archivo y la vista previa. Se eliminan
+// las etiquetas de 200 px en línea, los campos de 500 px mínimo y el borde rojo puro.
+:host {
+  display: block;
 }
 
-.line-form {
+.file-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: var(--pisac-control-h);
+  padding: var(--space-2) var(--space-3);
+  border: 1px dashed var(--pisac-border);
+  border-radius: var(--radius-md);
+  background: var(--pisac-surface-muted);
+  font-size: 0.875rem;
+  color: var(--pisac-text);
+  cursor: pointer;
+
+  &::file-selector-button {
+    margin-right: var(--space-3);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--pisac-primary);
+    border-radius: var(--radius-sm);
+    background: var(--pisac-surface);
+    color: var(--pisac-primary);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+.img-preview-box {
   display: flex;
-  align-items: center;
-  margin: 15px 0;
-
-  &:first-child {
-    margin-top: 0;
-  }
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-input {
-  min-width: 500px;
-  max-width: 570px;
-}
-
-.invalid-feedback {
-  margin-left: 10px;
-}
-
-.ng-invalid.ng-touched {
-  border-color: red;
-}
-
-.save-button {
-  margin: 0 0.5rem;
+  justify-content: center;
+  padding: var(--space-4);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-md);
+  // Cuadrícula clara para ver logotipos con transparencia
+  background-color: var(--pisac-surface);
+  background-image:
+    linear-gradient(45deg, var(--pisac-neutral-100) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--pisac-neutral-100) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--pisac-neutral-100) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--pisac-neutral-100) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
 }
 
 .img-preview {
-  max-height: 400px;
-  max-width: 400px;
-}
-
-.error-container {
-  margin-left: 10px;
+  max-height: 320px;
+  max-width: 100%;
 }

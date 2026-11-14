@@ -1,7 +1,12 @@
+<!-- PISAC (F5.4): cabecera de página clara, tabla y paginador en tarjeta, acciones de fila solo con icono. -->
 <ng-container *ngIf="pageItem">
+  <div class="pisac-list-page">
   <p-confirmPopup></p-confirmPopup>
-  <h1 translate>static-page-list.title.list</h1>
-  <button pButton *ngIf="enableCreate" class="add-button p-button-sm" routerLink="./ajouter" [label]="'static-page-list.add' | translate" icon="pi pi-plus"></button>
+  <pisac-page-header variant="light" icon="pi pi-file" title="static-page-list.title.list">
+    <button actions pButton class="add-button" *ngIf="enableCreate" routerLink="./ajouter" [label]="'static-page-list.add' | translate" icon="pi pi-plus"></button>
+  </pisac-page-header>
+  <div class="pisac-table-card">
+  <div class="pisac-table-scroll">
   <table class="administration-table">
     <thead>
     <tr>
@@ -15,17 +20,20 @@
       <td>{{staticPage | formatStaticPageTitle}}</td>
       <td><a [routerLink]="[baseStaticPath, staticPage.path]" target="_blank" rel="noopener noreferrer">{{staticPage.path}}</a></td>
       <td>
-        <button pButton *ngIf="enablePreview" class="p-button-sm" routerLink="./{{staticPage.id}}/details" [label]="'static-page-list.table.show' | translate" icon="pi pi-eye"></button>
-        <button pButton *ngIf="enableEdit" class="p-button-sm" routerLink="./{{staticPage.id}}/edition" [label]="'static-page-list.table.edit' | translate" icon="pi pi-pencil"></button>
-        <button pButton *ngIf="enableEdit && !staticPage.locked" class="p-button-sm" (click)="confirmDelete($event, staticPage.id)" [title]="'static-page-list.table.delete' | translate" icon="pi pi-trash"></button>
+        <button pButton *ngIf="enablePreview" class="p-button-sm p-button-text p-button-rounded" routerLink="./{{staticPage.id}}/details" [title]="'static-page-list.table.show' | translate" [attr.aria-label]="'static-page-list.table.show' | translate" icon="pi pi-eye"></button>
+        <button pButton *ngIf="enableEdit" class="p-button-sm p-button-text p-button-rounded" routerLink="./{{staticPage.id}}/edition" [title]="'static-page-list.table.edit' | translate" [attr.aria-label]="'static-page-list.table.edit' | translate" icon="pi pi-pencil"></button>
+        <button pButton *ngIf="enableEdit && !staticPage.locked" class="p-button-sm p-button-text p-button-rounded p-button-danger" (click)="confirmDelete($event, staticPage.id)" [title]="'static-page-list.table.delete' | translate" [attr.aria-label]="'static-page-list.table.delete' | translate" icon="pi pi-trash"></button>
       </td>
     </tr>
     </tbody>
   </table>
+  </div>
   <app-ping-paginator
     [page]="pageItem"
     [currentSize]="this.currentSize"
     [currentPage]="this.currentPage"
     (changePage)="this.handlePageEvent($event)"
   ></app-ping-paginator>
+  </div>
+  </div>
 </ng-container>

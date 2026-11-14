@@ -1,41 +1,56 @@
-<form [formGroup]="staticFileForm" class="form" (ngSubmit)="saveStaticFile()">
+<!-- PISAC (F5.4): archivo estático en una tarjeta con etiquetas arriba, rejilla de 2 columnas, adjunto a todo el ancho
+     y barra de acciones. Los errores usan el nombre traducido del campo. Se conservan formControlName, id de los
+     campos y las clases que usan las pruebas (form, save-button). -->
+<form [formGroup]="staticFileForm" class="form static-file-form" (ngSubmit)="saveStaticFile()">
+  <pisac-card title="admin-form.sections.general" icon="pi pi-paperclip">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field pisac-field--required">
+        <label for="static-file-description" translate>static-file.creation.description</label>
+        <input id="static-file-description" type="text" formControlName="description" pInputText required>
+        <small *ngIf="(description.touched || description.dirty) && description.errors?.required" class="p-error">
+          {{ 'errors.required' | translate:{attr: ('static-file.creation.description' | translate)} }}
+        </small>
+      </div>
+      <div class="pisac-field pisac-field--required">
+        <label for="static-file-path" translate>static-file.creation.path</label>
+        <input id="static-file-path" type="text" formControlName="path" pInputText required>
+        <ng-container *ngIf="(path.touched || path.dirty) && path.errors">
+          <small *ngIf="path.errors.required" class="p-error">
+            {{ 'errors.required' | translate:{attr: ('static-file.creation.path' | translate)} }}
+          </small>
+          <small *ngIf="path.errors.pattern" class="p-error">
+            {{ 'errors.must-match' | translate:{attr: ('static-file.creation.path' | translate), pattern: path.errors.pattern.requiredPattern} }}
+          </small>
+        </ng-container>
+      </div>
+      <div class="pisac-field pisac-field--required pisac-span-all">
+        <label for="static-file-attachments" translate>static-file.creation.attachment</label>
+        <div class="attachments">
+          <app-attachments id="attachments"
+                           [manageManyAttachments]="false"
+                           [attachmentFiles]="staticFile.attachmentFile"
+                           [attachmentIds]="staticFile.attachmentId"
+                           [showChooseFile]="!staticFile.attachmentId"
+                           [disabled]="disabled"
+                           [inputId]="'static-file-attachments'"
+                           (onChange)="setAttachmentId($event)">
+          </app-attachments>
+        </div>
+      </div>
+    </div>
+  </pisac-card>
 
-  <!-- description -->
-  <div class="line-form p-field p-grid">
-    <label for="static-file-description" class="label p-col-fixed">{{'static-file.creation.description' | translate }} *</label>
-    <input id="static-file-description" type="text" formControlName="description" [ngClass]="{'is-invalid': description.errors}" required>
-    <div *ngIf="(description.touched || description.dirty) && description.errors" class="invalid-feedback">
-      <div *ngIf="description.errors.required">{{('errors.required' | translate:{attr: 'description'})}}</div>
+  <div class="pisac-action-bar pisac-action-bar--detached">
+    <div class="pisac-action-bar__info">
+      <span *ngIf="!disabled" translate>admin-form.required-note</span>
+    </div>
+    <div class="pisac-action-bar__group">
+      <button *ngIf="disabled" pButton type="button" class="p-button-outlined" [label]="'return-to-list' | translate"
+        icon="pi pi-chevron-left" [routerLink]="staticFileListPath"></button>
+      <button *ngIf="!disabled" pButton type="button" class="p-button-outlined" [label]="'cancel' | translate"
+        icon="pi pi-times" [routerLink]="staticFileListPath"></button>
+      <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
+        [disabled]="!staticFileForm.valid || !staticFile.attachmentId"></button>
     </div>
   </div>
-
-  <!-- path -->
-  <div class="line-form p-field p-grid">
-    <label for="static-file-path" class="label p-col-fixed">{{'static-file.creation.path' | translate }} *</label>
-    <input id="static-file-path" type="text" formControlName="path" [ngClass]="{'is-invalid': path.errors}" required>
-    <div *ngIf="(path.touched || path.dirty) && path.errors" class="invalid-feedback">
-      <div *ngIf="path.errors.required">{{('errors.required' | translate:{attr: 'path'})}}</div>
-      <div *ngIf="path.errors.pattern">{{('errors.must-match' | translate:{attr: 'path', pattern: path.errors.pattern.requiredPattern})}}</div>
-    </div>
-  </div>
-
-  <!-- attachment -->
-  <div class="line-form p-field p-grid">
-    <label for="static-file-attachment" class="label p-col-fixed">{{'static-file.creation.attachment' | translate }} *</label>
-    <div class="attachments">
-      <app-attachments id="attachments"
-                        [manageManyAttachments]="false"
-                        [attachmentFiles]="staticFile.attachmentFile"
-                        [attachmentIds]="staticFile.attachmentId"
-                        [showChooseFile]="!staticFile.attachmentId"
-                        [disabled]="disabled"
-                        [inputId]="'static-file-attachments'"
-                        (onChange)="setAttachmentId($event)">
-      </app-attachments>
-    </div>
-  </div>
-
-  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="!staticFileForm.valid || !staticFile.attachmentId"></button>
-  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left" [routerLink]="staticFileListPath"></button>
-  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times" [routerLink]="staticFileListPath"></button>
 </form>

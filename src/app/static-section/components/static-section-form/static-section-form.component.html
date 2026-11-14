@@ -1,41 +1,48 @@
-<form [formGroup]="staticSectionForm" class="form" (ngSubmit)="saveStaticSection()">
-  <!-- key -->
-  <div class="line-form p-field p-grid">
-    <label for="static-section-key" class="label p-col-fixed">{{'static-section-list.table.key' | translate }}</label>
-    <input id="static-section-key" type="text" formControlName="key" [disabled]="true">
-  </div>
+<!-- PISAC (F5.4): sección estática en tarjetas (datos de la sección en solo lectura, contenido en español y contenido
+     internacional) con etiquetas arriba, rejilla de 2 columnas y barra de acciones. Se conservan formControlName,
+     id de los campos y las clases que usan las pruebas (form, save-button). -->
+<form [formGroup]="staticSectionForm" class="form static-section-form" (ngSubmit)="saveStaticSection()">
+  <!-- Datos de la sección (no editables) -->
+  <pisac-card title="admin-form.sections.general" icon="pi pi-th-large">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field">
+        <label for="static-section-key" translate>static-section-list.table.key</label>
+        <input id="static-section-key" type="text" formControlName="key" pInputText [disabled]="true">
+      </div>
+      <div class="pisac-field">
+        <label for="static-section-location" translate>static-section-list.table.location</label>
+        <input id="static-section-location" type="text" formControlName="location" pInputText [disabled]="true">
+      </div>
+      <div class="pisac-field">
+        <label for="static-section-name" translate>static-section-list.table.name</label>
+        <input id="static-section-name" type="text" formControlName="name" pInputText [disabled]="true">
+      </div>
+      <div class="pisac-field">
+        <label for="static-page-path" translate>static-section-list.table.path</label>
+        <input id="static-page-path" type="text" formControlName="path" pInputText [disabled]="true">
+      </div>
+    </div>
+  </pisac-card>
 
-  <!-- location -->
-  <div class="line-form p-field p-grid">
-    <label for="static-section-location" class="label p-col-fixed">{{'static-section-list.table.location' | translate }}</label>
-    <input id="static-section-location" type="text" formControlName="location" [disabled]="true">
-  </div>
-
-  <!-- name -->
-  <div class="line-form p-field p-grid">
-    <label for="static-section-name" class="label p-col-fixed">{{'static-section-list.table.name' | translate }}</label>
-    <input id="static-section-name" type="text" formControlName="name" [disabled]="true">
-  </div>
-
-  <!-- path -->
-  <div class="line-form p-field p-grid">
-    <label for="static-page-path" class="label p-col-fixed">{{'static-section-list.table.path' | translate }}</label>
-    <input id="static-page-path" type="text" formControlName="path" [disabled]="true">
-  </div>
-
-  <!-- content -->
-  <div class="line-form p-field p-grid">
-    <h5 class="label" translate>static-section.content</h5>
+  <!-- Contenido -->
+  <pisac-card title="static-section.content" icon="pi pi-file-edit">
     <p-editor formControlName="content" [style]="{'height': '320px'}" [readonly]="disabled" ngDefaultControl></p-editor>
-  </div>
+  </pisac-card>
 
-  <!-- international content -->
-  <div class="line-form p-field p-grid">
-    <h5 class="label" translate>static-section.internationalContent</h5>
+  <!-- Contenido internacional -->
+  <pisac-card title="static-section.internationalContent" icon="pi pi-language">
     <p-editor formControlName="internationalContent" [style]="{'height': '320px'}" [readonly]="disabled" ngDefaultControl></p-editor>
-  </div>
+  </pisac-card>
 
-  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check" [disabled]="!staticSectionForm.valid"></button>
-  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left" [routerLink]="staticSectionListPath"></button>
-  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times" [routerLink]="staticSectionListPath"></button>
+  <div class="pisac-action-bar pisac-action-bar--detached">
+    <div class="pisac-action-bar__info"></div>
+    <div class="pisac-action-bar__group">
+      <button *ngIf="disabled" pButton type="button" class="p-button-outlined" [label]="'return-to-list' | translate"
+        icon="pi pi-chevron-left" [routerLink]="staticSectionListPath"></button>
+      <button *ngIf="!disabled" pButton type="button" class="p-button-outlined" [label]="'cancel' | translate"
+        icon="pi pi-times" [routerLink]="staticSectionListPath"></button>
+      <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
+        [disabled]="!staticSectionForm.valid"></button>
+    </div>
+  </div>
 </form>

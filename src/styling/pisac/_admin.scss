@@ -1,0 +1,203 @@
+// =====================================================================================
+// F5.4 – Pantallas de administración: listas (cabecera, tabla en tarjeta, filtros en
+// cabecera de columna y acciones de fila). El paginador tiene sus estilos en su componente.
+// Sustituye visualmente a `table.administration-table` y `.add-button` de styling/admin.scss
+// (SHOM), que se mantienen para no romper un merge con upstream; aquí se anulan sus medidas.
+// =====================================================================================
+
+// Página de lista: ancho máximo centrado, cabecera y tarjeta separadas.
+.pisac-list-page {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: var(--space-6);
+
+  > pisac-page-header {
+    display: block;
+    margin-bottom: var(--space-4);
+  }
+}
+
+// Tarjeta que contiene la tabla y el paginador.
+.pisac-table-card {
+  background: var(--pisac-surface);
+  border: 1px solid var(--pisac-border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--pisac-shadow-sm);
+  overflow: hidden;
+}
+
+// Desplazamiento horizontal en pantallas estrechas (tablas con muchas columnas o filtros).
+.pisac-table-scroll {
+  overflow-x: auto;
+}
+
+table.administration-table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  box-shadow: none;
+  text-align: left;
+
+  thead tr {
+    height: auto;
+    border-bottom: 1px solid var(--pisac-border);
+  }
+
+  thead tr th {
+    height: auto;
+    padding: var(--space-3) var(--space-4);
+    background: var(--pisac-surface-muted);
+    color: var(--pisac-neutral-700);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+
+    // Columna de acciones
+    &:last-of-type {
+      padding-right: var(--space-4);
+      text-align: right;
+    }
+
+    > label {
+      display: block;
+      margin: 0;
+      font: inherit;
+      color: inherit;
+    }
+
+    // Filtros de columna: debajo del título, a todo el ancho y con la letra normal.
+    > br {
+      display: none;
+    }
+
+    .text-filter,
+    p-dropdown,
+    p-multiselect,
+    app-maritime-entity-filter,
+    app-maritime-service-filter {
+      display: block;
+      width: 100%;
+      min-width: 170px;
+      margin-top: var(--space-2);
+      font-size: 0.875rem;
+      font-weight: 400;
+      letter-spacing: normal;
+      text-transform: none;
+      white-space: normal;
+    }
+
+    .text-filter,
+    .p-dropdown,
+    .p-multiselect {
+      width: 100%;
+      min-height: var(--pisac-control-h-sm);
+    }
+
+    .text-filter {
+      height: var(--pisac-control-h-sm);
+      padding: 0 var(--space-3);
+    }
+
+    .p-multiselect-label-container {
+      max-width: none;
+    }
+  }
+
+  tbody tr {
+    height: auto;
+    border-bottom: 1px solid var(--pisac-border-soft);
+    color: var(--pisac-text);
+    transition: background-color 0.12s ease;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &:hover {
+      background: var(--pisac-primary-50);
+    }
+  }
+
+  tbody tr td {
+    height: auto;
+    padding: var(--space-3) var(--space-4);
+    color: var(--pisac-text);
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    text-align: left;
+    vertical-align: middle;
+
+    // Columna de acciones: botones de icono alineados a la derecha (admin.scss la ponía en flex,
+    // lo que rompía la altura de la fila).
+    &:last-of-type {
+      display: table-cell;
+      padding-right: var(--space-3);
+      text-align: right;
+      white-space: nowrap;
+
+      .p-button + .p-button {
+        margin-left: var(--space-1);
+      }
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1em;
+      list-style: disc;
+
+      li {
+        padding: 2px 0;
+      }
+    }
+
+    a {
+      color: var(--pisac-primary);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
+
+  // Botones de acción de fila: solo icono (title + aria-label en la plantilla).
+  .p-button.p-button-text.p-button-rounded.p-button-sm {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    color: var(--pisac-primary);
+
+    &:enabled:hover {
+      background: var(--pisac-primary-100);
+    }
+
+    &.p-button-danger {
+      color: var(--pisac-danger);
+
+      &:enabled:hover {
+        background: rgba(0, 0, 0, 0.04);
+        background: color-mix(in srgb, var(--pisac-danger) 12%, transparent);
+      }
+    }
+
+    .p-button-label {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .pisac-list-page {
+    padding: var(--space-4) var(--space-3);
+  }
+}
+
+// ---- Formularios de administración (crear / consultar / editar) ----
+// admin.scss (SHOM) da a `.form` margen del 5 %, relleno y sombra; dentro de la página PISAC el formulario
+// solo agrupa tarjetas.
+.pisac-form-page form.form {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+}

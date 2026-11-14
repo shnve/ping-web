@@ -1,5 +1,6 @@
-<h1 translate *ngIf="disabled; else editTitle">maritime-entity-list.title.show</h1>
-<ng-template #editTitle>
- <h1 translate>maritime-entity-list.title.edit</h1>
-</ng-template>
-<app-maritime-entity-form *ngIf="maritimeEntity" [maritimeEntity]="maritimeEntity" [disabled]="disabled"></app-maritime-entity-form>
+<!-- PISAC (F5.4): cabecera (consulta o edición) y formulario en el contenedor de página común. -->
+<div class="pisac-form-page">
+  <pisac-page-header variant="light" icon="pi pi-building"
+    [title]="disabled ? 'maritime-entity-list.title.show' : 'maritime-entity-list.title.edit'"></pisac-page-header>
+  <app-maritime-entity-form *ngIf="maritimeEntity" [maritimeEntity]="maritimeEntity" [disabled]="disabled"></app-maritime-entity-form>
+</div>

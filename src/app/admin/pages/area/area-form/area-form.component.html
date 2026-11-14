@@ -1,66 +1,83 @@
-<form [formGroup]="areaForm" class="form" (ngSubmit)="saveArea()">
-  <div class="line-form p-field p-grid">
-    <label for="area-urn" class="label p-col-fixed" translate>area.urn</label>
-    <div style="padding: 0; margin: 0;">
-      <input id="area-urn" type="text" formControlName="urn" class="form-control" placeholder="urn:mrn:s124:area:..." />
-      <div *ngIf="areaForm.get('urn')?.errors?.['pattern']" style="font-size: 0.8rem; color: #dc3545; margin-top: 4px;">
-        El URN debe tener formato valido (ej. urn:ping:area:01). No se permiten espacios ni acentos.
+<!-- PISAC (F5.4): región en tarjetas (datos generales, descripción y advertencia, ubicación con el mapa) con
+     etiquetas arriba, rejilla de 2 columnas y barra de acciones. No cambia la lógica: se conservan
+     formControlName, condiciones, id de los campos y las clases que usan las pruebas (form, save-button). -->
+<form [formGroup]="areaForm" class="form area-form" (ngSubmit)="saveArea()">
+  <!-- Datos generales -->
+  <pisac-card title="admin-form.sections.general" icon="pi pi-tag">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field">
+        <label for="area-urn" translate>area.urn</label>
+        <input id="area-urn" type="text" formControlName="urn" pInputText placeholder="urn:mrn:s124:area:..." />
+        <small *ngIf="areaForm.get('urn')?.errors?.['pattern']" class="p-error" translate>area.urn-pattern-error</small>
+      </div>
+      <div class="pisac-field">
+        <label for="area-country" translate>area.country</label>
+        <p-dropdown id="area-country" [options]="countryCodes" optionLabel="value" optionValue="value"
+          formControlName="country" [placeholder]="'maritime-service.select-country' | translate" showClear="true"
+          [filter]="true" filterBy="value">
+        </p-dropdown>
+      </div>
+      <div class="pisac-field pisac-field--required">
+        <label for="area-name" translate>area.name</label>
+        <input id="area-name" type="text" formControlName="name" pInputText required>
+      </div>
+      <div class="pisac-field">
+        <label for="area-iname" translate>area.internationalName</label>
+        <input id="area-iname" type="text" formControlName="internationalName" pInputText>
       </div>
     </div>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="area-name" class="label p-col-fixed">{{'area.name' | translate }} *</label>
-    <input id="area-name" type="text" formControlName="name" required>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="area-iname" class="label p-col-fixed" translate>area.internationalName</label>
-    <input id="area-iname" type="text" formControlName="internationalName">
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="area-info" class="label p-col-fixed" translate>area.info</label>
-    <textarea rows="5" cols="30" id="area-info" formControlName="information" pInputTextarea></textarea>
-  </div>
-  <div class="line-form p-field p-grid">
-    <label for="area-englishInfo" class="label p-col-fixed" translate>area.englishInfo</label>
-    <textarea rows="5" cols="30" id="area-englishInfo" formControlName="localizedInformation" pInputTextarea></textarea>
-  </div>
+  </pisac-card>
 
-  <!-- disclaimer -->
-  <div class="line-form p-field p-grid">
-    <label for="area-disclaimer" class="label p-col-fixed" translate>area.disclaimer</label>
-    <textarea rows="5" cols="30" id="area-disclaimer" formControlName="disclaimer" pInputTextarea></textarea>
-  </div>
+  <!-- Descripción y advertencia -->
+  <pisac-card title="admin-form.sections.description" icon="pi pi-align-left">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field">
+        <label for="area-info" translate>area.info</label>
+        <textarea rows="4" id="area-info" formControlName="information" pInputTextarea></textarea>
+      </div>
+      <div class="pisac-field">
+        <label for="area-englishInfo" translate>area.englishInfo</label>
+        <textarea rows="4" id="area-englishInfo" formControlName="localizedInformation" pInputTextarea></textarea>
+      </div>
+      <div class="pisac-field">
+        <label for="area-disclaimer" translate>area.disclaimer</label>
+        <textarea rows="4" id="area-disclaimer" formControlName="disclaimer" pInputTextarea></textarea>
+      </div>
+      <div class="pisac-field">
+        <label for="area-international-disclaimer" translate>area.internationalDisclaimer</label>
+        <textarea rows="4" id="area-international-disclaimer" formControlName="internationalDisclaimer"
+          pInputTextarea></textarea>
+      </div>
+    </div>
+  </pisac-card>
 
-  <!-- international disclaimer -->
-  <div class="line-form p-field p-grid">
-    <label for="area-international-disclaimer" class="label p-col-fixed" translate>area.internationalDisclaimer</label>
-    <textarea rows="5" cols="30" id="area-international-disclaimer" formControlName="internationalDisclaimer"
-      pInputTextarea>
-    </textarea>
-  </div>
+  <!-- Ubicación -->
+  <pisac-card title="admin-form.sections.location" icon="pi pi-map">
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field pisac-span-all">
+        <label for="area-borders" translate>area.borderAreas</label>
+        <p-multiSelect *ngIf="areas$ | async as areas" id="area-borders" formControlName="borderAreas" [options]="areas"
+          [optionLabel]="displayedAreaLabel" [maxSelectedLabels]="areas.length" optionValue="id"
+          [placeholder]="'area.all-areas' | translate" display="chip">
+        </p-multiSelect>
+      </div>
+      <div class="pisac-span-all part-map-container">
+        <app-view-geometry #viewGeometry [isEditionMode]="!disabled" [geometry]="area.geom"></app-view-geometry>
+      </div>
+    </div>
+  </pisac-card>
 
-  <div class="line-form p-field p-grid">
-    <label for="area-country" class="label p-col-fixed" translate>area.country</label>
-    <p-dropdown id="area-country" [options]="countryCodes" optionLabel="value" optionValue="value"
-      formControlName="country" [placeholder]="'maritime-service.select-country' | translate" showClear="true">
-
-    </p-dropdown>
+  <div class="pisac-action-bar pisac-action-bar--detached">
+    <div class="pisac-action-bar__info">
+      <span *ngIf="!disabled" translate>admin-form.required-note</span>
+    </div>
+    <div class="pisac-action-bar__group">
+      <button *ngIf="disabled" pButton type="button" class="p-button-outlined" [label]="'return-to-list' | translate"
+        icon="pi pi-chevron-left" routerLink="/administration/regions"></button>
+      <button *ngIf="!disabled" pButton type="button" class="p-button-outlined" [label]="'cancel' | translate"
+        icon="pi pi-times" routerLink="/administration/regions"></button>
+      <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
+        [disabled]="!areaForm.valid"></button>
+    </div>
   </div>
-  <div class="line-form p-field p-grid">
-    <label for="area-borders" class="label p-col-fixed" translate>area.borderAreas</label>
-    <p-multiSelect *ngIf="areas$ | async as areas" id="area-borders" formControlName="borderAreas" [options]="areas"
-      [optionLabel]="displayedAreaLabel" [maxSelectedLabels]="areas.length" optionValue="id"
-      [placeholder]="'area.all-areas' | translate" display="chip">
-
-    </p-multiSelect>
-  </div>
-  <div class="p-col part-map-container">
-    <app-view-geometry #viewGeometry [isEditionMode]="!disabled" [geometry]="area.geom"></app-view-geometry>
-  </div>
-  <button *ngIf="!disabled" pButton class="save-button" [label]="'save' | translate" type="submit" icon="pi pi-check"
-    [disabled]="!areaForm.valid"></button>
-  <button *ngIf="disabled" pButton [label]="'return-to-list' | translate" icon="pi pi-chevron-left"
-    routerLink="/administration/regions"></button>
-  <button *ngIf="!disabled" pButton [label]="'cancel' | translate" icon="pi pi-times"
-    routerLink="/administration/regions"></button>
 </form>

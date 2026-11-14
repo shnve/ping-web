@@ -1,2 +1,6 @@
-<h1>{{('static-logo.' + ((disabled ? 'show' : 'edit') + '.title')) | translate}}</h1>
-<static-logo-form *ngIf="staticLogo" [staticLogo]="staticLogo" [disabled]="disabled"></static-logo-form>
+<!-- PISAC (F5.4): cabecera (consulta o edición) y formulario en el contenedor de página común. -->
+<div class="pisac-form-page">
+  <pisac-page-header variant="light" icon="pi pi-image"
+    [title]="disabled ? 'static-logo.show.title' : 'static-logo.edit.title'"></pisac-page-header>
+  <static-logo-form *ngIf="staticLogo" [staticLogo]="staticLogo" [disabled]="disabled"></static-logo-form>
+</div>

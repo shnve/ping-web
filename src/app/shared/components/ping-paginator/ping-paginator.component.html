@@ -1,21 +1,26 @@
+<!-- PISAC (F5.4): "de" traducido (antes "of" fijo), etiquetas de anterior/siguiente corregidas (estaban
+     cruzadas) y navegación agrupada. Estilos en la hoja del componente. -->
 <div class="ping-paginator">
-  <div translate>paginator.items-per-page</div>
+  <label class="ping-paginator__label" [for]="sizeSelectId" translate>paginator.items-per-page</label>
   <div class="p-field">
-    <p-dropdown [options]="sizeAvailable"
+    <p-dropdown [inputId]="sizeSelectId"
+                [options]="sizeAvailable"
                 [(ngModel)]="currentSize"
                 (onChange)="changePageSize($event)"></p-dropdown>
   </div>
-  <div class="infos-page">
-    {{firstElement}} - {{lastElement}} of {{page?.totalElements}}
+  <div class="infos-page" aria-live="polite">
+    {{firstElement}} - {{lastElement}} {{ 'paginator.of' | translate }} {{page?.totalElements}}
   </div>
-  <div>
-    <button [disabled]="isFirstPage()" (click)="previous()" class="shom-button-icon previous-button">
-      <i class="pi pi-chevron-circle-left" translate></i>
-      <span class="sr-only" translate>paginator.next-page</span>
-    </button>
-    <button [disabled]="isLastPage()" (click)="next()" class="shom-button-icon next-button">
-      <i class="pi pi-chevron-circle-right" translate></i>
+  <div class="ping-paginator__nav">
+    <button type="button" [disabled]="isFirstPage()" (click)="previous()" class="shom-button-icon previous-button"
+            [title]="'paginator.previous-page' | translate">
+      <i class="pi pi-chevron-left" aria-hidden="true"></i>
       <span class="sr-only" translate>paginator.previous-page</span>
+    </button>
+    <button type="button" [disabled]="isLastPage()" (click)="next()" class="shom-button-icon next-button"
+            [title]="'paginator.next-page' | translate">
+      <i class="pi pi-chevron-right" aria-hidden="true"></i>
+      <span class="sr-only" translate>paginator.next-page</span>
     </button>
   </div>
 </div>

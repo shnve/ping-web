@@ -15,6 +15,9 @@ export class EventPage {
   styleUrls: ['./ping-paginator.component.scss']
 })
 export class PingPaginatorComponent {
+  private static nextId = 0;
+  /** PISAC (F5.4): id único para asociar la etiqueta «Elementos por página» al desplegable. */
+  readonly sizeSelectId = `ping-paginator-size-${++PingPaginatorComponent.nextId}`;
   sizeAvailable = [ 5, 20, 100 ];
 
   /** Event emitted when the paginator changes the page size or page index. */

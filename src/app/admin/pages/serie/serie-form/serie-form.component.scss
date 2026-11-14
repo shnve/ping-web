@@ -1,70 +1,43 @@
-@import 'variables';
+// PISAC (F5.4): serie. Tarjetas, etiquetas arriba, rejilla y barra de acciones vienen de las utilidades globales
+// (styling/pisac/_forms.scss y _admin.scss). Aquí solo las filas de numeración (mín. | máx. | borrar). Se eliminan
+// las etiquetas de 200 px en línea, el rojo puro de los errores y el botón circular rojo de borrar.
 
-.label {
-  font-weight: bold;
-  margin-right: 10px;
-  width: 200px;
-}
-
-.line-form {
+.range-list {
   display: flex;
-  align-items: center;
-  margin: 15px 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
 
-  &:first-child {
-    margin-top: 0;
+.range-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 220px)) auto;
+  align-items: start;
+  gap: var(--space-3);
+}
+
+.range-limit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+
+  > input {
+    width: 100%;
   }
-  &:last-child {
-    margin-bottom: 0;
+
+  .p-error {
+    font-size: 0.8125rem;
+    font-weight: 600;
   }
-}
-.input {
-  min-width: 140px;
-  max-width: 570px;
-}
-
-.ng-invalid.ng-touched {
-  border-color: red;
-}
-
-.save-button {
-  margin: 0 0.5rem;
-}
-
-.button-delete-div {
-  align-self: center;
 }
 
 .button-delete {
-  background-color: transparent;
-  color: red;
-  border-radius: 50%;
-  border: 2px solid;
-  height: 1rem;
-  width: 1rem;
-  padding: 0.5rem;
+  width: var(--pisac-control-h);
+  height: var(--pisac-control-h);
 }
 
-.form-buttons {
-  margin-top: 0.5rem;
-}
-
-span.field-validation-error {
-  color: $accountCreationFormErrorColor;
-  font-size: $accountCreationFormInputFontSize;
-  margin-left: 20px;
-}
-
-.space-between {
-  justify-content: space-between;
-}
-
-.sub-section-title {
-  font-weight: bold;
-  font-size: 1.4rem;
-  padding: 0.5rem;
-}
-
-:host ::ng-deep .serie-sub-areas .p-multiselect-label {
-  max-width: 850px;
+@media (max-width: 640px) {
+  .range-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  }
 }

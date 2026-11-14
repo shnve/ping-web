@@ -1,56 +1,77 @@
-<div class="table-wrapper card">
-  <p-table class="fl-table" [value]="existingUsers$ | async">
-    <ng-template pTemplate="header">
-      <tr>
-        <th translate>service-user-assign.user-email</th>
-        <th translate>service-user-assign.user-role</th>
-        <th translate>service-user-assign.action</th>
-      </tr>
+<!-- PISAC (F5.4): usuarios de un servicio marítimo en dos tarjetas: usuarios asignados (tabla con el estilo de las
+     listas) y alta de usuario (rejilla de 2 columnas, nota informativa y botón alineado a la derecha). Mismos
+     datos, eventos e id; se conserva la clase `form` que usan las pruebas. -->
+<pisac-card title="service-user-assign.assigned-users" icon="pi pi-users">
+  <ng-container *ngIf="existingUsers$ | async as existingUsers">
+    <div *ngIf="existingUsers.length; else noUser" class="pisac-table-card">
+      <div class="pisac-table-scroll">
+        <table class="administration-table">
+          <thead>
+            <tr>
+              <th translate>service-user-assign.user-email</th>
+              <th translate>service-user-assign.user-role</th>
+              <th translate>service-user-assign.action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of existingUsers">
+              <td>{{user.email}}</td>
+              <td>{{'role.' + findLabel(user.serviceRole) | translate}}</td>
+              <td>
+                <button pButton type="button" (click)="confirm(user)" icon="pi pi-user-minus"
+                  class="p-button-sm p-button-text p-button-rounded p-button-danger"
+                  [title]="'service-user-assign.extract' | translate"
+                  [attr.aria-label]="('service-user-assign.extract' | translate) + ' ' + user.email"></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <ng-template #noUser>
+      <pisac-empty-state [compact]="true" icon="pi pi-users" message="service-user-assign.no-user"></pisac-empty-state>
     </ng-template>
-    <ng-template pTemplate="body" let-user>
-      <tr>
-        <td>{{user.email}}</td>
-        <td>{{'role.' + findLabel(user.serviceRole) | translate}}</td>
-        <td><p-button (click)="confirm(user)" icon="pi pi-times" [label]="'service-user-assign.extract' | translate" class="p-button-sm"></p-button></td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
+  </ng-container>
+</pisac-card>
 
-<div class="p-col">
-  <p-card header="{{'service-user-assign.add-user-title-card' | translate}}">
-    <span class="tooltip-about-adding-user" translate>service-user-assign.tooltip-about-adding-user</span>
-    <form [formGroup]="form" class="form" (ngSubmit)="addUser()">
-      <div class="line-form p-field p-grid">
-        <label for="user-id" class="label p-col-fixed" translate>service-user-assign.user-email</label>
+<pisac-card title="service-user-assign.add-user-title-card" icon="pi pi-user-plus">
+  <form [formGroup]="form" class="form service-user-form" (ngSubmit)="addUser()">
+    <p class="pisac-field__hint add-user-hint">
+      <i class="pi pi-info-circle" aria-hidden="true"></i>
+      <span translate>service-user-assign.tooltip-about-adding-user</span>
+    </p>
+    <div class="pisac-form-grid--2">
+      <div class="pisac-field">
+        <label for="user-id" translate>service-user-assign.user-email</label>
         <p-dropdown id="user-id"
                     [options]="users$ | async"
                     optionLabel="email" optionValue="id"
                     [placeholder]="'service-user-assign.select-user' | translate"
                     [filter]="true"
                     [showClear]="userId.value?.length"
-                    formControlName="userId"
-        ></p-dropdown>
+                    formControlName="userId"></p-dropdown>
       </div>
-      <div class="line-form p-field p-grid">
-        <label for="user-role" class="label p-col-fixed" translate>service-user-assign.user-role</label>
+      <div class="pisac-field">
+        <label for="user-role" translate>service-user-assign.user-role</label>
         <p-dropdown id="user-role"
                     [options]="existingRoles"
                     [placeholder]="'service-user-assign.select-role' | translate"
                     optionLabel="label" optionValue="key"
                     formControlName="userRole">
           <ng-template let-item pTemplate="item">
-            <span class="p-button-label">{{'role.' + item.label | translate}}</span>
+            <span>{{'role.' + item.label | translate}}</span>
           </ng-template>
           <ng-template let-item pTemplate="selectedItem">
-            <span class="p-button-label">{{'role.' + item.label | translate}}</span>
+            <span>{{'role.' + item.label | translate}}</span>
           </ng-template>
         </p-dropdown>
       </div>
-      <button pButton class="save-button" [label]="'service-user-assign.save' | translate" type="submit" icon="pi pi-check"
-              [disabled]="form.invalid"></button>
-    </form>
-  </p-card>
-</div>
+    </div>
+    <div class="form-actions">
+      <button pButton class="save-button" [label]="'service-user-assign.save' | translate" type="submit" icon="pi pi-user-plus"
+        [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</pisac-card>
 
-<p-confirmDialog [breakpoints]="{'960px': '50vw', '640px': '80vw'}" [style]="{width: '50vw'}"></p-confirmDialog>
+<p-confirmDialog [breakpoints]="{'960px': '70vw', '640px': '92vw'}" [style]="{width: '480px'}"></p-confirmDialog>

@@ -1,7 +1,11 @@
+<!-- PISAC (F5.4): cabecera de página clara, tabla y paginador en tarjeta, acciones de fila solo con icono. -->
 <ng-container>
-  <h1 translate>maritime-entity-list.title.list</h1>
-  <button pButton *ngIf="canCreateModel" class="add-button p-button-sm" routerLink="./ajouter"
-    [label]="'maritime-entity-list.add' | translate" icon="pi pi-plus"></button>
+  <div class="pisac-list-page">
+  <pisac-page-header variant="light" icon="pi pi-building" title="maritime-entity-list.title.list">
+    <button actions pButton class="add-button" *ngIf="canCreateModel" routerLink="./ajouter" [label]="'maritime-entity-list.add' | translate" icon="pi pi-plus"></button>
+  </pisac-page-header>
+  <div class="pisac-table-card">
+  <div class="pisac-table-scroll">
   <table class="administration-table">
     <thead>
       <tr>
@@ -62,15 +66,18 @@
         <td>{{entity.maritimeService?.name}}</td>
         <td>{{entity.additionalServices?.map(getMaritimeServiceName.bind(this)).join(',')}}</td>
         <td>
-          <button pButton *ngIf="canPreviewModel" class="p-button-sm preview-button"
-            routerLink="./{{entity.id}}/details" [title]="'maritime-entity-list.table.show' | translate"
+          <button pButton *ngIf="canPreviewModel" class="p-button-sm p-button-text p-button-rounded preview-button"
+            routerLink="./{{entity.id}}/details" [title]="'maritime-entity-list.table.show' | translate" [attr.aria-label]="'maritime-entity-list.table.show' | translate"
             icon="pi pi-eye"></button>
-          <button pButton *ngIf="canEditModel" class="p-button-sm edit-button" routerLink="./{{entity.id}}/edition"
-            [title]="'maritime-entity-list.table.edit' | translate" icon="pi pi-pencil"></button>
+          <button pButton *ngIf="canEditModel" class="p-button-sm p-button-text p-button-rounded edit-button" routerLink="./{{entity.id}}/edition"
+            [title]="'maritime-entity-list.table.edit' | translate" [attr.aria-label]="'maritime-entity-list.table.edit' | translate" icon="pi pi-pencil"></button>
         </td>
       </tr>
     </tbody>
   </table>
+  </div>
   <app-ping-paginator *ngIf="pageItem" [page]="pageItem" [currentSize]="this.currentSize"
     [currentPage]="this.currentPage" (changePage)="this.handlePageEvent($event)"></app-ping-paginator>
+  </div>
+  </div>
 </ng-container>
