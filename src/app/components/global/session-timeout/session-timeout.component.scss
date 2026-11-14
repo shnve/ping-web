@@ -1,0 +1,27 @@
+@import 'src/styling/variables';
+
+.session-timeout__body {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.session-timeout__icon {
+  font-size: 2rem;
+  color: $shn-navy;
+  margin-top: 0.125rem;
+}
+
+.session-timeout__text {
+  margin: 0 0 0.5rem;
+  line-height: 1.45;
+}
+
+.session-timeout__countdown {
+  margin: 0;
+  font-family: $pisac-font-heading;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $shn-navy;
+  font-variant-numeric: tabular-nums;
+}

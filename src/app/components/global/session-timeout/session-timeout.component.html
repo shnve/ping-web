@@ -1,0 +1,18 @@
+<!-- PISAC: aviso de cierre de sesión por inactividad -->
+<p-dialog [(visible)]="visible" [modal]="true" [closable]="false" [draggable]="false" [resizable]="false"
+          [closeOnEscape]="false" [style]="{ width: '28rem', maxWidth: '92vw' }" styleClass="session-timeout-dialog"
+          [header]="'session-timeout.warning.title' | translate" role="alertdialog" aria-live="assertive">
+  <div class="session-timeout__body">
+    <i class="pi pi-clock session-timeout__icon" aria-hidden="true"></i>
+    <div>
+      <p class="session-timeout__text">{{ 'session-timeout.warning.text' | translate }}</p>
+      <p class="session-timeout__countdown" aria-atomic="true">{{ countdown }}</p>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" class="p-button-outlined" icon="pi pi-sign-out"
+            [label]="'session-timeout.warning.logout' | translate" (click)="logoutNow()"></button>
+    <button pButton type="button" icon="pi pi-check"
+            [label]="'session-timeout.warning.continue' | translate" (click)="keepSession()"></button>
+  </ng-template>
+</p-dialog>

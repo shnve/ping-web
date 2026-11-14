@@ -13,6 +13,7 @@ import { FiltersBarComponent } from '@app/components/footer/filters/filters-bar/
 import { TableFiltersBarComponent } from '@app/components/footer/filters/table-filters-bar/table-filters-bar.component';
 import { FooterComponent } from '@app/components/footer/footer.component';
 import { ToasterComponent } from '@app/components/global/toaster/toaster.component';
+import { SessionTimeoutComponent } from '@app/components/global/session-timeout/session-timeout.component';
 import { BannerComponent } from '@app/components/header/banner/banner.component';
 import { BreadcrumbComponent } from '@app/components/header/breadcrumb/breadcrumb.component';
 import { HeaderComponent } from '@app/components/header/header.component';
@@ -98,6 +99,7 @@ import { SubscriptionDeleteFromLinkComponent } from '@app/subscription/component
         WarningListPanelComponent,
         NotFoundComponent,
         ToasterComponent,
+        SessionTimeoutComponent,
         MapFilterBannerComponent,
         MapAdvancedFilterComponent,
         PluckPipe,

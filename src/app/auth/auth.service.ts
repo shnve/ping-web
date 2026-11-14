@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TokenResponse } from '@app/api/users.api';
+import { createPkceChallenge, createPkceVerifier } from '@app/auth/pkce';
+import { LAST_ACTIVITY_KEY, SessionActivityService } from '@app/auth/session-activity.service';
 import { AreasFacade } from '@app/facades/areas.facade';
 import { MaritimeServiceType, ServiceNetwork, ServiceRole } from '@app/models/maritime-service.model';
 import { ServiceUserRole } from '@app/models/pro-user.model';
@@ -13,7 +15,7 @@ import { JwtHelperService } from 'angular-jwt-updated';
 import * as CryptoJS from 'crypto-js';
 import { pick } from 'lodash-es';
 import { nanoid } from 'nanoid';
-import { Observable, ReplaySubject } from 'rxjs';
+import { from, Observable, ReplaySubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthenticatedUser } from '../models/public-user.model';
 
@@ -27,6 +29,13 @@ const roleFunctionalAdmin = 'functional-admin';
 const roleServiceUser = 'service-user';
 export const stateKey = '_state';
 export const nonceKey = '_nonce';
+/** PISAC: verificador PKCE del inicio de sesión en curso (se borra al canjear el código). */
+export const pkceVerifierKey = '_pkce_verifier';
+
+/** PISAC: motivo del último cierre de sesión automático (lo muestra SessionTimeoutComponent al volver al portal). */
+export type LogoutReason = 'idle' | 'expired';
+export const LOGOUT_REASON_KEY = 'pisac_logout_reason';
+const REFRESH_LOCK_NAME = 'pisac-token-refresh';
 
 @Injectable({
   providedIn: 'root'
@@ -41,14 +50,21 @@ export class AuthService {
   constructor(private readonly privilegesService: PrivilegesService,
     private readonly httpClient: HttpClient,
     private readonly areasFacade: AreasFacade,
-    private readonly sessionState: SessionState) {
+    private readonly sessionState: SessionState,
+    private readonly sessionActivity: SessionActivityService) {
 
     // If expired, we remove token (come back from a user after long time ago)
     if (this.getToken() && this.isExpired(this.getToken())) {
-      localStorage.removeItem(authenticatedUserKey);
-      localStorage.removeItem(tokenKey);
-      localStorage.removeItem(refreshKey);
-      localStorage.removeItem(idTokenKey);
+      this.clearLocalSession();
+    }
+
+    // PISAC: sesión abierta pero sin actividad durante más del tiempo permitido (ej. equipo suspendido): se cierra.
+    if (this.getToken() && !this.isExpired(this.getToken()) && this.getAuthenticatedUser()) {
+      const lastActivity = Number(localStorage.getItem(LAST_ACTIVITY_KEY)) || 0;
+      if (Date.now() - lastActivity >= this.getIdleTimeoutMinutes() * 60000) {
+        this.clearLocalSession();
+        sessionStorage.setItem(LOGOUT_REASON_KEY, 'idle');
+      }
     }
 
     // If already in storage, we load user from this informations (F5, open a new tab with ping ...)
@@ -57,6 +73,20 @@ export class AuthService {
       this.loadLoginInformationInState(authenticatedUser);
       this.setPreferredArea(authenticatedUser);
     }
+
+    // PISAC: cerrar sesión en una pestaña la cierra en todas las demás.
+    window.addEventListener('storage', event => {
+      if (event.key === tokenKey && !event.newValue && this.isConnected) {
+        const reason = localStorage.getItem(LOGOUT_REASON_KEY);
+        if (reason) {
+          sessionStorage.setItem(LOGOUT_REASON_KEY, reason);
+        }
+        this.isConnected = false;
+        this.sessionActivity.stop();
+        clearTimeout(this.refreshTimeout);
+        window.location.href = '/';
+      }
+    });
   }
 
   private encrypt(txt: string): string {
@@ -90,6 +120,8 @@ export class AuthService {
   public login(authenticatedUser: AuthenticatedUser, token: string): void {
     this.setSecureLocalStorageItem(authenticatedUserKey, JSON.stringify(authenticatedUser));
     this.setToken(token);
+    localStorage.removeItem(LOGOUT_REASON_KEY);
+    this.sessionActivity.markActivity(true);
     this.loadLoginInformationInState(authenticatedUser);
     this.setPreferredArea(authenticatedUser);
   }
@@ -104,6 +136,7 @@ export class AuthService {
     this.sessionState.setUserInfo(authenticatedUser);
     this.isConnected = true;
     this.connected$.next(this.isConnected);
+    this.sessionActivity.start(this.getIdleTimeoutMinutes(), environment.keycloak.idleWarningSeconds);
     this.startRefresh();
   }
 
@@ -115,16 +148,38 @@ export class AuthService {
     window.location.href = this.buildKeycloakUrlLogin(profileMode, redirectToAfterAuthentication);
   }
 
-  public logout(): void {
+  /**
+   * Cierra la sesión en el portal y en Keycloak.
+   * @param reason motivo del cierre automático (inactividad o sesión vencida); se muestra al volver al portal.
+   */
+  public logout(reason?: LogoutReason): void {
     const logoutUrl = this.buildKeycloakUrlLogout();
+    if (reason) {
+      localStorage.setItem(LOGOUT_REASON_KEY, reason);
+      sessionStorage.setItem(LOGOUT_REASON_KEY, reason);
+    }
+    this.clearLocalSession();
+    this.isConnected = false;
+    this.connected$.next(this.isConnected);
+    this.sessionActivity.stop();
+    clearTimeout(this.refreshTimeout);
+    window.location.href = logoutUrl;
+  }
+
+  /** Borra del navegador los tokens y los datos del usuario. */
+  private clearLocalSession(): void {
     localStorage.removeItem(authenticatedUserKey);
     localStorage.removeItem(tokenKey);
     localStorage.removeItem(refreshKey);
     localStorage.removeItem(idTokenKey);
-    this.isConnected = false;
-    this.connected$.next(this.isConnected);
-    clearTimeout(this.refreshTimeout);
-    window.location.href = logoutUrl;
+    localStorage.removeItem(LAST_ACTIVITY_KEY);
+  }
+
+  /** Minutos de inactividad permitidos según el realm del token (profesional o público). */
+  private getIdleTimeoutMinutes(): number {
+    const token = this.getToken();
+    const isPublic = !!token && helper.decodeToken(token)?.iss?.endsWith(environment.keycloak.publicRealm);
+    return isPublic ? environment.keycloak.idleTimeoutMinutes.public : environment.keycloak.idleTimeoutMinutes.pro;
   }
 
   public setToken(token: string): void {
@@ -259,7 +314,11 @@ export class AuthService {
   }
 
   private buildKeycloakUrlLogin(profileMode: ProfileMode, redirectToAfterAuthentication: string): string {
-    return this.buildKeycloakUrl(environment.keycloak.urlLogin, profileMode === ProfileMode.PUBLIC, environment.keycloak.redirectUri.default + '/redirect', redirectToAfterAuthentication);
+    // PISAC: PKCE (S256). El verificador se guarda para el canje del código en RedirectAfterAuthenticationComponent.
+    const verifier = createPkceVerifier();
+    this.setSecureLocalStorageItem(pkceVerifierKey, verifier);
+    return this.buildKeycloakUrl(environment.keycloak.urlLogin, profileMode === ProfileMode.PUBLIC, environment.keycloak.redirectUri.default + '/redirect', redirectToAfterAuthentication)
+      .replace('{{code_challenge}}', createPkceChallenge(verifier));
   }
 
   private buildKeycloakUrlLogout(): string {
@@ -299,40 +358,79 @@ export class AuthService {
       && r.serviceRole === role).length === 1;
   }
 
+  /**
+   * Programa la renovación del token un minuto antes de que venza.
+   *
+   * PISAC: antes se renovaba siempre, aunque el usuario no estuviera usando el portal, y cada renovación reiniciaba el
+   * contador de inactividad de Keycloak: la sesión no vencía nunca por inactividad (solo a las 10 h). Ahora solo se
+   * renueva si hubo actividad dentro del tiempo permitido; si no, SessionTimeoutComponent avisa y cierra la sesión.
+   */
   private startRefresh(): void {
-    const exp = helper.decodeToken(this.getToken()).exp;
+    clearTimeout(this.refreshTimeout);
+    const exp = helper.decodeToken(this.getToken())?.exp;
+    if (!exp) {
+      return;
+    }
 
-    // exp - 1 min
-    const expLimit = new Date((exp * 1000) - (60000));
-    const now = Date.now();
-    // @ts-ignore
-    const diff = expLimit - now;
+    // exp - 1 min (más un pequeño margen aleatorio para que varias pestañas no renueven en el mismo instante)
+    const diff = Math.max((exp * 1000) - 60000 - Date.now(), 0) + Math.floor(Math.random() * 3000);
 
-    this.refreshTimeout = setTimeout(() => this.refreshAccessToken().subscribe(), diff);
+    this.refreshTimeout = setTimeout(() => {
+      if (!this.sessionActivity.isWithinIdleTimeout()) {
+        return;
+      }
+      this.refreshAccessToken().subscribe({
+        error: err => {
+          console.error('No se pudo renovar la sesión', err);
+          this.logout('expired');
+        }
+      });
+    }, diff);
   }
 
   public getNonceFromToken(token: string): string {
     return helper.decodeToken(token).nonce;
   }
 
+  /**
+   * Renueva el token de acceso.
+   *
+   * PISAC: Keycloak rota el token de renovación (cada uno sirve una sola vez), así que entre pestañas se renueva por
+   * turnos (Web Locks API). Si al llegar el turno otra pestaña ya lo renovó, solo se reprograma.
+   */
   public refreshAccessToken(): Observable<void> {
+    const tokenBefore = this.getToken();
+    return from(this.withRefreshLock(() => this.doRefresh(tokenBefore)));
+  }
+
+  private withRefreshLock(task: () => Promise<void>): Promise<void> {
+    const locks = (navigator as any).locks;
+    return locks?.request ? locks.request(REFRESH_LOCK_NAME, task) : task();
+  }
+
+  private async doRefresh(tokenBefore: string): Promise<void> {
+    const current = this.getToken();
+    if (current && current !== tokenBefore && !this.isExpired(current)) {
+      this.startRefresh();
+      return;
+    }
+
     const keycloakUrl = environment.keycloak.urlToken
       .replace('{{root_url}}', environment.keycloak.rootUrl)
-      .replace('{{realm}}', helper.decodeToken(this.getToken()).iss.endsWith(environment.keycloak.publicRealm)
+      .replace('{{realm}}', helper.decodeToken(current).iss.endsWith(environment.keycloak.publicRealm)
         ? environment.keycloak.publicRealm : environment.keycloak.proRealm);
     const body = new HttpParams()
       .set('grant_type', 'refresh_token')
       .set('client_id', environment.keycloak.clientId)
       .set('refresh_token', this.getRefreshToken());
-    return this.httpClient.post<TokenResponse>(keycloakUrl, body, {
+    const value = await this.httpClient.post<TokenResponse>(keycloakUrl, body, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/x-www-form-urlencoded')
-    }).pipe(map(value => {
-      this.setRefreshToken(value.refresh_token);
-      this.setToken(value.access_token);
-      this.setIdToken(value.id_token);
-      this.startRefresh();
-    }));
+    }).toPromise();
+    this.setRefreshToken(value.refresh_token);
+    this.setToken(value.access_token);
+    this.setIdToken(value.id_token);
+    this.startRefresh();
   }
 
   public hasSomeRoleOnService(serviceId: string): boolean {

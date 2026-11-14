@@ -1,6 +1,7 @@
 import {Component, Input, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {UntypedFormBuilder, Validators} from '@angular/forms';
+import {UntypedFormBuilder} from '@angular/forms';
+import {passwordPolicyValidators} from '@app/auth/password-policy';
 import {UsersApi} from '@app/api/users.api';
 import {AlertMessageService} from '@app/core/alert-message.service';
 
@@ -13,7 +14,7 @@ export class ResetPasswordComponent implements OnDestroy {
   @Input() userId: string;
   sub = new Subscription();
   form = this.formBuilder.group({
-    password: ['', Validators.required]
+    password: ['', passwordPolicyValidators]
   });
 
   constructor(private readonly formBuilder: UntypedFormBuilder, private readonly userApi: UsersApi,

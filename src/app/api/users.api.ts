@@ -108,14 +108,19 @@ export class UsersApi {
    * Authenticate a user keycloak-side with an authorization code received before.
    * @param authorizationCode the authorization code received from keycloak when redirected to account-validation page
    */
-  authenticateUser(authorizationCode: string, isPublicUser: boolean, state: string, nonce: string, redirectUri?: string): Observable<TokenResponse> {
-    const body = new HttpParams()
+  authenticateUser(authorizationCode: string, isPublicUser: boolean, state: string, nonce: string, redirectUri?: string,
+                   codeVerifier?: string): Observable<TokenResponse> {
+    let body = new HttpParams()
       .set('client_id', this.clientId)
       .set('grant_type', this.authMethod)
       .set('code', authorizationCode)
       .set('state', state)
       .set('nonce', nonce)
       .set('redirect_uri', redirectUri ?? environment.keycloak.redirectUri.default);
+    // PISAC: PKCE (S256), Keycloak exige el verificador del inicio de sesión
+    if (codeVerifier) {
+      body = body.set('code_verifier', codeVerifier);
+    }
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
     if (!authorizationCode) {
@@ -222,6 +227,12 @@ export class UsersApi {
       // return error related to user creation keycloak-side
       if (invalidApiArgs?.hasOwnProperty('user')) {
         return throwError({ user: invalidApiArgs.user });
+      }
+
+      // PISAC: el backend envía en "message" una clave i18n (ej. cuenta inexistente en Keycloak o correo ya usado)
+      const backendMessage = error.error?.message;
+      if (typeof backendMessage === 'string' && backendMessage.startsWith('message.error.api.')) {
+        return throwError({ message: backendMessage });
       }
 
       const errorCodeFromKeycloak = error.error.error;

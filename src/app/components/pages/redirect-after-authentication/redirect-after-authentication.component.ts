@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersApi } from '@app/api/users.api';
-import { AuthService, nonceKey } from '@app/auth/auth.service';
+import { AuthService, nonceKey, pkceVerifierKey } from '@app/auth/auth.service';
 import { AuthenticatedUser } from '@app/models/public-user.model';
 import { ProfileMode } from '@app/types/profile';
 import { environment } from '@env/environment';
@@ -54,7 +54,10 @@ export class RedirectAfterAuthenticationComponent implements OnInit, OnDestroy {
 
           url.queryParams = {};
           const redirectUri = environment.keycloak.redirectUri.default + '/redirect/?profileMode=' + profileMode + '&to=' + this.redirectTo;
-          return this.usersApi.authenticateUser(params.code, profileMode === ProfileMode.PUBLIC, state, nonce, redirectUri);
+          // PISAC: PKCE, el verificador se usa una sola vez
+          const codeVerifier = this.authService.getSecureLocalStorageItem(pkceVerifierKey);
+          localStorage.removeItem(pkceVerifierKey);
+          return this.usersApi.authenticateUser(params.code, profileMode === ProfileMode.PUBLIC, state, nonce, redirectUri, codeVerifier);
         }),
         flatMap(token => {
           const nonce = this.authService.getSecureLocalStorageItem(nonceKey);

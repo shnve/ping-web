@@ -347,7 +347,8 @@ export const environment = {
     }
   },
   keycloak: {
-    urlLogin: '{{root_url}}/realms/{{realm}}/protocol/openid-connect/auth?client_id=ping-web&response_type=code&state={{state}}&nonce={{nonce}}&redirect_uri={{redirect_uri}}&ui_locales={{lang}}&scope=openid',
+    // PISAC: PKCE (S256) obligatorio en el cliente ping-web (ver ping-api/db/keycloak-seguridad-sesion.sh)
+    urlLogin: '{{root_url}}/realms/{{realm}}/protocol/openid-connect/auth?client_id=ping-web&response_type=code&state={{state}}&nonce={{nonce}}&redirect_uri={{redirect_uri}}&ui_locales={{lang}}&scope=openid&code_challenge={{code_challenge}}&code_challenge_method=S256',
     urlLogout: '{{root_url}}/realms/{{realm}}/protocol/openid-connect/logout?id_token_hint={{id_token_hint}}&post_logout_redirect_uri={{redirect_uri}}&ui_locales={{lang}}',
     urlToken: '{{root_url}}/realms/{{realm}}/protocol/openid-connect/token',
     publicRealm: 'ping-public',
@@ -355,7 +356,14 @@ export const environment = {
     clientId: 'ping-web',
     authMethod: {
       code: 'authorization_code'
-    }
+    },
+    // PISAC: cierre de sesión por inactividad. Debe coincidir con "SSO Session Idle" de cada realm en Keycloak.
+    idleTimeoutMinutes: {
+      pro: 10,
+      public: 30
+    },
+    // Aviso previo al cierre por inactividad
+    idleWarningSeconds: 120
   },
   survey: {
     attachments: {

@@ -12,6 +12,7 @@ import { environment } from '../../../../../environments/environment';
 import { UsersApi } from '../../../../api/users.api';
 import { checkFilledInputFields } from '../../../shared/validators/phone-numbers-required.validator';
 import { CaptchaComponent } from './captcha/captcha.component';
+import { passwordPolicyValidators } from '@app/auth/password-policy';
 
 
 @Component({
@@ -81,7 +82,7 @@ export class AccountCreationComponent implements OnInit, OnDestroy {
         mobile: new UntypedFormControl(''),
         home: new UntypedFormControl('')
       }, checkFilledInputFields()),
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', passwordPolicyValidators],
       shipName: '',
       homeport: '',
       registrationNumber: '',
