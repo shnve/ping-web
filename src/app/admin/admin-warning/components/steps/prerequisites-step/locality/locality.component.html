@@ -2,8 +2,10 @@
 <div class="pisac-field settings">
   <label class="locality-label" for="localities" translate>admin-warning.creation.labels.lbl-localities</label>
   <div class="pisac-input-group">
+    <!-- appendTo="body": el selector está dentro de un p-panel plegable (overflow oculto) que recortaba la lista -->
     <p-dropdown id="localities"
                 class="localities-elements"
+                appendTo="body"
                 [options]="area?.subAreas | orderByImpure: ('option-label-name' | translate)"
                 [optionLabel]="'option-label-name' | translate"
                 [placeholder]="'admin-warning.creation.labels.ph-localities' | translate"

@@ -78,6 +78,18 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
   isRendering = true;
 
   private staticSectionDisclaimer: StaticSection;
+  /**
+   * Aviso que llegó por enlace directo (/avurnav-notice/:warningId, p. ej. desde el correo de notificación) o por
+   * notificación en la aplicación, pendiente de centrar en el mapa cuando lleguen los avisos del mapa.
+   */
+  private pendingFocusWarningId: string | null = null;
+  /** Últimos avisos recibidos para el mapa (los mismos que muestran el mapa y la lista lateral). */
+  private lastMapWarnings: MapWarning[] = [];
+  /**
+   * Espera antes de centrar en el aviso del enlace: el mapa aplica la extensión de la zona con 500 ms de retraso y
+   * 1 s de animación (MapComponent.fitToGivenExtent); si se centra antes, esa animación lo deshace.
+   */
+  private static readonly DEEP_LINK_FOCUS_DELAY_MS = 1200;
 
   constructor(private readonly mapWarningsFacade: MapWarningsFacade,
     private readonly alertMessages: AlertMessageService,
@@ -110,7 +122,10 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
     ).subscribe(this.onSelectArea.bind(this)));
 
     this.subscriptions.add(
-      this.notificationState.getNotificationObjectId$().subscribe((warningId: string) => this.displayWarningModal([{ id: warningId }]))
+      this.notificationState.getNotificationObjectId$().subscribe((warningId: string) => {
+        this.displayWarningModal([{ id: warningId }]);
+        this.requestFocusOnWarning(warningId);
+      })
     );
 
     this.staticSectionApi.findOneByKey$('home-page-global-disclaimer-warning')
@@ -128,7 +143,35 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
     const warningId = this.route.snapshot.paramMap.get('warningId');
     if (warningId !== null) {
       this.displayWarningModal([{ id: warningId }]);
+      // PISAC: además de abrir el detalle, centrar el mapa en el aviso (igual que «Ver en el mapa y detalle»)
+      this.requestFocusOnWarning(warningId);
     }
+  }
+
+  /**
+   * PISAC: centra el mapa en un aviso conocido solo por su id (enlace del correo o notificación). Si los avisos
+   * del mapa ya están cargados se centra enseguida; si no, cuando lleguen (ver loadMapWarnings).
+   */
+  private requestFocusOnWarning(warningId: string): void {
+    this.pendingFocusWarningId = warningId;
+    this.focusPendingWarning();
+  }
+
+  private focusPendingWarning(): void {
+    if (!this.pendingFocusWarningId) {
+      return;
+    }
+    const warning = this.lastMapWarnings.find(w => w.id === this.pendingFocusWarningId);
+    if (!warning) {
+      // Todavía no han llegado los avisos, o el aviso no está en el mapa (p. ej. cancelado o de otra zona):
+      // se mantiene el detalle abierto sin mover el mapa
+      return;
+    }
+    this.pendingFocusWarningId = null;
+    setTimeout(
+      () => this.focusFeaturesOnMap([...(warning.geometries ?? []), ...(warning.affectedAreas ?? [])]),
+      AvurnavNoticeComponent.DEEP_LINK_FOCUS_DELAY_MS
+    );
   }
 
   loadMapWarnings(filterValues: MapFilterValues) {
@@ -137,6 +180,8 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
     }
     this.mapWarnings$ = this.mapWarningsFacade.getFiltredMapWarnings$(filterValues).pipe(
       tap(filteredWarnings => {
+        this.lastMapWarnings = filteredWarnings ?? [];
+        this.focusPendingWarning();
 
         if (!filteredWarnings.length && !this.mapFilterState.getValues().disableFilter) {
           this.alertMessages.add({

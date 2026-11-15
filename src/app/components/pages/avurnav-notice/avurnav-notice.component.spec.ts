@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { StaticSection } from '@app/static-section/models/static-section.model';
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -435,6 +435,55 @@ describe('AvurnavNoticeComponent', () => {
     expect(component.mapDisclaimerContent).toEqual('internationalDisclaimer');
     expect(component.currentMapDisclaimerId).toEqual('1');
     done();
+  });
+
+  describe('PISAC: enlace directo a un aviso (/avurnav-notice/:warningId)', () => {
+    const linkedId = '6cac9acb-927e-4394-b523-edfe754f335c';
+    const mapWarning = (id: string): MapWarning => ({
+      id,
+      geometries: [],
+      affectedAreas: [],
+      globalWarningType: GlobalWarningType.WARNING,
+      nameOfSeries: 'ADVERTENCIA COSTERA VE',
+      warningNumber: 8,
+      warningTypeDetails: '',
+      year: 26
+    });
+
+    it('opens the detail and centres the map on the linked warning once the map warnings arrive', fakeAsync(() => {
+      // Given: ngOnInit ya abrió el detalle del aviso de la URL
+      expect(component.showModal).toBeTrue();
+      expect(component.selectedWarningId).toEqual(linkedId);
+      const spyFocus = spyOn(component, 'focusFeaturesOnMap').and.stub();
+      spyOn(TestBed.inject(MapWarningsFacade), 'getFiltredMapWarnings$')
+        .and.returnValue(of([mapWarning('otro'), mapWarning(linkedId)]));
+
+      // When
+      component.loadMapWarnings({ globalWarningType: GlobalWarningType.WARNING, publishDate: null } as any);
+      component.mapWarnings$.subscribe();
+      tick(1199);
+      expect(spyFocus).not.toHaveBeenCalled();
+      tick(1);
+
+      // Then: se centra una sola vez, aunque los avisos se vuelvan a cargar
+      expect(spyFocus).toHaveBeenCalledTimes(1);
+      component.mapWarnings$.subscribe();
+      tick(1200);
+      expect(spyFocus).toHaveBeenCalledTimes(1);
+    }));
+
+    it('does not move the map when the linked warning is not on the map', fakeAsync(() => {
+      const spyFocus = spyOn(component, 'focusFeaturesOnMap').and.stub();
+      spyOn(TestBed.inject(MapWarningsFacade), 'getFiltredMapWarnings$')
+        .and.returnValue(of([mapWarning('otro')]));
+
+      component.loadMapWarnings({ globalWarningType: GlobalWarningType.WARNING, publishDate: null } as any);
+      component.mapWarnings$.subscribe();
+      tick(1500);
+
+      expect(spyFocus).not.toHaveBeenCalled();
+      expect(component.showModal).toBeTrue();
+    }));
   });
 
 });
