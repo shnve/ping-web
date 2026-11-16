@@ -8,12 +8,11 @@ import { Scavenger } from '@wishtack/rx-scavenger';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-const STATIC_PAGE_LOADER_ROOT = '../../../shared/components/static-page-loader';
-
 @Component({
   selector: 'app-home',
-  templateUrl: `${STATIC_PAGE_LOADER_ROOT}/static-page-loader.component.html`,
-  styleUrls: [`${STATIC_PAGE_LOADER_ROOT}/static-page-loader.component.scss`]
+  // PISAC: plantilla propia con el estilo del rediseño (antes compartía static-page-loader con las demás páginas)
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 @Localize()
 export class HomeComponent implements OnInit, OnDestroy, OnChangeLang {

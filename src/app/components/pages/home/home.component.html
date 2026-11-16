@@ -1,0 +1,23 @@
+<!--
+  PISAC: portada con el estilo del rediseño. El título y el texto vienen de la página estática «accueil» de la
+  base de datos (Administración → Páginas estáticas); aquí solo se define cómo se presentan.
+-->
+<section class="home-hero">
+  <div class="home-hero__inner">
+    <h1 class="home-hero__title">{{ pageTitle || ('menu.home' | translate) }}</h1>
+    <nav class="home-hero__actions" [attr.aria-label]="'menu.home' | translate">
+      <a class="home-cta home-cta--primary" routerLink="/avurnav-notice">
+        <i class="pi pi-map" aria-hidden="true"></i>
+        <span>{{ 'menu.avurnav-notice' | translate }}</span>
+      </a>
+      <a class="home-cta home-cta--secondary" routerLink="/georegulation-visu">
+        <i class="pi pi-book" aria-hidden="true"></i>
+        <span>{{ 'menu.georegulation-visu' | translate }}</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<section class="home-content" *ngIf="pageContent">
+  <article class="home-content__card" [innerHTML]="pageContent | safeHtml"></article>
+</section>

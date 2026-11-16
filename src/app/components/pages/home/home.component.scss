@@ -1,0 +1,195 @@
+// PISAC: portada. Franja marina con acento naranja (como la barra de menú y los encabezados «gradient») y el texto
+// de la base de datos en una tarjeta de ancho de lectura cómodo que se monta sobre la franja.
+
+:host {
+  display: block;
+  padding-bottom: var(--space-12);
+  background: var(--pisac-surface-muted);
+  min-height: 100%;
+}
+
+.home-hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--shn-navy) 0%, var(--shn-navy-deep) 100%);
+  border-bottom: 4px solid var(--shn-orange);
+  color: var(--shn-white);
+
+  &__inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-6) calc(var(--space-12) + var(--space-8));
+  }
+
+  &__title {
+    max-width: 22ch;
+    margin: 0;
+    font-family: var(--pisac-font-heading);
+    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--shn-white);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+}
+
+.home-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--pisac-control-h-lg);
+  padding: 0 var(--space-6);
+  border: 2px solid var(--shn-white);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+  &:focus-visible {
+    outline: 3px solid var(--shn-orange);
+    outline-offset: 2px;
+  }
+
+  &--primary {
+    background: var(--shn-white);
+    color: var(--shn-navy);
+
+    &:hover {
+      background: var(--pisac-primary-50);
+      border-color: var(--pisac-primary-50);
+    }
+  }
+
+  &--secondary {
+    background: transparent;
+    color: var(--shn-white);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+}
+
+.home-content {
+  position: relative;
+  max-width: 1080px;
+  margin: calc(-1 * var(--space-8)) auto 0;
+  padding: 0 var(--space-6);
+
+  &__card {
+    max-width: 880px;
+    padding: var(--space-8);
+    background: var(--pisac-surface);
+    border: 1px solid var(--pisac-border-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--pisac-shadow-md);
+    color: var(--pisac-text);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+}
+
+// Contenido HTML de la base de datos (editor de páginas estáticas)
+:host ::ng-deep .home-content__card {
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  p {
+    margin: 0 0 var(--space-4);
+  }
+
+  // Primer párrafo como entradilla
+  > p:first-of-type {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    margin: var(--space-8) 0 var(--space-3);
+    font-family: var(--pisac-font-heading);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--shn-navy);
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
+
+  strong, b {
+    font-weight: 700;
+    color: var(--shn-navy);
+  }
+
+  em, i {
+    font-style: italic;
+  }
+
+  a {
+    color: var(--pisac-secondary-700);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  ul, ol {
+    margin: 0 0 var(--space-4);
+    padding-left: var(--space-6);
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li + li {
+    margin-top: var(--space-1);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-hero__inner {
+    padding: var(--space-8) var(--space-4) calc(var(--space-8) + var(--space-6));
+  }
+
+  .home-cta {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .home-content {
+    margin-top: calc(-1 * var(--space-6));
+    padding: 0 var(--space-4);
+
+    &__card {
+      padding: var(--space-6);
+      font-size: 1rem;
+    }
+  }
+}
