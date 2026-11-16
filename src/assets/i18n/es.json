@@ -73,6 +73,69 @@
       "neverShowAgain": "No volver a mostrar esto en este dispositivo"
     }
   },
+  "static-page-view": {
+    "eyebrow": "PISAC · Información",
+    "toc": "En esta página"
+  },
+  "data-services-page": {
+    "title": "Servicios de datos",
+    "lead": "Integre las <strong>advertencias náuticas del SHN</strong> en sus sistemas de navegación, ECDIS o portales. Los datos se entregan a petición en formato <strong>IHO S-124</strong> y reflejan siempre la información en vigor.",
+    "badges": {
+      "s124": "S-124 ed. 1.5 y 2.0",
+      "secom": "SECOM · IEC 63173-2",
+      "languages": "Español · English"
+    },
+    "how": {
+      "title": "Cómo funciona",
+      "serie": {
+        "title": "Elija la serie",
+        "text": "Cada serie de advertencias tiene su propio servicio, en español y en inglés."
+      },
+      "protocol": {
+        "title": "Elija el protocolo",
+        "text": "API REST S-124 (XML/GML) para integraciones directas, o SECOM para sistemas S-100."
+      },
+      "query": {
+        "title": "Consulte cuando lo necesite",
+        "text": "Cada consulta devuelve las advertencias en vigor en ese momento. No requiere registro."
+      }
+    },
+    "series": {
+      "title": "Series disponibles",
+      "columns": {
+        "serie": "Serie",
+        "languages": "Idiomas",
+        "rest": "API REST S-124 (v2)",
+        "secom": "Instancias SECOM"
+      },
+      "open-xml": "XML {{language}}",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "loading": "Cargando las series…",
+      "error": "No se pudieron cargar las series. Inténtelo de nuevo más tarde.",
+      "empty": "En este momento no hay series distribuidas en S-124.",
+      "note": "Los avisos a los navegantes y los avisos temporales y preliminares se consultan en el portal y no se distribuyen en S-124. Las instancias SECOM ofrecen las operaciones ping, capability y object."
+    },
+    "languages": {
+      "es": "español",
+      "en": "English"
+    },
+    "docs": {
+      "title": "Documentación técnica",
+      "api": {
+        "title": "Referencia de la API",
+        "text": "Operaciones, parámetros y respuestas de /nw y /secom, con pruebas en línea (Swagger)."
+      },
+      "standard": {
+        "title": "Norma IHO S-124",
+        "text": "Especificación de producto Navigational Warnings en el registro de la OHI."
+      },
+      "support": {
+        "title": "Soporte",
+        "text": "Dudas de integración:"
+      }
+    }
+  },
   "menu": {
     "home": "Inicio",
     "avurnav-notice": "Advertencias y avisos",

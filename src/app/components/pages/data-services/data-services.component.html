@@ -1,0 +1,104 @@
+<!-- PISAC: página «Servicios de datos» (diseño aprobado el 16-nov-2026) -->
+<section class="ds-head">
+  <svg class="ds-head__contours" viewBox="0 0 1600 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="1.4">
+      <path d="M900 220 C 1000 160, 1100 170, 1180 120 S 1350 60, 1600 25"/>
+      <path d="M960 220 C 1060 170, 1160 185, 1240 138 S 1400 85, 1600 62"/>
+      <path d="M1030 220 C 1120 185, 1210 195, 1300 155 S 1450 110, 1600 98"/>
+      <path d="M1100 220 C 1190 200, 1280 205, 1370 175 S 1510 140, 1600 134"/>
+    </g>
+  </svg>
+  <div class="ds-head__inner">
+    <div>
+      <span class="ds-eyebrow" translate>static-page-view.eyebrow</span>
+      <h1 class="ds-head__title" translate>data-services-page.title</h1>
+      <p class="ds-head__lead" [innerHTML]="'data-services-page.lead' | translate"></p>
+    </div>
+    <ul class="ds-badges">
+      <li class="ds-badge"><span class="ds-badge__dot" aria-hidden="true"></span>{{ 'data-services-page.badges.s124' | translate }}</li>
+      <li class="ds-badge"><span class="ds-badge__dot" aria-hidden="true"></span>{{ 'data-services-page.badges.secom' | translate }}</li>
+      <li class="ds-badge"><span class="ds-badge__dot" aria-hidden="true"></span>{{ 'data-services-page.badges.languages' | translate }}</li>
+    </ul>
+  </div>
+</section>
+
+<div class="ds-body">
+  <h2 class="ds-title" translate>data-services-page.how.title</h2>
+  <ol class="ds-steps">
+    <li class="ds-step" *ngFor="let step of ['serie', 'protocol', 'query']; let i = index">
+      <span class="ds-step__number" aria-hidden="true">{{ i + 1 }}</span>
+      <strong class="ds-step__title">{{ 'data-services-page.how.' + step + '.title' | translate }}</strong>
+      <span class="ds-step__text">{{ 'data-services-page.how.' + step + '.text' | translate }}</span>
+    </li>
+  </ol>
+
+  <h2 class="ds-title" translate>data-services-page.series.title</h2>
+
+  <p *ngIf="state === 'loading'" class="ds-status" translate>data-services-page.series.loading</p>
+  <p *ngIf="state === 'error'" class="ds-status ds-status--error" translate>data-services-page.series.error</p>
+  <p *ngIf="state === 'ready' && !rows.length" class="ds-status" translate>data-services-page.series.empty</p>
+
+  <table *ngIf="state === 'ready' && rows.length" class="ds-table">
+    <thead>
+      <tr>
+        <th scope="col" translate>data-services-page.series.columns.serie</th>
+        <th scope="col" translate>data-services-page.series.columns.languages</th>
+        <th scope="col" translate>data-services-page.series.columns.rest</th>
+        <th scope="col" translate>data-services-page.series.columns.secom</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of rows">
+        <td [attr.data-label]="'data-services-page.series.columns.serie' | translate">
+          <strong class="ds-serie">{{ row.name }}</strong>
+          <span class="ds-serie__international">{{ row.internationalName }}</span>
+        </td>
+        <td [attr.data-label]="'data-services-page.series.columns.languages' | translate">
+          <span class="ds-lang" *ngFor="let access of row.accesses">{{ access.lang | uppercase }}</span>
+        </td>
+        <td [attr.data-label]="'data-services-page.series.columns.rest' | translate">
+          <a *ngFor="let access of row.accesses" class="ds-xml" [href]="access.restUrl" target="_blank" rel="noopener noreferrer">
+            <i class="pi pi-external-link" aria-hidden="true"></i>
+            {{ 'data-services-page.series.open-xml' | translate: { language: ('data-services-page.languages.' + access.lang | translate) } }}
+          </a>
+        </td>
+        <td [attr.data-label]="'data-services-page.series.columns.secom' | translate">
+          <span class="ds-chip" *ngFor="let access of row.accesses">
+            <code>{{ access.secomId }}</code>
+            <button type="button" class="ds-chip__copy" (click)="copy(access.secomId)"
+                    [attr.aria-label]="('data-services-page.series.copy' | translate) + ' ' + access.secomId">
+              <i class="pi" [class.pi-copy]="copiedId !== access.secomId" [class.pi-check]="copiedId === access.secomId" aria-hidden="true"></i>
+              {{ (copiedId === access.secomId ? 'data-services-page.series.copied' : 'data-services-page.series.copy') | translate }}
+            </button>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="ds-note" translate>data-services-page.series.note</p>
+
+  <h2 class="ds-title" translate>data-services-page.docs.title</h2>
+  <div class="ds-docs">
+    <a class="ds-doc" [href]="swaggerUrl" target="_blank" rel="noopener noreferrer">
+      <span class="ds-doc__icon" aria-hidden="true"><i class="pi pi-code"></i></span>
+      <span>
+        <strong class="ds-doc__title" translate>data-services-page.docs.api.title</strong>
+        <span class="ds-doc__text" translate>data-services-page.docs.api.text</span>
+      </span>
+    </a>
+    <a class="ds-doc" [href]="ihoRegistryUrl" target="_blank" rel="noopener noreferrer">
+      <span class="ds-doc__icon" aria-hidden="true"><i class="pi pi-book"></i></span>
+      <span>
+        <strong class="ds-doc__title" translate>data-services-page.docs.standard.title</strong>
+        <span class="ds-doc__text" translate>data-services-page.docs.standard.text</span>
+      </span>
+    </a>
+    <a class="ds-doc" [href]="'mailto:' + contactEmail">
+      <span class="ds-doc__icon" aria-hidden="true"><i class="pi pi-envelope"></i></span>
+      <span>
+        <strong class="ds-doc__title" translate>data-services-page.docs.support.title</strong>
+        <span class="ds-doc__text">{{ 'data-services-page.docs.support.text' | translate }} {{ contactEmail }}</span>
+      </span>
+    </a>
+  </div>
+</div>

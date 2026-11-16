@@ -1,9 +1,27 @@
-<div class="static-page">
-  <h2 class="static-page-item main-title">{{pageTitle}}</h2>
-  <div class="static-page-item content">
-    <p-card>
-      <div class="content" [innerHTML]="pageContent | safeHtml"></div>
-    </p-card>
+<!-- PISAC: páginas estáticas con el estilo del rediseño. Título y contenido vienen de la base de datos. -->
+<section class="sp-head">
+  <svg class="sp-head__contours" viewBox="0 0 1600 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="1.4">
+      <path d="M900 200 C 1000 150, 1100 160, 1180 110 S 1350 50, 1600 20"/>
+      <path d="M960 200 C 1060 160, 1160 175, 1240 128 S 1400 75, 1600 55"/>
+      <path d="M1020 200 C 1120 175, 1210 185, 1300 145 S 1450 100, 1600 90"/>
+      <path d="M1090 200 C 1180 190, 1270 195, 1360 165 S 1500 130, 1600 125"/>
+    </g>
+  </svg>
+  <div class="sp-head__inner">
+    <span class="sp-eyebrow" translate>static-page-view.eyebrow</span>
+    <h1 class="sp-head__title">{{ pageTitle }}</h1>
   </div>
+</section>
+
+<div class="sp-body" [class.sp-body--with-toc]="toc.length > 1">
+  <article #content class="sp-doc" [innerHTML]="pageContent | safeHtml"></article>
+
+  <nav *ngIf="toc.length > 1" class="sp-toc" [attr.aria-label]="'static-page-view.toc' | translate">
+    <h2 class="sp-toc__header" translate>static-page-view.toc</h2>
+    <a *ngFor="let entry of toc" class="sp-toc__link" [class.sp-toc__link--sub]="entry.level === 3"
+       [class.sp-toc__link--active]="entry.id === activeId" [href]="'#' + entry.id" (click)="scrollTo($event, entry.id)">
+      {{ entry.text }}
+    </a>
+  </nav>
 </div>
-  

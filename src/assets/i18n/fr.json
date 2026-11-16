@@ -63,6 +63,69 @@
       "neverShowAgain": "Ne plus me demander sur cet appareil"
     }
   },
+  "static-page-view": {
+    "eyebrow": "PISAC · Information",
+    "toc": "Sur cette page"
+  },
+  "data-services-page": {
+    "title": "Services de données",
+    "lead": "Intégrez les <strong>avertissements nautiques du SHN</strong> dans vos systèmes de navigation, ECDIS ou portails. Les données sont livrées à la demande au format <strong>OHI S-124</strong> et reflètent toujours l'information en vigueur.",
+    "badges": {
+      "s124": "S-124 éd. 1.5 et 2.0",
+      "secom": "SECOM · IEC 63173-2",
+      "languages": "Español · English"
+    },
+    "how": {
+      "title": "Fonctionnement",
+      "serie": {
+        "title": "Choisissez la série",
+        "text": "Chaque série d'avertissements dispose de son propre service, en espagnol et en anglais."
+      },
+      "protocol": {
+        "title": "Choisissez le protocole",
+        "text": "API REST S-124 (XML/GML) pour les intégrations directes, ou SECOM pour les systèmes S-100."
+      },
+      "query": {
+        "title": "Interrogez quand vous voulez",
+        "text": "Chaque requête renvoie les avertissements en vigueur à ce moment. Aucune inscription requise."
+      }
+    },
+    "series": {
+      "title": "Séries disponibles",
+      "columns": {
+        "serie": "Série",
+        "languages": "Langues",
+        "rest": "API REST S-124 (v2)",
+        "secom": "Instances SECOM"
+      },
+      "open-xml": "XML {{language}}",
+      "copy": "Copier",
+      "copied": "Copié",
+      "loading": "Chargement des séries…",
+      "error": "Impossible de charger les séries. Réessayez plus tard.",
+      "empty": "Aucune série n'est actuellement diffusée en S-124.",
+      "note": "Les avis aux navigateurs sont consultables sur le portail et ne sont pas diffusés en S-124. Les instances SECOM proposent les opérations ping, capability et object."
+    },
+    "languages": {
+      "es": "español",
+      "en": "English"
+    },
+    "docs": {
+      "title": "Documentation technique",
+      "api": {
+        "title": "Référence de l'API",
+        "text": "Opérations, paramètres et réponses de /nw et /secom, avec tests en ligne (Swagger)."
+      },
+      "standard": {
+        "title": "Norme OHI S-124",
+        "text": "Spécification de produit Navigational Warnings dans le registre de l'OHI."
+      },
+      "support": {
+        "title": "Support",
+        "text": "Questions d'intégration :"
+      }
+    }
+  },
   "menu": {
     "home": "Accueil",
     "avurnav-notice": "Avertissements et avis",

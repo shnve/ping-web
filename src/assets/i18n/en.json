@@ -73,6 +73,69 @@
       "neverShowAgain": "Do not show this again on this device"
     }
   },
+  "static-page-view": {
+    "eyebrow": "PISAC · Information",
+    "toc": "On this page"
+  },
+  "data-services-page": {
+    "title": "Data services",
+    "lead": "Integrate the <strong>SHN navigational warnings</strong> into your navigation systems, ECDIS or portals. Data is delivered on request in <strong>IHO S-124</strong> format and always reflects the information in force.",
+    "badges": {
+      "s124": "S-124 ed. 1.5 and 2.0",
+      "secom": "SECOM · IEC 63173-2",
+      "languages": "Español · English"
+    },
+    "how": {
+      "title": "How it works",
+      "serie": {
+        "title": "Choose the series",
+        "text": "Each series of warnings has its own service, in Spanish and in English."
+      },
+      "protocol": {
+        "title": "Choose the protocol",
+        "text": "S-124 REST API (XML/GML) for direct integrations, or SECOM for S-100 systems."
+      },
+      "query": {
+        "title": "Query whenever you need",
+        "text": "Each request returns the warnings in force at that moment. No registration required."
+      }
+    },
+    "series": {
+      "title": "Available series",
+      "columns": {
+        "serie": "Series",
+        "languages": "Languages",
+        "rest": "S-124 REST API (v2)",
+        "secom": "SECOM instances"
+      },
+      "open-xml": "XML {{language}}",
+      "copy": "Copy",
+      "copied": "Copied",
+      "loading": "Loading the series…",
+      "error": "The series could not be loaded. Please try again later.",
+      "empty": "No series are currently distributed in S-124.",
+      "note": "Notices to mariners and T&P notices are available on the portal and are not distributed in S-124. SECOM instances provide the ping, capability and object operations."
+    },
+    "languages": {
+      "es": "español",
+      "en": "English"
+    },
+    "docs": {
+      "title": "Technical documentation",
+      "api": {
+        "title": "API reference",
+        "text": "Operations, parameters and responses of /nw and /secom, with online testing (Swagger)."
+      },
+      "standard": {
+        "title": "IHO S-124 standard",
+        "text": "Navigational Warnings product specification in the IHO registry."
+      },
+      "support": {
+        "title": "Support",
+        "text": "Integration questions:"
+      }
+    }
+  },
   "menu": {
     "home": "Home",
     "avurnav-notice": "Warnings and notices",

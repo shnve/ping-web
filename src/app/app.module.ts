@@ -24,6 +24,7 @@ import { SubscriptionChoiceComponent } from '@app/subscription/components/subscr
 import { AvurnavNoticeComponent } from '@app/components/pages/avurnav-notice/avurnav-notice.component';
 import { WarningListPanelComponent } from '@app/components/pages/avurnav-notice/warning-list-panel/warning-list-panel.component';
 import { HomeComponent } from '@app/components/pages/home/home.component';
+import { DataServicesComponent } from '@app/components/pages/data-services/data-services.component';
 import { NotFoundComponent } from '@app/components/pages/not-found/not-found.component';
 import { MapAdvancedFilterComponent } from '@app/components/shared/map-advanced-filter/map-advanced-filter.component';
 import { MapFilterBannerComponent } from '@app/components/shared/map-filter-banner/map-filter-banner.component';
@@ -95,6 +96,7 @@ import { SubscriptionDeleteFromLinkComponent } from '@app/subscription/component
         FooterComponent,
         BannerComponent,
         HomeComponent,
+        DataServicesComponent,
         AvurnavNoticeComponent,
         WarningListPanelComponent,
         NotFoundComponent,

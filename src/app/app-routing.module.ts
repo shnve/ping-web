@@ -9,6 +9,7 @@ import { AccountEditComponent } from './components/pages/account/edit/account-ed
 import { AccountValidationComponent } from './components/pages/account/validation/account-validation.component';
 import { AvurnavNoticeComponent } from './components/pages/avurnav-notice/avurnav-notice.component';
 import { HomeComponent } from './components/pages/home/home.component';
+import { DataServicesComponent } from './components/pages/data-services/data-services.component';
 import { NotFoundComponent } from './components/pages/not-found/not-found.component';
 import { RedirectAfterAuthenticationComponent } from './components/pages/redirect-after-authentication/redirect-after-authentication.component';
 import { SignInUpComponent } from './components/pages/sign-in-up/sign-in-up.component';
@@ -238,6 +239,15 @@ const routes: Routes = [
     path: 'static/accueil',
     redirectTo: '',
     pathMatch: 'full'
+  },
+  {
+    // PISAC: página propia (tabla de series S-124 generada desde el sistema); va antes de 'static/:path'
+    path: 'static/data-services',
+    component: DataServicesComponent,
+    data: {
+      breadcrumb: 'menu.data-services'
+    },
+    title: 'menu.data-services'
   },
   {
     path: 'static/:path',
