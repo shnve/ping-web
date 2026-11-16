@@ -1,20 +1,53 @@
 <!--
-  PISAC: portada con el estilo del rediseño. El título y el texto vienen de la página estática «accueil» de la
-  base de datos (Administración → Páginas estáticas); aquí solo se define cómo se presentan: todo en la franja
-  marina (título, texto de presentación y accesos directos).
+  PISAC: portada (propuesta C, 15-nov-2026). Fondo claro con isóbatas, título y texto de la página estática
+  «accueil» de la base de datos (Administración → Páginas estáticas) y accesos rápidos.
 -->
 <section class="home-hero">
+  <!-- Motivo decorativo: isóbatas (curvas de profundidad) en azul muy suave -->
+  <svg class="home-hero__contours" viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="1.4">
+      <path d="M820 520 C 900 420, 1010 430, 1080 350 S 1260 230, 1330 160 S 1500 60, 1600 40"/>
+      <path d="M860 520 C 940 440, 1050 450, 1120 370 S 1290 260, 1370 190 S 1520 100, 1600 85"/>
+      <path d="M900 520 C 980 460, 1090 470, 1160 395 S 1320 290, 1410 225 S 1540 140, 1600 130"/>
+      <path d="M940 520 C 1020 480, 1130 490, 1200 420 S 1350 325, 1450 260 S 1560 185, 1600 178"/>
+      <path d="M990 520 C 1060 500, 1170 505, 1245 445 S 1385 360, 1490 300 S 1575 235, 1600 228"/>
+      <path d="M1050 520 C 1110 510, 1215 515, 1290 470 S 1420 395, 1525 345 S 1590 290, 1600 286"/>
+      <path d="M0 120 C 120 140, 220 90, 330 110 S 520 170, 640 140"/>
+      <path d="M0 160 C 130 180, 230 130, 340 150 S 530 210, 660 182"/>
+      <path d="M0 200 C 140 220, 240 170, 350 190 S 540 250, 680 224"/>
+    </g>
+    <g class="home-hero__soundings" font-size="12">
+      <text x="1180" y="330">20</text><text x="1300" y="250">50</text><text x="1420" y="170">100</text>
+    </g>
+  </svg>
+
   <div class="home-hero__inner">
-    <h1 class="home-hero__title">{{ pageTitle || ('menu.home' | translate) }}</h1>
-    <div *ngIf="pageContent" class="home-hero__intro" [innerHTML]="pageContent | safeHtml"></div>
-    <nav class="home-hero__actions" [attr.aria-label]="'menu.home' | translate">
-      <a class="home-cta home-cta--primary" routerLink="/avurnav-notice">
-        <i class="pi pi-map" aria-hidden="true"></i>
-        <span>{{ 'menu.avurnav-notice' | translate }}</span>
-      </a>
-      <a class="home-cta home-cta--secondary" routerLink="/georegulation-visu">
-        <i class="pi pi-book" aria-hidden="true"></i>
-        <span>{{ 'menu.georegulation-visu' | translate }}</span>
+    <div class="home-hero__main">
+      <span class="home-hero__eyebrow" translate>home-page.hero.eyebrow</span>
+      <h1 class="home-hero__title">{{ pageTitle || ('home-page.title' | translate) }}</h1>
+      <div *ngIf="pageContent" class="home-hero__intro" [innerHTML]="pageContent | safeHtml"></div>
+      <div class="home-hero__actions">
+        <a class="home-cta home-cta--primary" routerLink="/avurnav-notice">
+          <i class="pi pi-map" aria-hidden="true"></i>
+          <span translate>home-page.hero.cta-map</span>
+        </a>
+        <a class="home-cta home-cta--secondary" [routerLink]="dataServicesLink" target="_blank" rel="noopener noreferrer">
+          <span translate>menu.data-services</span>
+        </a>
+      </div>
+    </div>
+
+    <nav class="home-quick" [attr.aria-label]="'home-page.hero.quick-access' | translate">
+      <h2 class="home-quick__header" translate>home-page.hero.quick-access</h2>
+      <a *ngFor="let link of quickLinks" class="home-quick__item" [routerLink]="link.route">
+        <span class="home-quick__icon" [class.home-quick__icon--highlighted]="link.highlighted" aria-hidden="true">
+          <i [class]="link.icon"></i>
+        </span>
+        <span class="home-quick__text">
+          <span class="home-quick__title">{{ link.titleKey | translate }}</span>
+          <span class="home-quick__description">{{ link.descriptionKey | translate }}</span>
+        </span>
+        <i class="pi pi-angle-right home-quick__arrow" aria-hidden="true"></i>
       </a>
     </nav>
   </div>

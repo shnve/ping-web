@@ -59,6 +59,15 @@
   },
   "home-page": {
     "title": "Bienvenido a la Plataforma de Información de Seguridad Acuática",
+    "hero": {
+      "eyebrow": "SHN · Venezuela",
+      "cta-map": "Ver advertencias en el mapa",
+      "quick-access": "Accesos rápidos",
+      "warnings-description": "Mapa con las advertencias y avisos a los navegantes en vigor.",
+      "regulations-description": "Georregulaciones y medidas vigentes en los espacios acuáticos.",
+      "subscriptions-description": "Reciba por correo las advertencias de su zona.",
+      "contributions-description": "Informe al SHN de peligros o anomalías en la navegación."
+    },
     "disclaimer": {
       "title": "Advertencia de uso",
       "neverShowAgain": "No volver a mostrar esto en este dispositivo"

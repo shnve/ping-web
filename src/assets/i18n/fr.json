@@ -49,6 +49,15 @@
   },
   "home-page": {
     "title": "Bienvenue sur la plateforme nationale de l'information nautique",
+    "hero": {
+      "eyebrow": "SHN · Venezuela",
+      "cta-map": "Voir les avertissements sur la carte",
+      "quick-access": "Accès rapides",
+      "warnings-description": "Carte des avertissements et avis aux navigateurs en vigueur.",
+      "regulations-description": "Géoréglementations et mesures en vigueur dans les espaces maritimes.",
+      "subscriptions-description": "Recevez par courriel les avertissements de votre zone.",
+      "contributions-description": "Signalez au SHN les dangers ou anomalies de navigation."
+    },
     "disclaimer": {
       "title": "Mise en garde sur l'utilisation",
       "neverShowAgain": "Ne plus me demander sur cet appareil"

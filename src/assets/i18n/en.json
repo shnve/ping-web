@@ -59,6 +59,15 @@
   },
   "home-page": {
     "title": "Welcome to the Water Safety Information Platform",
+    "hero": {
+      "eyebrow": "SHN · Venezuela",
+      "cta-map": "View warnings on the map",
+      "quick-access": "Quick access",
+      "warnings-description": "Map of the navigational warnings and notices to mariners in force.",
+      "regulations-description": "Georegulations and measures in force in Venezuelan waters.",
+      "subscriptions-description": "Receive the warnings for your area by email.",
+      "contributions-description": "Report navigational hazards or anomalies to the SHN."
+    },
     "disclaimer": {
       "title": "Warning on use",
       "neverShowAgain": "Do not show this again on this device"
