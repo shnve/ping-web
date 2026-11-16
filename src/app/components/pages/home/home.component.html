@@ -1,10 +1,12 @@
 <!--
   PISAC: portada con el estilo del rediseño. El título y el texto vienen de la página estática «accueil» de la
-  base de datos (Administración → Páginas estáticas); aquí solo se define cómo se presentan.
+  base de datos (Administración → Páginas estáticas); aquí solo se define cómo se presentan: todo en la franja
+  marina (título, texto de presentación y accesos directos).
 -->
 <section class="home-hero">
   <div class="home-hero__inner">
     <h1 class="home-hero__title">{{ pageTitle || ('menu.home' | translate) }}</h1>
+    <div *ngIf="pageContent" class="home-hero__intro" [innerHTML]="pageContent | safeHtml"></div>
     <nav class="home-hero__actions" [attr.aria-label]="'menu.home' | translate">
       <a class="home-cta home-cta--primary" routerLink="/avurnav-notice">
         <i class="pi pi-map" aria-hidden="true"></i>
@@ -16,8 +18,4 @@
       </a>
     </nav>
   </div>
-</section>
-
-<section class="home-content" *ngIf="pageContent">
-  <article class="home-content__card" [innerHTML]="pageContent | safeHtml"></article>
 </section>
