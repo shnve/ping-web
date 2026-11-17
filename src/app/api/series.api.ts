@@ -28,4 +28,9 @@ export class SeriesApi {
   getS124Series$(): Observable<DataServiceSerie[]> {
     return this.http.get<DataServiceSerie[]>(`${this.api}/s124`);
   }
+
+  /** PISAC: todas las series (sin filtro de área), para traducir sus nombres al inglés */
+  getAllSeries$(): Observable<Serie[]> {
+    return this.http.get<Serie[]>(this.api);
+  }
 }

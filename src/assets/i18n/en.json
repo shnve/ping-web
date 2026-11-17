@@ -28,7 +28,7 @@
   },
   "lang": "en",
   "title": "PISAC",
-  "title.description": "PISAC - The Water Safety Information Platform.",
+  "title.description": "PISAC - The Aquatic Safety Information Platform.",
   "logo.french-republic": "Bolivarian Republic of Venezuela",
   "logo.shom": "Science and Fatherland",
   "logo.mer": "SS Sea and biodiversity logo",
@@ -58,7 +58,7 @@
     }
   },
   "home-page": {
-    "title": "Welcome to the Water Safety Information Platform",
+    "title": "Welcome to the Aquatic Safety Information Platform",
     "hero": {
       "eyebrow": "SHN · Venezuela",
       "cta-map": "View warnings on the map",

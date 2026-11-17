@@ -391,6 +391,36 @@ export class LocalBasemapService {
       }
     });
 
+    /**
+     * PISAC (PDF): resuelve cuando MapLibre terminó de cargar y dibujar las teselas del encuadre actual.
+     * Si WebGL no está disponible, resuelve de inmediato (el PDF sale sin fondo, pero con el resto del mapa).
+     */
+    (olLayer as any).waitForIdle = (): Promise<void> => new Promise<void>(resolve => {
+      if (initFailed) {
+        resolve();
+        return;
+      }
+      let framesWaited = 0;
+      const whenReady = () => {
+        if (!mlMap) {
+          // MapLibre se crea en el primer cuadro con el contenedor ya en el DOM (máx. ~2 s de espera)
+          if (initFailed || ++framesWaited > 120) {
+            resolve();
+            return;
+          }
+          requestAnimationFrame(whenReady);
+          return;
+        }
+        if (mlMap.loaded() && mlMap.areTilesLoaded()) {
+          resolve();
+          return;
+        }
+        mlMap.once('idle', () => resolve());
+        mlMap.triggerRepaint();
+      };
+      whenReady();
+    });
+
     (olLayer as any).disposeBasemap = () => {
       if (pendingRafId !== null && typeof cancelAnimationFrame === 'function') {
         cancelAnimationFrame(pendingRafId);

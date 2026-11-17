@@ -54,12 +54,20 @@ export class LocalityComponent implements OnChanges {
           next: localityCreated => {
             const selectedAreaId = areaId;
             this.selectedArea = this.areasList.find(area => area.id === selectedAreaId);
-            this.selectedArea.subAreas.push(localityCreated);
+            // PISAC: si la localidad ya existía, la API devuelve la existente; no se repite en la lista
+            const alreadyListed = this.selectedArea.subAreas.some(locality => (locality as SubArea)?.id === localityCreated.id);
+            if (!alreadyListed) {
+              this.selectedArea.subAreas.push(localityCreated);
+            }
             this.loadLocalitiesList(areaId);
             const newLocality = this.localitiesList.find(locality => locality.id === localityCreated.id);
-            newLocality.position = this.selectedArea.subAreas.length + 1;
-            this.checkedLocalities.push(newLocality);
-            this.chosenLocality = localityCreated;
+            if (!alreadyListed) {
+              newLocality.position = this.selectedArea.subAreas.length + 1;
+            }
+            if (!this.checkedLocalities.some(locality => locality.id === localityCreated.id)) {
+              this.checkedLocalities.push(newLocality);
+            }
+            this.chosenLocality = newLocality ?? localityCreated;
             this.localityUpdated.emit();
           }
         })

@@ -266,20 +266,22 @@ export class ExportPdfService {
     this.createPdf(htmlContent, pdfName, linkUrl);
   }
 
-  /** Resuelve cuando OpenLayers termina de dibujar todas las capas (evento 'rendercomplete') o al vencer el tiempo. */
+  /**
+   * Resuelve cuando OpenLayers termina de dibujar todas las capas (evento 'rendercomplete') y el mapa base
+   * (MapLibre, que carga sus teselas por su cuenta) queda en reposo, o al vencer el tiempo.
+   */
   private waitForMapRender(olMap: Map): Promise<void> {
-    return new Promise<void>(resolve => {
-      let finished = false;
-      const finish = () => {
-        if (!finished) {
-          finished = true;
-          resolve();
-        }
-      };
-      olMap.once('rendercomplete', finish);
-      setTimeout(finish, PDF_MAP_RENDER_TIMEOUT);
+    const olRendered = new Promise<void>(resolve => {
+      olMap.once('rendercomplete', () => resolve());
       olMap.render();
     });
+    const basemapsIdle = olMap.getLayers().getArray()
+      .filter(layer => typeof (layer as any).waitForIdle === 'function')
+      .map(layer => (layer as any).waitForIdle() as Promise<void>);
+    const timeout = new Promise<void>(resolve => setTimeout(resolve, PDF_MAP_RENDER_TIMEOUT));
+    return Promise.race([Promise.all([olRendered, ...basemapsIdle]).then(() => undefined), timeout])
+      // un cuadro más para que OpenLayers vuelva a componer el fondo ya cargado
+      .then(() => new Promise<void>(resolve => requestAnimationFrame(() => resolve())));
   }
 
   private createPdf(htmlContent: string, pdfName: string, linkUrl?: string): void {
@@ -976,7 +978,9 @@ export class ExportPdfService {
     Array.prototype.forEach.call(
       canvases,
       (canvas: HTMLCanvasElement) => {
-        if (canvas.width > 0) {
+        // PISAC: una capa servida sin CORS «contamina» el lienzo y toDataURL fallaría, dejando el PDF sin mapa.
+        // Se omite solo esa capa y el resto del mapa (fondo, cartografía y geometrías del aviso) se conserva.
+        if (canvas.width > 0 && ExportPdfService.isCanvasReadable(canvas)) {
           const opacity = (canvas.parentNode as HTMLElement)?.style?.opacity || canvas.style.opacity;
           context.globalAlpha = opacity === '' ? 1 : Number(opacity);
           const transform = canvas.style.transform;
@@ -1023,5 +1027,21 @@ export class ExportPdfService {
 
     //return the Base64 encoded data url string
     return imageData;
+  }
+
+  /** PISAC: true si el contenido del lienzo se puede leer (no está contaminado por una imagen sin CORS). */
+  private static isCanvasReadable(canvas: HTMLCanvasElement): boolean {
+    try {
+      const probe = document.createElement('canvas');
+      probe.width = 1;
+      probe.height = 1;
+      const probeContext = probe.getContext('2d');
+      probeContext.drawImage(canvas, 0, 0, 1, 1);
+      probeContext.getImageData(0, 0, 1, 1);
+      return true;
+    } catch {
+      console.warn('[PISAC] Capa del mapa omitida en el PDF: su origen no permite capturarla (CORS)');
+      return false;
+    }
   }
 }
