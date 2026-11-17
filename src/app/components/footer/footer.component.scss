@@ -63,6 +63,26 @@
   padding: var(--space-2) var(--space-4);
 }
 
+.pisac-footer__sep {
+  margin: 0 var(--space-2);
+  opacity: 0.6;
+}
+
+.pisac-footer__legal {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: $shn-orange;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $shn-orange;
+    outline-offset: 2px;
+  }
+}
+
 @media all and (max-width: $screenSizeTablet) {
   .pisac-footer__body {
     flex-direction: column;

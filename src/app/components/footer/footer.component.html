@@ -37,12 +37,14 @@
   </div>
   <div class="pisac-footer__bar">
     <span translate>title.description</span>
+    <!-- PISAC: términos y condiciones de uso (los que se aceptan al crear la cuenta) -->
+    <span class="pisac-footer__sep" aria-hidden="true">·</span>
+    <a class="pisac-footer__legal" [routerLink]="[baseStaticPath, 'cgu']" translate>footer.cgu</a>
   </div>
-  <!-- Enlaces legales de SHOM (accesibilidad, aviso legal, CGU, contacto) desactivados en PISAC:
+  <!-- Otros enlaces legales de SHOM (accesibilidad, aviso legal, contacto) sin página en PISAC:
   <ul>
     <li><a [routerLink]="[baseStaticPath, 'accessibilite']" translate>footer.accessibility</a></li>
     <li><a [routerLink]="[baseStaticPath, 'mentions-legales']" translate>footer.legal-notice</a></li>
-    <li><a [routerLink]="[baseStaticPath, 'cgu']" translate>footer.cgu</a></li>
     <li><a [routerLink]="[baseStaticPath, 'contact']" translate>footer.contact</a></li>
   </ul>
   -->
