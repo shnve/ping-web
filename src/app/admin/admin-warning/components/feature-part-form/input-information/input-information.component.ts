@@ -15,6 +15,7 @@ interface WarningTypeGeneral {
 }
 
 import { AlertMessageService } from '@app/core/alert-message.service';
+import { AutoTranslationService } from '@app/shared/services/auto-translation.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -72,7 +73,49 @@ export class InputInformationComponent implements ControlValueAccessor, OnChange
     private readonly translateInPipe: TranslateInPipe,
     private readonly translate: TranslateService,
     private readonly creationService: CreationService,
-    private readonly alertMessages: AlertMessageService) { }
+    private readonly alertMessages: AlertMessageService,
+    private readonly autoTranslation: AutoTranslationService) { }
+
+  // ---- PISAC (18-nov-2026): propuesta de traducción desde el español ----
+  readonly translationSource = 'es';
+  translatingLang: string = null;
+  autoTranslatedLangs = new Set<string>();
+
+  canProposeTranslation(lang: string): boolean {
+    return this.langs.includes(this.translationSource) && AutoTranslationService.canTranslate(this.translationSource, lang);
+  }
+
+  proposeTranslation(lang: string): void {
+    const sourceText = this.information[this.translationSource]?.trim();
+    if (!sourceText || this.translatingLang) {
+      return;
+    }
+    if (this.information[lang]?.trim() && !window.confirm(this.translate.instant('auto-translation.confirm-overwrite'))) {
+      return;
+    }
+    this.translatingLang = lang;
+    this.autoTranslation.translate$(sourceText, this.translationSource, lang).subscribe({
+      next: text => {
+        this.information[lang] = text;
+        this.autoTranslatedLangs.add(lang);
+        this.translatingLang = null;
+        this.informationChanged();
+      },
+      error: () => {
+        this.translatingLang = null;
+        this.alertMessages.add({
+          severity: 'warn',
+          summary: this.translate.instant('auto-translation.error-title'),
+          detail: this.translate.instant('auto-translation.error-detail')
+        });
+      }
+    });
+  }
+
+  onInformationEdited(lang: string): void {
+    this.autoTranslatedLangs.delete(lang);
+    this.informationChanged();
+  }
 
   ngOnInit(): void {
     this.availableTypeExpression = Object.entries(listTypeExpression)

@@ -136,7 +136,43 @@
       }
     }
   },
+  "auto-translation": {
+    "button": "Traducir desde",
+    "button-title": "Propone una traducción automática del texto en español. Revísela antes de guardar.",
+    "review-note": "Traducción automática: revise y corrija el texto antes de guardar.",
+    "confirm-overwrite": "Este idioma ya tiene texto. ¿Reemplazarlo por la traducción automática?",
+    "error-title": "Traducción no disponible",
+    "error-detail": "El servicio de traducción no respondió. Escriba el texto manualmente o inténtelo más tarde."
+  },
   "menu": {
+    "nav": {
+      "contributions": "Contribuciones",
+      "my-contributions": "Mis contribuciones",
+      "new-contribution": "Nueva contribución",
+      "management": "Gestión",
+      "group-warnings": "Advertencias y avisos",
+      "warning-tables": "Tablas de avisos",
+      "warning-creation": "Crear aviso o advertencia",
+      "group-georegulations": "Regulaciones",
+      "georegulation-tables": "Tablas de regulaciones",
+      "georegulation-creation": "Crear regulación",
+      "group-organization": "Organización",
+      "group-users": "Usuarios",
+      "group-portal": "Portal y cartografía",
+      "maritime-services": "Organismos",
+      "maritime-entities": "Zonas de responsabilidad",
+      "areas": "Áreas",
+      "sub-areas": "Subáreas",
+      "series": "Series",
+      "pro-users": "Usuarios institucionales",
+      "public-users": "Usuarios públicos",
+      "static-pages": "Páginas estáticas",
+      "static-files": "Archivos estáticos",
+      "static-logos": "Imágenes estáticas",
+      "static-sections": "Secciones estáticas",
+      "cartography": "Cartografía (GeoPDF / TIFF)",
+      "data-services": "Servicios de datos"
+    },
     "home": "Inicio",
     "avurnav-notice": "Advertencias y avisos",
     "contributions": "Mis contribuciones",
@@ -1299,7 +1335,7 @@
       "submit": "Enviar",
       "errors": {
         "email-invalid": "Por favor, introduce un correo electrónico válido",
-        "password-invalid": "La contraseña debe tener al menos 12 caracteres, una mayúscula, una minúscula, un número y un símbolo",
+        "password-invalid": "La contraseña debe tener al menos 10 caracteres, una mayúscula, una minúscula, un número y un símbolo",
         "firstName-invalid": "Por favor, introduce tu nombre",
         "lastName-invalid": "Por favor, introduce tu apellido",
         "role-invalid": "Por favor, introduce un rol",
@@ -1325,7 +1361,7 @@
           "tip1": "Al menos una minúscula",
           "tip2": "Al menos una mayúscula",
           "tip3": "Al menos un número",
-          "tip4": "Mínimo 12 caracteres",
+          "tip4": "Mínimo 10 caracteres",
           "tip5": "Al menos un símbolo (ej. ! @ # $ %)"
         }
       },
@@ -3568,7 +3604,7 @@
           "add-type-expression": "Insertar expresión de tipo",
           "add-affected-charts": "Insertar cartas afectadas",
           "affected-charts": "Cartas afectadas",
-          "affected-charts-placeholder": "Ej: DHN-100, DHN-301",
+          "affected-charts-placeholder": "Ej: VE-100, VE-301",
           "select-type-expression": "Seleccionar expresión de tipo",
           "radiusDistanceUnit": "Unidad de radio del círculo",
           "decimal-minute-precision": "Precisión de los decimales de minuto",

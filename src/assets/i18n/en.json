@@ -136,7 +136,43 @@
       }
     }
   },
+  "auto-translation": {
+    "button": "Translate from",
+    "button-title": "Proposes an automatic translation of the Spanish text. Review it before saving.",
+    "review-note": "Automatic translation: review and correct the text before saving.",
+    "confirm-overwrite": "This language already has text. Replace it with the automatic translation?",
+    "error-title": "Translation unavailable",
+    "error-detail": "The translation service did not respond. Type the text manually or try again later."
+  },
   "menu": {
+    "nav": {
+      "contributions": "Contributions",
+      "my-contributions": "My contributions",
+      "new-contribution": "New contribution",
+      "management": "Management",
+      "group-warnings": "Warnings and notices",
+      "warning-tables": "Warning tables",
+      "warning-creation": "Create notice or warning",
+      "group-georegulations": "Regulations",
+      "georegulation-tables": "Regulation tables",
+      "georegulation-creation": "Create regulation",
+      "group-organization": "Organisation",
+      "group-users": "Users",
+      "group-portal": "Portal and cartography",
+      "maritime-services": "Organisations",
+      "maritime-entities": "Areas of responsibility",
+      "areas": "Areas",
+      "sub-areas": "Sub-areas",
+      "series": "Series",
+      "pro-users": "Institutional users",
+      "public-users": "Public users",
+      "static-pages": "Static pages",
+      "static-files": "Static files",
+      "static-logos": "Static images",
+      "static-sections": "Static sections",
+      "cartography": "Cartography (GeoPDF / TIFF)",
+      "data-services": "Data services"
+    },
     "home": "Home",
     "avurnav-notice": "Warnings and notices",
     "contributions": "My contributions",
@@ -1299,7 +1335,7 @@
       "submit": "Submit",
       "errors": {
         "email-invalid": "Please enter valid email",
-        "password-invalid": "The password must have at least 12 characters, one uppercase letter, one lowercase letter, one number and one symbol",
+        "password-invalid": "The password must have at least 10 characters, one uppercase letter, one lowercase letter, one number and one symbol",
         "firstName-invalid": "Please enter your first name",
         "lastName-invalid": "Please enter your last name",
         "role-invalid": "Please enter a role",
@@ -1325,7 +1361,7 @@
           "tip1": "At least one lowercase",
           "tip2": "At least one uppercase",
           "tip3": "At least one numeric",
-          "tip4": "Minimum 12 characters",
+          "tip4": "Minimum 10 characters",
           "tip5": "At least one symbol (e.g. ! @ # $ %)"
         }
       },
@@ -3559,7 +3595,7 @@
           "add-type-expression": "Insert type expression",
           "add-affected-charts": "Insert affected charts",
           "affected-charts": "Affected charts",
-          "affected-charts-placeholder": "Ex: DHN-100, DHN-301",
+          "affected-charts-placeholder": "Ex: VE-100, VE-301",
           "select-type-expression": "Select type expression",
           "radiusDistanceUnit": "Circle radius unit",
           "decimal-minute-precision": "Accuracy of minute decimals",

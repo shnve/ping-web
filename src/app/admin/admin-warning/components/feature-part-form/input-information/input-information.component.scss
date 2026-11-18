@@ -72,3 +72,20 @@ textarea {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+// PISAC (18-nov-2026): botón «Traducir desde ES» y aviso de revisión
+.pisac-translate-btn {
+  margin-left: auto;
+}
+
+.pisac-translation-note {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+  padding: 0.35rem 0.6rem;
+  border-left: 3px solid #f47c20;
+  background: #fff4ea;
+  color: #7a3d0a;
+  font-size: 0.8rem;
+}

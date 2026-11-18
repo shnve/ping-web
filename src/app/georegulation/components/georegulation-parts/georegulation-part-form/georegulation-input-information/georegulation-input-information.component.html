@@ -3,9 +3,20 @@
 <div *ngFor="let lang of langs; let index = index" class="div-info lang-block">
   <label class="lang-header" [attr.for]="'gr-information-' + lang">
     <span class="lang-label">{{lang | uppercase}}</span>
+    <!-- PISAC (18-nov-2026): propuesta de traducción desde el español (LibreTranslate propio) -->
+    <button *ngIf="canProposeTranslation(lang)" pButton type="button" class="p-button-sm pisac-translate-btn"
+            icon="pi pi-language" [loading]="translatingLang === lang"
+            [disabled]="!informations[translationSource]?.trim() || !!translatingLang"
+            [title]="'auto-translation.button-title' | translate"
+            (click)="proposeTranslation(lang)"
+            [label]="('auto-translation.button' | translate) + ' ' + (translationSource | uppercase)"
+    ></button>
   </label>
-  <textarea pInputTextarea [id]="'gr-information-' + lang" [rows]="8" [(ngModel)]="informations[lang]" (ngModelChange)="informationsChanged()">
+  <textarea pInputTextarea [id]="'gr-information-' + lang" [rows]="8" [(ngModel)]="informations[lang]" (ngModelChange)="onInformationEdited(lang)">
   </textarea>
+  <small *ngIf="autoTranslatedLangs.has(lang)" class="pisac-translation-note">
+    <i class="pi pi-exclamation-triangle"></i> {{ 'auto-translation.review-note' | translate }}
+  </small>
 
   <div class="btn-toolbar">
     <div class="pisac-field">

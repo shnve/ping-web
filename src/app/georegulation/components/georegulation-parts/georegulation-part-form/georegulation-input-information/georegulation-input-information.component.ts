@@ -11,6 +11,7 @@ import { Feature } from 'ol';
 import { copyToClipboard, showToast } from '@shared/ui-utils';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertMessageService } from '@app/core/alert-message.service';
+import { AutoTranslationService } from '@app/shared/services/auto-translation.service';
 
 @Component({
   selector: 'georegulation-input-informations',
@@ -62,7 +63,8 @@ export class GeoregulationInputInformationComponent implements ControlValueAcces
   constructor(private readonly informationService: GeoregulationInformationService,
     private readonly translate: TranslateService,
     private readonly alertMessageService: AlertMessageService,
-    private readonly translateInPipe: TranslateInPipe) {
+    private readonly translateInPipe: TranslateInPipe,
+    private readonly autoTranslation: AutoTranslationService) {
     this.langs = ['es', 'en'];
     this.buildLocalizedItems();
     this.langs.forEach(lang => {
@@ -106,6 +108,47 @@ export class GeoregulationInputInformationComponent implements ControlValueAcces
 
   private informationsChanged(): void {
     this.onChange(this.informations);
+  }
+
+  // ---- PISAC (18-nov-2026): propuesta de traducción desde el español ----
+  readonly translationSource = 'es';
+  translatingLang: string = null;
+  autoTranslatedLangs = new Set<string>();
+
+  canProposeTranslation(lang: string): boolean {
+    return this.langs?.includes(this.translationSource) && AutoTranslationService.canTranslate(this.translationSource, lang);
+  }
+
+  proposeTranslation(lang: string): void {
+    const sourceText = this.informations[this.translationSource]?.trim();
+    if (!sourceText || this.translatingLang) {
+      return;
+    }
+    if (this.informations[lang]?.trim() && !window.confirm(this.translate.instant('auto-translation.confirm-overwrite'))) {
+      return;
+    }
+    this.translatingLang = lang;
+    this.autoTranslation.translate$(sourceText, this.translationSource, lang).subscribe({
+      next: text => {
+        this.informations[lang] = text;
+        this.autoTranslatedLangs.add(lang);
+        this.translatingLang = null;
+        this.informationsChanged();
+      },
+      error: () => {
+        this.translatingLang = null;
+        this.alertMessageService.add({
+          severity: 'warn',
+          summary: this.translate.instant('auto-translation.error-title'),
+          detail: this.translate.instant('auto-translation.error-detail')
+        });
+      }
+    });
+  }
+
+  onInformationEdited(lang: string): void {
+    this.autoTranslatedLangs.delete(lang);
+    this.informationsChanged();
   }
 
   private updateInformationsClipBoard(lang: string, additionalInfo: string): void {

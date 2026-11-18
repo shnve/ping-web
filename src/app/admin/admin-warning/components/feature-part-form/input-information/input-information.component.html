@@ -73,8 +73,19 @@
       <button pButton type="button" class="p-button-outlined p-button-sm" [icon]="wasClicked('affectedCharts', lang)" iconPos="right"
               (click)="addAffectedCharts(lang)" translate [label]="'admin-warning.creation.parts.information.add-affected-charts' | translate"
       ></button>
+      <!-- PISAC (18-nov-2026): propuesta de traducción desde el español (LibreTranslate propio) -->
+      <button *ngIf="canProposeTranslation(lang)" pButton type="button" class="p-button-sm pisac-translate-btn"
+              icon="pi pi-language" [loading]="translatingLang === lang"
+              [disabled]="!information[translationSource]?.trim() || !!translatingLang"
+              [title]="'auto-translation.button-title' | translate"
+              (click)="proposeTranslation(lang)"
+              [label]="('auto-translation.button' | translate) + ' ' + (translationSource | uppercase)"
+      ></button>
     </div>
-    <textarea pInputTextarea [id]="'information-' + lang" [rows]="10" [(ngModel)]="information[lang]" (ngModelChange)="informationChanged()">
+    <textarea pInputTextarea [id]="'information-' + lang" [rows]="10" [(ngModel)]="information[lang]" (ngModelChange)="onInformationEdited(lang)">
     </textarea>
+    <small *ngIf="autoTranslatedLangs.has(lang)" class="pisac-translation-note">
+      <i class="pi pi-exclamation-triangle"></i> {{ 'auto-translation.review-note' | translate }}
+    </small>
   </div>
 </div>

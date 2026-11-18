@@ -126,7 +126,43 @@
       }
     }
   },
+  "auto-translation": {
+    "button": "Traduire depuis",
+    "button-title": "Propose une traduction automatique du texte espagnol. Vérifiez-la avant d'enregistrer.",
+    "review-note": "Traduction automatique : vérifiez et corrigez le texte avant d'enregistrer.",
+    "confirm-overwrite": "Cette langue contient déjà du texte. Le remplacer par la traduction automatique ?",
+    "error-title": "Traduction indisponible",
+    "error-detail": "Le service de traduction n'a pas répondu. Saisissez le texte manuellement ou réessayez plus tard."
+  },
   "menu": {
+    "nav": {
+      "contributions": "Contributions",
+      "my-contributions": "Mes contributions",
+      "new-contribution": "Nouvelle contribution",
+      "management": "Gestion",
+      "group-warnings": "Avertissements et avis",
+      "warning-tables": "Tableaux des avis",
+      "warning-creation": "Créer un avis ou un avertissement",
+      "group-georegulations": "Réglementations",
+      "georegulation-tables": "Tableaux des réglementations",
+      "georegulation-creation": "Créer une réglementation",
+      "group-organization": "Organisation",
+      "group-users": "Utilisateurs",
+      "group-portal": "Portail et cartographie",
+      "maritime-services": "Organismes",
+      "maritime-entities": "Zones de responsabilité",
+      "areas": "Zones",
+      "sub-areas": "Sous-zones",
+      "series": "Séries",
+      "pro-users": "Utilisateurs institutionnels",
+      "public-users": "Utilisateurs publics",
+      "static-pages": "Pages statiques",
+      "static-files": "Fichiers statiques",
+      "static-logos": "Images statiques",
+      "static-sections": "Sections statiques",
+      "cartography": "Cartographie (GeoPDF / TIFF)",
+      "data-services": "Services de données"
+    },
     "home": "Accueil",
     "avurnav-notice": "Avertissements et avis",
     "contributions": "Mes contributions",
@@ -1288,7 +1324,7 @@
       "submit": "Valider",
       "errors": {
         "email-invalid": "Veuillez saisir un email valide",
-        "password-invalid": "Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un symbole",
+        "password-invalid": "Le mot de passe doit contenir au moins 10 caractères, une majuscule, une minuscule, un chiffre et un symbole",
         "firstName-invalid": "Veuillez saisir votre prénom",
         "lastName-invalid": "Veuillez saisir votre nom",
         "role-invalid": "Veuillez saisir un role",
@@ -1314,7 +1350,7 @@
           "tip1": "Au-moins 1 minuscule",
           "tip2": "Au-moins 1 majuscule",
           "tip3": "Au-moins 1 chiffre",
-          "tip4": "12 caractères minimum",
+          "tip4": "10 caractères minimum",
           "tip5": "Au-moins 1 symbole (ex. ! @ # $ %)"
         }
       },
