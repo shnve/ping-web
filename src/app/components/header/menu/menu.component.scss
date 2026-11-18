@@ -7,6 +7,11 @@ $menuBg: $shn-navy;
 $menuBgHover: $shn-navy-deep;
 $menuText: #ffffff;
 $menuActiveBar: $shn-orange;
+// PISAC (18-nov, opción B2): íconos y texto inactivo atenuados; el activo en blanco con ícono naranja.
+$menuTextIdle: #dbe6f3;
+$menuIcon: #9fb6d1;
+$menuGroupLabel: #5b6b7a;
+$menuSubIcon: #7f93a8;
 
 :host {
   position: absolute;
@@ -36,8 +41,10 @@ $menuActiveBar: $shn-orange;
   }
 }
 
-.pi-question-circle.icon-data-services {
-  padding-right: 0.3em;
+.pi-database.icon-data-services {
+  padding-right: 0.45em;
+  font-size: 1rem;
+  color: $menuIcon;
 }
 
 .breadcrumb {
@@ -99,18 +106,33 @@ a {
       > a.p-menuitem-link {
         position: relative;
         height: $navmenuHeight;
-        padding: 0 0.875rem;
+        padding: 0 0.75rem;
         border-radius: 0;
 
         .p-menuitem-text,
-        .p-submenu-icon,
-        .p-menuitem-icon {
-          color: $menuText;
+        .p-submenu-icon {
+          color: $menuTextIdle;
           font-weight: 600;
+        }
+
+        .p-menuitem-icon {
+          color: $menuIcon;
+          font-size: 0.95rem;
+          margin-right: 0.5rem;
+        }
+
+        .p-submenu-icon {
+          color: $menuIcon;
+          width: 0.7rem;
+          height: 0.7rem;
         }
 
         &:hover {
           --underline-hover-width: 0;
+
+          .p-menuitem-text {
+            color: $menuText;
+          }
         }
 
         &.p-menuitem-link-active {
@@ -119,6 +141,10 @@ a {
           &:focus {
             box-shadow: none;
             outline: none;
+          }
+
+          .p-menuitem-icon {
+            color: $menuActiveBar;
           }
 
           .p-menuitem-text {
@@ -156,6 +182,76 @@ a {
       .p-menuitem-text,
       .p-submenu-icon {
         color: $menuText;
+      }
+    }
+
+    // ---- Opción B2: separador consulta | trabajo y Administración a la derecha ----
+    ul.p-menubar-root-list {
+      flex: 1 1 auto;
+    }
+
+    .p-menubar-root-list > li.p-menuitem.pisac-menu-work-start {
+      position: relative;
+      margin-left: 0.5rem;
+      padding-left: 0.5rem;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 11px;
+        bottom: 11px;
+        width: 1px;
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    .p-menubar-root-list > li.p-menuitem.pisac-menu-end {
+      margin-left: auto;
+    }
+
+    // ---- Submenús: íconos y encabezados de grupo ----
+    .p-submenu-list {
+      .p-menuitem-icon {
+        color: $menuSubIcon;
+        font-size: 0.9rem;
+        width: 1rem;
+        margin-right: 0.6rem;
+      }
+
+      li.p-menuitem-separator {
+        border-top: 1px solid #e6ebf1;
+        margin: 0.35rem 0;
+      }
+
+      li.pisac-menu-group,
+      li.pisac-menu-group.p-disabled {
+        opacity: 1;
+        pointer-events: none;
+
+        > .p-menuitem-content {
+          background: none !important;
+
+          > .p-menuitem-link {
+            padding: 0.55rem 1rem 0.2rem;
+            cursor: default;
+          }
+        }
+
+        .p-menuitem-text {
+          color: $menuGroupLabel !important;
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.07em;
+          text-transform: uppercase;
+        }
+
+        .p-menuitem-icon {
+          color: $menuActiveBar;
+          font-size: 0.75rem;
+          margin-right: 0.4rem;
+          width: auto;
+        }
       }
     }
 
@@ -300,6 +396,29 @@ a {
             .p-submenu-icon {
               color: $shn-ink;
             }
+
+            .p-menuitem-icon {
+              color: $menuSubIcon;
+            }
+
+            &.p-menuitem-link-active .p-menuitem-icon {
+              color: $menuActiveBar;
+            }
+          }
+
+          // Opción B2 en móvil: línea entre consulta y trabajo; Administración al final de la lista
+          > li.p-menuitem.pisac-menu-work-start {
+            margin-left: 0;
+            padding-left: 0;
+            border-top: 1px solid #dde3ea;
+
+            &::before {
+              display: none;
+            }
+          }
+
+          > li.p-menuitem.pisac-menu-end {
+            margin-left: 0;
           }
         }
       }

@@ -8,6 +8,14 @@ import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 
+/**
+ * PISAC (18-nov-2026, opción B2 del rediseño del menú):
+ * - íconos en todas las entradas;
+ * - separador entre la consulta (lo que ve el público) y el trabajo (clase `pisac-menu-work-start`);
+ * - «Gestionar AN» y «Gestionar GR» pasan a un solo desplegable «Gestión» con dos grupos;
+ * - «Administración» a la derecha (clase `pisac-menu-end`), con el submenú agrupado y nombres sin «Lista de…».
+ * Los destinos y los permisos de cada entrada no cambian.
+ */
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -21,6 +29,7 @@ export class MenuComponent implements OnInit, OnChangeLang {
 
   items: MenuItem[];
   private styleClassItem = 'with-submenu';
+  private readonly workStartClass = 'pisac-menu-work-start';
   @HostBinding('class.fixed') fixed = false;
   topHostOffsetAtStart: number;
 
@@ -48,30 +57,38 @@ export class MenuComponent implements OnInit, OnChangeLang {
   }
 
   buildMenuItems(): void {
+    // ---- Consulta ----
     this.items = [
       {
         label: this.translate.instant('menu.home'),
+        icon: 'pi pi-home',
         routerLink: '/',
         routerLinkActiveOptions: { exact: true }
       },
       {
         label: this.translate.instant('menu.avurnav-notice'),
+        icon: 'pi pi-map',
         routerLink: '/avurnav-notice'
       },
       {
         label: this.translate.instant('menu.georegulation-visu'),
+        icon: 'pi pi-book',
         routerLink: '/georegulation-visu'
       }
     ];
+    const consultationCount = this.items.length;
 
+    // ---- Trabajo ----
     if (!this.authService.isLoggedIn()) {
       this.items.push(
         {
           label: this.translate.instant('menu.subscriptions'),
+          icon: 'pi pi-bell',
           routerLink: '/sign-in-up-subscription'
         },
         {
-          label: this.translate.instant('menu.contributions'),
+          label: this.translate.instant('menu.nav.contributions'),
+          icon: 'pi pi-send',
           routerLink: '/sign-in-up'
         }
       );
@@ -89,18 +106,18 @@ export class MenuComponent implements OnInit, OnChangeLang {
       }
     }
 
-    this.addAnManagementItems(this.items);
+    this.addManagementItems(this.items);
 
-    const shouldSeeGeoregulationsTables = this.authService.hasRightsOnAnyAuthorityService([ServiceRole.SERVICE_VISITOR, ServiceRole.SERVICE_ADMIN, ServiceRole.SERVICE_OPERATOR]);
-    const shouldSeeGeoregulationCreation = !this.authService.hasShomGeographicAreaType();
-    if (shouldSeeGeoregulationsTables) {
-      this.addGeoregulationManagementItems(this.items, shouldSeeGeoregulationCreation);
+    // Separador visual entre consulta y trabajo
+    const firstWorkItem = this.items[consultationCount];
+    if (firstWorkItem) {
+      firstWorkItem.styleClass = [firstWorkItem.styleClass, this.workStartClass].filter(Boolean).join(' ');
     }
 
     this.addAdministrationItems();
   }
 
-  addSignUpSubscriptionIfAllowed(items: Array<object>): void {
+  addSignUpSubscriptionIfAllowed(items: MenuItem[]): void {
     if (this.authService.isLoggedIn() && !this.authService.hasRoleFunctionalAdmin()) {
       let routerLink = SUBSCRIPTION_PUBLIC_LOGIN;
       if (this.authService.hasRoleServiceUser()) {
@@ -109,53 +126,66 @@ export class MenuComponent implements OnInit, OnChangeLang {
 
       items.push({
         label: this.translate.instant('menu.subscriptions'),
+        icon: 'pi pi-bell',
         routerLink
       });
     }
   }
 
-  addAnManagementItems(items: Array<object>): void {
-    if (!this.authService.hasAccess(SCOPE.WARNING, 'creation')) {
-      return;
-    }
+  /**
+   * «Gestión»: reúne la gestión de avisos (antes «Gestionar AN») y la de georregulaciones (antes «Gestionar GR»),
+   * con los mismos permisos que antes para cada grupo.
+   */
+  addManagementItems(items: MenuItem[]): void {
+    const subItems: MenuItem[] = [];
 
-    const anMgmtItem = {
-      styleClass: this.styleClassItem,
-      label: this.translate.instant('menu.admin-warning.management'),
-      items: [
+    if (this.authService.hasAccess(SCOPE.WARNING, 'creation')) {
+      subItems.push(
+        this.groupHeader('menu.nav.group-warnings', 'pi pi-megaphone'),
         {
-          label: this.translate.instant('menu.admin-warning.tables'),
+          label: this.translate.instant('menu.nav.warning-tables'),
+          icon: 'pi pi-list',
           routerLink: '/administration/warnings/tables'
         },
         {
-          label: this.translate.instant('menu.admin-warning.creation'),
+          label: this.translate.instant('menu.nav.warning-creation'),
+          icon: 'pi pi-plus',
           routerLink: '/administration/warnings/creation'
         }
-      ]
-    };
-    items.push(anMgmtItem);
-  }
+      );
+    }
 
-  addGeoregulationManagementItems(items: Array<object>, shouldSeeGeoregulationCreation: boolean): void {
-    const subItems = [{
-      styleClass: this.styleClassItem,
-      label: this.translate.instant('menu.georegulation.tables'),
-      routerLink: '/georegulation/tables'
-    }];
+    const shouldSeeGeoregulationsTables = this.authService.hasRightsOnAnyAuthorityService([ServiceRole.SERVICE_VISITOR, ServiceRole.SERVICE_ADMIN, ServiceRole.SERVICE_OPERATOR]);
+    const shouldSeeGeoregulationCreation = !this.authService.hasShomGeographicAreaType();
+    if (shouldSeeGeoregulationsTables) {
+      if (subItems.length) {
+        subItems.push({ separator: true });
+      }
+      subItems.push(
+        this.groupHeader('menu.nav.group-georegulations', 'pi pi-book'),
+        {
+          label: this.translate.instant('menu.nav.georegulation-tables'),
+          icon: 'pi pi-list',
+          routerLink: '/georegulation/tables'
+        }
+      );
+      if (shouldSeeGeoregulationCreation) {
+        subItems.push({
+          label: this.translate.instant('menu.nav.georegulation-creation'),
+          icon: 'pi pi-plus',
+          routerLink: '/georegulation/creation'
+        });
+      }
+    }
 
-    if (shouldSeeGeoregulationCreation) {
-      subItems.push({
+    if (subItems.length) {
+      items.push({
         styleClass: this.styleClassItem,
-        label: this.translate.instant('menu.georegulation.creation'),
-        routerLink: '/georegulation/creation'
+        label: this.translate.instant('menu.nav.management'),
+        icon: 'pi pi-pencil',
+        items: subItems
       });
     }
-    const georegulationManagementItems = {
-      styleClass: this.styleClassItem,
-      label: this.translate.instant('menu.georegulation.manage'),
-      items: subItems
-    };
-    items.push(georegulationManagementItems);
   }
 
   @HostListener('window:scroll')
@@ -167,8 +197,18 @@ export class MenuComponent implements OnInit, OnChangeLang {
     this.buildMenuItems();
   }
 
-  private addContributionItems(items: Array<object>): void {
-    const contributionItems = [];
+  /** Encabezado de grupo dentro de un submenú (no navegable). */
+  private groupHeader(labelKey: string, icon: string): MenuItem {
+    return {
+      label: this.translate.instant(labelKey),
+      icon,
+      disabled: true,
+      styleClass: 'pisac-menu-group'
+    };
+  }
+
+  private addContributionItems(items: MenuItem[]): void {
+    const contributionItems: MenuItem[] = [];
     if (this.authService.hasRoleServiceUser() || this.authService.isPublicUser()) {
       this.addInfosourceItems(contributionItems);
     }
@@ -177,28 +217,30 @@ export class MenuComponent implements OnInit, OnChangeLang {
       this.addSurveyItems(contributionItems);
     }
 
-    const contributeItem = {
-      label: this.translate.instant('menu.contributions'),
+    items.push({
+      label: this.translate.instant('menu.nav.contributions'),
+      icon: 'pi pi-send',
       styleClass: this.styleClassItem,
       items: contributionItems
-    };
-    items.push(contributeItem);
+    });
   }
 
-  private addInfosourceItems(items: Array<any>): void {
+  private addInfosourceItems(items: MenuItem[]): void {
     items.push(
       {
-        label: this.translate.instant('menu.admin.contributions'),
+        label: this.translate.instant('menu.nav.my-contributions'),
+        icon: 'pi pi-list',
         routerLink: '/infosource/tables'
       },
       {
-        label: this.translate.instant('menu.admin.new-contribution'),
+        label: this.translate.instant('menu.nav.new-contribution'),
+        icon: 'pi pi-plus',
         routerLink: '/infosource/choice'
       }
     );
   }
 
-  private addSurveyItems(items: Array<any>): void {
+  private addSurveyItems(items: MenuItem[]): void {
     /*
     items.push(
       {
@@ -223,6 +265,7 @@ export class MenuComponent implements OnInit, OnChangeLang {
       {
         styleClass: this.styleClassItem,
         label: this.translate.instant('menu.admin.folders-followed'),
+        icon: 'pi pi-eye',
         routerLink: '/folder/followed'
       }
     ];
@@ -238,11 +281,13 @@ export class MenuComponent implements OnInit, OnChangeLang {
         {
           styleClass: this.styleClassItem,
           label: this.translate.instant('menu.admin.folders'),
+          icon: 'pi pi-list',
           routerLink: '/folder/tables'
         },
         {
           styleClass: this.styleClassItem,
           label: this.translate.instant('menu.admin.new-folder'),
+          icon: 'pi pi-plus',
           routerLink: '/folder/creation'
         }
       );
@@ -251,90 +296,65 @@ export class MenuComponent implements OnInit, OnChangeLang {
     items.push({
       styleClass: this.styleClassItem,
       label: this.translate.instant('menu.folders'),
+      icon: 'pi pi-folder',
       items: subItems
     });
   }
 
   private addAdministrationItems(): void {
-    if (this.authService.isProUser() && this.authService.isLoggedIn()) {
-      const items: MenuItem[] = [
-        {
-          styleClass: this.styleClassItem,
-          label: this.translate.instant('menu.admin.area'),
-          routerLink: '/administration/regions'
-        },
-        {
-          styleClass: this.styleClassItem,
-          label: this.translate.instant('menu.admin.maritime-entity'),
-          routerLink: '/administration/entites-maritime'
-        },
-        {
-          styleClass: this.styleClassItem,
-          label: this.translate.instant('menu.admin.serie'),
-          routerLink: '/administration/series'
-        },
-        {
-          styleClass: this.styleClassItem,
-          label: this.translate.instant('menu.admin.maritime-service'),
-          routerLink: '/administration/service-maritime'
-        },
-        {
-          styleClass: this.styleClassItem,
-          label: this.translate.instant('menu.admin.sub-area'),
-          routerLink: '/administration/sous-zones'
-        }
-      ];
-
-      if (this.authService.isServiceAdminOnAnyService() || this.authService.hasRoleFunctionalAdmin()) {
-        items.push(
-          {
-            styleClass: this.styleClassItem,
-            label: this.translate.instant('menu.admin.pro-user'),
-            routerLink: '/administration/utilisateur-pro'
-          }
-        )
-      }
-
-      if (this.authService.hasRoleFunctionalAdmin()) {
-        items.push(
-          {
-            styleClass: this.styleClassItem,
-            label: this.translate.instant('menu.admin.public-user'),
-            routerLink: '/administration/utilisateur-public'
-          },
-          {
-            styleClass: this.styleClassItem,
-            label: this.translate.instant('menu.admin.static-page'),
-            routerLink: '/administration/static-page'
-          },
-          {
-            styleClass: this.styleClassItem,
-            label: this.translate.instant('menu.admin.static-file'),
-            routerLink: '/administration/static-file'
-          },
-          {
-            styleClass: this.styleClassItem,
-            label: this.translate.instant('menu.admin.static-logo'),
-            routerLink: '/administration/static-logo'
-          },
-          {
-            styleClass: this.styleClassItem,
-            label: this.translate.instant('menu.admin.static-section'),
-            routerLink: '/administration/static-section'
-          },
-          {
-            styleClass: this.styleClassItem,
-            label: this.translate.instant('menu.admin.cartography'),
-            routerLink: '/administration/cartographie'
-          }
-        );
-      }
-
-      this.items.push({
-        styleClass: this.styleClassItem,
-        label: this.translate.instant('menu.admin.title'),
-        items
-      });
+    if (!(this.authService.isProUser() && this.authService.isLoggedIn())) {
+      return;
     }
+
+    const item = (labelKey: string, icon: string, routerLink: string): MenuItem => ({
+      styleClass: this.styleClassItem,
+      label: this.translate.instant(labelKey),
+      icon,
+      routerLink
+    });
+
+    // Organización
+    const items: MenuItem[] = [
+      this.groupHeader('menu.nav.group-organization', 'pi pi-sitemap'),
+      item('menu.nav.maritime-services', 'pi pi-building', '/administration/service-maritime'),
+      item('menu.nav.maritime-entities', 'pi pi-map-marker', '/administration/entites-maritime'),
+      item('menu.nav.areas', 'pi pi-th-large', '/administration/regions'),
+      item('menu.nav.sub-areas', 'pi pi-clone', '/administration/sous-zones'),
+      item('menu.nav.series', 'pi pi-tags', '/administration/series')
+    ];
+
+    // Usuarios
+    const canSeeProUsers = this.authService.isServiceAdminOnAnyService() || this.authService.hasRoleFunctionalAdmin();
+    const isFunctionalAdmin = this.authService.hasRoleFunctionalAdmin();
+    if (canSeeProUsers) {
+      items.push(
+        { separator: true },
+        this.groupHeader('menu.nav.group-users', 'pi pi-users'),
+        item('menu.nav.pro-users', 'pi pi-id-card', '/administration/utilisateur-pro')
+      );
+      if (isFunctionalAdmin) {
+        items.push(item('menu.nav.public-users', 'pi pi-user', '/administration/utilisateur-public'));
+      }
+    }
+
+    // Portal y cartografía
+    if (isFunctionalAdmin) {
+      items.push(
+        { separator: true },
+        this.groupHeader('menu.nav.group-portal', 'pi pi-globe'),
+        item('menu.nav.static-pages', 'pi pi-file', '/administration/static-page'),
+        item('menu.nav.static-files', 'pi pi-paperclip', '/administration/static-file'),
+        item('menu.nav.static-logos', 'pi pi-image', '/administration/static-logo'),
+        item('menu.nav.static-sections', 'pi pi-clone', '/administration/static-section'),
+        item('menu.nav.cartography', 'pi pi-map', '/administration/cartographie')
+      );
+    }
+
+    this.items.push({
+      styleClass: `${this.styleClassItem} pisac-menu-end`,
+      label: this.translate.instant('menu.admin.title'),
+      icon: 'pi pi-cog',
+      items
+    });
   }
 }
