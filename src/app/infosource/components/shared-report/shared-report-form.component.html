@@ -41,22 +41,8 @@
           </p-dropdown>
         </div>
 
-        <!-- Concerned maritime entities -->
-        <div class="pisac-field" *ngIf="hasRoleServiceUser">
-          <label for="concernedMaritimeEntityIds" translate>infosource.report-hazard.concerned-maritime-entities</label>
-          <p-multiSelect *ngIf="availableMaritimeEntities"
-                         formControlName="concernedMaritimeEntityIds"
-                         id="concernedMaritimeEntityIds"
-                         [options]="availableMaritimeEntities"
-                         [placeholder]="'infosource.report-hazard.concerned-maritime-entities' | translate"
-                         [emptyFilterMessage]="'menu.area.dropdown.not-found' | translate"
-                         [optionLabel]="'option-label-name' | translate"
-                         optionValue="id"
-                         (ngModelChange)="handleInput('concernedMaritimeEntityIds', $event)"
-                         (onPanelShow)="refreshAvailableMaritimeEntitiesList()"
-          >
-          </p-multiSelect>
-        </div>
+        <!-- PISAC (pruebas 16-nov, punto 9): sin selector de zonas de responsabilidad; el backend las
+             calcula con la ubicación (InfosourceAdminService.withEntitiesFromLocation). -->
 
         <!-- Observation date -->
         <div class="pisac-field">
