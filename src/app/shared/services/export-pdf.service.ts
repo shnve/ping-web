@@ -68,6 +68,10 @@ const PDF_TABLE_LAYOUTS = {
  * Se mantiene corto: el navegador solo permite abrir la pestaña del PDF poco después del clic del usuario.
  */
 const PDF_MAP_RENDER_TIMEOUT = 2500;
+/** Zoom máximo del mapa del PDF al encuadrar la geometría del aviso */
+const PDF_MAP_MAX_ZOOM = 15;
+/** Factor de resolución de la imagen del mapa en el PDF (2 = doble de píxeles que en pantalla) */
+const PDF_MAP_IMAGE_SCALE = 2;
 
 @Injectable({
   providedIn: 'root'
@@ -214,7 +218,8 @@ export class ExportPdfService {
         olMap.getView().fit(modelExtent, {
           size: olMap.getSize(),
           padding: [50, 50, 50, 50],
-          maxZoom: 13
+          // PISAC: antes 13; con 15 la carta náutica se aprecia con detalle cuando el aviso es un punto o un área pequeña
+          maxZoom: PDF_MAP_MAX_ZOOM
         });
       }
       // PISAC: esperar a que el mapa cargue las teselas del nuevo encuadre (antes solo renderSync,
@@ -227,7 +232,7 @@ export class ExportPdfService {
 
       let imageData = '';
       try {
-        imageData = this.getMapAsImage(cartoMapCanvasCssSelectors, olMap, mime, imageOptions);
+        imageData = this.getMapAsImage(cartoMapCanvasCssSelectors, olMap, mime, imageOptions, PDF_MAP_IMAGE_SCALE);
       } catch (error) {
         // Canvas "contaminado" por una capa sin CORS: se genera el PDF sin mapa en lugar de fallar
         console.warn('[PISAC] No se pudo capturar el mapa para el PDF', error);
@@ -957,13 +962,16 @@ export class ExportPdfService {
     );
   }
 
-  getMapAsImage(cssSelectors: string, olMap: Map, mimeType = 'image/jpeg', options = { backgroundColor: 'white', quality: 0.9 }): string {
+  getMapAsImage(cssSelectors: string, olMap: Map, mimeType = 'image/jpeg', options = { backgroundColor: 'white', quality: 0.9 }, scale = 1): string {
     const backgroundColor = options.backgroundColor;
     const mapCanvas = document.createElement('canvas');
 
     const size = olMap.getSize();
-    mapCanvas.width = size && size[0] > 0 ? size[0] : 600;
-    mapCanvas.height = size && size[1] > 0 ? size[1] : 400;
+    const cssWidth = size && size[0] > 0 ? size[0] : 600;
+    const cssHeight = size && size[1] > 0 ? size[1] : 400;
+    // PISAC: `scale` > 1 genera la imagen con más píxeles (más nítida al ampliarla en el PDF)
+    mapCanvas.width = Math.round(cssWidth * scale);
+    mapCanvas.height = Math.round(cssHeight * scale);
     const context = mapCanvas.getContext('2d');
 
     const viewport = olMap.getViewport ? olMap.getViewport() : null;
@@ -986,12 +994,16 @@ export class ExportPdfService {
           const transform = canvas.style.transform;
           const matrixMatch = transform ? transform.match(/^matrix\(([^\(]*)\)$/) : null;
           if (matrixMatch) {
-            const matrix = matrixMatch[1].split(',').map(Number);
+            const matrix = matrixMatch[1].split(',').map(Number).map(v => v * scale);
             CanvasRenderingContext2D.prototype.setTransform.apply(context, matrix);
+            context.drawImage(canvas, 0, 0);
           } else {
+            // PISAC: una capa sin transformación (p. ej. el mapa base) tiene el tamaño del lienzo en píxeles del
+            // dispositivo (más grande que el mapa con zoom de pantalla > 100 %). Antes se copiaba sin escalar y el
+            // PDF salía recortado a la derecha y abajo; ahora se ajusta al tamaño visible del mapa.
             context.setTransform(1, 0, 0, 1, 0, 0);
+            context.drawImage(canvas, 0, 0, mapCanvas.width, mapCanvas.height);
           }
-          context.drawImage(canvas, 0, 0);
         }
       }
     );
