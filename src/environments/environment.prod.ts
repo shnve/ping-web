@@ -1,8 +1,6 @@
 import { environment as base } from './environment.default';
 
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
-const protocol = typeof window !== 'undefined' ? window.location.protocol : 'http:';
-const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
 
 export const environment = {
   ...base,
@@ -18,7 +16,8 @@ export const environment = {
 
   keycloak: {
     ...base.keycloak,
-    rootUrl: `${protocol}//${hostname}:8180`,
+    // PISAC: Keycloak servido detrás de Nginx en /auth (mismo origen que el portal, sin exponer :8180)
+    rootUrl: `${origin}/auth`,
     redirectUri: {
       default: `${origin}/`
     }
