@@ -110,9 +110,55 @@ $drawer-top: $pisac-header-bar-h + $pisac-header-menu-h + 1px;
 }
 
 @media (max-width: 768px) {
+  // En navegadores móviles 100vh excede el área visible por la barra de direcciones y
+  // align-items: flex-end empuja el botón «Cerrar» y el título fuera del borde superior.
+  .p-dialog-mask:has(> .pisac-detail-drawer) {
+    align-items: stretch;
+  }
+
   .p-dialog.pisac-detail-drawer {
-    height: 100vh;
+    height: 100%;
+    height: 100dvh;
+    max-height: 100dvh !important;
+    width: 100vw !important;
     border-radius: 0;
+
+    .fr-modal__title {
+      font-size: 1.1rem;
+      line-height: 1.45rem;
+    }
+
+    .fr-header__tools,
+    .fr-header__tools-links {
+      width: 100%;
+    }
+
+    // Mantener los botones de acción (descarga, compartir, PDF) en una fila horizontal compacta
+    // junto al selector de idioma en lugar de apilarlos verticalmente.
+    .fr-header__tools-links ul.fr-btns-group {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+      width: 100%;
+
+      > li {
+        width: auto;
+        flex: 0 0 auto;
+        margin: 0;
+
+        > .fr-btn {
+          width: auto;
+          margin: 0;
+        }
+
+        &:last-child {
+          margin-left: auto;
+        }
+      }
+    }
   }
 }
 
