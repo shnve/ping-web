@@ -9,6 +9,10 @@ $control-margin-left: 15px;
 :host ::ng-deep {
   .carto-map-container {
     .map-container {
+      // PISAC: map.component.scss (ViewEncapsulation.None) aplica `flex: 1` (flex-basis: 0%) a `.map-container`
+      // dentro de `.carto-map-container` (flex-direction: column). Sin `flex: none`, el alto `[ngStyle]` se colapsa a 0
+      // (p. ej. en el mapa fuera de pantalla para el PDF del panel lateral).
+      flex: none;
       height: initial;
       width: initial;
 

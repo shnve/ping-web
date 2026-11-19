@@ -25,3 +25,4 @@ declare const PROJECTION_LAMBERT_I: any;
 declare const PROJECTION_LAMBERT_II: any;
 declare const PROJECTION_LAMBERT_III: any;
 declare const PROJECTION_LAMBERT_IV: any;
+declare module 'dompurify';

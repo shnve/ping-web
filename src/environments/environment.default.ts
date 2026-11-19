@@ -143,7 +143,7 @@ export const environment = {
       create: 'attachments',
       download: 'attachments/{{id}}',
       maxFileSize: 5000000,
-      fileTypes: '.csv,.xyz,.pts,.lgz,.glz,.asc,.rar,.dat,.csar,.LAS,.odt,.ods,.gml,.gpkg,.dxf,.dwg,.tiff,.docx,.xlsx,.pptx,.doc,.xls,.ppt,.tar,.7z,.zip,.gz,.eml,.pdf,.txt,.xml,.svg,.jpg,.png,.gif,.jfif,.kml,.shp,.gpx,.dbf,.shx,.sbn,.sbx,.fbn,.fbx,.ain,.aih,.prj,.shp.xml,.atx,.ixs,.mxs,.cpg,.qix',
+      fileTypes: '.csv,.xyz,.pts,.lgz,.glz,.asc,.rar,.dat,.csar,.LAS,.odt,.ods,.gml,.gpkg,.dxf,.dwg,.tiff,.docx,.xlsx,.pptx,.doc,.xls,.ppt,.tar,.7z,.zip,.gz,.eml,.pdf,.txt,.xml,.jpg,.png,.gif,.jfif,.kml,.shp,.gpx,.dbf,.shx,.sbn,.sbx,.fbn,.fbx,.ain,.aih,.prj,.shp.xml,.atx,.ixs,.mxs,.cpg,.qix',
       checkFileRequirements: 'attachments/check-file-requirements?filename={{filename}}&fileSize={{fileSize}}&isBathy={{isBathy}}&isSurvey={{isSurvey}}&isTechnicalMetadata={{isTechnicalMetadata}}',
       downloadPublicFileByNotionType: 'api/attachments/{{id}}?notionType={{notionType}}&notionItemId={{notionItemId}}'
     },
