@@ -44,9 +44,11 @@ export class RedirectAfterAuthenticationComponent implements OnInit, OnDestroy {
           }
           const profileMode = +(bulkProfileMode ?? 0);
           const url = this.router.parseUrl(this.router.url);
-          // PISAC (Checklist 2A.5): aceptar solo rutas internas relativas iniciadas por "/" (anti open-redirect)
-          const rawTo = this.sanitizer.sanitize(SecurityContext.URL, url.queryParams.to) ?? '/';
-          this.redirectTo = /^\/(?!\/)/.test(rawTo) ? rawTo : '/';
+          // PISAC (Checklist 2A.5): rechazar URLs absolutas, esquemas (http:, javascript:) y rutas // o \ (anti open-redirect),
+          // manteniendo rutas internas relativas con o sin "/" inicial (p. ej. "/", "/infosource/...", "account-validation").
+          const rawTo = (this.sanitizer.sanitize(SecurityContext.URL, url.queryParams.to) ?? '/').trim();
+          const isSafeInternalRoute = rawTo.length > 0 && !/^(?:[a-zA-Z][a-zA-Z\d+\-.]*:|\/\/|\\)/.test(rawTo);
+          this.redirectTo = isSafeInternalRoute ? rawTo : '/';
           const state = this.authService.getSecureLocalStorageItem(stateKey);
           const nonce = this.authService.getSecureLocalStorageItem(nonceKey);
           const stateFromUrl = url.queryParams.state;

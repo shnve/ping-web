@@ -1366,8 +1366,8 @@
         }
       },
       "modal": {
-        "title": "Congratulations !",
-        "content": "Your account has been created. You are going to be redirected to login page in order to finalize your account creation.",
+        "title": "Request received",
+        "content": "If the provided email address was not already registered, your account has been created and you will receive instructions to validate it. You will now be redirected to the login page.",
         "edit-content": "Your account has been modified. You are going to be redirected to the home page."
       },
       "sections": {

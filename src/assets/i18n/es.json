@@ -1366,8 +1366,8 @@
         }
       },
       "modal": {
-        "title": "¡Felicidades!",
-        "content": "Tu cuenta ha sido creada. Serás redirigido a la página de inicio de sesión para finalizar la creación de tu cuenta.",
+        "title": "Solicitud recibida",
+        "content": "Si el correo indicado no estaba registrado previamente, se ha creado tu cuenta y recibirás las instrucciones para validarla. A continuación serás redirigido a la página de inicio de sesión.",
         "edit-content": "Tu cuenta ha sido modificada. Serás redirigido a la página de inicio."
       },
       "sections": {
