@@ -389,7 +389,7 @@ export class AuthService {
   }
 
   public getNonceFromToken(token: string): string {
-    return helper.decodeToken(token).nonce;
+    return token ? helper.decodeToken(token)?.nonce : undefined;
   }
 
   /**

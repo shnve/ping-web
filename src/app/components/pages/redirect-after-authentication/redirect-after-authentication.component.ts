@@ -44,12 +44,15 @@ export class RedirectAfterAuthenticationComponent implements OnInit, OnDestroy {
           }
           const profileMode = +(bulkProfileMode ?? 0);
           const url = this.router.parseUrl(this.router.url);
-          this.redirectTo = this.sanitizer.sanitize(SecurityContext.URL, url.queryParams.to) ?? '/';
+          // PISAC (Checklist 2A.5): aceptar solo rutas internas relativas iniciadas por "/" (anti open-redirect)
+          const rawTo = this.sanitizer.sanitize(SecurityContext.URL, url.queryParams.to) ?? '/';
+          this.redirectTo = /^\/(?!\/)/.test(rawTo) ? rawTo : '/';
           const state = this.authService.getSecureLocalStorageItem(stateKey);
           const nonce = this.authService.getSecureLocalStorageItem(nonceKey);
           const stateFromUrl = url.queryParams.state;
-          if (stateFromUrl !== state) {
-            throwError(new Error('OpenId state parameter invalid value'));
+          localStorage.removeItem(stateKey);
+          if (!state || stateFromUrl !== state) {
+            return throwError(() => new Error('OpenId state parameter invalid value'));
           }
 
           url.queryParams = {};
@@ -61,9 +64,12 @@ export class RedirectAfterAuthenticationComponent implements OnInit, OnDestroy {
         }),
         flatMap(token => {
           const nonce = this.authService.getSecureLocalStorageItem(nonceKey);
-          const nonceFromToken = this.authService.getNonceFromToken(token.access_token);
-          if (nonceFromToken !== nonce) {
-            throwError(new Error('OpenId nonce parameter invalid value'));
+          localStorage.removeItem(nonceKey);
+          // OIDC estándar: el nonce viene en id_token (respaldo en access_token por compatibilidad)
+          const nonceFromToken = this.authService.getNonceFromToken(token.id_token)
+            ?? this.authService.getNonceFromToken(token.access_token);
+          if (!nonce || nonceFromToken !== nonce) {
+            return throwError(() => new Error('OpenId nonce parameter invalid value'));
           }
 
           this.token = token.access_token;
