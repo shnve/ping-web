@@ -53,15 +53,7 @@
           </p-calendar>
         </div>
 
-        <!-- timezone -->
-        <div class="pisac-field">
-          <label for="timezone" translate>infosource.report-hazard.timezone</label>
-          <p-dropdown [options]="timezones" [placeholder]="'admin-warning.creation.labels.ph-timezone' | translate"
-                      filter="true" formControlName="timezone" id="timezone" ngDefaultControl
-                      optionValue="label" optionLabel="label"
-                      (ngModelChange)="handleInput('timezone', $event)">
-          </p-dropdown>
-        </div>
+        <!-- PISAC: campo zona horaria oculto en formularios de contribución; se mantiene internamente con GlobalConstants.USER_TIMEZONE. -->
 
         <!-- Campos propios del tipo de contribución (cada uno es un .pisac-field) -->
         <ng-content></ng-content>

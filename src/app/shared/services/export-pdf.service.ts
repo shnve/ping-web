@@ -657,15 +657,89 @@ export class ExportPdfService {
     return `<div><span style="font-weight: bold;">${this.translate.instant('detail.ranges')} : </span>${dateRangesHtml}</div>`;
   }
 
+  private hasCoordinatesInText(text: string): boolean {
+    if (!text) {
+      return false;
+    }
+    // S-53 (DD-MM.mmN / DDD-MM.mmW) o grados con símbolo °/º (DMS, DM, DD)
+    const s53CoordRegex = /\b\d{1,3}-\d{1,2}(?:[.,]\d+)?\s*[NSEWO]\b/i;
+    const degCoordRegex = /\b\d{1,3}(?:[.,]\d+)?\s*[°º˚]\s*(?:\d{1,2}(?:[.,]\d+)?\s*['′’´]\s*(?:\d{1,2}(?:[.,]\d+)?\s*(?:"|″|”|“|'')\s*)?)?[NSEWO]\b/i;
+    return s53CoordRegex.test(text) || degCoordRegex.test(text);
+  }
+
+  private buildWarningCoordinatesHtml(featurePart: WarningFeaturePart): string {
+    if (!featurePart?.geometries?.length) {
+      return '';
+    }
+    const isEn = this.translate.currentLang === 'en';
+    const blocks: string[] = [];
+
+    for (const feature of featurePart.geometries) {
+      const geom = (feature as any)?.getGeometry?.();
+      if (!geom) {
+        continue;
+      }
+      const geomType = geom.getType();
+      if (geomType === 'Point') {
+        const flat = (geom as any).getFlatCoordinates?.() || (geom as any).getCoordinates?.();
+        const dms = this.formatMercatorCoordToDms(flat);
+        if (dms) {
+          blocks.push(`${isEn ? 'in position ' : 'en posición '}${dms}`);
+        }
+      } else if (geomType === 'Polygon') {
+        const rings: number[][][] = (geom as any).getCoordinates?.() || [];
+        const outerRing = rings[0] || [];
+        const vertices = outerRing.length > 3 ? outerRing.slice(0, -1) : outerRing;
+        const formatted = vertices.map(c => this.formatMercatorCoordToDms(c)).filter(Boolean);
+        if (formatted.length) {
+          blocks.push(`${isEn ? 'area bounded by:' : 'área delimitada por:'}\n${formatted.join('\n')}`);
+        }
+      } else if (geomType === 'LineString') {
+        const coords: number[][] = (geom as any).getCoordinates?.() || [];
+        const formatted = coords.map(c => this.formatMercatorCoordToDms(c)).filter(Boolean);
+        if (formatted.length) {
+          blocks.push(`${isEn ? 'line joining:' : 'línea que une:'}\n${formatted.join('\n')}`);
+        }
+      } else if (geomType === 'Circle') {
+        const center = (geom as any).getCenter?.();
+        const radiusMeters = (geom as any).getRadius?.();
+        const dms = this.formatMercatorCoordToDms(center);
+        if (dms && Number.isFinite(radiusMeters)) {
+          const radiusNm = (radiusMeters / 1852).toFixed(1);
+          blocks.push(isEn
+            ? `area within a radius of ${radiusNm} NM of ${dms}`
+            : `área dentro de un radio de ${radiusNm} MN de ${dms}`);
+        } else if (dms) {
+          blocks.push(`${isEn ? 'in position ' : 'en posición '}${dms}`);
+        }
+      }
+    }
+
+    if (!blocks.length) {
+      return '';
+    }
+    return `<div style="white-space: pre-line;" data-pdfmake='{"margin": [0, 4, 0, 0]}'>${blocks.join('\n')}</div>`;
+  }
+
   private buildFeaturePartHtml(featurePart: WarningFeaturePart): string {
     const addFeatureTypeDetails = typeDetails =>
       typeDetails ? `<div><span style="font-weight: bold;">${this.translate.instant('detail.category')} : </span>${this.formatFeaturePartDetailsPipe.transform(typeDetails)}</div>` : '';
-    const addFeatureInformation = information =>
-      !isEmpty(information) ? `<div style="white-space: pre-line;" data-pdfmake='{"margin": [0, 4, 0, 0]}'>${this.formatLocalizedTextPipe.transform(information)}</div>` : '';
+    const formattedInformation = !isEmpty(featurePart.information)
+      ? this.formatLocalizedTextPipe.transform(featurePart.information)
+      : '';
+    const addFeatureInformation = formattedInformation
+      ? `<div style="white-space: pre-line;" data-pdfmake='{"margin": [0, 4, 0, 0]}'>${formattedInformation}</div>`
+      : '';
+    // PISAC: en el PDF las coordenadas deben acompañar al mensaje. Si el mensaje no las trae,
+    // se agregan a partir de las geometrías de la parte (sin duplicarlas si ya están en el texto).
+    const coordinatesHtml = !this.hasCoordinatesInText(formattedInformation)
+      ? this.buildWarningCoordinatesHtml(featurePart)
+      : '';
     return `<table class="html-feature" data-pdfmake='{"widths": [2, "*"]}'><tr><td style="border: none;" data-pdfmake='{"fillColor": "#003366"}'></td><td style="border: none;" data-pdfmake='{"fillColor": "#F8F9FA", "margin": [8, 6, 8, 6]}'>
               ${addFeatureTypeDetails(featurePart.typeDetails)}
               ${this.addDateRanges(featurePart.dateRanges)}
-              ${addFeatureInformation(featurePart.information)}
+              ${addFeatureInformation}
+              ${coordinatesHtml}
               </td></tr></table>`;
   }
 

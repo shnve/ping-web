@@ -46,17 +46,7 @@
                 <!-- PISAC (pruebas 16-nov, punto 9): sin selector de zonas de responsabilidad; el backend las
                      calcula con la ubicación (InfosourceAdminService.withEntitiesFromLocation). -->
 
-                <!-- timezone -->
-                <div class="pisac-field">
-                    <label for="timezone" translate>infosource.report-hazard.timezone</label>
-                    <p-dropdown [ngClass]="{'ng-dirty': (timezone.invalid ) || (timezone.dirty && timezone.invalid)}"
-                        [options]="timezones" [placeholder]="'admin-warning.creation.labels.ph-timezone' | translate"
-                        optionValue="label" optionLabel="label"
-                        filter="true" formControlName="timezone" id="timezone" ngDefaultControl>
-                    </p-dropdown>
-                    <small *ngIf="(timezone.invalid && submitted) || (timezone.dirty && timezone.invalid)"
-                        class="p-error" translate>admin-warning.en.errors.timezone-invalid</small>
-                </div>
+                <!-- PISAC: campo zona horaria oculto en previsión de actividades; se mantiene internamente con GlobalConstants.USER_TIMEZONE para validar y convertir los períodos a UTC. -->
 
                 <!-- Attachments -->
                 <div class="pisac-field pisac-span-all">
