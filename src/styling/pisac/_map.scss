@@ -47,6 +47,11 @@
     flex: 1 1 auto;
     min-width: 0;
   }
+
+  // En móvil la barra inferior fija de filtros (52 px) no debe tapar atribuciones ni coordenadas del mapa
+  @media (max-width: 768px) {
+    padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 // Selector de área: acceso directo y siempre visible en la barra superior del visor
@@ -54,16 +59,23 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 1 1 auto;
   min-width: 0;
 
   .area-selector__icon {
     color: var(--shn-orange);
     font-size: 1.125rem;
+    flex-shrink: 0;
   }
 
   .label-area {
     font-weight: 600;
     color: var(--pisac-neutral-700);
     white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .app-area-dropdown {
+    min-width: 0;
   }
 }

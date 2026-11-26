@@ -798,12 +798,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.loader.hideLoadingSpinner(this.element);
     }
 
+    this.warningCluster?.setSource(null);
     this.warningCluster = new ModelItemCluster({
       distance: environment.carto.aggregation.distance,
       source: this.vectorSource,
       geometryFunction: featureToPoint,
       extentSizeMultiplier: environment.carto.aggregation.feautreExtentSizeMuliplier
     });
+    this.toggleClusterizationAccordingZoom();
     this.vectorLayer.setSource(this.warningCluster);
   }
 
@@ -954,23 +956,26 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       // Controles secundarios omitidos
     }
 
-    setTimeout(() => {
-      // Disparamos la lÃ³gica original de PING ahora que el mapa base existe y estÃ¡ puenteado
-      if (this.showWarnings) {
-        this.updateMapIfShouldShowWarnings();
-        this.addEventForDisplayingDatasOnHover();
-      } else if (this.warnings?.length) {
-        this.displaysWarningData();
-        this.addEventForDisplayingDatasOnHover();
-      }
-
-      if (this.showGeoregulations || this.georegulations?.length) {
-        this.updateMapIfShouldShowGeoregulationsVisu();
-        this.addEventForDisplayingDatasOnHover();
-      }
-    }, 500);
-
     this.isLoaded = true;
+
+    // Disparamos la lógica original de PING de inmediato con el mapa ya inicializado (sin retraso intermedio que compita con ngOnChanges)
+    if (this.showWarnings) {
+      this.updateMapIfShouldShowWarnings();
+      this.addEventForDisplayingDatasOnHover();
+    } else if (this.warnings?.length) {
+      this.displaysWarningData();
+      this.addEventForDisplayingDatasOnHover();
+    }
+
+    if (this.showGeoregulations || this.georegulations?.length) {
+      if (this.showGeoregulations) {
+        this.updateMapIfShouldShowGeoregulationsVisu();
+      } else {
+        this.displayGeoregulationsDataVisu();
+      }
+      this.addEventForDisplayingDatasOnHover();
+    }
+
     if (this.onLoad) this.onLoad.emit();
     window.dispatchEvent(new Event('resize'));
   }
@@ -1004,12 +1009,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.loader.hideLoadingSpinner(this.element);
     }
 
+    this.georegulationCluster?.setSource(null);
     this.georegulationCluster = new ModelItemCluster({
       distance: environment.carto.aggregation.distance,
       source: this.vectorSourceGeoregulationsVisu,
       geometryFunction: featureToPoint,
       extentSizeMultiplier: environment.carto.aggregation.feautreExtentSizeMuliplier
     });
+    this.toggleClusterizationAccordingZoom();
 
     this.vectorLayerGeoregulationsVisu.setSource(this.georegulationCluster);
   }
@@ -1057,12 +1064,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.loader.hideLoadingSpinner(this.element);
     }
 
+    this.infosourceCluster?.setSource(null);
     this.infosourceCluster = new ModelItemCluster({
       distance: environment.carto.aggregation.distance,
       source: this.vectorSourceInfosources,
       geometryFunction: featureToPoint,
       extentSizeMultiplier: environment.carto.aggregation.feautreExtentSizeMuliplier
     });
+    this.toggleClusterizationAccordingZoom();
     this.vectorLayerInfosources.setSource(this.infosourceCluster);
 
     // If detections are displayed, put them on first plan
@@ -1278,13 +1287,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
    * Enable or disable zoom according to view zoom level
    */
   protected toggleClusterizationAccordingZoom(): void {
+    if (!this.map?.view) {
+      return;
+    }
     const zoom = this.map.view.getZoom();
     if (zoom > environment.carto.aggregation.maxZoomLevel) {
       this.warningCluster?.disable();
       this.infosourceCluster?.disable();
+      this.georegulationCluster?.disable();
     } else {
       this.warningCluster?.enable();
       this.infosourceCluster?.enable();
+      this.georegulationCluster?.enable();
     }
   }
 
@@ -1573,9 +1587,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   @HostListener('window:resize', ['$event'])
   @HostListener('window:load', ['$event'])
   onResize(event): void {
-    document.querySelectorAll('sig-map .map-container').forEach(element => {
-      element.setAttribute('style', 'height: ' + MapComponent.calcHeightOfMap(event.target.innerHeight, !!this.georegulations?.length) + 'vh');
+    const windowHeight = event?.target?.innerHeight ?? window.innerHeight;
+    document.querySelectorAll('sig-map:not(.sig-map--fill) .map-container').forEach(element => {
+      element.setAttribute('style', 'height: ' + MapComponent.calcHeightOfMap(windowHeight, !!this.georegulations?.length) + 'vh');
     });
+    this.map?.olMap?.updateSize();
   }
 
   onChangeLang({ lang }: LangChangeEvent): void {

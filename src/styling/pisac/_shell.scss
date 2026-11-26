@@ -24,6 +24,7 @@ body.pisac-layout-map {
     display: flex;
     flex-direction: column;
     height: calc(100vh - #{$pisac-header-bar-h + $pisac-header-menu-h + 1px});
+    height: calc(100dvh - #{$pisac-header-bar-h + $pisac-header-menu-h + 1px});
 
     > :not(router-outlet) {
       flex: 1 1 auto;

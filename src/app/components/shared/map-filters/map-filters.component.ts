@@ -32,6 +32,9 @@ export class MapFiltersComponent extends FilterBannerComponent<MapFilterValues> 
       this.subscriptions.unsubscribe();
     }
     this._filterState = filterState;
+    if (this._filterState?.getValues()) {
+      this.filterValues = cloneDeep(this._filterState.getValues());
+    }
     this.subscriptions = this._filterState.getValues$().subscribe(this.filterChanged.bind(this));
   }
   protected subscriptions: Subscription;
@@ -45,9 +48,13 @@ export class MapFiltersComponent extends FilterBannerComponent<MapFilterValues> 
   }
 
   ngAfterViewInit(): void {
+    const disableFilter = isFilterBarShown();
     if (this.filterValues) {
-      this.filterValues.disableFilter = isFilterBarShown();
-      this._filterState?.setValues(this.filterValues);
+      this.filterValues.disableFilter = disableFilter;
+    }
+    const currentStateValues = this._filterState?.getValues();
+    if (currentStateValues) {
+      currentStateValues.disableFilter = disableFilter;
     }
   }
 

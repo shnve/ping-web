@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep, uniq } from 'lodash-es';
+import { uniq } from 'lodash-es';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import Fill from 'ol/style/Fill';
@@ -109,11 +109,11 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
 
   getStyleForGeometry(warningType: string, geometryType: GeometryType): Style[] {
     if (warningType === 'WARNING') {
-      return cloneDeep(this.warningStyle[geometryType]);
+      return this.warningStyle[geometryType]?.map(style => style.clone()) ?? [new Style()];
     } else if (warningType === 'NOTICE') {
-      return cloneDeep(this.noticeStyle[geometryType]);
+      return this.noticeStyle[geometryType]?.map(style => style.clone()) ?? [new Style()];
     } else if (warningType === 'NOTICE_TP') {
-      return cloneDeep(this.noticeTPStyle[geometryType]);
+      return this.noticeTPStyle[geometryType]?.map(style => style.clone()) ?? [new Style()];
     }
 
     console.error(`The warning type ${warningType} does not exist.`);
@@ -122,9 +122,9 @@ export class WarningStyleFactory extends MaritimeReportStyleFactory {
 
   getStyleForAffectedArea(warningType: string, geometryType: GeometryType): Style {
     if (warningType === 'WARNING') {
-      return cloneDeep(this.warningAffectedAreaStyle[geometryType]);
+      return this.warningAffectedAreaStyle[geometryType]?.clone() ?? new Style();
     } else if (warningType === 'NOTICE' || warningType === 'NOTICE_TP') {
-      return cloneDeep(this.noticeAffectedAreaStyle[geometryType]);
+      return this.noticeAffectedAreaStyle[geometryType]?.clone() ?? new Style();
     }
     console.error(`The warning type ${warningType} does not exist.`);
     return new Style();

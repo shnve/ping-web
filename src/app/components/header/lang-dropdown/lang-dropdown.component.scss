@@ -1,8 +1,15 @@
 @import "src/styling/variables";
 
+:host {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
 ::ng-deep .lang-dropdown {
   position: absolute;
-  top: -4px;
+  top: 5px;
+  left: 0;
 
   .pi-chevron-down, .p-dropdown-trigger {
     color: $shn-navy;
@@ -88,6 +95,8 @@
 
 .lang-choice-button {
   position: absolute;
+  top: 0;
+  left: 0;
   pointer-events: none;
   color: #fff;
   text-transform: uppercase;
@@ -96,7 +105,6 @@
   font-weight: bolder;
   font-size: 0.85em;
   width: 50px;
-
   height: 50px;
 
   .flag {
@@ -115,11 +123,39 @@
   }
 }
 
-@media (max-width: 63rem) {
-  ::ng-deep .lang-dropdown {
+@media only screen and (max-width: $screenSizeTablet) {
+  :host-context(header) {
+    ::ng-deep .lang-dropdown {
+      top: 2px;
 
-    .p-dropdown {
-      height: auto;
+      .p-dropdown {
+        width: 64px;
+        height: 40px;
+      }
+
+      .p-dropdown-trigger {
+        width: 1.5rem;
+      }
+    }
+
+    .lang-choice-button {
+      width: 40px;
+      height: 44px;
+      padding: 0;
+
+      .flag {
+        width: 21px;
+
+        &.selected-lang-flag {
+          right: 10px;
+          top: 17px;
+        }
+
+        &.second-lang-flag {
+          right: 2px;
+          top: 9px;
+        }
+      }
     }
   }
 }

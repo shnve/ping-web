@@ -29,11 +29,17 @@ export class ModelItemCluster extends Cluster {
   }
 
   enable() {
-    this.enabled = true;
+    if (!this.enabled) {
+      this.enabled = true;
+      this.refresh();
+    }
   }
 
   disable() {
-    this.enabled = false;
+    if (this.enabled) {
+      this.enabled = false;
+      this.refresh();
+    }
   }
 
   protected cluster(): void {
@@ -41,7 +47,7 @@ export class ModelItemCluster extends Cluster {
       return;
     }
     const features = this.source.getFeatures();
-    if(!this.enabled) {
+    if (!(this.enabled ?? true)) {
       // Display all features without cluster
       this.features = features;
       return;
@@ -121,6 +127,6 @@ export class ModelItemCluster extends Cluster {
    */
   private isFeatureExtentBiggerThanDistance(feature: Feature, distance: number): boolean {
     const featureMaxExtentAxis = feature.get('maxExtentAxis');
-    return featureMaxExtentAxis * this.extentSizeMultiplier > distance;
+    return featureMaxExtentAxis * (this.extentSizeMultiplier ?? 1) > distance;
   }
 }

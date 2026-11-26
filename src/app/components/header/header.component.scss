@@ -17,7 +17,13 @@ header {
 .top-banner-container {
   background-color: white;
   height: $bannerHeight;
+  width: 100%;
   align-items: center;
+
+  app-banner {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
 
   .header-service-container {
     flex-wrap: wrap;
@@ -30,6 +36,7 @@ header {
   height: $logoHeight;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   padding: 0 6px 0 10px;
 
   // Escudo: misma disposición que antes del rediseño, a 64 px con aire arriba y abajo
@@ -47,14 +54,24 @@ header {
   }
 
   .logo-container {
-    margin: auto;
+    padding: 0 4px 0 8px;
 
     ::ng-deep img {
-      height: 52px;
+      height: 42px;
     }
 
     .logo {
-      padding: 4px;
+      padding: 2px;
+    }
+  }
+}
+
+@media only screen and (max-width: $screenSizePhone) {
+  .logo-container {
+    padding: 0 2px 0 6px;
+
+    ::ng-deep img {
+      height: 36px;
     }
   }
 }

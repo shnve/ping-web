@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep, uniq } from 'lodash-es';
+import { uniq } from 'lodash-es';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import Style from 'ol/style/Style';
@@ -45,7 +45,7 @@ export class InfosourceStyleFactory extends MaritimeReportStyleFactory {
   }
 
   getStyleForLocalisation(geometryType: GeometryType): Style[] {
-    return cloneDeep(this.infosourceStyle[geometryType]);
+    return this.infosourceStyle[geometryType]?.map(style => style.clone()) ?? [new Style()];
   }
 
   getRollOverStyleForLocalisation(geometryType: GeometryType): Style[] {

@@ -67,10 +67,16 @@
   }
 }
 
-@media all and (max-width: $screenSizePhone) {
+@media all and (max-width: $screenSizeTablet) {
   :host ::ng-deep {
+    .p-dropdown {
+      max-width: calc(100vw - 9.5rem);
+    }
+
     .p-dropdown-label.p-inputtext {
-      display: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }

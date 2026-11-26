@@ -4,7 +4,9 @@
 $appTitleFontSize: 1.6rem;
 
 :host ::ng-deep {
+  display: block;
   width: 100%;
+  min-width: 0;
   height: $bannerHeight;
 
   i.pi.pi-bell {
@@ -134,16 +136,20 @@ tr.notification {
   align-items: center;
   background-color: #ffffff;
   height: $bannerHeight;
-  line-height: $bannerHeight;
+  line-height: normal;
   padding: 0 10px;
+  gap: 6px;
 }
 
 // Título institucional, separado de los logos SHN / OCHINA por una línea fina gris
 // (antes una barra naranja; el naranja queda para los títulos de página).
 .title-container {
+  flex: 1 1 auto;
+  min-width: 0;
   line-height: 1.2;
   position: relative;
   padding-left: 14px;
+  padding-right: 8px;
 
   &::before {
     content: "";
@@ -169,9 +175,15 @@ tr.notification {
   flex-grow: 1;
 }
 
+.fr-header__tools {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
 .banner-nav {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 
   .p-button {
     border: none;
@@ -181,8 +193,12 @@ tr.notification {
 }
 
 .lang-choice-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   height: 50px;
   width: 90px;
+  flex-shrink: 0;
 }
 
 .banner-link {
@@ -229,14 +245,10 @@ tr.notification {
 
   .container {
     height: $mobileBannerHeight;
-
-    .banner-nav {
-      line-height: $mobileBannerHeight;
-    }
   }
 
   .title-container {
-    padding-right: 10px;
+    padding-right: 6px;
   }
 
   .fr-header__tools {
@@ -244,26 +256,59 @@ tr.notification {
   }
 
   .fr-btns-group {
-    flex-wrap: unset;
-    margin-right: 0;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 2px;
+    margin: 0;
 
-    &.fr-btn {
+    > li {
+      width: auto;
+      display: inline-flex;
+    }
+
+    .fr-btn {
+      width: auto;
+      min-height: 2.25rem;
       margin: 0;
+      padding: 0.375rem;
     }
   }
 
   .fr-btns-group:not(.fr-btns-group--sm):not(.fr-btns-group--lg)
     .fr-btn:not([class^="fr-icon-"]):not([class*=" fr-icon-"]):not([class^="fr-fi-"]):not([class*=" fr-fi-"]) {
-    padding: 0;
+    padding: 0.375rem;
   }
 }
 
 @media only screen and (max-width: $screenSizeTablet) {
+  .container {
+    padding: 0 6px;
+    gap: 4px;
+  }
+
   .title-container {
-    .title-description {
-      font-size: 0.9375rem;
-      line-height: 1.25;
+    padding-left: 10px;
+    padding-right: 4px;
+
+    &::before {
+      height: 32px;
+      margin-top: -16px;
     }
+
+    .title-description {
+      font-size: 0.8125rem;
+      line-height: 1.22;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .lang-choice-container {
+    width: 64px;
+    height: 44px;
   }
 
   .banner-nav {
@@ -274,6 +319,18 @@ tr.notification {
         width: 1.9rem;
         height: 1.9rem;
       }
+    }
+  }
+}
+
+@media only screen and (max-width: $screenSizePhone) {
+  .title-container {
+    padding-left: 8px;
+
+    .title-description {
+      font-size: 0.75rem;
+      line-height: 1.2;
+      -webkit-line-clamp: 4;
     }
   }
 }

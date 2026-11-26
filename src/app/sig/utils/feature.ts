@@ -6,7 +6,6 @@ import { DateRange } from '@app/shared/models/date-range.model';
 import { environment } from '@env/environment';
 //import { setVerticesLabels as setVerticesLabelsCarto } from '@shom2/carto/utils/feature';
 //import { getSphereRadius } from '@shom2/carto/utils/spheremeasure';
-import { cloneDeep } from 'lodash-es';
 import Feature from 'ol/Feature';
 import { Coordinate } from 'ol/coordinate';
 import { getCenter, getWidth } from 'ol/extent';
@@ -341,7 +340,7 @@ export function setFeatureLabel(feature: Feature, label: string, styleText?: Tex
     styles = currentStyle as Array<Style>;
   }
 
-  const text = cloneDeep(styleText ?? STYLE_TEXT_LABEL);
+  const text = (styleText ?? STYLE_TEXT_LABEL).clone();
   if (feature.getGeometry().getType() === GeometryType.POINT) {
     text.setTextBaseline(options?.text?.baseline ?? 'top');
   }

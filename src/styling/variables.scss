@@ -55,7 +55,9 @@ $logoMarginBottom: 3px;
 $logoMarginTop: 2px;
 $logoHeight: $pisac-header-bar-h;       // antes 80px
 $logoWidth: 96px;
-$mobileDiff: 30px;
+// PISAC: la franja blanca mantiene 80 px en escritorio y móvil (sin el salto heredado de 30 px
+// que desalineaba header, app-banner, app-menu y pisac-layout-map en pantallas estrechas)
+$mobileDiff: 0px;
 $bannerHeight: $pisac-header-bar-h;     // antes 80px
 $mobileBannerHeight: $bannerHeight + $mobileDiff;
 $navmenuHeight: $pisac-header-menu-h;   // antes ≈47px (derivado del logo)

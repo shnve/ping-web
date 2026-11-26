@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep, uniq } from 'lodash-es';
+import { uniq } from 'lodash-es';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import Style from 'ol/style/Style';
@@ -131,13 +131,13 @@ export class GeoregulationStyleFactory extends MaritimeReportStyleFactory {
 
   getStyleForGeometry(isTemporary: boolean, isNew: boolean, geometryType: GeometryType): Style[] {
     if (isTemporary && isNew) {
-      return cloneDeep(this.georegulationStyleTemporaryNew[geometryType]);
+      return this.georegulationStyleTemporaryNew[geometryType]?.map(style => style.clone()) ?? [new Style()];
     } else if (isNew) {
-      return cloneDeep(this.georegulationStyleNew[geometryType]);
+      return this.georegulationStyleNew[geometryType]?.map(style => style.clone()) ?? [new Style()];
     } else if (isTemporary) {
-      return cloneDeep(this.georegulationStyleTemporary[geometryType]);
+      return this.georegulationStyleTemporary[geometryType]?.map(style => style.clone()) ?? [new Style()];
     }
-    return cloneDeep(this.georegulationStyleBase[geometryType]);
+    return this.georegulationStyleBase[geometryType]?.map(style => style.clone()) ?? [new Style()];
   }
 
   getRollOverStyleForGeometry(isTemporary: boolean, isNew: boolean, geometryType: GeometryType): Style[] {
