@@ -311,7 +311,7 @@ export class ExportPdfService {
     const htmlContent = `${htmlTitle}<hr data-pdfmake='{"margin": [0, 0, 0, 0]}'>
                         <div class="map-carto">${mapImage}</div>
                         <div>${builtHtmlItem}</div>`;
-    this.createPdf(htmlContent, pdfName, linkUrl);
+    this.createPdf(htmlContent, pdfName, linkUrl, true);
   }
 
   /**
@@ -544,7 +544,7 @@ export class ExportPdfService {
       .then(() => new Promise<void>(resolve => requestAnimationFrame(() => resolve())));
   }
 
-  private createPdf(htmlContent: string, pdfName: string, linkUrl?: string): void {
+  private createPdf(htmlContent: string, pdfName: string, linkUrl?: string, isSingleItemModal = false): void {
     const defaultStyles = {
       h1: {
         fontSize: 12,
@@ -611,7 +611,10 @@ export class ExportPdfService {
         }
       },
       pageBreakBefore: (currentNode, followingNodesOnPage) => {
-        // We break page if the current node is taking more than 1 page and dont start at the beginning of the page
+        if (isSingleItemModal) {
+          return false;
+        }
+        // En listados detallados de múltiples avisos, pasar el aviso completo a la página siguiente si empieza abajo y se corta
         return currentNode.pageNumbers.length > 1 && currentNode.startPosition && currentNode.startPosition.verticalRatio > 0.4;
       }
     };
@@ -791,7 +794,7 @@ export class ExportPdfService {
       : [coord[0], coord[1]];
     const lat = `${decimalToDegMin(lonLat[1], 'DD-MM.mm', 2, 2)}${lonLat[1] >= 0 ? 'N' : 'S'}`;
     const lon = `${decimalToDegMin(lonLat[0], 'DD-MM.mm', 2, 3)}${lonLat[0] >= 0 ? 'E' : 'W'}`;
-    return `${lat} ${lon}`;
+    return `${lat}\u00A0${lon}`;
   }
 
   private buildInfosourceCoordinatesHtml(featurePart: InfosourcePart): string {
@@ -922,6 +925,73 @@ export class ExportPdfService {
     return s53CoordRegex.test(text) || degCoordRegex.test(text);
   }
 
+  private static readonly SINGLE_COORD_SOURCE =
+    '(?:\\d{1,3}-\\d{1,2}(?:[.,]\\d+)?\\s*[NSEWO]'
+    + '|\\d{1,3}(?:[.,]\\d+)?\\s*[°º˚]\\s*(?:\\d{1,2}(?:[.,]\\d+)?\\s*[\'′’´]\\s*(?:\\d{1,2}(?:[.,]\\d+)?\\s*(?:"|″|”|“|\'\')\\s*)?)?[NSEWO])';
+
+  private static readonly COORD_ONLY_LINE_REGEX = new RegExp(
+    '^\\s*(?:(?:[-*•]|[A-Za-z0-9]{1,3}[.)])\\s+)?'
+    + ExportPdfService.SINGLE_COORD_SOURCE
+    + '(?:(?:\\s*(?:[-–—,;/:&]|y|and)\\s*|\\s+)' + ExportPdfService.SINGLE_COORD_SOURCE + ')+'
+    + '(?:[\\s,]*(?:\\(\\s*(?:datum\\s*)?(?:wgs|gws|gs)[\\s-]*84(?:\\s*datum)?\\s*\\)|(?:datum\\s*)?(?:wgs|gws|gs)[\\s-]*84(?:\\s*datum)?))?'
+    + '\\s*[.,;]?\\s*$',
+    'i'
+  );
+
+  private static readonly LAT_LON_PAIR_REGEX = new RegExp(
+    '(' + ExportPdfService.SINGLE_COORD_SOURCE.replace(/\[NSEWO\]/g, '[NS]') + ')'
+    + '[ \\t]+'
+    + '(' + ExportPdfService.SINGLE_COORD_SOURCE.replace(/\[NSEWO\]/g, '[EWO]') + ')',
+    'gi'
+  );
+
+  /**
+   * PISAC: exclusivamente para el PDF, compacta bloques consecutivos de líneas de coordenadas
+   * (1 vértice por línea en el borrador / Télex / NAVTEX) en flujo continuo separado por comas,
+   * uniendo cada par LAT LON con espacio indivisible (\u00A0) para no cortar un par a mitad de renglón.
+   */
+  private compactCoordinateLinesForPdf(text: string): string {
+    if (!text) {
+      return '';
+    }
+    const rawLines = text.split(/\r?\n/);
+    const outLines: string[] = [];
+    let coordBuffer: string[] = [];
+
+    const flushCoordBuffer = () => {
+      if (!coordBuffer.length) {
+        return;
+      }
+      const normalized = coordBuffer.map((line, idx) => {
+        const isLast = idx === coordBuffer.length - 1;
+        let cleaned = line.trim().replace(/[ \t]{2,}/g, ' ');
+        cleaned = isLast
+          ? cleaned.replace(/[,;]+\s*$/, '')
+          : cleaned.replace(/[.,;]+\s*$/, '');
+        return cleaned.replace(ExportPdfService.LAT_LON_PAIR_REGEX, '$1\u00A0$2');
+      });
+      const joined = normalized.join(', ');
+      if (outLines.length > 0 && /:\s*$/.test(outLines[outLines.length - 1])) {
+        outLines[outLines.length - 1] = `${outLines[outLines.length - 1].trimEnd()} ${joined}`;
+      } else {
+        outLines.push(joined);
+      }
+      coordBuffer = [];
+    };
+
+    for (const line of rawLines) {
+      if (ExportPdfService.COORD_ONLY_LINE_REGEX.test(line)) {
+        coordBuffer.push(line);
+      } else {
+        flushCoordBuffer();
+        outLines.push(line.replace(ExportPdfService.LAT_LON_PAIR_REGEX, '$1\u00A0$2'));
+      }
+    }
+    flushCoordBuffer();
+
+    return outLines.join('\n');
+  }
+
   private buildWarningCoordinatesHtml(featurePart: WarningFeaturePart): string {
     if (!featurePart?.geometries?.length) {
       return '';
@@ -947,13 +1017,13 @@ export class ExportPdfService {
         const vertices = outerRing.length > 3 ? outerRing.slice(0, -1) : outerRing;
         const formatted = vertices.map(c => this.formatMercatorCoordToDms(c)).filter(Boolean);
         if (formatted.length) {
-          blocks.push(`${isEn ? 'area bounded by:' : 'área delimitada por:'}\n${formatted.join('\n')}`);
+          blocks.push(`${isEn ? 'area bounded by:' : 'área delimitada por:'} ${formatted.join(', ')}`);
         }
       } else if (geomType === 'LineString') {
         const coords: number[][] = (geom as any).getCoordinates?.() || [];
         const formatted = coords.map(c => this.formatMercatorCoordToDms(c)).filter(Boolean);
         if (formatted.length) {
-          blocks.push(`${isEn ? 'line joining:' : 'línea que une:'}\n${formatted.join('\n')}`);
+          blocks.push(`${isEn ? 'line joining:' : 'línea que une:'} ${formatted.join(', ')}`);
         }
       } else if (geomType === 'Circle') {
         const center = (geom as any).getCenter?.();
@@ -979,15 +1049,16 @@ export class ExportPdfService {
   private buildFeaturePartHtml(featurePart: WarningFeaturePart): string {
     const addFeatureTypeDetails = typeDetails =>
       typeDetails ? `<div><span style="font-weight: bold;">${this.translate.instant('detail.category')} : </span>${this.formatFeaturePartDetailsPipe.transform(typeDetails)}</div>` : '';
-    const formattedInformation = !isEmpty(featurePart.information)
+    const rawInformation = !isEmpty(featurePart.information)
       ? this.formatLocalizedTextPipe.transform(featurePart.information)
       : '';
+    const formattedInformation = this.compactCoordinateLinesForPdf(rawInformation);
     const addFeatureInformation = formattedInformation
       ? `<div style="white-space: pre-line;" data-pdfmake='{"margin": [0, 4, 0, 0]}'>${formattedInformation}</div>`
       : '';
     // PISAC: en el PDF las coordenadas deben acompañar al mensaje. Si el mensaje no las trae,
     // se agregan a partir de las geometrías de la parte (sin duplicarlas si ya están en el texto).
-    const coordinatesHtml = !this.hasCoordinatesInText(formattedInformation)
+    const coordinatesHtml = !this.hasCoordinatesInText(rawInformation)
       ? this.buildWarningCoordinatesHtml(featurePart)
       : '';
     return `<table class="html-feature" data-pdfmake='{"widths": [2, "*"]}'><tr><td style="border: none;" data-pdfmake='{"fillColor": "#003366"}'></td><td style="border: none;" data-pdfmake='{"fillColor": "#F8F9FA", "margin": [8, 6, 8, 6]}'>
