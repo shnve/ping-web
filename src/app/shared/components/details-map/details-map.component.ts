@@ -289,10 +289,16 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     });
 
     const targetEl = this.element?.nativeElement?.querySelector('.map-container') || 'simple-map';
-    const rawCenter = environment.carto.defaultCenter || [-66.5, 10.5];
+    const rawCenter = environment.carto.defaultCenter || [-65.47, 12.40];
     const center3857 = (Math.abs(rawCenter[0]) <= 180 && Math.abs(rawCenter[1]) <= 90)
       ? fromLonLat(rawCenter, environment.carto.projection)
       : rawCenter;
+    const rawBand2Extent: [number, number, number, number] =
+      (environment.carto as any).band2Extent || [-76.02, 5.82, -54.92, 20.70];
+    const band2Extent3857 = [
+      ...fromLonLat([rawBand2Extent[0], rawBand2Extent[1]], environment.carto.projection),
+      ...fromLonLat([rawBand2Extent[2], rawBand2Extent[3]], environment.carto.projection)
+    ] as Extent;
 
     // 3. Instanciamos el mapa de OpenLayers con la proyección estándar del sistema (EPSG:3857)
     const olMap = new Map({
@@ -302,7 +308,11 @@ export class DetailsMapComponent implements AfterViewInit, OnChanges, OnDestroy 
         projection: environment.carto.projection,
         center: center3857,
         zoom: environment.carto.defaultZoom,
-        extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244],
+        extent: band2Extent3857,
+        constrainOnlyCenter: false,
+        showFullExtent: false,
+        smoothExtentConstraint: false,
+        smoothResolutionConstraint: false,
         multiWorld: false,
         maxZoom: 20
       })

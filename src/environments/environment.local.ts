@@ -28,9 +28,11 @@ export const environment = {
     pdfLayerId: 'pisac_shn:cartografia_ve_pdf',
     westAfricaRasterMarineId: 'pisac_shn:cartografia_ve',
 
-    // 3. Centramos la cámara en Venezuela por defecto (Longitud, Latitud)
-    defaultCenter: [-66.00, 12.45],
-    defaultZoom: 7.1,
+    // 3. Centramos la cámara en la Carta Banda 2 (Venezuela) por defecto (Longitud, Latitud)
+    defaultCenter: [-65.47, 12.40],
+    defaultZoom: 7.2,
+    minZoom: 7.2,
+    band2Extent: [-76.02, 5.82, -54.92, 20.70],
 
     // Configuracion Hibrida WMS
     localWmsUrl: 'http://localhost:8082/geoserver/pisac_shn/wms',

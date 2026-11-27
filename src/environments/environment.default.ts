@@ -44,10 +44,11 @@ export const environment = {
     maxHeight: 500
   },
   carto: {
-    defaultCenter: [-4.28, 48.2],
+    defaultCenter: [-65.47, 12.40],
     projection: 'EPSG:3857',
-    defaultZoom: 5,
-    minZoom: 6,
+    defaultZoom: 7.2,
+    minZoom: 7.2,
+    band2Extent: [-76.02, 5.82, -54.92, 20.70],
     defaultRadiusForPointExtent: 16,
     baseLayerId: 'XXXX',
     pdfLayerId: 'pisac_shn:cartografia_ve_pdf',
