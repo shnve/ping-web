@@ -25,10 +25,12 @@ export const environment = {
 
         // 2. Le decimos a PING exactamente quÃ© capa buscar dentro del XML que descargarÃ¡
         baseLayerId: 'pisac_shn:cartografia_ve',
+        pdfLayerId: 'pisac_shn:cartografia_ve_pdf',
         westAfricaRasterMarineId: 'pisac_shn:cartografia_ve',
 
-        // 3. Centramos la cÃ¡mara en Venezuela por defecto (Longitud, Latitud)
-        defaultCenter: [-69.2, 11.5],
+        // 3. Centramos la cámara en Venezuela por defecto (Longitud, Latitud)
+        defaultCenter: [-66.00, 12.45],
+        defaultZoom: 7.1,
 
         // Configuracion Hibrida WMS y WFS
         localWmsUrl: 'http://localhost:8082/geoserver/pisac_shn/wms',

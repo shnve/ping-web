@@ -54,9 +54,6 @@ export class GeoregulationModalComponent extends DetailsModalComponent implement
   @Input() drawer = false;
   /** PISAC (F4): en modo panel, geometrías a centrar en el mapa principal (todas o las de una parte). */
   @Output() focusFeatures = new EventEmitter<Feature[]>();
-  /** PISAC (F4): crea el mapa de detalle fuera de pantalla para incluirlo en el PDF desde el panel lateral. */
-  pdfMapRequested = false;
-  readonly pdfMapHeight = 450;
 
   currentPosition = 0;
   hasPrevious: boolean;
@@ -390,33 +387,17 @@ export class GeoregulationModalComponent extends DetailsModalComponent implement
 
   async generatePdf($event: any): Promise<void> {
     $event?.preventDefault();
-    // PISAC (F4): en el panel lateral no hay mapa de detalle; se crea fuera de pantalla para capturarlo
-    if (this.drawer && !this.mapComponent) {
-      this.pdfMapRequested = true;
-      await this.waitForPdfMap();
-    }
     const cartoMapCanvasCssSelectors = 'georegulation-modal-map > .carto-map-container > .sc-carto-map-container >'
       + '.map-container > .ol-viewport > .ol-layers .ol-layer canvas';
     const number = this.formatGeoregulationNumberPipe.transform(this.georegulation.mainNumber);
     const html = buildHtmlFromModalDetails(this.translate, this.formatGeoregulationNumberPipe, this.localizedDatePipe, this.translateNamePipe, this.formatMonthPipe, this.georegulation);
     const pdfName = `${number}.pdf`;
     const title = `${number} ${this.translate.instant('detail.title')} (${this.translate.instant('enum.georegulation-status.' + this.georegulation.status.toLowerCase()).toLowerCase()})`;
-    this.exportPdfService.exportModal(cartoMapCanvasCssSelectors, pdfName, [title], this.mapComponent?.map?.olMap, html);
-  }
-
-  /** Espera a que exista el mapa fuera de pantalla (creado por *ngIf tras la detección de cambios). */
-  private waitForPdfMap(): Promise<void> {
-    return new Promise<void>(resolve => {
-      const startedAt = Date.now();
-      const check = () => {
-        if (this.mapComponent?.map?.olMap || Date.now() - startedAt > 1500) {
-          resolve();
-          return;
-        }
-        setTimeout(check, 50);
-      };
-      setTimeout(check, 0);
-    });
+    const features = (this.georegulation?.parts ?? []).reduce<Feature[]>(
+      (acc, part) => acc.concat(part?.features ?? []),
+      []
+    );
+    await this.exportPdfService.exportModal(cartoMapCanvasCssSelectors, pdfName, [title], this.mapComponent?.map?.olMap, html, undefined, features);
   }
 
   confirmDownload(): void {

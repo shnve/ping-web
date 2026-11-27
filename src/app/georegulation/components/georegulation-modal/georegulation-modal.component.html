@@ -151,19 +151,6 @@
                 </div>
               </div>
             </div>
-            <!-- PISAC (F4): en el panel lateral el mapa de detalle no se muestra, pero el PDF lo necesita.
-                 Se crea fuera de pantalla solo al pedir el PDF (pdfMapRequested) y se captura desde ahí. -->
-            <div *ngIf="drawer && pdfMapRequested && georegulation" class="pisac-pdf-map-host" aria-hidden="true">
-              <georegulation-modal-map [modelItem]="georegulation" #map
-                                       [height]="pdfMapHeight"
-                                       [showLayers]="false"
-                                       [showZoneX]="false"
-                                       [canShowRasterMarineLayer]="true"
-                                       [enableLayerMaritimesEntitiesManagedOrObservedByService]="true"
-                                       [notionType]="notionType"
-                                       partsAttributeName="parts">
-              </georegulation-modal-map>
-            </div>
           </div>
       </div>
     </div>

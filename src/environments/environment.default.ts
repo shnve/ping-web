@@ -49,6 +49,7 @@ export const environment = {
     defaultZoom: 5,
     defaultRadiusForPointExtent: 16,
     baseLayerId: 'XXXX',
+    pdfLayerId: 'pisac_shn:cartografia_ve_pdf',
     rasterMarineLayerName: 'Raster Marine',
     westAfricaRasterMarineId: 'XXXX',
     westAfricaRasterMarineLayerName: 'Assemblage des cartes marines Afrique de l\'Ouest',
@@ -112,6 +113,9 @@ export const environment = {
   },
   api: {
     areas: 'api/areas',
+    cartography: {
+      bandExtents: 'api/cartography/band-extents'
+    },
     epsgGeometric: 'api/epsg/geometric',
     epsgProjection: 'api/epsg/projection',
     maritimeEntities: 'api/maritime-entities',

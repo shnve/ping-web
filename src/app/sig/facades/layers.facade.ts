@@ -115,6 +115,8 @@ export class LayersFacade {
   }
 
   private loadLayersFromGetCap(showRasterMarineWithAdditionalLayerForWestAfrica = false) {
+    // Precargar en segundo plano el índice liviano de cobertura por banda (~2-4 KB) para exportación PDF instantánea
+    void this.nauticalCartographyService.getBandExtents();
     return this.layersApi.getLayersFromGetCap(showRasterMarineWithAdditionalLayerForWestAfrica).pipe(
       map(getCapInfo => {
         // 1. Capa Base: Mapa Vectorial Local Autohospedado (MapLibre GL + PMTiles)

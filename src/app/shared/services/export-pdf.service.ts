@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { WarningTableFacade } from '@app/facades/warnings-table.facade';
 import { InfosourceNature, InfosourcePart, InfosourceWithParts, TRANSLATIONS_LIST_INFOSOURCE_NATURE, TRANSLATIONS_LIST_INFOSOURCE_STATUS } from '@app/infosource/models/infosource.model';
 import { InfosourcePartFormatDetailsModalObjectPipe } from '@app/infosource/pipes/infosource-part-format-details-modal-object.pipe';
@@ -17,8 +17,13 @@ import htmlToPdfmake from 'html-to-pdfmake';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { isEmpty } from 'lodash-es';
-import { Map } from 'ol';
+import { Feature, Map, View } from 'ol';
+import { createEmpty, extend, Extent, isEmpty as isExtentEmpty } from 'ol/extent';
+import Geometry from 'ol/geom/Geometry';
+import VectorLayer from 'ol/layer/Vector';
 import { toLonLat } from 'ol/proj';
+import VectorSource from 'ol/source/Vector';
+import { NauticalCartographyService } from '@sig/services/nautical-cartography.service';
 import { decimalToDegMin } from '@sig/utils/coordinate';
 import { Observable } from 'rxjs';
 import { map, mergeMap, reduce } from 'rxjs/operators';
@@ -68,10 +73,19 @@ const PDF_TABLE_LAYOUTS = {
  * Se mantiene corto: el navegador solo permite abrir la pestaña del PDF poco después del clic del usuario.
  */
 const PDF_MAP_RENDER_TIMEOUT = 2500;
-/** Zoom máximo del mapa del PDF al encuadrar la geometría del aviso */
+/** Zoom máximo de respaldo si GeoServer WMS no estuviera disponible */
 const PDF_MAP_MAX_ZOOM = 15;
 /** Factor de resolución de la imagen del mapa en el PDF (2 = doble de píxeles que en pantalla) */
 const PDF_MAP_IMAGE_SCALE = 2;
+/** Dimensiones lógicas (px CSS para html-to-pdfmake -> 345 x 225 pt) y físicas (2x = 920 x 600 px) del mapa PDF */
+const PDF_MAP_LOGICAL_WIDTH = 460;
+const PDF_MAP_LOGICAL_HEIGHT = 300;
+const PDF_MAP_PIXEL_RATIO = 2;
+const PDF_MAP_WMS_WIDTH = PDF_MAP_LOGICAL_WIDTH * PDF_MAP_PIXEL_RATIO;
+const PDF_MAP_WMS_HEIGHT = PDF_MAP_LOGICAL_HEIGHT * PDF_MAP_PIXEL_RATIO;
+/** DPI equivalente (2 x 90.714 DPI estándar OGC) para que MaxScaleDenominator evalúe la escala impresa real */
+const PDF_MAP_WMS_DPI = 181;
+const PDF_MAP_WATER_BG = '#e3f4fa';
 
 @Injectable({
   providedIn: 'root'
@@ -119,7 +133,12 @@ export class ExportPdfService {
     private readonly localizedDatePipe: LocalizedDatePipe,
     private readonly warningTableFacade: WarningTableFacade,
     private readonly infosourcePartFormatDetailsModalObjectPipe: InfosourcePartFormatDetailsModalObjectPipe,
-    private readonly translate: TranslateService) { }
+    private readonly translate: TranslateService,
+    @Optional() private readonly nauticalCartographyService?: NauticalCartographyService) {
+    this.cartographyHelper = this.nauticalCartographyService ?? new NauticalCartographyService();
+  }
+
+  private readonly cartographyHelper: NauticalCartographyService;
 
   /**
    * PISAC: cabecera institucional de los PDF generados con pdfMake, en una sola fila:
@@ -180,7 +199,11 @@ export class ExportPdfService {
     const warningNumberText = this.formatWarningNumberPipe.transform(warning);
     const title = warningNumberText ? `<b>${headerLabel}</b> : ${warningNumberText}` : `<b>${headerLabel}</b>`;
     const sharedLinkUrl = getSharedLinkUrl(warning.id, window.location.href);
-    this.exportModal(cartoMapCanvasCssSelectors, pdfName, title, olMap, this.buildWarningHtml(this.convertWarningToTableWarning(warning)), sharedLinkUrl);
+    const features = (warning?.featureParts ?? []).reduce<Feature[]>(
+      (acc, part) => acc.concat(part?.geometries ?? [], part?.affectedAreas ?? []),
+      []
+    );
+    await this.exportModal(cartoMapCanvasCssSelectors, pdfName, title, olMap, this.buildWarningHtml(this.convertWarningToTableWarning(warning)), sharedLinkUrl, features);
   }
 
   exportSurveyModal(survey: SurveyDetails, olMap: Map): void {
@@ -188,7 +211,7 @@ export class ExportPdfService {
     const pdfName = `${survey.nameAndLocation ?? 'document'}.pdf`;
     const title = `${survey.nameAndLocation ?? ''} ${this.translate.instant('detail.title')}`;
 
-    this.exportModal(cartoMapCanvasCssSelectors, pdfName, [title], olMap, this.buildSurveyHtml(survey));
+    void this.exportModal(cartoMapCanvasCssSelectors, pdfName, [title], olMap, this.buildSurveyHtml(survey));
   }
 
   exportInfosourceModal(infosource: InfosourceWithParts, olMap: Map): void {
@@ -200,16 +223,40 @@ export class ExportPdfService {
     const Infosourcenumber = formattedNumber ? `<li style="font-weight: bold">${this.translate.instant('detail.number')} : ${formattedNumber}</li>` : ``;
     const baseUrl = window.location.href.split('/infosource/tables')[0];
     const sharedLinkUrl = infosource.id ? `${baseUrl}/infosource/tables/${infosource.id}` : undefined;
+    const features = (infosource?.featureParts ?? []).reduce<Feature[]>(
+      (acc, part) => acc.concat(part?.localisation ?? [], (part as any)?.detections ?? []),
+      []
+    );
 
-    this.exportModal(cartoMapCanvasCssSelectors, pdfName, title, olMap, this.buildInfosourceHtml(infosource, Infosourcenumber), sharedLinkUrl);
+    void this.exportModal(cartoMapCanvasCssSelectors, pdfName, title, olMap, this.buildInfosourceHtml(infosource, Infosourcenumber), sharedLinkUrl, features);
   }
 
-  async exportModal(cartoMapCanvasCssSelectors: string, pdfName: string, title: string | Object[], olMap: Map, builtHtmlItem: string, linkUrl?: string): Promise<void> {
+  async exportModal(
+    cartoMapCanvasCssSelectors: string,
+    pdfName: string,
+    title: string | Object[],
+    olMap: Map,
+    builtHtmlItem: string,
+    linkUrl?: string,
+    explicitFeatures?: Feature[]
+  ): Promise<void> {
     await this.loadPdfMaker();
     const logoDataUrl = await this.getLogoBase64();
 
     let mapImage = '';
-    if (olMap) {
+    const featuresToRender = explicitFeatures?.length
+      ? explicitFeatures
+      : this.extractVectorFeaturesFromMap(olMap);
+
+    if (featuresToRender.length > 0) {
+      const atomicDataUrl = await this.renderAtomicWmsPdfMap(featuresToRender);
+      if (atomicDataUrl) {
+        mapImage = `<img src="${atomicDataUrl}" width="${PDF_MAP_LOGICAL_WIDTH}" style="text-align: center;">`;
+      }
+    }
+
+    // Respaldo de captura de lienzo únicamente si GeoServer WMS no estuvo accesible y existe un olMap en el DOM
+    if (!mapImage && olMap) {
       const imageOptions = { backgroundColor: 'white', quality: 1.0 };
 
       olMap.updateSize();
@@ -218,23 +265,19 @@ export class ExportPdfService {
         olMap.getView().fit(modelExtent, {
           size: olMap.getSize(),
           padding: [50, 50, 50, 50],
-          // PISAC: antes 13; con 15 la carta náutica se aprecia con detalle cuando el aviso es un punto o un área pequeña
           maxZoom: PDF_MAP_MAX_ZOOM
         });
       }
-      // PISAC: esperar a que el mapa cargue las teselas del nuevo encuadre (antes solo renderSync,
-      // que capturaba el mapa a medio cargar)
       await this.waitForMapRender(olMap);
 
       const size = olMap.getSize();
       const mapWidthPx = size && size[0] > 0 ? size[0] : 600;
-      const width = Math.min(460, Math.round(mapWidthPx * 0.65));
+      const width = Math.min(PDF_MAP_LOGICAL_WIDTH, Math.round(mapWidthPx * 0.65));
 
       let imageData = '';
       try {
         imageData = this.getMapAsImage(cartoMapCanvasCssSelectors, olMap, mime, imageOptions, PDF_MAP_IMAGE_SCALE);
       } catch (error) {
-        // Canvas "contaminado" por una capa sin CORS: se genera el PDF sin mapa en lugar de fallar
         console.warn('[PISAC] No se pudo capturar el mapa para el PDF', error);
       }
       mapImage = imageData ? `<img src="${imageData}" width="${width}" style="text-align: center;">` : '';
@@ -269,6 +312,218 @@ export class ExportPdfService {
                         <div class="map-carto">${mapImage}</div>
                         <div>${builtHtmlItem}</div>`;
     this.createPdf(htmlContent, pdfName, linkUrl);
+  }
+
+  /**
+   * Genera la imagen del mapa del PDF mediante 1 sola petición WMS GetMap atómica (920x600 px sobre
+   * cartografia_ve_pdf, escala continua y cero condiciones de carrera) y superpone las geometrías/símbolos
+   * vectoriales de OpenLayers a 2x de nitidez sin levantar instancias WebGL ni mallas WMTS.
+   */
+  private async renderAtomicWmsPdfMap(rawFeatures: Feature[]): Promise<string> {
+    if (typeof document === 'undefined' || !rawFeatures?.length) {
+      return '';
+    }
+    const { clonedFeatures, rawExtent3857 } = this.cloneFeaturesIn3857(rawFeatures);
+    if (!clonedFeatures.length || isExtentEmpty(rawExtent3857)) {
+      return '';
+    }
+
+    const bandExtents = await this.cartographyHelper.getBandExtents();
+    const bbox3857 = this.cartographyHelper.computePdfExtent3857(
+      rawExtent3857,
+      PDF_MAP_WMS_WIDTH,
+      PDF_MAP_WMS_HEIGHT,
+      PDF_MAP_WMS_DPI,
+      bandExtents
+    );
+
+    const [wmsImage, vectorCanvas] = await Promise.all([
+      this.cartographyHelper.fetchAtomicWmsImage(bbox3857, PDF_MAP_WMS_WIDTH, PDF_MAP_WMS_HEIGHT, PDF_MAP_WMS_DPI),
+      this.renderVectorOverlayCanvas(clonedFeatures, bbox3857)
+    ]);
+
+    if (!wmsImage) {
+      return '';
+    }
+
+    const finalCanvas = document.createElement('canvas');
+    finalCanvas.width = PDF_MAP_WMS_WIDTH;
+    finalCanvas.height = PDF_MAP_WMS_HEIGHT;
+    const ctx = finalCanvas.getContext('2d');
+    if (!ctx) {
+      return '';
+    }
+
+    ctx.fillStyle = PDF_MAP_WATER_BG;
+    ctx.fillRect(0, 0, PDF_MAP_WMS_WIDTH, PDF_MAP_WMS_HEIGHT);
+    ctx.drawImage(wmsImage, 0, 0, PDF_MAP_WMS_WIDTH, PDF_MAP_WMS_HEIGHT);
+    if (vectorCanvas) {
+      ctx.drawImage(vectorCanvas, 0, 0, PDF_MAP_WMS_WIDTH, PDF_MAP_WMS_HEIGHT);
+    }
+    return finalCanvas.toDataURL(mime, 1.0);
+  }
+
+  private cloneFeaturesIn3857(features: Feature[]): { clonedFeatures: Feature[]; rawExtent3857: Extent } {
+    const clonedFeatures: Feature[] = [];
+    const rawExtent3857 = createEmpty();
+    for (const feature of features) {
+      const geom = feature?.getGeometry?.();
+      if (!geom) {
+        continue;
+      }
+      const clone = feature.clone();
+      clone.setStyle(feature.getStyle());
+      const cloneGeom = clone.getGeometry();
+      if (!cloneGeom) {
+        continue;
+      }
+      const ext = cloneGeom.getExtent();
+      if (
+        ext &&
+        ext.every(v => Number.isFinite(v)) &&
+        Math.abs(ext[0]) <= 180 &&
+        Math.abs(ext[1]) <= 90 &&
+        Math.abs(ext[2]) <= 180 &&
+        Math.abs(ext[3]) <= 90 &&
+        (ext[0] !== 0 || ext[1] !== 0)
+      ) {
+        cloneGeom.transform('EPSG:4326', 'EPSG:3857');
+      }
+      const ext3857 = cloneGeom.getExtent();
+      if (ext3857 && ext3857.every(v => Number.isFinite(v))) {
+        extend(rawExtent3857, ext3857);
+        clonedFeatures.push(clone);
+      }
+    }
+    return { clonedFeatures, rawExtent3857 };
+  }
+
+  private extractVectorFeaturesFromMap(olMap?: Map): Feature[] {
+    if (!olMap?.getLayers) {
+      return [];
+    }
+    const collected: Feature[] = [];
+    for (const layer of olMap.getLayers().getArray()) {
+      if (layer instanceof VectorLayer) {
+        const source = layer.getSource?.();
+        if (source?.getFeatures) {
+          for (const f of source.getFeatures()) {
+            const inner = f?.get?.('features');
+            if (Array.isArray(inner)) {
+              collected.push(...inner);
+            } else if (f) {
+              collected.push(f);
+            }
+          }
+        }
+      }
+    }
+    return collected;
+  }
+
+  private async renderVectorOverlayCanvas(clonedFeatures: Feature[], bbox3857: Extent): Promise<HTMLCanvasElement | null> {
+    const resolution = (bbox3857[2] - bbox3857[0]) / PDF_MAP_LOGICAL_WIDTH;
+    await this.ensureFeatureIconsLoaded(clonedFeatures, resolution);
+
+    const host = document.createElement('div');
+    host.style.position = 'fixed';
+    host.style.left = '-10000px';
+    host.style.top = '0';
+    host.style.width = `${PDF_MAP_LOGICAL_WIDTH}px`;
+    host.style.height = `${PDF_MAP_LOGICAL_HEIGHT}px`;
+    host.style.pointerEvents = 'none';
+    document.body.appendChild(host);
+
+    const vectorSource = new VectorSource<Geometry>({ features: clonedFeatures });
+    const vectorLayer = new VectorLayer({ source: vectorSource });
+    let vectorMap: Map | null = null;
+
+    try {
+      vectorMap = new Map({
+        target: host,
+        pixelRatio: PDF_MAP_PIXEL_RATIO,
+        controls: [],
+        interactions: [],
+        layers: [vectorLayer],
+        view: new View({
+          projection: 'EPSG:3857',
+          center: [(bbox3857[0] + bbox3857[2]) / 2, (bbox3857[1] + bbox3857[3]) / 2],
+          resolution,
+          constrainResolution: false
+        })
+      });
+      vectorMap.setSize([PDF_MAP_LOGICAL_WIDTH, PDF_MAP_LOGICAL_HEIGHT]);
+      vectorMap.renderSync();
+
+      const olCanvas = host.querySelector('canvas');
+      if (!olCanvas || olCanvas.width === 0 || olCanvas.height === 0) {
+        return null;
+      }
+      const out = document.createElement('canvas');
+      out.width = PDF_MAP_WMS_WIDTH;
+      out.height = PDF_MAP_WMS_HEIGHT;
+      const outCtx = out.getContext('2d');
+      if (!outCtx) {
+        return null;
+      }
+      outCtx.drawImage(olCanvas, 0, 0, PDF_MAP_WMS_WIDTH, PDF_MAP_WMS_HEIGHT);
+      return out;
+    } catch (err) {
+      console.warn('[PISAC] Error renderizando superposición vectorial para el PDF:', err);
+      return null;
+    } finally {
+      if (vectorMap) {
+        vectorMap.setTarget(null);
+      }
+      vectorSource.clear();
+      host.remove();
+    }
+  }
+
+  private async ensureFeatureIconsLoaded(features: Feature[], resolution: number): Promise<void> {
+    const pendingLoads: Promise<void>[] = [];
+    for (const feature of features) {
+      const styleOrFn = feature.getStyle();
+      const rawStyles = typeof styleOrFn === 'function'
+        ? styleOrFn(feature, resolution)
+        : styleOrFn;
+      const styles = Array.isArray(rawStyles) ? rawStyles : (rawStyles ? [rawStyles] : []);
+      for (const style of styles) {
+        const imgStyle: any = style?.getImage?.();
+        if (!imgStyle || typeof imgStyle.getImageState !== 'function') {
+          continue;
+        }
+        if (typeof imgStyle.getImage === 'function') {
+          imgStyle.getImage(PDF_MAP_PIXEL_RATIO);
+        }
+        if (imgStyle.getImageState() === 0 && typeof imgStyle.load === 'function') {
+          imgStyle.load();
+        }
+        if (imgStyle.getImageState() === 1 && typeof imgStyle.listenImageChange === 'function') {
+          pendingLoads.push(new Promise<void>(resolve => {
+            let settled = false;
+            const onStateChange = () => {
+              if (!settled && imgStyle.getImageState() >= 2) {
+                settled = true;
+                imgStyle.unlistenImageChange?.(onStateChange);
+                resolve();
+              }
+            };
+            imgStyle.listenImageChange(onStateChange);
+            setTimeout(() => {
+              if (!settled) {
+                settled = true;
+                imgStyle.unlistenImageChange?.(onStateChange);
+                resolve();
+              }
+            }, 1000);
+          }));
+        }
+      }
+    }
+    if (pendingLoads.length > 0) {
+      await Promise.all(pendingLoads);
+    }
   }
 
   /**
