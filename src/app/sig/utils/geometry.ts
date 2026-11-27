@@ -5,6 +5,7 @@
 import { environment } from '@env/environment';
 import { JsonGeometry } from '@sig/models/geometry';
 import { Coordinate } from 'ol/coordinate';
+import { Extent } from 'ol/extent';
 import Feature from 'ol/Feature';
 import GeoJson from 'ol/format/GeoJSON';
 import { Circle, Geometry, LineString, MultiPolygon, Point, Polygon } from 'ol/geom';
@@ -69,6 +70,18 @@ export function createOlGeometryFrom(geometry: JsonGeometry): Geometry {
     }
   }
   return olGeom;
+}
+
+/**
+ * PISAC: devuelve la extensión geográfica solo cuando el usuario seleccionó una Subárea específica (tiene areaId).
+ * Para el área raíz ("Toda el área (Venezuela)", cuyo polígono abarca toda la NAVAREA IV), devuelve undefined
+ * para conservar el encuadre inicial sobre la Carta Banda 2 (defaultCenter / defaultZoom).
+ */
+export function getSelectedSubAreaExtent(area: { geom?: JsonGeometry; areaId?: string } | null | undefined): Extent | undefined {
+  if (!area?.geom || !area.areaId) {
+    return undefined;
+  }
+  return createOlGeometryFrom(area.geom).getExtent();
 }
 
 /**

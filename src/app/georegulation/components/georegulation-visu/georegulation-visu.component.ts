@@ -11,7 +11,7 @@ import {
 import { MapGeoregulation } from '@app/georegulation/models/georegulation.model';
 import { GeoregulationService } from '@app/georegulation/services/georegulation.service';
 import Area from '@app/models/area.model';
-import { createOlGeometryFrom } from '@app/sig/utils/geometry';
+import { createOlGeometryFrom, getSelectedSubAreaExtent } from '@app/sig/utils/geometry';
 import { DisclaimerService } from '@app/states/disclaimer.service';
 import { NotificationState } from '@app/states/notification.state';
 import { ModelItemFilterState } from '@app/states/warning-filter.state';
@@ -121,8 +121,7 @@ export class GeoregulationVisuComponent implements OnInit, OnDestroy {
   }
 
   onSelectArea(area: Area) {
-    const geom = createOlGeometryFrom(area.geom);
-    this.selectedAreaExtent = geom.getExtent();
+    this.selectedAreaExtent = getSelectedSubAreaExtent(area);
     this.mapFilterStateGeoregulation.clearFilter();
     this.updateMapDisclaimer(area);
   }

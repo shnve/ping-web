@@ -507,7 +507,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     }
 
     if (changes.extent) {
-      this.fitToExtent();
+      if (this.extent) {
+        this.fitToExtent();
+      } else if (!changes.extent.firstChange) {
+        this.resetToDefaultView(true);
+      }
     }
     if (changes.warnings && this.warnings) {
       this.showWarnings ? this.showDatas && this.displaysWarningData() : this.displaysWarningData();
@@ -596,7 +600,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
                 wrapX: false,
                 crossOrigin: 'anonymous'
               }),
-              minZoom: 5,
+              minZoom: 0,
               zIndex: 1
             }),
             visible: true,
@@ -892,6 +896,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
         projection: environment.carto.projection,
         center: center3857,
         zoom: environment.carto.defaultZoom || 5,
+        minZoom: (environment.carto as any).minZoom ?? 6,
         extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244],
         multiWorld: false,
         maxZoom: 20
@@ -1511,6 +1516,25 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     this.fitToGivenExtent(this.extent);
   }
 
+  /** Restablece el encuadre inicial sobre la Carta Banda 2 (defaultCenter / defaultZoom). */
+  resetToDefaultView(animate = true): void {
+    const view = this.map?.getView?.();
+    if (!view) {
+      return;
+    }
+    const rawCenter = environment.carto.defaultCenter || [-66.00, 12.45];
+    const center3857 = (Math.abs(rawCenter[0]) <= 180 && Math.abs(rawCenter[1]) <= 90)
+      ? fromLonLat(rawCenter, environment.carto.projection)
+      : rawCenter;
+    const targetZoom = environment.carto.defaultZoom || 7.1;
+    if (animate) {
+      view.animate({ center: center3857, zoom: targetZoom, duration: 800 });
+    } else {
+      view.setCenter(center3857);
+      view.setZoom(targetZoom);
+    }
+  }
+
   /** @param padding [arriba, derecha, abajo, izquierda] en px (PISAC: deja libre el panel de detalle lateral) */
   fitToGivenExtent(extent: any, padding: number[] = [50, 50, 50, 50]): void {
     if (!extent || !this.map || !this.map.getView()) {
@@ -1533,11 +1557,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
         extentAUsar = transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
       }
 
-
+      const mapSize = this.map?.olMap?.getSize?.();
+      let safePadding = padding;
+      if (mapSize && mapSize[0] > 0 && mapSize[1] > 0 && padding?.length === 4) {
+        const maxRight = Math.max(60, Math.floor(mapSize[0] * 0.5) - padding[3]);
+        safePadding = [padding[0], Math.min(padding[1], maxRight), padding[2], padding[3]];
+      }
 
       // 2. Mover la cÃ¡mara con las coordenadas traducidas
       view.fit(extentAUsar, {
-        padding,
+        padding: safePadding,
         duration: 1000,
         maxZoom: 12
       });

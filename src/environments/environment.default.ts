@@ -47,6 +47,7 @@ export const environment = {
     defaultCenter: [-4.28, 48.2],
     projection: 'EPSG:3857',
     defaultZoom: 5,
+    minZoom: 6,
     defaultRadiusForPointExtent: 16,
     baseLayerId: 'XXXX',
     pdfLayerId: 'pisac_shn:cartografia_ve_pdf',

@@ -249,7 +249,11 @@ export class GeometriesFormComponent extends SharedMapComponent implements OnCha
 
     if (this.map) {
       if (!part.geometries.length && !part.affectedAreas.length) {
-        this.map.fitToGivenExtent(this.selectedAreaExtent);
+        if (this.selectedAreaExtent) {
+          this.map.fitToGivenExtent(this.selectedAreaExtent);
+        } else {
+          this.map.resetToDefaultView(false);
+        }
       } else {
         if (this.geometriesLayer) {
           this.map.centerOnFeatures(this.geometriesLayer);

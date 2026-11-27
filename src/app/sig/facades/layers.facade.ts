@@ -164,7 +164,7 @@ export class LayersFacade {
               wrapX: false,
               crossOrigin: 'anonymous'
             }),
-            minZoom: 5,
+            minZoom: 0,
             zIndex: 1
           })
         });

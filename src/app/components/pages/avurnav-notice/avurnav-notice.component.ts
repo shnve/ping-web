@@ -12,7 +12,7 @@ import { StaticSection } from '@app/static-section/models/static-section.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ChipValue } from '@shared/components/filter-banner/filter-banner.component';
 import { MapComponent } from '@sig/components/map/map.component';
-import { createOlGeometryFrom } from '@sig/utils/geometry';
+import { getSelectedSubAreaExtent } from '@sig/utils/geometry';
 import { format } from 'date-fns';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import Feature from 'ol/Feature';
@@ -246,8 +246,7 @@ export class AvurnavNoticeComponent implements OnInit, OnDestroy, OnChangeLang {
   }
 
   onSelectArea(area: Area) {
-    const geom = createOlGeometryFrom(area.geom);
-    this.selectedAreaExtent = geom.getExtent();
+    this.selectedAreaExtent = getSelectedSubAreaExtent(area);
     this.tableFilterState.clearFilter();
     this.mapFilterState.clearFilter();
     this.seriesFacade.getSeriesByAreaId$(area.id).subscribe(series => this.series = series);

@@ -10,7 +10,7 @@ import { environment } from '@env/environment';
 import { ToolKey } from '@shom2/carto/modules/DrawingModule/DrawingMainMenu';
 //import { metersToKms, metersToNMiles } from '@shom2/carto/utils/conversions';
 //import { PROJECTION_WGS84_DECIMAL, PROJECTION_WGS84_DMS } from '@shom2/carto/utils/coordinate';
-import { createOlGeometryFrom } from '@sig/utils/geometry';
+import { getSelectedSubAreaExtent } from '@sig/utils/geometry';
 import { Scavenger } from '@wishtack/rx-scavenger';
 import { Extent } from 'ol/extent';
 import Feature from 'ol/Feature';
@@ -166,8 +166,7 @@ export class SharedMapComponent implements OnInit, AfterViewInit, OnDestroy {
       filter(area => !!area)
     ).subscribe(
       area => {
-        const geom = createOlGeometryFrom(area.geom);
-        this.selectedAreaExtent = geom.getExtent();
+        this.selectedAreaExtent = getSelectedSubAreaExtent(area);
       }
     );
   }
