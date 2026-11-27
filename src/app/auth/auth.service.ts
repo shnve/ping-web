@@ -350,6 +350,12 @@ export class AuthService {
       || !this.getAuthenticatedUser().noticeProducer) {
       return false;
     }
+    if (scope === SCOPE.WARNING) {
+      if (action === 'creation') {
+        return this.hasAnyRole([ServiceRole.SERVICE_ADMIN, ServiceRole.SERVICE_OPERATOR]);
+      }
+      return this.hasAnyRole([ServiceRole.SERVICE_ADMIN, ServiceRole.SERVICE_OPERATOR, ServiceRole.SERVICE_APPROVER]);
+    }
     return true;
   }
 

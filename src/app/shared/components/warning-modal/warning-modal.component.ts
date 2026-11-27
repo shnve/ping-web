@@ -11,7 +11,7 @@ import { MapWarningsFacade } from '@app/facades/map-warnings.facade';
 import { ServiceRole } from '@app/models/maritime-service.model';
 import { NotionType } from '@app/models/notion.model';
 import { Serie } from '@app/models/serie.model';
-import { AdminJsonWarning, JsonWarning, MainWarningPart, WarningFeaturePart, listWarningStatus } from '@app/models/warning.model';
+import { AdminJsonWarning, AdminWarning, JsonWarning, MainWarningPart, WarningFeaturePart, listWarningStatus } from '@app/models/warning.model';
 import Feature from 'ol/Feature';
 import { GetNumberForSearchedPartPipe } from '@app/shared/pipes/get-number-for-searched-part.pipe';
 import { HasGeometriesPipe } from '@app/shared/pipes/has-geometries.pipe';
@@ -53,6 +53,7 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
   @ViewChild('clonePanel') clonePanel: OverlayPanel;
   @ViewChild('addToFolderPanel') addToFolderPanel: OverlayPanel;
   @ViewChild('cancelPanel') cancelPanel: OverlayPanel;
+  @ViewChild('rejectPanel') rejectPanel: OverlayPanel;
   @ViewChild('menu') menu: Menu;
   @ViewChild('downloadPanel') downloadPanel: OverlayPanel;
   @ViewChild('manageButton') manageButton: ElementRef;
@@ -60,10 +61,14 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
   canEdit = false;
   canSetReviewed = false;
   canPublish = false;
+  canRequestApproval = false;
+  canApprove = false;
+  canReject = false;
   canDelete = false;
   canCancel = false;
   canClone = false;
   canAddToFolder = false;
+  rejectionCommentInput = '';
   availableSeriesForCloningWarning: Serie[];
   selectedSerieIdForCloningWarning: string;
   selectedStatusToCopy = listWarningStatus.DRAFT;
@@ -231,15 +236,42 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
   checkActions(warning: AdminJsonWarning): void {
     this.canDelete = this.checkIfCanDelete(warning);
     this.canEdit = this.checkIfCanEdit(warning);
-    this.canPublish = this.checkIfCanPublish(warning);
+    this.canPublish = false;
+    this.canRequestApproval = this.checkIfCanRequestApproval(warning);
+    this.canApprove = this.checkIfCanApprove(warning);
+    this.canReject = this.checkIfCanReject(warning);
     this.canCancel = this.checkIfCanCancel(warning);
     this.canClone = this.checkIfCanClone();
-    this.canSetReviewed = this.checkIfCanSetReviewed(warning);
+    this.canSetReviewed = false;
     this.canAddToFolder = warning.canBeAddedToFolder;
-    this.canSetReviewed = this.checkIfCanSetReviewed(warning);
 
-    this.showPublicationAlertMessage = !this.canPublish && warning?.status === listWarningStatus.DRAFT;
+    this.showPublicationAlertMessage = !warning?.canRequestApproval && warning?.status === listWarningStatus.DRAFT;
     this.buildManagementMenu();
+  }
+
+  checkIfCanRequestApproval(warning: AdminJsonWarning): boolean {
+    const userHasOperatorOrAdmin = this.authService.hasAnyRoleOnService([ServiceRole.SERVICE_ADMIN, ServiceRole.SERVICE_OPERATOR], warning.serviceId);
+    return !!warning.canRequestApproval && warning.status === listWarningStatus.DRAFT && userHasOperatorOrAdmin;
+  }
+
+  checkIfCanApprove(warning: AdminJsonWarning): boolean {
+    const isApprover = this.authService.hasAnyRoleOnService([ServiceRole.SERVICE_APPROVER], warning.serviceId);
+    if (!isApprover) {
+      return false;
+    }
+    if (warning.status === listWarningStatus.PENDING_APPROVAL) {
+      return !!warning.canBePublished;
+    }
+    return warning.status === listWarningStatus.PUBLISHED && !!warning.cancellationRequested;
+  }
+
+  checkIfCanReject(warning: AdminJsonWarning): boolean {
+    const isApprover = this.authService.hasAnyRoleOnService([ServiceRole.SERVICE_APPROVER], warning.serviceId);
+    if (!isApprover) {
+      return false;
+    }
+    return warning.status === listWarningStatus.PENDING_APPROVAL
+      || (warning.status === listWarningStatus.PUBLISHED && !!warning.cancellationRequested);
   }
 
   checkIfCanEditAndDelete(warning: AdminJsonWarning): boolean {
@@ -278,7 +310,7 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
   }
 
   checkIfCanCancel(warning: AdminJsonWarning): boolean {
-    return this.checkIfActionIsAvailableAccordingStatus(warning, listWarningStatus.PUBLISHED);
+    return this.checkIfActionIsAvailableAccordingStatus(warning, listWarningStatus.PUBLISHED) && !warning.cancellationRequested;
   }
 
   checkIfActionIsAvailableAccordingStatus(warning: AdminJsonWarning, expectedStatus: string): boolean {
@@ -312,6 +344,92 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
         this.onStatusChangeAction.emit();
       },
       () => this.showToast(this.translate.instant('detail.set-reviewed-error'), 'error'));
+  }
+
+  confirmRequestApproval(event: Event): void {
+    this.confirmationService.confirm({
+      target: this.manageButton.nativeElement,
+      message: this.translate.instant('detail.request-approval-confirm'),
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.requestApproval();
+      }
+    });
+  }
+
+  private requestApproval(): void {
+    this.canRequestApproval = false;
+    this.warningsAdminFacade.requestApproval$(this.warning.id).subscribe(
+      () => {
+        this.showToast(this.translate.instant('detail.request-approval-success'), 'success');
+        this.onStatusChangeAction.emit();
+      },
+      () => {
+        this.showToast(this.translate.instant('detail.request-approval-error'), 'error');
+      }
+    );
+  }
+
+  confirmApprove(event: Event): void {
+    const isCancellation = !!(this.warning as Partial<AdminWarning>)?.cancellationRequested;
+    const confirmKey = isCancellation ? 'detail.approve-cancellation-confirm' : 'detail.approve-publication-confirm';
+    this.confirmationService.confirm({
+      target: this.manageButton.nativeElement,
+      message: this.translate.instant(confirmKey),
+      icon: 'pi pi-check-circle',
+      accept: () => {
+        this.approve(isCancellation);
+      }
+    });
+  }
+
+  private approve(isCancellation: boolean): void {
+    this.canApprove = false;
+    const successKey = isCancellation ? 'detail.approve-cancellation-success' : 'detail.approve-publication-success';
+    const errorKey = isCancellation ? 'detail.approve-cancellation-error' : 'detail.approve-publication-error';
+    this.warningsAdminFacade.approve$(this.warning.id).subscribe(
+      () => {
+        this.showToast(this.translate.instant(successKey), 'success');
+        this.onStatusChangeAction.emit();
+      },
+      (err) => {
+        if (err && err.status === 500 && err.error?.message?.includes('Incompatible SerieType')) {
+          this.showToast('La categoría de peligro seleccionada no es compatible con esta serie.', 'error');
+        } else {
+          this.showToast(this.translate.instant(errorKey), 'error');
+        }
+      }
+    );
+  }
+
+  openRejectPanel(event: Event): void {
+    this.rejectionCommentInput = '';
+    this.rejectPanel.show(event, this.manageButton.nativeElement);
+  }
+
+  cancelReject(): void {
+    this.rejectionCommentInput = '';
+    this.rejectPanel.hide();
+  }
+
+  confirmReject(): void {
+    const comment = this.rejectionCommentInput?.trim();
+    if (!comment) {
+      return;
+    }
+    const isCancellation = !!(this.warning as Partial<AdminWarning>)?.cancellationRequested;
+    const successKey = isCancellation ? 'detail.reject-cancellation-success' : 'detail.return-for-correction-success';
+    this.warningsAdminFacade.reject$(this.warning.id, comment).subscribe(
+      () => {
+        this.rejectPanel.hide();
+        this.rejectionCommentInput = '';
+        this.showToast(this.translate.instant(successKey), 'success');
+        this.onStatusChangeAction.emit();
+      },
+      () => {
+        this.showToast(this.translate.instant('detail.reject-error'), 'error');
+      }
+    );
   }
 
   confirmPublish(event: Event): void {
@@ -460,7 +578,7 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
   }
 
   get canManage(): boolean {
-    return this.canDelete || this.canEdit || this.canPublish || this.canCancel || this.canClone || this.canSetReviewed || this.canAddToFolder || this.canSetReviewed;
+    return this.canDelete || this.canEdit || this.canRequestApproval || this.canApprove || this.canReject || this.canPublish || this.canCancel || this.canClone || this.canAddToFolder;
   }
 
   buildManagementMenu(): void {
@@ -473,6 +591,42 @@ export class WarningModalComponent extends DetailsModalComponent implements OnIn
           this.edit();
         },
         title: this.translate.instant('detail.edit')
+      });
+    }
+
+    if (this.canRequestApproval) {
+      this.items.push({
+        label: this.translate.instant('detail.request-approval'),
+        command: (event: any) => {
+          this.confirmRequestApproval(event.originalEvent);
+        },
+        title: this.translate.instant('detail.request-approval')
+      });
+    }
+
+    if (this.canApprove) {
+      const approveLabelKey = (this.warning as Partial<AdminWarning>)?.cancellationRequested
+        ? 'detail.approve-cancellation'
+        : 'detail.approve-publication';
+      this.items.push({
+        label: this.translate.instant(approveLabelKey),
+        command: (event: any) => {
+          this.confirmApprove(event.originalEvent);
+        },
+        title: this.translate.instant(approveLabelKey)
+      });
+    }
+
+    if (this.canReject) {
+      const rejectLabelKey = (this.warning as Partial<AdminWarning>)?.cancellationRequested
+        ? 'detail.reject-cancellation'
+        : 'detail.return-for-correction';
+      this.items.push({
+        label: this.translate.instant(rejectLabelKey),
+        command: (event: any) => {
+          this.openRejectPanel(event.originalEvent);
+        },
+        title: this.translate.instant(rejectLabelKey)
       });
     }
 

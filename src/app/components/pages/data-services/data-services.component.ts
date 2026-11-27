@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataServiceSerie, SeriesApi } from '@app/api/series.api';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 /** Una serie con sus accesos por idioma, ya armados para la tabla. */
@@ -27,14 +28,21 @@ export class DataServicesComponent implements OnInit, OnDestroy {
   state: 'loading' | 'ready' | 'error' = 'loading';
   copiedId: string | null = null;
 
-  readonly swaggerUrl = '/swagger-ui/index.html';
   readonly ihoRegistryUrl = 'https://registry.iho.int/productspec/list.do';
-  readonly contactEmail = 'shnser@shn.gob.ve';
+  readonly contactEmail = 'shnayunav@shn.gob.ve';
 
   private subscription: Subscription;
   private copiedTimer: ReturnType<typeof setTimeout>;
 
-  constructor(private readonly seriesApi: SeriesApi) { }
+  constructor(
+    private readonly seriesApi: SeriesApi,
+    private readonly translate: TranslateService
+  ) { }
+
+  get swaggerUrl(): string {
+    const lang = this.translate.currentLang === 'en' ? 'en' : 'es';
+    return `/swagger-ui/index.html?lang=${lang}`;
+  }
 
   ngOnInit(): void {
     this.subscription = this.seriesApi.getS124Series$().subscribe({

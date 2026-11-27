@@ -325,8 +325,14 @@
     "tabs": {
       "models": "ANs models",
       "drafts": "ANs drafts",
+      "pending-approval": "Pending approval",
       "in-effect": "ANs in effect",
       "canceled": "Canceled ANs"
+    },
+    "approval-type": {
+      "publication": "Publication",
+      "cancellation": "Cancellation",
+      "cancellation-pending": "Cancellation pending approval"
     }
   },
   "info-management": {
@@ -364,6 +370,7 @@
   "service-role": {
     "SERVICE_ADMIN": "Agency admin",
     "SERVICE_OPERATOR": "Agency operator",
+    "SERVICE_APPROVER": "Agency approver",
     "SERVICE_VISITOR": "Agency visitor"
   },
   "infosource": {
@@ -1278,7 +1285,10 @@
       "survey-analysis-failure": "Analysis finished: survey not compliant",
       "survey-external-analysis-end-with-critical-probes": "Cartonaut analysis finished: critical probes to report",
       "survey-external-analysis-end-without-critical-probe": "Cartonaut analysis finished: no critical probe",
-      "survey-external-analysis-end-with-failure": "Cartonaut analysis failed: check your bathy data"
+      "survey-external-analysis-end-with-failure": "Cartonaut analysis failed: check your bathy data",
+      "warning-approval-requested": "Approval requested",
+      "warning-approved": "Warning approved",
+      "warning-rejected": "Returned for correction"
     },
     "mark-as-read": "Mark as read",
     "mark-as-unread": "Mark as unread",
@@ -1453,6 +1463,7 @@
       "state": "State",
       "lastUpdate": "Last update",
       "references": "Canceled/Replaced",
+      "approvalType": "Request",
       "publicationDate": "Publication",
       "estimatedPublicationDate": "Estimated publication date",
       "cancellationDate": "Cancellation",
@@ -1775,7 +1786,31 @@
     "delete-error-draft": "The warning draft failed to be deleted",
     "cancel-confirm": "You're about to cancel this warning, are you sure ?",
     "cancel-success": "The warning has been cancelled",
+    "cancel-request-success": "The cancellation request has been sent for approval",
     "cancel-error": "The warning failed to be cancelled",
+    "request-approval": "Request approval",
+    "request-approval-confirm": "You are about to submit this draft for approval, are you sure?",
+    "request-approval-success": "The draft has been submitted for approval",
+    "request-approval-error": "Failed to submit approval request",
+    "approve-publication": "Approve and publish",
+    "approve-publication-confirm": "You are about to approve and immediately publish this warning/notice, are you sure?",
+    "approve-publication-success": "Approved: the warning/notice has been published",
+    "approve-publication-error": "Failed to approve and publish",
+    "approve-cancellation": "Approve and cancel",
+    "approve-cancellation-confirm": "You are about to approve and immediately cancel this warning/notice, are you sure?",
+    "approve-cancellation-success": "Approved: the warning/notice has been cancelled",
+    "approve-cancellation-error": "Failed to approve and cancel",
+    "return-for-correction": "Return for correction",
+    "return-for-correction-success": "The draft has been returned to the author for correction",
+    "reject-cancellation": "Reject cancellation request",
+    "reject-cancellation-success": "The cancellation request has been rejected",
+    "reject-confirm": "Confirm return",
+    "reject-error": "Failed to return request",
+    "rejection-comment-label": "Comments for the author (mandatory)",
+    "rejection-comment-placeholder": "Describe the required corrections before approval...",
+    "pending-publication-approval": "Pending publication approval",
+    "pending-cancellation-approval": "Cancellation request pending approval",
+    "returned-for-correction-title": "Approver comments",
     "copySharedLinkUrl-success": "Direct link copied to clipboard",
     "displayWarningModal": "Display warning details on map",
     "select-serie": "Select a series",
@@ -2603,6 +2638,7 @@
       "not-saved": "Not saved",
       "draft": "Draft",
       "model": "Model",
+      "pending_approval": "Pending approval",
       "published": "Published",
       "cancelled": "Cancelled"
     },
@@ -3680,6 +3716,7 @@
   "role": {
     "service-admin": "Administrator",
     "service-operator": "Operator",
+    "service-approver": "Approver",
     "service-visitor": "Visitor"
   },
   "attachments": {

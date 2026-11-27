@@ -325,8 +325,14 @@
     "tabs": {
       "models": "Modelos de ANs",
       "drafts": "Borradores de ANs",
+      "pending-approval": "Por aprobar",
       "in-effect": "ANs en vigor",
       "canceled": "ANs cancelados"
+    },
+    "approval-type": {
+      "publication": "Publicación",
+      "cancellation": "Cancelación",
+      "cancellation-pending": "Cancelación por aprobar"
     }
   },
   "info-management": {
@@ -364,6 +370,7 @@
   "service-role": {
     "SERVICE_ADMIN": "Administrador del organismo",
     "SERVICE_OPERATOR": "Operador del organismo",
+    "SERVICE_APPROVER": "Aprobador del organismo (visto bueno)",
     "SERVICE_VISITOR": "Visitante del organismo"
   },
   "infosource": {
@@ -1278,7 +1285,10 @@
       "survey-analysis-failure": "Análisis finalizado: levantamiento no conforme",
       "survey-external-analysis-end-with-critical-probes": "Análisis Cartonaut finalizado: sondas críticas a reportar",
       "survey-external-analysis-end-without-critical-probe": "Análisis Cartonaut finalizado: no hay sondas críticas",
-      "survey-external-analysis-end-with-failure": "Análisis Cartonaut fallido: verifica tus datos batimétricos"
+      "survey-external-analysis-end-with-failure": "Análisis Cartonaut fallido: verifica tus datos batimétricos",
+      "warning-approval-requested": "Visto bueno solicitado",
+      "warning-approved": "Visto bueno otorgado",
+      "warning-rejected": "Devuelto para corrección"
     },
     "mark-as-read": "Marcar como leída",
     "mark-as-unread": "Marcar como no leída",
@@ -1462,6 +1472,7 @@
       "state": "Estado",
       "lastUpdate": "Última actualización",
       "references": "Cancelado/Reemplazado",
+      "approvalType": "Solicitud",
       "publicationDate": "Publicación",
       "estimatedPublicationDate": "Fecha estimada de publicación",
       "cancellationDate": "Cancelación",
@@ -1784,7 +1795,31 @@
     "delete-error-draft": "No se pudo eliminar el borrador de la advertencia",
     "cancel-confirm": "Estás a punto de cancelar esta advertencia, ¿estás seguro?",
     "cancel-success": "La advertencia ha sido cancelada",
+    "cancel-request-success": "La solicitud de cancelación ha sido enviada para visto bueno",
     "cancel-error": "No se pudo cancelar la advertencia",
+    "request-approval": "Solicitar visto bueno",
+    "request-approval-confirm": "Estás a punto de enviar este borrador para visto bueno, ¿estás seguro?",
+    "request-approval-success": "El borrador ha sido enviado para visto bueno",
+    "request-approval-error": "No se pudo enviar la solicitud de visto bueno",
+    "approve-publication": "Dar visto bueno y publicar",
+    "approve-publication-confirm": "Estás a punto de otorgar el visto bueno y publicar inmediatamente este aviso/advertencia, ¿estás seguro?",
+    "approve-publication-success": "Visto bueno otorgado: el aviso/advertencia ha sido publicado",
+    "approve-publication-error": "No se pudo otorgar el visto bueno y publicar",
+    "approve-cancellation": "Dar visto bueno y cancelar",
+    "approve-cancellation-confirm": "Estás a punto de otorgar el visto bueno y cancelar inmediatamente este aviso/advertencia, ¿estás seguro?",
+    "approve-cancellation-success": "Visto bueno otorgado: el aviso/advertencia ha sido cancelado",
+    "approve-cancellation-error": "No se pudo otorgar el visto bueno y cancelar",
+    "return-for-correction": "Devolver para corrección",
+    "return-for-correction-success": "El borrador ha sido devuelto al redactor para su corrección",
+    "reject-cancellation": "Rechazar solicitud de cancelación",
+    "reject-cancellation-success": "La solicitud de cancelación ha sido rechazada",
+    "reject-confirm": "Confirmar devolución",
+    "reject-error": "No se pudo registrar la devolución",
+    "rejection-comment-label": "Observaciones para el redactor (obligatorio)",
+    "rejection-comment-placeholder": "Indique los ajustes requeridos antes de otorgar el visto bueno...",
+    "pending-publication-approval": "Pendiente de visto bueno para publicación",
+    "pending-cancellation-approval": "Solicitud de cancelación pendiente de visto bueno",
+    "returned-for-correction-title": "Observaciones del aprobador",
     "copySharedLinkUrl-success": "Enlace directo copiado al portapapeles",
     "displayWarningModal": "Mostrar los detalles de la advertencia en el mapa",
     "select-serie": "Seleccionar una serie",
@@ -2612,6 +2647,7 @@
       "not-saved": "No guardado",
       "draft": "Borrador",
       "model": "Modelo",
+      "pending_approval": "Por aprobar",
       "published": "Publicado",
       "cancelled": "Cancelado"
     },
@@ -3689,6 +3725,7 @@
   "role": {
     "service-admin": "Administrador",
     "service-operator": "Operador",
+    "service-approver": "Aprobador (visto bueno)",
     "service-visitor": "Visitante"
   },
   "attachments": {

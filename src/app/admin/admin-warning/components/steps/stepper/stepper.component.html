@@ -3,6 +3,13 @@
         <span class="warning-number">{{warning.prerequisites | formatWarningNumber:true}}</span>
         <span class="warning-status">{{('enum.warning-status.' + (warning.status | lowercase)) | translate}}</span>
     </div>
+    <div class="pisac-rejection-banner" *ngIf="warning?.rejectionComment && warning?.status === listWarningStatus.DRAFT">
+        <i class="pi pi-exclamation-circle" aria-hidden="true"></i>
+        <div>
+            <strong>{{'detail.returned-for-correction-title' | translate}}:</strong>
+            <span>{{warning.rejectionComment}}</span>
+        </div>
+    </div>
     <ol class="md-stepper-horizontal">
         <li class="md-step" *ngFor="let step of steps; let i=index"
             [ngClass]="{'active': currentStep === step.routerLink, 'done': i < currentStepIndex }">

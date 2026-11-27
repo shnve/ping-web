@@ -139,20 +139,22 @@ export class MenuComponent implements OnInit, OnChangeLang {
   addManagementItems(items: MenuItem[]): void {
     const subItems: MenuItem[] = [];
 
-    if (this.authService.hasAccess(SCOPE.WARNING, 'creation')) {
+    if (this.authService.hasAccess(SCOPE.WARNING)) {
       subItems.push(
         this.groupHeader('menu.nav.group-warnings', 'pi pi-megaphone'),
         {
           label: this.translate.instant('menu.nav.warning-tables'),
           icon: 'pi pi-list',
           routerLink: '/administration/warnings/tables'
-        },
-        {
+        }
+      );
+      if (this.authService.hasAccess(SCOPE.WARNING, 'creation')) {
+        subItems.push({
           label: this.translate.instant('menu.nav.warning-creation'),
           icon: 'pi pi-plus',
           routerLink: '/administration/warnings/creation'
-        }
-      );
+        });
+      }
     }
 
     const shouldSeeGeoregulationsTables = this.authService.hasRightsOnAnyAuthorityService([ServiceRole.SERVICE_VISITOR, ServiceRole.SERVICE_ADMIN, ServiceRole.SERVICE_OPERATOR]);

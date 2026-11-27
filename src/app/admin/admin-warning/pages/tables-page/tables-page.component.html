@@ -37,6 +37,15 @@
     <p-tag *ngIf="!(selectedStatus === 'DRAFT' && warning.state === 'ACTIVE')" value="{{'table.warning-state.' + warning.state | translate}}"
            severity="{{warning.state | warningStateSeverity}}"
     ></p-tag>
+    <p-tag *ngIf="selectedStatus === 'PUBLISHED' && warning.cancellationRequested"
+           [value]="'an-management.approval-type.cancellation-pending' | translate"
+           severity="warning"
+    ></p-tag>
+  </ng-template>
+  <ng-template id="approvalType" let-warning="modelItem">
+    <p-tag [value]="(warning.cancellationRequested ? 'an-management.approval-type.cancellation' : 'an-management.approval-type.publication') | translate"
+           [severity]="warning.cancellationRequested ? 'warning' : 'info'"
+    ></p-tag>
   </ng-template>
   <ng-template id="lastUpdate" let-warning="modelItem">
     {{warning.lastUpdate | date:'dd/MM/YYYY'}}

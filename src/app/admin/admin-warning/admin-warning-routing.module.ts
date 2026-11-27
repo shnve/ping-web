@@ -78,6 +78,7 @@ const routes: Routes = [
     component: CreationPageComponent,
     data: {
       breadcrumb: 'menu.admin-warning.creation',
+      action: 'creation',
       scope: SCOPE.WARNING
     },
     title: 'menu.admin-warning.creation',
@@ -90,6 +91,7 @@ const routes: Routes = [
     component: CreationPageComponent,
     data: {
       breadcrumb: 'menu.admin-warning.edit',
+      action: 'creation',
       scope: SCOPE.WARNING
     },
     title: 'menu.admin-warning.edit',

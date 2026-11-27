@@ -15,6 +15,7 @@ export class ServiceAssignForUserComponent implements OnInit {
   existingRoles = [
     {key: ServiceRole.SERVICE_ADMIN, label: 'service-admin'},
     {key: ServiceRole.SERVICE_OPERATOR, label: 'service-operator'},
+    {key: ServiceRole.SERVICE_APPROVER, label: 'service-approver'},
     {key: ServiceRole.SERVICE_VISITOR, label: 'service-visitor'}
   ];
 

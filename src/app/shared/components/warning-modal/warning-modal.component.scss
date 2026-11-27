@@ -28,4 +28,57 @@ p-radiobutton {
   }
 }
 
+.approval-status-note {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 4px;
+  font-weight: 600;
+  list-style: none;
+
+  &--pending {
+    background: #eff6ff;
+    color: #1e40af;
+    border-left: 3px solid #2563eb;
+  }
+
+  &--warning {
+    background: #fffbeb;
+    color: #92400e;
+    border-left: 3px solid #d97706;
+  }
+
+  &--rejected {
+    background: #fef2f2;
+    color: #991b1b;
+    border-left: 3px solid #dc2626;
+    font-weight: 500;
+  }
+}
+
+.reject-panel__body {
+  width: min(360px, 85vw);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+
+.reject-panel__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.reject-panel__textarea {
+  width: 100%;
+  resize: vertical;
+}
+
 // PISAC (F4): .pisac-pdf-map-host (mapa fuera de pantalla para el PDF) está en src/styling/pisac/_drawer.scss

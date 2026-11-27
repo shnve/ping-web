@@ -14,7 +14,7 @@ export class AuthGuard  {
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.authService.hasAccess(route.data.scope)) { return false; }
+    if (!this.authService.hasAccess(route.data.scope, route.data.action)) { return false; }
     this.currentScope = route.data.scope;
     return true;
   }

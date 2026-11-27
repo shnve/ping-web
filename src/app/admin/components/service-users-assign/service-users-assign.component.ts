@@ -28,6 +28,7 @@ export class ServiceUsersAssignComponent implements OnInit, OnDestroy {
   existingRoles = [
     { key: 'SERVICE_ADMIN', label: 'service-admin' },
     { key: 'SERVICE_OPERATOR', label: 'service-operator' },
+    { key: 'SERVICE_APPROVER', label: 'service-approver' },
     { key: 'SERVICE_VISITOR', label: 'service-visitor' }
   ];
   sub = new Subscription();

@@ -314,8 +314,14 @@
     "tabs": {
       "models": "Modèles d'ANs",
       "drafts": "Brouillons d'ANs",
+      "pending-approval": "À approuver",
       "in-effect": "ANs en vigueur",
       "canceled": "ANs annulés"
+    },
+    "approval-type": {
+      "publication": "Publication",
+      "cancellation": "Annulation",
+      "cancellation-pending": "Annulation à approuver"
     }
   },
   "info-management": {
@@ -353,6 +359,7 @@
   "service-role": {
     "SERVICE_ADMIN": "Administrateur de service",
     "SERVICE_OPERATOR": "Opérateur de service",
+    "SERVICE_APPROVER": "Approbateur de service",
     "SERVICE_VISITOR": "Visiteur de service"
   },
   "infosource": {
@@ -1267,7 +1274,10 @@
       "survey-analysis-failure": "Analyse terminée: levé non-compatible",
       "survey-external-analysis-end-with-critical-probes": "Analyse Cartonaut terminée: sondes critiques à signaler",
       "survey-external-analysis-end-without-critical-probe": "Analyse Cartonaut terminée: aucune sonde critique",
-      "survey-external-analysis-end-with-failure": "Analyse Cartonaut échouée: vérifiez vos données bathy"
+      "survey-external-analysis-end-with-failure": "Analyse Cartonaut échouée: vérifiez vos données bathy",
+      "warning-approval-requested": "Approbation demandée",
+      "warning-approved": "Approbation accordée",
+      "warning-rejected": "Renvoyé pour correction"
     },
     "mark-as-read": "Marquer comme lu",
     "mark-as-unread": "Marquer comme non lu",
@@ -1442,6 +1452,7 @@
       "state": "État",
       "lastUpdate": "Dernière mise à jour",
       "references": "Annulés/Remplacés",
+      "approvalType": "Demande",
       "publicationDate": "Publication",
       "estimatedPublicationDate": "Date prévue de publication",
       "cancellationDate": "Annulation",
@@ -1764,7 +1775,31 @@
     "delete-error-draft": "Le brouillon AN n'a pas pu être supprimé",
     "cancel-confirm": "Êtes-vous sûr de vouloir annuler cet AN ?",
     "cancel-success": "L'AN a été annulé avec succès.",
+    "cancel-request-success": "La demande d'annulation a été envoyée pour approbation.",
     "cancel-error": "L'AN n'a pas pu être annulé",
+    "request-approval": "Demander l'approbation",
+    "request-approval-confirm": "Êtes-vous sûr de vouloir soumettre ce brouillon pour approbation ?",
+    "request-approval-success": "Le brouillon a été soumis pour approbation.",
+    "request-approval-error": "Impossible de soumettre la demande d'approbation",
+    "approve-publication": "Approuver et publier",
+    "approve-publication-confirm": "Êtes-vous sûr de vouloir approuver et publier immédiatement cet avis ?",
+    "approve-publication-success": "Approuvé : l'avis a été publié.",
+    "approve-publication-error": "Impossible d'approuver et de publier",
+    "approve-cancellation": "Approuver et annuler",
+    "approve-cancellation-confirm": "Êtes-vous sûr de vouloir approuver et annuler immédiatement cet avis ?",
+    "approve-cancellation-success": "Approuvé : l'avis a été annulé.",
+    "approve-cancellation-error": "Impossible d'approuver et d'annuler",
+    "return-for-correction": "Renvoyer pour correction",
+    "return-for-correction-success": "Le brouillon a été renvoyé au rédacteur pour correction.",
+    "reject-cancellation": "Rejeter la demande d'annulation",
+    "reject-cancellation-success": "La demande d'annulation a été rejetée.",
+    "reject-confirm": "Confirmer le renvoi",
+    "reject-error": "Impossible d'enregistrer le renvoi",
+    "rejection-comment-label": "Observations pour le rédacteur (obligatoire)",
+    "rejection-comment-placeholder": "Indiquez les corrections requises avant approbation...",
+    "pending-publication-approval": "En attente d'approbation de publication",
+    "pending-cancellation-approval": "Demande d'annulation en attente d'approbation",
+    "returned-for-correction-title": "Observations de l'approbateur",
     "copySharedLinkUrl-success": "Lien direct copié dans le presse-papier",
     "displayWarningModal": "Afficher les détails de l'AN sur la carte",
     "select-serie": "Sélectionner une série",
@@ -2590,6 +2625,7 @@
       "not-saved": "Non sauvegardé",
       "draft": "Brouillon",
       "model": "Modèle",
+      "pending_approval": "À approuver",
       "published": "Publié",
       "cancelled": "Annulé"
     },
@@ -3665,6 +3701,7 @@
   "role": {
     "service-admin": "Administrateur",
     "service-operator": "Opérateur",
+    "service-approver": "Approbateur",
     "service-visitor": "Visiteur"
   },
   "attachments": {

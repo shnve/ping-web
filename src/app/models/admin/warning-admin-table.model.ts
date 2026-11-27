@@ -16,6 +16,7 @@ export interface TableAdminWarning {
   localities: {
     [key: string]: Array<string>
   };
+  cancellationRequested?: boolean;
 }
 
 export interface TableAdminReferenceWarning extends Pick<TableAdminWarning, 'nameOfSeries' | 'warningNumber' | 'year'> {}

@@ -308,6 +308,7 @@ export class CreationService {
       telex: jsonWarningAdminDetails.telex ?? '',
       navtex: jsonWarningAdminDetails.navtex ?? '',
       navtexConfig: jsonWarningAdminDetails.navtexConfig,
+      rejectionComment: jsonWarningAdminDetails.rejectionComment,
       finalizationData: {
         estimatedPublicationDate: formatDate(jsonWarningAdminDetails.estimatedPublicationDate),
         reviewDate: formatDate(jsonWarningAdminDetails.reviewDate),

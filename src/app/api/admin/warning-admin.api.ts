@@ -42,6 +42,9 @@ export class WarningAdminApi {
   readonly apiReferenceableWarnings = environment.baseAdminApiUrl + environment.adminApi.warnings.referenceable;
   readonly apiWarningAdminById = environment.baseAdminApiUrl + environment.adminApi.warnings.one;
   readonly apiPublish = environment.baseAdminApiUrl + environment.adminApi.warnings.publish;
+  readonly apiRequestApproval = environment.baseAdminApiUrl + environment.adminApi.warnings.requestApproval;
+  readonly apiApprove = environment.baseAdminApiUrl + environment.adminApi.warnings.approve;
+  readonly apiReject = environment.baseAdminApiUrl + environment.adminApi.warnings.reject;
   readonly apiDelete = environment.baseAdminApiUrl + environment.adminApi.warnings.delete;
   readonly apiCancel = environment.baseAdminApiUrl + environment.adminApi.warnings.cancel;
   readonly apiClone = environment.baseAdminApiUrl + environment.adminApi.warnings.clone;
@@ -94,12 +97,24 @@ export class WarningAdminApi {
     return this.http.put<void>(`${this.apiPublish.replace('{{id}}', id)}`, {}, { headers: this.buildAuthorizationHeader(accessToken) });
   }
 
+  requestApproval$(id: string, accessToken: string): Observable<void> {
+    return this.http.put<void>(`${this.apiRequestApproval.replace('{{id}}', id)}`, {}, { headers: this.buildAuthorizationHeader(accessToken) });
+  }
+
+  approve$(id: string, accessToken: string): Observable<void> {
+    return this.http.put<void>(`${this.apiApprove.replace('{{id}}', id)}`, {}, { headers: this.buildAuthorizationHeader(accessToken) });
+  }
+
+  reject$(id: string, comment: string, accessToken: string): Observable<void> {
+    return this.http.put<void>(`${this.apiReject.replace('{{id}}', id)}`, { comment }, { headers: this.buildAuthorizationHeader(accessToken) });
+  }
+
   delete$(id: string, accessToken: string): Observable<void> {
     return this.http.delete<void>(`${this.apiDelete.replace('{{id}}', id)}`, { headers: this.buildAuthorizationHeader(accessToken) });
   }
 
-  cancel$(id: string, accessToken: string): Observable<string> {
-    return this.http.put<string>(`${this.apiCancel.replace('{{id}}', id)}`, {}, { headers: this.buildAuthorizationHeader(accessToken) });
+  cancel$(id: string, accessToken: string, comment?: string): Observable<string> {
+    return this.http.put<string>(`${this.apiCancel.replace('{{id}}', id)}`, comment ? { comment } : {}, { headers: this.buildAuthorizationHeader(accessToken) });
   }
 
   clone$(id: string, serieId: string, warningReferenceCategoryEnum?: WarningReferenceCategoryEnum, warningStatus?: string): Observable<string> {

@@ -77,9 +77,11 @@ export class WarningCancellationComponent implements OnInit, OnDestroy {
         }),
         tap(
           clonedWarningId => {
-            let message = 'cancel-success';
+            let message = 'cancel-request-success';
             if ((this.workflowSelectionParams.cancellationWorkflow === CancellationWorkflow.LOCAL_NAVIGATIONAL_WARNING
-              || this.workflowCreationSettings.shouldCreateReplacementNotice) && this.workflowCreationSettings.cancellationChoice !== CHOICE_CANCEL_WARNING) {
+              || this.workflowCreationSettings.shouldCreateReplacementNotice
+              || this.workflowCreationSettings.shouldCreateCancellationWarning)
+              && this.workflowCreationSettings.cancellationChoice !== CHOICE_CANCEL_WARNING) {
               message = 'create-draft-success';
             }
             showToast(this.alertMessageService, this.translateService.instant(`detail.${message}`), 'success');

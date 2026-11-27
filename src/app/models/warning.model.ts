@@ -124,6 +124,14 @@ export interface AdminJsonWarning extends JsonWarning {
   internalComment?: string;
   lastUpdateUser?: LastUpdateUser;
   canBePublished: boolean;
+  canRequestApproval?: boolean;
+  cancellationRequested?: boolean;
+  cancellationRequestComment?: string;
+  rejectionComment?: string;
+  approvalRequestedBy?: LastUpdateUser;
+  approvalRequestedAt?: Date;
+  approvedBy?: LastUpdateUser;
+  approvedAt?: Date;
   maritimeEntities?: Array<MaritimeEntity>;
   folders?: Array<FolderBase>;
   forceToReview?: boolean;
@@ -981,6 +989,7 @@ export const listWarningStatus = {
   NOT_SAVED: 'NOT_SAVED',
   DRAFT: 'DRAFT',
   MODEL: 'MODEL',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
   PUBLISHED: 'PUBLISHED',
   CANCELLED: 'CANCELLED',
 };

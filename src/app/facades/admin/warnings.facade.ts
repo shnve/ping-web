@@ -31,6 +31,18 @@ export class WarningsFacade {
     return this.warningAdminApi.publish$(id, this.authService.getToken());
   }
 
+  requestApproval$(id: string): Observable<void> {
+    return this.warningAdminApi.requestApproval$(id, this.authService.getToken());
+  }
+
+  approve$(id: string): Observable<void> {
+    return this.warningAdminApi.approve$(id, this.authService.getToken());
+  }
+
+  reject$(id: string, comment: string): Observable<void> {
+    return this.warningAdminApi.reject$(id, comment, this.authService.getToken());
+  }
+
   setReviewed$(id: string): Observable<void> {
     return this.warningAdminApi.setReviewed$(id);  // TODO
   }
@@ -39,8 +51,8 @@ export class WarningsFacade {
     return this.warningAdminApi.delete$(id, this.authService.getToken());
   }
 
-  cancel$(id: string): Observable<string> {
-    return this.warningAdminApi.cancel$(id, this.authService.getToken());
+  cancel$(id: string, comment?: string): Observable<string> {
+    return this.warningAdminApi.cancel$(id, this.authService.getToken(), comment);
   }
 
   clone$(id: string, serieId: string, warningReferenceCategoryEnum?: WarningReferenceCategoryEnum, warningStatus?: string): Observable<string> {

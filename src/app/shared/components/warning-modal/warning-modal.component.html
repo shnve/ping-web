@@ -78,6 +78,21 @@
                 {{'detail.to-be-cancelled' | translate}} : {{warning.cancellationDate | formatDatetime:'UTC'}}
               </li>
               <li *ngIf="warning?.publicationTime" class="fr-col">{{'detail.published' | translate}} : {{warning.publicationTime | localizedDate}}</li>
+              <li *ngIf="proUser && warning?.status === 'PENDING_APPROVAL'" class="approval-status-note approval-status-note--pending">
+                <i class="pi pi-clock" aria-hidden="true"></i>
+                <span>{{'detail.pending-publication-approval' | translate}}</span>
+                <span *ngIf="$any(warning)?.approvalRequestedBy"> ({{$any(warning).approvalRequestedBy.firstname}} {{$any(warning).approvalRequestedBy.lastname}})</span>
+              </li>
+              <li *ngIf="proUser && warning?.status === 'PUBLISHED' && $any(warning)?.cancellationRequested" class="approval-status-note approval-status-note--warning">
+                <i class="pi pi-clock" aria-hidden="true"></i>
+                <span>{{'detail.pending-cancellation-approval' | translate}}</span>
+                <span *ngIf="$any(warning)?.approvalRequestedBy"> ({{$any(warning).approvalRequestedBy.firstname}} {{$any(warning).approvalRequestedBy.lastname}})</span>
+              </li>
+              <li *ngIf="proUser && $any(warning)?.rejectionComment && (warning?.status === 'DRAFT' || (warning?.status === 'PUBLISHED' && !$any(warning)?.cancellationRequested))" class="approval-status-note approval-status-note--rejected">
+                <i class="pi pi-exclamation-circle" aria-hidden="true"></i>
+                <strong>{{'detail.returned-for-correction-title' | translate}}:</strong>
+                <span>{{$any(warning).rejectionComment}}</span>
+              </li>
               <span *ngIf="showPublicationAlertMessage" class="alert-message"><i class="pi pi-shield"></i><span translate>detail.cannot-be-published</span></span>
             </ul>
           </div>
@@ -159,6 +174,26 @@
   <ng-template pTemplate>
     <shared-warning-cancellation [warning]="warning" (closeAndAbortCancellation)="closeCancellation($event)" (statusChangeAction)="onStatusChangeAction.emit()">
     </shared-warning-cancellation>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel [styleClass]="'reject-panel'" #rejectPanel>
+  <ng-template pTemplate>
+    <div class="reject-panel__body">
+      <h3>{{ ($any(warning)?.cancellationRequested ? 'detail.reject-cancellation' : 'detail.return-for-correction') | translate }}</h3>
+      <label for="rejectionCommentTextarea" class="reject-panel__label">{{ 'detail.rejection-comment-label' | translate }}</label>
+      <textarea
+        id="rejectionCommentTextarea"
+        class="fr-input reject-panel__textarea"
+        rows="4"
+        [(ngModel)]="rejectionCommentInput"
+        [placeholder]="'detail.rejection-comment-placeholder' | translate"
+      ></textarea>
+      <div class="actions">
+        <button pButton type="button" class="p-button-sm p-button-secondary" (click)="cancelReject()" [label]="'detail.clone-cancel' | translate"></button>
+        <button pButton type="button" class="p-button-sm p-button-warning" (click)="confirmReject()" [label]="'detail.reject-confirm' | translate" [disabled]="!rejectionCommentInput?.trim()"></button>
+      </div>
+    </div>
   </ng-template>
 </p-overlayPanel>
 

@@ -7,6 +7,7 @@ import { SeriesAdminFacade } from '@app/facades/admin/series-admin.facade';
 import { WarningAdminTableFacade } from '@app/facades/admin/warning-admin-table.facade';
 import { TableAdminFilterValues, defaultValuesTableAdminFilter } from '@app/models/admin/warning-admin-filter.model';
 import { TableAdminWarning } from '@app/models/admin/warning-admin-table.model';
+import { ServiceRole } from '@app/models/maritime-service.model';
 import { Serie } from '@app/models/serie.model';
 import { MainWarningPart, TableWarning, listWarningHazardTypeDetails, listWarningHazardTypeGeneral, listWarningStatus } from '@app/models/warning.model';
 import { SelectButtonOption } from '@app/shared/components/select-button/select-button.component';
@@ -39,6 +40,9 @@ export class TablesPageComponent implements OnDestroy {
     code: 'DRAFT',
     translateKey: 'an-management.tabs.drafts'
   }, {
+    code: 'PENDING_APPROVAL',
+    translateKey: 'an-management.tabs.pending-approval'
+  }, {
     code: 'PUBLISHED',
     translateKey: 'an-management.tabs.in-effect'
   }, {
@@ -68,6 +72,18 @@ export class TablesPageComponent implements OnDestroy {
       { field: 'estimatedPublicationDate', translateKey: 'table.columns.estimatedPublicationDate', sortable: true },
       { field: 'endOfBroadcastDate', translateKey: 'table.columns.endOfBroadcastDate', sortable: true },
       { field: 'reviewDate', translateKey: 'table.columns.reviewDate', sortable: true },
+      { field: 'folders', translateKey: 'table.columns.folders', sortable: true },
+      { field: 'internalComment', translateKey: 'table.columns.internalComment' }
+    ],
+    PENDING_APPROVAL: [
+      { field: 'approvalType', translateKey: 'table.columns.approvalType' },
+      { field: 'lastUpdate', translateKey: 'table.columns.lastUpdate' },
+      { field: 'number', translateKey: 'table.columns.number', sortable: true },
+      { field: 'references', translateKey: 'table.columns.references' },
+      { field: 'title', translateKey: 'table.columns.title' },
+      { field: 'entities', translateKey: 'table.columns.entities', sortable: true },
+      { field: 'estimatedPublicationDate', translateKey: 'table.columns.estimatedPublicationDate', sortable: true },
+      { field: 'publicationDate', translateKey: 'table.columns.publicationDate', sortable: true },
       { field: 'folders', translateKey: 'table.columns.folders', sortable: true },
       { field: 'internalComment', translateKey: 'table.columns.internalComment' }
     ],
@@ -118,14 +134,26 @@ export class TablesPageComponent implements OnDestroy {
     this.filterState = new ModelItemFilterState<TableAdminFilterValues>();
     this.filterState.initFilter(defaultValuesTableAdminFilter);
     const serviceIds = this.authService.getAuthenticatedUser()?.serviceRoles?.map(serviceRole => serviceRole.serviceId);
-    this.route.queryParams?.pipe(take(1)).subscribe({
-      next: params => {
-        this.params = params;
-        if (Object.values(listWarningStatus).includes(params?.tab)) {
-          this.selectedStatus = params?.tab;
-        }
-      }
-    });
+    if (this.authService.hasServiceRole(ServiceRole.SERVICE_APPROVER)
+      && !this.authService.hasAnyRole([ServiceRole.SERVICE_ADMIN, ServiceRole.SERVICE_OPERATOR])) {
+      this.selectedStatus = listWarningStatus.PENDING_APPROVAL;
+    }
+    if (this.route.queryParams) {
+      this.subscriptions.push(
+        this.route.queryParams.subscribe(params => {
+          this.params = params;
+          if (Object.values(listWarningStatus).includes(params?.tab) && this.selectedStatus !== params.tab) {
+            this.selectedStatus = params.tab;
+            if (this.filterState.getValues()?.serie) {
+              this.loadTableWarnings();
+            }
+          }
+          if (params?.warningId) {
+            this.displayWarningModal([{ id: params.warningId }]);
+          }
+        })
+      );
+    }
     this.loadSeriesAndWarnings(serviceIds);
   }
 

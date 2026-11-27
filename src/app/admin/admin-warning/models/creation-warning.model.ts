@@ -31,6 +31,7 @@ export interface WarningCreationData {
   navtex?: string;
   finalizationData: WarningCreationFinalization;
   navtexConfig?: WarningNavtexConfig;
+  rejectionComment?: string;
 }
 
 export interface WarningCreationPrerequisites {
@@ -154,6 +155,7 @@ export interface JsonWarningAdminDetails {
   navtex?: string;
   navtexConfig?: WarningNavtexConfig;
   isBathy: boolean;
+  rejectionComment?: string;
 }
 
 export interface FeaturePart {

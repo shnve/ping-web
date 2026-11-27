@@ -198,7 +198,12 @@ export class BannerComponent implements OnInit, OnDestroy {
         return 'pi-times-circle';
       case NotificationType.SURVEY_ANALYSIS_SUCCESS:
       case NotificationType.SURVEY_EXTERNAL_ANALYSIS_END_WITHOUT_CRITICAL_PROBE:
+      case NotificationType.WARNING_APPROVED:
         return 'pi-check-circle';
+      case NotificationType.WARNING_APPROVAL_REQUESTED:
+        return 'pi-clock';
+      case NotificationType.WARNING_REJECTED:
+        return 'pi-replay';
       default:
         return '';
     }
@@ -298,10 +303,30 @@ export class BannerComponent implements OnInit, OnDestroy {
         route = 'survey/tables';
         objectId = notification.surveyId;
         break;
+      case NotificationType.WARNING_APPROVAL_REQUESTED:
+        this.navigateToWarningAdminTable('PENDING_APPROVAL', notification);
+        return;
+      case NotificationType.WARNING_APPROVED:
+        this.navigateToWarningAdminTable(notification.title?.startsWith('Cancelación') ? 'CANCELLED' : 'PUBLISHED', notification);
+        return;
+      case NotificationType.WARNING_REJECTED:
+        this.navigateToWarningAdminTable(notification.title?.startsWith('Cancelación') ? 'PUBLISHED' : 'DRAFT', notification);
+        return;
       default:
         return;
     }
     this.navigateAndUpdateReadStatus(route, objectId, notification);
+  }
+
+  private navigateToWarningAdminTable(tab: string, notification: PingNotification): void {
+    this.router.navigate(['/administration/warnings/tables'], {
+      queryParams: { tab, warningId: notification.warningId }
+    }).then(() => {
+      this.notificationsPanel.hide();
+      if (!notification.read) {
+        this.updateReadStatus(true, [notification]);
+      }
+    });
   }
 
   navigateAndUpdateReadStatus(route: string, objectId: string, notification: PingNotification) {
