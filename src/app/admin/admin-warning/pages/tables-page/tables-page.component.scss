@@ -4,12 +4,20 @@ $border: 1px solid $quaternaryColorLighten1;
 
 :host ::ng-deep {
   .table-tabs-selector {
+    .p-selectbutton.p-buttonset {
+      display: flex;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
     .p-buttonset .p-button {
-      width: 25%;
+      flex: 1 1 0;
+      width: 20%;
+      min-width: 0;
       border-bottom: $border;
       border-top: $border;
       border-radius: 0;
-      padding: 0.8rem 1rem 0.3rem;
+      padding: 0.75rem 0.5rem 0.35rem;
 
       &.p-highlight {
         background: $quaternaryColorLighten3;
@@ -26,6 +34,16 @@ $border: 1px solid $quaternaryColorLighten1;
 
       .p-button-label {
         font-weight: 500;
+        white-space: nowrap;
+      }
+
+      @media screen and (max-width: 768px) {
+        padding: 0.55rem 0.35rem 0.3rem;
+        font-size: 0.85rem;
+
+        .p-button-label {
+          white-space: normal;
+        }
       }
     }
   }

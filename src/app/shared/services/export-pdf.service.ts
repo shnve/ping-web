@@ -1176,7 +1176,7 @@ export class ExportPdfService {
   }
 
   private buildWarningTablePdfTitle(serie: Serie, isDetails = false): string {
-    const inForce = this.isFrLang() ? 'en vigor' : 'in force';
+    const inForce = this.isFrLang() ? 'en vigencia' : 'in force';
     const tableContext = isDetails ? (this.isFrLang() ? 'Detalles' : 'Details') : (this.isFrLang() ? 'Lista' : 'List');
     return `${this.getSerieNameForCurrentLang(serie)} ${inForce} (${tableContext})`;
   }

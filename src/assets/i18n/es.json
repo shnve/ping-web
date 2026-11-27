@@ -63,7 +63,7 @@
       "eyebrow": "SHN · Venezuela",
       "cta-map": "Ver advertencias en el mapa",
       "quick-access": "Accesos rápidos",
-      "warnings-description": "Mapa con las advertencias y avisos a los navegantes en vigor.",
+      "warnings-description": "Mapa con las advertencias y avisos a los navegantes en vigencia.",
       "regulations-description": "Georregulaciones y medidas vigentes en los espacios acuáticos.",
       "subscriptions-description": "Reciba por correo las advertencias de su zona.",
       "contributions-description": "Informe al SHN de peligros o anomalías en la navegación."
@@ -79,7 +79,7 @@
   },
   "data-services-page": {
     "title": "Servicios de datos",
-    "lead": "Integre las <strong>advertencias náuticas del SHN</strong> en sus sistemas de navegación, ECDIS o portales. Los datos se entregan a petición en formato <strong>IHO S-124</strong> y reflejan siempre la información en vigor.",
+    "lead": "Integre las <strong>advertencias náuticas del SHN</strong> en sus sistemas de navegación, ECDIS o portales. Los datos se entregan a petición en formato <strong>IHO S-124</strong> y reflejan siempre la información en vigencia.",
     "badges": {
       "s124": "S-124 ed. 1.5 y 2.0",
       "secom": "SECOM · IEC 63173-2",
@@ -97,7 +97,7 @@
       },
       "query": {
         "title": "Consulte cuando lo necesite",
-        "text": "Cada consulta devuelve las advertencias en vigor en ese momento. No requiere registro."
+        "text": "Cada consulta devuelve las advertencias en vigencia en ese momento. No requiere registro."
       }
     },
     "series": {
@@ -326,7 +326,7 @@
       "models": "Modelos de ANs",
       "drafts": "Borradores de ANs",
       "pending-approval": "Por aprobar",
-      "in-effect": "ANs en vigor",
+      "in-effect": "ANs en vigencia",
       "canceled": "ANs cancelados"
     },
     "approval-type": {
@@ -1764,7 +1764,7 @@
     "referenced-warnings": "Advertencias vinculadas",
     "cancelled-warnings": "Advertencias canceladas",
     "replaced-warnings": "Advertencias reemplazadas",
-    "inforced-warnings": "Advertencias en vigor",
+    "inforced-warnings": "Advertencias en vigencia",
     "parent-warnings": "Advertencias padre",
     "attachments": "Adjuntos",
     "internal-comment": "Comentario interno",
@@ -2453,7 +2453,7 @@
       "horiz-clear-reduced": "Espacio Libre Horizontal Reducido",
       "hydrographic-survey": "Actividad de Levantamiento Hidrográfico",
       "ice-boom": "Barrera de Hielo - Instalación o Retiro",
-      "ice-control-zone": "Zona de Control de Hielo En Vigor o Desactivada",
+      "ice-control-zone": "Zona de Control de Hielo En Vigencia o Desactivada",
       "iceberg-outside-of-advertised-limit": "Iceberg Fuera de los Límites Anunciados",
       "jamming-exercise": "Ejercicio de Interferencia (Jamming)",
       "leading-range-lights-out-of-synchronization": "Luces Frontal y Posterior Fuera de Sincronización",
@@ -2641,7 +2641,7 @@
       "health-advisory": "Avisos Sanitarios",
       "security": "Cambio en el Requisito de Seguridad",
       "ecdis-operating-anomalies-including-official-data-issues": "Anomalías Operativas del ECDIS, Incluyendo Problemas de Datos Oficiales",
-      "in-force-bulletin": "Boletín en Vigor"
+      "in-force-bulletin": "Boletín en Vigencia"
     },
     "warning-status": {
       "not-saved": "No guardado",
@@ -3636,7 +3636,7 @@
           "add-geometry": "Insertar geometrías",
           "add-zone": "Insertar zonas afectadas",
           "add-periods": "Insertar períodos",
-          "add-in-effect-warnings": "Insertar advertencias en vigor",
+          "add-in-effect-warnings": "Insertar advertencias en vigencia",
           "add-type-expression": "Insertar expresión de tipo",
           "add-affected-charts": "Insertar cartas afectadas",
           "affected-charts": "Cartas afectadas",
@@ -3646,10 +3646,10 @@
           "decimal-minute-precision": "Precisión de los decimales de minuto",
           "type-expression": "Expresión de tipo",
           "templates": {
-            "currentWarning": "{{serieName}} en vigor el {{currentDateTime}}",
+            "currentWarning": "{{serieName}} en vigencia el {{currentDateTime}}",
             "noOtherWarning": "No hay advertencia distinta a este MENSAJE",
             "category": "{{category}}",
-            "published": "{{serieName}} en vigor el {{currentDateTime}}:\n{{warningsListAsString}} y este MENSAJE",
+            "published": "{{serieName}} en vigencia el {{currentDateTime}}:\n{{warningsListAsString}} y este MENSAJE",
             "fullPeriods": "del {{startPeriod}} al {{endPeriod}}",
             "startPeriod": "desde el {{startPeriod}}",
             "endPeriod": "hasta el {{endPeriod}}",
