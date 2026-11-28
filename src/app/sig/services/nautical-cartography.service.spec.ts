@@ -52,4 +52,35 @@ describe('NauticalCartographyService', () => {
 
     expect(bbox[2] - bbox[0]).toBeCloseTo(rawW * PDF_GEOMETRY_EXTENT_MULTIPLIER, 0);
   });
+
+  it('selects single highest band and fits BBOX inside narrow portrait chart (Punto Fijo VE-106 vs VE-100)', () => {
+    const puntoFijoExtents: BandExtentTuple[] = [
+      [4, -70.2330, 11.6200, -70.1930, 11.6750], // VE-106 aproximación Guaranao-Cardón (~4.4 km E-W)
+      [3, -71.8000, 10.8000, -69.5000, 12.6000], // VE-100 Golfo de Venezuela (Banda 3)
+      [2, -76.0414, 5.8010, -54.8953, 20.7208]   // General VE (Banda 2)
+    ];
+    const [gx, gy] = fromLonLat([-70.21333, 11.66667], 'EPSG:3857'); // 11-40.00N 070-12.80W
+    const frame = service.resolveSingleBandPdfFrame([gx, gy, gx, gy], 920, 600, 181, puntoFijoExtents);
+    const [cMinX, cMinY] = fromLonLat([-70.2330, 11.6200], 'EPSG:3857');
+    const [cMaxX, cMaxY] = fromLonLat([-70.1930, 11.6750], 'EPSG:3857');
+
+    expect(frame.band).toBe(4);
+    expect(frame.bbox3857[0]).toBeGreaterThanOrEqual(cMinX - 1);
+    expect(frame.bbox3857[2]).toBeLessThanOrEqual(cMaxX + 1);
+    expect(frame.bbox3857[1]).toBeGreaterThanOrEqual(cMinY - 1);
+    expect(frame.bbox3857[3]).toBeLessThanOrEqual(cMaxY + 1);
+  });
+
+  it('steps down to lower band when a large coastal polygon overflows a local port/approach chart', () => {
+    const puntoFijoExtents: BandExtentTuple[] = [
+      [4, -70.2330, 11.6200, -70.1930, 11.6750], // VE-106 (Banda 4)
+      [3, -71.8000, 10.8000, -69.5000, 12.6000], // VE-100 (Banda 3)
+      [2, -76.0414, 5.8010, -54.8953, 20.7208]   // General VE (Banda 2)
+    ];
+    const [minX, minY] = fromLonLat([-70.65, 11.45], 'EPSG:3857');
+    const [maxX, maxY] = fromLonLat([-70.20, 11.75], 'EPSG:3857');
+    const frame = service.resolveSingleBandPdfFrame([minX, minY, maxX, maxY], 920, 600, 181, puntoFijoExtents);
+
+    expect(frame.band).toBe(3);
+  });
 });

@@ -329,7 +329,7 @@ export class ExportPdfService {
     }
 
     const bandExtents = await this.cartographyHelper.getBandExtents();
-    const bbox3857 = this.cartographyHelper.computePdfExtent3857(
+    const { band: selectedBand, bbox3857 } = this.cartographyHelper.resolveSingleBandPdfFrame(
       rawExtent3857,
       PDF_MAP_WMS_WIDTH,
       PDF_MAP_WMS_HEIGHT,
@@ -338,7 +338,13 @@ export class ExportPdfService {
     );
 
     const [wmsImage, vectorCanvas] = await Promise.all([
-      this.cartographyHelper.fetchAtomicWmsImage(bbox3857, PDF_MAP_WMS_WIDTH, PDF_MAP_WMS_HEIGHT, PDF_MAP_WMS_DPI),
+      this.cartographyHelper.fetchAtomicWmsImage(
+        bbox3857,
+        PDF_MAP_WMS_WIDTH,
+        PDF_MAP_WMS_HEIGHT,
+        PDF_MAP_WMS_DPI,
+        selectedBand
+      ),
       this.renderVectorOverlayCanvas(clonedFeatures, bbox3857)
     ]);
 
