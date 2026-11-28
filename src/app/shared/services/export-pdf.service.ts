@@ -945,10 +945,28 @@ export class ExportPdfService {
     'gi'
   );
 
+  /** Línea que inicia con la cláusula introductoria insertada por el botón «Geometrías» / «Zonas afectadas». */
+  private static readonly GEOM_INTRO_LINE_REGEX = new RegExp(
+    '^\\s*(?:'
+    + '(?:[áa]rea(?:\\s+afectada)?\\s+(?:delimitada\\s+por|dentro\\s+de\\s+un\\s+radio\\s+de))'
+    + '|(?:l[íi]nea(?:\\s+afectada)?\\s+que\\s+une)'
+    + '|(?:en\\s+(?:la\\s+)?posici[óo]n\\b)'
+    + '|(?:(?:affected\\s+)?area\\s+(?:bounded\\s+by|within\\s+(?:a\\s+radius\\s+of|\\d)))'
+    + '|(?:(?:affected\\s+)?line\\s+joining)'
+    + '|(?:(?:in|at)\\s+position\\b)'
+    + ')',
+    'i'
+  );
+
+  private static readonly TRAILING_CONNECTOR_REGEX =
+    /\b(?:en|el|la|los|las|del|al|por|de|con|sobre|hacia|entre|in|the|at|within|of|by|to|on|into|and|y)\s*$/i;
+
+  private static readonly LEADING_PREPOSITION_REGEX = /^(?:en|in|at)\b/i;
+
   /**
-   * PISAC: exclusivamente para el PDF, compacta bloques consecutivos de líneas de coordenadas
-   * (1 vértice por línea en el borrador / Télex / NAVTEX) en flujo continuo separado por comas,
-   * uniendo cada par LAT LON con espacio indivisible (\u00A0) para no cortar un par a mitad de renglón.
+   * PISAC: exclusivamente para el PDF, une la cláusula introductoria de geometría (ej. «área delimitada por:»)
+   * con la oración previa si esta quedó abierta sin punto final, y compacta bloques consecutivos de líneas
+   * de coordenadas en flujo continuo separado por comas con espacio duro (\u00A0) dentro de cada par LAT LON.
    */
   private compactCoordinateLinesForPdf(text: string): string {
     if (!text) {
@@ -984,7 +1002,32 @@ export class ExportPdfService {
         coordBuffer.push(line);
       } else {
         flushCoordBuffer();
-        outLines.push(line.replace(ExportPdfService.LAT_LON_PAIR_REGEX, '$1\u00A0$2'));
+        const protectedLine = line.replace(ExportPdfService.LAT_LON_PAIR_REGEX, '$1\u00A0$2');
+        const trimmedCurr = protectedLine.trim();
+        const prevLine = outLines.length > 0 ? outLines[outLines.length - 1] : '';
+        const prevTrimmed = prevLine.trim();
+
+        if (
+          prevTrimmed.length > 0 &&
+          !/[.!?;:]\s*$/.test(prevTrimmed) &&
+          ExportPdfService.GEOM_INTRO_LINE_REGEX.test(trimmedCurr)
+        ) {
+          if (/,\s*$/.test(prevTrimmed)) {
+            const lowered = trimmedCurr.charAt(0).toLowerCase() + trimmedCurr.slice(1);
+            outLines[outLines.length - 1] = `${prevTrimmed} ${lowered}`;
+          } else if (
+            ExportPdfService.TRAILING_CONNECTOR_REGEX.test(prevTrimmed) ||
+            ExportPdfService.LEADING_PREPOSITION_REGEX.test(trimmedCurr)
+          ) {
+            const lowered = trimmedCurr.charAt(0).toLowerCase() + trimmedCurr.slice(1);
+            outLines[outLines.length - 1] = `${prevTrimmed} ${lowered}`;
+          } else {
+            const lowered = trimmedCurr.charAt(0).toLowerCase() + trimmedCurr.slice(1);
+            outLines[outLines.length - 1] = `${prevTrimmed}, ${lowered}`;
+          }
+        } else {
+          outLines.push(protectedLine);
+        }
       }
     }
     flushCoordBuffer();
